@@ -9,9 +9,11 @@
 
 ## Unsupported claims
 
-- **No historical priority:** this repository does not claim to be the first system combining DoA, vision, selective prediction, runtime assurance, or human authorization.
+- **No historical priority:** this repository does not claim to be the first system combining DoA, vision, selective prediction, passive cueing, operator arming, or runtime motion gating.
 - **No speaker identity:** face geometry and DoA do not identify a person or prove source ownership.
 - **No intent inference:** speaking, looking, or issuing the test phrase does not establish intent outside the frozen operator protocol.
+- **No phrase recognition:** Stage 3P uses speech activity but receives no transcript and does not know which words were spoken.
+- **No end-to-end validation:** the passive candidate, visual operator instruction, and Stage 4 command boundary were tested separately and have not been validated as one integrated path.
 - **No generalization:** one robot, room, microphone geometry, operator, and narrow set of controlled recordings are insufficient.
 - **No participant study:** recorded voices are stimuli, not a multi-person user study.
 - **No autonomous safety:** software guards are not certified functional safety.
@@ -26,9 +28,9 @@
 - Trial acceptance and protocol compliance involved the same research process that developed the system.
 - Face detection performance may change with illumination, appearance, distance, and model version.
 - DoA behavior is room- and acoustics-dependent, especially under reflection and playback.
-- The cue phrase is a narrow laboratory authorization mechanism, not a deployment-ready consent model.
+- Stage 3P's visual `MOVE` instruction is a passive experimental transition, not human authorization. Stage 4's typed arm is local operator confirmation, not identity, consent, or conversational permission.
+- Stage 3P accepted 9 of 18 attempts; its public records do not preserve a specific reason for every superseded attempt.
 
 ## Next evidence needed
 
 An independent protocol should preregister hypotheses and thresholds, use new rooms and positions, include multiple live speakers with consent, randomize playback and hard negatives, report trial-level uncertainty, and keep all policy development separate from the final test set. Physical work should resume only after the neutral-coordinate disagreement is resolved by read-only diagnosis and a newly frozen protocol.
-

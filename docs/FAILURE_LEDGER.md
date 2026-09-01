@@ -18,7 +18,7 @@ An embodied-system result is not trustworthy if unsuccessful attempts disappear,
 
 **Meaning:** detector state is not a stable proxy for the number of people at a boundary.
 
-**Response:** missing, multiple, stale, and boundary-unstable observations lock out target authorization.
+**Response:** missing, multiple, stale, and boundary-unstable observations lock out passive target confirmation.
 
 ## Stage 3P versions before V6
 
@@ -38,4 +38,3 @@ Earlier vertical-policy versions produced wrong-sign, accuracy, coverage, and pr
 **Integrity decision:** the failed trial remains frozen and failed. Thresholds were not weakened, and the same protocol may not be rerun as though fresh. A corrected protocol must receive a new fingerprint and new evidence.
 
 **Current blocker:** after power cycles and visible controller zeroing, read-only preflight still reported the head 2.49°–4.43° from the daemon's neutral reference. Motor discovery/configuration diagnostics found all 9 motors and all inspected configuration fields OK. This separates bus/configuration health from coordinate-frame/readiness agreement; it does not justify bypassing the gate.
-

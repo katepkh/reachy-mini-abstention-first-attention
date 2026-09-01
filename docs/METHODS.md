@@ -26,9 +26,9 @@ Five policies were replayed over frozen numeric rows. Repetitions 1–2 formed d
 
 Important caveat: the complete matrix had already been inspected before this split was formalized. The evaluation repetition is retrospectively frozen and is not called a blind holdout.
 
-## Stage 3V: fresh passive vertical validation
+## Stage 3V: fresh passive horizontal off-axis validation
 
-The chosen shadow policy was frozen before new data collection. Eighteen accepted trials covered ±10° and ±20° positive headings plus hard negatives. Three additional attempts were retained as rejected/noncompliant evidence. Gates required:
+The chosen shadow policy was frozen before new data collection. Eighteen accepted trials covered horizontal yaw headings at ±10° and ±20° plus six hard negatives. Three additional hard-negative attempts were retained as noncompliant evidence. Gates required:
 
 - zero hard-negative would-move rows;
 - correct turn sign;
@@ -37,15 +37,17 @@ The chosen shadow policy was frozen before new data collection. Eighteen accepte
 
 All outputs were counterfactual shadow targets; this stage had no actuation authority.
 
-## Stage 3P: explicit cue boundary
+## Stage 3P: association-gated visual-cue boundary
 
-Nine accepted trials comprised six associated centre-to-vertical transitions and three no-cue controls. The protocol required stable association before a displayed `MOVE` cue. Controls tested silence, speaking without a face, and speaking while visible but not centered. The correct control outcome was a fail-closed timeout with no authorized adjustment.
+Nine accepted trials comprised six associated centre-to-vertical transitions and three no-cue controls. The protocol required three stable centred compatibility rows before the software displayed a `MOVE UP` or `MOVE DOWN` instruction to the operator. Controls tested silence, speaking without a face, and speaking while visible but not centred. The correct control outcome was a fail-closed timeout with no visual move instruction.
 
-All accepted trials had a compliance review. Superseded attempts were preserved. Audit clips were deleted after review and are not public evidence.
+The repeated test phrase supplied speech energy only. Stage 3P stored no transcript, did not recognize or match phrase content, emitted no robot request, and had no actuation capability. It tests passive cue timing and fail-closed behavior, not human identity, intent, consent, or command authorization.
+
+All accepted trials had a compliance review. Nine superseded attempts were preserved. Eight have generic `NONCOMPLIANT` sidecars and one has no compliance sidecar, so the public record cannot reconstruct a specific reason for every retry. Audit clips were deleted after review and are not public evidence. See [`ATTEMPT_ACCOUNTING.md`](ATTEMPT_ACCOUNTING.md).
 
 ## Stage 4A: supervised one-shot pilot
 
-The pilot limited authority to a displayed direction, a 3° head-only target, and automatic return. Each preflight was read-only and expiring; execution consumed a one-shot authorization. Body yaw, antenna, torque, and motor-mode commands were excluded.
+The pilot limited authority to a displayed direction, a 3° head-only target, and automatic return. Each preflight was read-only and expiring; execution required the exact typed arming string and consumed a one-shot local session. This is an operator arming mechanism, not identity, consent, intent, or conversational authorization. Body yaw, antenna, torque, and motor-mode commands were excluded.
 
 Acceptance tolerances were frozen before execution. One physical trial ran and failed. A diagnostic reconstruction identified early target sampling, absent return settling, fragile rotation-angle computation on slightly non-orthonormal matrices, and an absolute-neutral target that did not guarantee a 3° increment from the captured baseline. The failed result was not retried under the same protocol.
 
@@ -59,3 +61,4 @@ Acceptance tolerances were frozen before execution. One physical trial ran and f
 - passive stages contain no command path;
 - physical authority is narrow, expiring, and one-shot.
 
+The passive candidate, Stage 3P visual cue, and Stage 4 command boundary have not yet been connected and validated as one end-to-end system.

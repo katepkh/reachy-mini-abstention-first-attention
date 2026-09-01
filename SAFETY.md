@@ -11,5 +11,6 @@ The Stage 4 code is an experimental, operator-supervised pilot. Before hardware 
 5. Stop for grinding, repeated clicking, visible shaking, heat, unexpected motion, or motion beyond the displayed bound.
 6. Do not weaken a threshold after observing a failure. Version and freeze any corrected protocol before another attempt.
 
-The included Stage 4 physical pilot failed its mechanical gate and must not be presented as successful motion validation.
+Automatic return is a best-effort software recovery, not a guarantee. A connection loss, daemon/process failure, or motor fault can prevent it. If the target or return command behaves unexpectedly, use the official stop or normal power-down control; do not rely on another software command to restore the pose.
 
+The included Stage 4 physical pilot failed its mechanical gate and must not be presented as successful motion validation.

@@ -7,14 +7,15 @@ authors:
 version: 0.1.0
 date-released: 2026-09-01
 abstract: >-
-  A privacy-minimal, abstention-first pipeline for selective speaker grounding,
-  explicit movement authorization, and bounded Reachy Mini head-motion pilots.
+  A privacy-minimal research preview of abstention-first acoustic/visual
+  compatibility, passive operator cueing, and separately operator-armed bounded
+  Reachy Mini head-motion pilots.
 keywords:
   - human-robot interaction
   - direction of arrival
   - selective prediction
   - abstention
-  - runtime assurance
+  - experimental motion gating
   - Reachy Mini
 license: Apache-2.0
 repository-code: "https://github.com/katepkh/reachy-mini-abstention-first-attention"

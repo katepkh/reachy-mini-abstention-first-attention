@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
   <title id="title">Abstention-first social attention architecture</title>
-  <desc id="desc">Acoustic and visual evidence flows through selective grounding and an independent motion governor. Missing, stale, ambiguous or conflicting evidence produces hold rather than movement.</desc>
+  <desc id="desc">Acoustic and visual evidence produces a passive compatibility proposal or abstention. A separately tested operator-armed mechanical boundary is not yet integrated end to end. Missing, stale, ambiguous or conflicting evidence produces hold rather than movement.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#071827"/>
@@ -20,6 +20,7 @@
       .decision { font: 700 22px Inter, Segoe UI, Arial, sans-serif; fill: #071827; }
       .caption { font: 700 28px Inter, Segoe UI, Arial, sans-serif; fill: #f6fbff; }
       .small { font: 400 20px Inter, Segoe UI, Arial, sans-serif; fill: #9fb8c7; }
+      .gap { font: 700 16px Inter, Segoe UI, Arial, sans-serif; fill: #f3c969; letter-spacing: 1px; }
       .box { fill: #12354c; stroke: #315a70; stroke-width: 2; }
       .governor { fill: #173d4c; stroke: #78d5c8; stroke-width: 3; }
       .arrow { stroke: #78d5c8; stroke-width: 5; fill: none; marker-end: url(#arrow); }
@@ -29,7 +30,7 @@
   <rect width="1600" height="900" fill="url(#bg)"/>
 
   <text x="100" y="100" class="title">When should a social robot refuse to look?</text>
-  <text x="100" y="145" class="subtitle">An abstention-first, privacy-minimal and runtime-assured attention pipeline</text>
+  <text x="100" y="145" class="subtitle">Separately tested research boundaries · not yet an end-to-end attention system</text>
 
   <g filter="url(#shadow)">
     <rect x="100" y="225" width="315" height="380" rx="24" class="box"/>
@@ -47,30 +48,31 @@
 
   <g filter="url(#shadow)">
     <rect x="500" y="225" width="315" height="380" rx="24" class="box"/>
-    <text x="535" y="290" class="node-title">Selective grounding</text>
+    <text x="535" y="290" class="node-title">Passive compatibility</text>
     <text x="535" y="340" class="node-text">Does evidence agree?</text>
-    <text x="535" y="380" class="node-text">Is one target justified?</text>
+    <text x="535" y="380" class="node-text">Is one proposal justified?</text>
     <rect x="535" y="425" width="105" height="48" rx="24" fill="#78d5c8"/>
-    <text x="587" y="457" text-anchor="middle" class="decision">ATTEND</text>
+    <text x="587" y="457" text-anchor="middle" class="decision">PROPOSE</text>
     <rect x="652" y="425" width="92" height="48" rx="24" fill="#f3c969"/>
     <text x="698" y="457" text-anchor="middle" class="decision">HOLD</text>
     <rect x="535" y="488" width="209" height="48" rx="24" fill="#e89a9a"/>
     <text x="640" y="520" text-anchor="middle" class="decision">UNRESOLVED</text>
   </g>
 
-  <path d="M 825 410 C 850 410, 860 410, 885 410" class="arrow"/>
+  <path d="M 825 410 C 850 410, 860 410, 885 410" class="arrow" stroke-dasharray="10 9"/>
+  <text x="855" y="665" text-anchor="middle" class="gap">NOT YET INTEGRATED END TO END</text>
 
   <g filter="url(#shadow)">
     <rect x="900" y="195" width="360" height="440" rx="24" class="governor"/>
-    <text x="935" y="265" class="node-title">Motion governor</text>
-    <text x="935" y="320" class="node-text">✓ fresh and stable?</text>
-    <text x="935" y="365" class="node-text">✓ unambiguous?</text>
-    <text x="935" y="410" class="node-text">✓ robot ready?</text>
-    <text x="935" y="455" class="node-text">✓ bounded delta?</text>
-    <text x="935" y="500" class="node-text">✓ rate + workspace safe?</text>
+    <text x="935" y="265" class="node-title">Physical boundary</text>
+    <text x="935" y="320" class="node-text">✓ typed operator arm?</text>
+    <text x="935" y="365" class="node-text">✓ fresh robot status?</text>
+    <text x="935" y="410" class="node-text">✓ baseline rechecked?</text>
+    <text x="935" y="455" class="node-text">✓ bounded 3° delta?</text>
+    <text x="935" y="500" class="node-text">✓ return attempted?</text>
     <line x1="935" y1="535" x2="1225" y2="535" stroke="#78d5c8" stroke-width="2"/>
-    <text x="935" y="578" class="small">Only this layer may authorise</text>
-    <text x="935" y="606" class="small">a physical command</text>
+    <text x="935" y="578" class="small">Experimental safeguard;</text>
+    <text x="935" y="606" class="small">not formal safety assurance</text>
   </g>
 
   <path d="M 1270 410 C 1295 410, 1305 410, 1330 410" class="arrow"/>
@@ -87,6 +89,6 @@
   </g>
 
   <rect x="100" y="690" width="1430" height="110" rx="22" fill="#0b2131" stroke="#315a70" stroke-width="2"/>
-  <text x="815" y="740" text-anchor="middle" class="caption">Missing · stale · ambiguous · conflicting evidence  ⇒  HOLD</text>
-  <text x="815" y="780" text-anchor="middle" class="subtitle">Perception may propose. Movement remains a permission decision.</text>
+  <text x="815" y="740" text-anchor="middle" class="caption">Passive stages passed narrowly · first physical pilot failed</text>
+  <text x="815" y="780" text-anchor="middle" class="subtitle">Compatibility may propose. Operator arming and readiness remain separate.</text>
 </svg>

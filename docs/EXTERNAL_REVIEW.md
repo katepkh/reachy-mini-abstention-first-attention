@@ -32,7 +32,7 @@ The longer-term product-like ambition is understandable: when someone speaks, Re
 
 The stronger current research question is narrower and more defensible:
 
-> How can a social robot combine weak acoustic and visual evidence so that movement occurs only after target compatibility, explicit authorization, and mechanical readiness have passed independently inspectable gates?
+> How can a social robot keep weak acoustic/visual compatibility, operator arming, and mechanical readiness as separately inspectable boundaries before movement is permitted?
 
 This changes the project from a speaker-following demonstration into a study of selective action. It asks when the robot should refuse to move, not merely whether it can produce a plausible target.
 
@@ -45,16 +45,17 @@ local numeric evidence
 selective grounding ------> ABSTAIN / HOLD when unresolved
         |
         v
-explicit operator cue ----> BLOCK when absent
+system-issued visual cue -> TIMEOUT when compatibility is not ready
         |
+        |  not yet integrated end to end
         v
-mechanical governor ------> BLOCK when not ready or out of bounds
+typed operator arm + mechanical governor -> BLOCK when not ready or out of bounds
         |
         v
 one bounded head command, or no motion
 ```
 
-The work does not claim that selective prediction, DoA, face detection, active-speaker localization, runtime assurance, or explicit authorization is individually novel. The possible contribution is their auditable composition under data-minimizing constraints, combined with hard-negative experiments and preservation of failed physical results.
+The work does not claim that selective prediction, DoA, face detection, active-speaker localization, passive cueing, operator arming, or runtime gating is individually novel. The possible contribution is their auditable staged composition under data-minimizing constraints, combined with hard-negative experiments and preservation of failed physical results. The stages are not yet validated as one end-to-end path.
 
 ## Work completed
 
@@ -85,7 +86,7 @@ Five policies were replayed over frozen numeric rows. Repetitions 1–2 were des
 
 This exposes a genuine safety/coverage frontier. It is not a pristine blind holdout because the full matrix had already been inspected before the split was formalized.
 
-### Stage 3V: fresh passive vertical holdout
+### Stage 3V: fresh passive horizontal off-axis holdout
 
 A revised passive policy was frozen before fresh collection. Eighteen accepted trials from 21 attempts covered positive headings at ±10° and ±20° plus hard negatives.
 
@@ -97,18 +98,18 @@ A revised passive policy was frozen before fresh collection. Eighteen accepted t
 
 This is stronger than the retrospective tournament because the policy was frozen before collection. It remains a small, single-site passive test.
 
-### Stage 3P: explicit cue boundary
+### Stage 3P: association-gated visual-cue boundary
 
 Nine accepted trials from 18 attempts included six associated vertical transitions and three no-cue controls. Superseded attempts were retained.
 
 - all seven predefined cue/integrity/control/direction/bound/coverage gates passed;
 - controls timed out fail-closed;
-- 0 authorized control adjustments;
+- 0 control adjustments;
 - 0 robot requests;
 - 0 actuation commands;
 - 0 cloud requests.
 
-The fixed test phrase was a narrow laboratory arming primitive. It should not be presented as a deployment-ready model of consent or authorization.
+The fixed test phrase supplied repeated speech only. Stage 3P received no transcript, did not recognize or match phrase content, and could only display a visual instruction to the operator. This is neither arming nor a model of consent or authorization. The separate Stage 4 exact typed phrase is local one-shot arming friction, not identity, intent, consent, or conversational permission.
 
 ### Stage 4A V3: supervised physical pilot
 
@@ -142,6 +143,7 @@ No V4 physical result is published. Repeated read-only preflights remain blocked
 - [`RESEARCH_NOTE.md`](RESEARCH_NOTE.md): compact paper-style narrative.
 - [`METHODS.md`](METHODS.md): staged experimental design.
 - [`RESULTS.md`](RESULTS.md): frozen metrics and fingerprints.
+- [`ATTEMPT_ACCOUNTING.md`](ATTEMPT_ACCOUNTING.md): trial units, uncertainty context, and accepted/superseded attempt flow.
 - [`FAILURE_LEDGER.md`](FAILURE_LEDGER.md): preserved failures and responses.
 - [`LIMITATIONS.md`](LIMITATIONS.md): supported and unsupported claims.
 - [`DATA_CARD.md`](DATA_CARD.md): evidence contents, exclusions, privacy risks, and unsuitable uses.
@@ -205,7 +207,7 @@ Review focus: calibration assumptions, detector bias and boundary instability, t
 
 Review focus: coordinate conventions, bounds, and assurance that no command path exists.
 
-### `reachy_stage3v/`: fresh vertical confirmation
+### `reachy_stage3v/`: fresh horizontal off-axis confirmation
 
 - [`revised_policy_v3.py`](../reachy_stage3v/revised_policy_v3.py): selected frozen passive policy.
 - [`confirmation_protocol_v3.py`](../reachy_stage3v/confirmation_protocol_v3.py): fresh protocol definition.
@@ -222,7 +224,7 @@ Earlier unsuffixed/V2/V3 files are preserved development history. Review focus: 
 - [`policy_v6.py`](../reachy_stage3p/policy_v6.py), [`policy_v6_freeze.py`](../reachy_stage3p/policy_v6_freeze.py), [`analysis_v6.py`](../reachy_stage3p/analysis_v6.py), and [`result_freeze_v6.py`](../reachy_stage3p/result_freeze_v6.py): final frozen vertical association-repair generation feeding the cue study.
 - `policy_v2.py` through `policy_v7.py`, corresponding analyses, confirmations, protocols, and freeze modules: preserved development trail.
 
-Review focus: the high number of versions, researcher degrees of freedom, whether every version boundary is auditable, whether the phrase is authorization or simply a test cue, and whether controls cover replay and spoofing threats.
+Review focus: the high number of versions, researcher degrees of freedom, whether every version boundary is auditable, whether passive visual cueing is useful without being mislabeled authorization, and whether controls cover replay and spoofing threats.
 
 ### `reachy_stage4/`: narrow command boundary
 
@@ -266,7 +268,7 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 5. **There is no independent evaluator.** The same research process developed policies, accepted trials, diagnosed failures, and wrote the report.
 6. **Repeated versioning creates researcher degrees of freedom.** Preservation is better than deletion, but V1–V7 progression can still overfit the local setup. A preregistered independent dataset is necessary.
 7. **Controls are incomplete.** Overlapping live speech, room reverberation changes, moving talkers, off-screen speech, multiple visible faces, occlusion, adversarial playback, interruptions, and sensor dropout need systematic testing.
-8. **The authorization cue has weak ecological validity.** A fixed phrase in a laboratory is not equivalent to consent, speaker intent, conversational turn-taking, or social permission.
+8. **The cue and arming boundaries are narrow.** Stage 3P is a system-issued visual instruction after compatibility, not phrase recognition or authorization. Stage 4's typed arm is local operator confirmation, not consent, speaker intent, conversational turn-taking, or social permission.
 9. **No meaningful eye-contact claim exists.** Head orientation is not eye contact; that would require face/eye targeting, temporal behavior, human perception measures, and multiple consenting participants.
 10. **The prior-art review is preliminary.** It establishes that the ingredients are not individually novel but does not yet constitute a systematic review of active-speaker detection, audiovisual localization, turn-taking, gaze control, selective prediction, or runtime assurance.
 
@@ -337,8 +339,8 @@ These are effort ranges for one operator, not promises. Hardware faults, access 
 | Public replay refactor | None | 2–4 days | 3–7 days | One command rebuilds public tables/figures from `evidence/`; CI tests it. |
 | Reproducibility hardening | Replay refactor | 2–4 days | 3–7 days | Locked environment, coverage report, type/lint checks, hardware/configuration appendix. |
 | Read-only neutral-coordinate diagnosis | Reachy consistently available | 1–3 days if software-only | 2–7 days; indeterminate if hardware/daemon support is needed | Controller and daemon frames agree reproducibly without bypassing the 1° gate. |
-| V4 four-direction mechanical pilot | Neutral issue resolved | 0.5–1 day | 1–3 days | Four separately authorized directions pass unchanged target/return gates, or failures are frozen. |
-| Passive-to-live integration prototype | Mechanical pilot passes | 3–5 days | 1–2 weeks | A newly frozen protocol connects only authorized, bounded policy output to the governor. |
+| V4 four-direction mechanical pilot | Neutral issue resolved | 0.5–1 day | 1–3 days | Four separately armed directions pass unchanged target/return gates, or failures are frozen. |
+| Passive-to-live integration prototype | Mechanical pilot passes | 3–5 days | 1–2 weeks | A newly frozen protocol connects a bounded passive candidate to a separately armed governor and tests the complete transition. |
 | Solo multi-room recorded-voice benchmark | Consented recordings and at least three rooms | 7–12 days | 2–4 weeks | Preregistered voice- and room-held-out evaluation with trial-level uncertainty and baselines. |
 | Strong expert-facing research report | New benchmark complete | 3–5 days | About 1 week | Updated figures, statistics, threat model, limitations, and reproducible report. |
 | Live multi-speaker HRI and eye-contact study | Additional people, consent, protocol/ethics review | Not feasible solo | At least 6–12 weeks once collaborators exist | Multiple live participants, randomized conditions, behavioral measures, and independent analysis. |

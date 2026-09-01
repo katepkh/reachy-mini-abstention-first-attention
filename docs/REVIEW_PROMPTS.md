@@ -102,7 +102,8 @@ Focus on whether "movement as a permission decision" is a useful research framin
 Specifically assess:
 - whether DoA plus face geometry measures source compatibility, active-speaker status, or neither;
 - whether the hard negatives are sufficient and ecologically valid;
-- whether a fixed phrase is an authorization mechanism, a laboratory cue, or a confound;
+- whether Stage 3P's system-issued visual instruction is a useful experimental transition or a confound;
+- whether Stage 4's typed arm should be treated only as operator confirmation rather than identity, consent, or conversational authorization;
 - the gap between head orientation, gaze, eye contact, turn-taking, and socially meaningful attention;
 - how one primary operator and recorded voices limit inference;
 - which additional live-participant conditions are indispensable;
@@ -128,7 +129,7 @@ Answer:
 2. Which denominators in the README are descriptive telemetry counts rather than independent samples?
 3. Does the retrospective development/evaluation split support any out-of-sample claim?
 4. Could trial acceptance, supersession, detector-quality gates, or policy-version selection bias the reported rates?
-5. Are Stage 3V and Stage 3P genuinely frozen-before-collection evaluations? What evidence verifies that?
+5. Are the Stage 3V horizontal off-axis and Stage 3P vertical cue protocols genuinely frozen-before-collection evaluations? What evidence verifies that?
 6. What confidence intervals or hierarchical models are appropriate at trial, room, voice, and operator levels?
 7. What baselines and ablations are missing?
 8. How should risk-coverage curves be computed when the cost of false movement is asymmetric?
@@ -161,7 +162,7 @@ Threat-model the boundary from passive target to physical command. Examine:
 - stale or inconsistent telemetry;
 - controller/daemon coordinate disagreement;
 - TOCTOU between preflight and execution;
-- replay or reuse of one-shot authorization;
+- replay or reuse of a one-shot armed session;
 - process crash after target motion but before return;
 - network loss, partial command completion, daemon restart, and motor fault;
 - incorrect frame transforms or non-rigid poses;
@@ -229,7 +230,7 @@ Use primary literature and official project sources. Cover at least:
 - selective prediction/reject options and risk-coverage evaluation;
 - runtime assurance/Simplex-style control separation;
 - HRI gaze, joint attention, turn-taking, and attention legibility;
-- human authorization and consent for embodied systems;
+- human authorization and consent for embodied systems, kept distinct from passive visual instructions and typed operator arming;
 - privacy-preserving or data-minimized multimodal perception.
 
 For each cluster, identify the closest work, summarize the overlap, and state what remains distinct here. Classify the repository's contribution as one or more of:

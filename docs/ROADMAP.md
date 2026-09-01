@@ -5,7 +5,8 @@
 - [x] Curate code and numeric evidence into a media-free repository.
 - [x] Preserve protocol/policy fingerprints and failed outcomes.
 - [x] Add a one-command integrity verifier.
-- [ ] Obtain external review of claims, protocol, and threat model.
+- [x] Obtain an initial external review of claims, protocol, and threat model.
+- [x] Correct the horizontal/vertical stage map and separate passive cueing from operator arming.
 - [x] Replace placeholder repository URL.
 - [x] Confirm public author metadata.
 
@@ -13,11 +14,11 @@
 
 - preregister hypotheses, thresholds, exclusion rules, and trial-level analyses;
 - collect in at least three acoustically different rooms;
-- include multiple consenting live speakers and unfamiliar voices;
+- use multiple consented recorded voices with the single on-site operator, and label them as stimuli rather than participants;
 - randomize speaker position, playback position, silence, occlusion, and overlapping speech;
 - hold out rooms and people, not merely repetitions;
 - report selective risk versus coverage with trial-level uncertainty;
-- compare against acoustic-only, vision-only, and non-abstaining baselines.
+- compare against the official-style Reachy DoA-following behavior, acoustic-only, vision-only, and non-abstaining baselines.
 
 ## Before additional physical motion
 
@@ -31,7 +32,7 @@
 
 ## Longer term
 
-- investigate conversational authorization primitives beyond a fixed phrase;
+- investigate conversational authorization and consent primitives separately from test speech, visual instructions, and typed operator arming;
 - model temporal uncertainty rather than threshold only point estimates;
 - test recovery when sensors disagree or disappear mid-transition;
 - evaluate social acceptability of abstention and explicit cues with a consented participant protocol;
