@@ -8,7 +8,15 @@
 
 This research preview studies selective attention proposals for Reachy Mini under an asymmetric cost: a false social or physical movement is treated as more costly than abstention. Local direction of arrival (DoA), ephemeral face geometry, temporal agreement, a passive visual cue, operator arming, and mechanical readiness are treated as different boundaries. Missing, stale, ambiguous, or conflicting evidence produces `ABSTAIN` or `HOLD`, not a guessed target.
 
-> **Current boundary:** passive validation passed for the frozen single-site conditions below. Physical motion is **not validated**. The first supervised 3° motion trial failed its unchanged mechanical gate, and a corrected V4 path remains blocked by a disagreement between controller zero and the daemon's neutral reference.
+## Current hardware blocker
+
+**Physical validation is suspended.** The first supervised 3° motion trial failed its unchanged mechanical gate. The corrected V4 path then failed read-only preflight because Reachy Mini Control displayed a zeroed head while the daemon reported the head approximately 2.35–4.43° from its neutral reference across restarts.
+
+- **Impact:** 0 of 4 V4 directions have been accepted; no V4 motion command has been sent.
+- **Decision:** do not weaken or bypass the 1° neutral preflight gate. Diagnose the coordinate disagreement using read-only observations first.
+- **Forecast:** unknown. There is no defensible completion date until the reference-frame mismatch is understood.
+
+Passive validation passed only for the frozen single-site conditions below. It does not validate physical motion or erase the failed Stage 4 result.
 
 > **Integration boundary:** Stage 3V validates horizontal passive proposals; Stage 3P validates a system-issued visual `MOVE` cue and has no command path; Stage 4 separately validates typed operator arming and mechanical readiness. These stages have **not** been connected and validated end to end.
 
@@ -22,7 +30,10 @@ This research preview studies selective attention proposals for Reachy Mini unde
 | Reuse a rigorous review prompt | [`docs/REVIEW_PROMPTS.md`](docs/REVIEW_PROMPTS.md) |
 | Read the compact paper-style account | [`docs/RESEARCH_NOTE.md`](docs/RESEARCH_NOTE.md) |
 | Audit methods and frozen results | [`docs/METHODS.md`](docs/METHODS.md) and [`docs/RESULTS.md`](docs/RESULTS.md) |
+| Check novelty and adjacent fields | [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md) |
 | Check trial units, uncertainty, and superseded attempts | [`docs/ATTEMPT_ACCOUNTING.md`](docs/ATTEMPT_ACCOUNTING.md) |
+| Rebuild the public result table | [`docs/GENERATED_RESULTS.md`](docs/GENERATED_RESULTS.md) and [`scripts/regenerate_public_results.py`](scripts/regenerate_public_results.py) |
+| Audit where thresholds came from | [`docs/THRESHOLD_PROVENANCE.md`](docs/THRESHOLD_PROVENANCE.md) |
 | Inspect what failed and why | [`docs/FAILURE_LEDGER.md`](docs/FAILURE_LEDGER.md) |
 | Check claim boundaries and data contents | [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) and [`docs/DATA_CARD.md`](docs/DATA_CARD.md) |
 | Introduce the work to an expert group | [`DISCORD_MESSAGE.md`](DISCORD_MESSAGE.md) |
@@ -81,7 +92,7 @@ The strongest current artifact is the **permission architecture and failure-pres
 
 ## Code and evidence map
 
-The repository contains 110 source modules (18,827 lines), 28 test modules (2,059 lines), one evidence verifier, and the frozen numeric artifacts. Forty source files retain explicit version suffixes because rejected and superseded protocol generations were preserved.
+The repository contains 110 package modules (18,827 lines), 28 test modules (2,059 lines), two public verification/reporting scripts, and the frozen numeric artifacts. Forty package files retain explicit version suffixes because rejected and superseded protocol generations were preserved.
 
 | Path | Responsibility | Review note |
 |---|---|---|
@@ -92,6 +103,7 @@ The repository contains 110 source modules (18,827 lines), 28 test modules (2,05
 | [`reachy_stage3p/`](reachy_stage3p) | Passive vertical targeting history plus association-gated visual-cue logic and result freezes. | The cue gate reads no transcript and has no command capability; V1–V7 are an audit trail, not a minimal reusable package. |
 | [`reachy_stage4/`](reachy_stage4) | Expiring read-only preflight, one-shot arming, relative bounded pose, robust SO(3) measurement, automatic return, and immutable result handling. | Command-capable code is experimental. V4 is unvalidated and must not bypass a failed preflight. |
 | [`scripts/verify_results.py`](scripts/verify_results.py) | Standard-library verifier for public hashes and headline frozen claims. | This is the public evidence entry point. |
+| [`scripts/regenerate_public_results.py`](scripts/regenerate_public_results.py) | Deterministically renders the public headline table from frozen JSON after evidence verification. | It regenerates the committed summary, not the original acquisition or every historical policy search. |
 | [`tests/`](tests) | Self-contained component and protocol tests. | 142 software tests are not 142 robot trials and do not validate hardware. |
 | [`evidence/`](evidence) | Derived CSV/JSON evidence, analyses, compliance records, and freeze manifests. | No raw audio, camera pixels, transcripts, or identity labels are included. |
 
@@ -108,15 +120,16 @@ The version suffixes document how the protocol changed; they do not mean that ev
 
 There is currently no single production entry point: the three reference paths above remain deliberately separate until end-to-end integration is designed and tested.
 
-### Known reproducibility gap
+### What one command now rebuilds—and what it does not
 
 The public evidence was reorganized under `evidence/`, while several preserved acquisition and freeze modules retain their original laboratory `data/...` paths. Consequently:
 
 - `python scripts/verify_results.py` verifies the public frozen claims;
+- `python scripts/regenerate_public_results.py --check` verifies all listed evidence, reconstructs the headline result table from frozen machine-readable artifacts, and compares it byte-for-byte with [`docs/GENERATED_RESULTS.md`](docs/GENERATED_RESULTS.md);
 - the unit tests exercise curated software components without a robot or private laboratory tree;
-- the repository does **not yet** provide one command that rebuilds every analysis from the public layout or reproduces live hardware acquisition end to end.
+- the repository still does **not** provide one command that reruns every historical policy search from the public layout, reproduces deleted encrypted audit clips, or reproduces live hardware acquisition end to end.
 
-Closing that gap is a priority for the next repository release.
+The new report closes the narrower “can a reviewer reconstruct the displayed headline table?” gap. It does not close full experimental reproducibility.
 
 ## Reproduce what is currently reproducible
 
@@ -125,6 +138,16 @@ Verify 171 manifest-listed evidence files and the headline results using only th
 ```bash
 python scripts/verify_results.py
 ```
+
+Regenerate the public result table to standard output, check the committed copy, or deliberately refresh it:
+
+```bash
+python scripts/regenerate_public_results.py
+python scripts/regenerate_public_results.py --check
+python scripts/regenerate_public_results.py --write
+```
+
+CI runs both integrity verification and the stale-report check before the software tests.
 
 Install the curated package and run 142 self-contained software tests:
 
@@ -158,7 +181,7 @@ See the full [`external review packet`](docs/EXTERNAL_REVIEW.md) and [`role-spec
 ## Roadmap
 
 1. Obtain adversarial external review of the claims, threat model, experiment design, and code boundary.
-2. Make the public evidence layout directly replayable and add coverage/static-analysis reporting.
+2. Make the historical policy searches replayable from the public layout and add coverage/static-analysis reporting; the headline-table regeneration is now complete.
 3. Resolve the daemon/controller neutral-coordinate disagreement using read-only diagnosis.
 4. Freeze and run the already-bounded V4 four-direction mechanical pilot only after preflight passes consistently.
 5. Preregister a multi-room recorded-voice benchmark with room- and voice-level holdouts and compare official-style DoA following against the abstention policies.

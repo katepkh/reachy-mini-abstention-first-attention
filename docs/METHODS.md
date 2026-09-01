@@ -61,4 +61,6 @@ Acceptance tolerances were frozen before execution. One physical trial ran and f
 - passive stages contain no command path;
 - physical authority is narrow, expiring, and one-shot.
 
+Threshold freezing does not establish that a value was calibrated. [`THRESHOLD_PROVENANCE.md`](THRESHOLD_PROVENANCE.md) separates development-selected values from protocol-fixed, project-fixed, and hardware-bound choices and records the missing sensitivity work.
+
 The passive candidate, Stage 3P visual cue, and Stage 4 command boundary have not yet been connected and validated as one end-to-end system.

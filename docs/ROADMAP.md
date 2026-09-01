@@ -5,6 +5,9 @@
 - [x] Curate code and numeric evidence into a media-free repository.
 - [x] Preserve protocol/policy fingerprints and failed outcomes.
 - [x] Add a one-command integrity verifier.
+- [x] Add a deterministic, CI-checked reconstruction of the public headline result table.
+- [x] Publish threshold provenance and expose calibration debt.
+- [x] Expand prior-art boundaries using primary sources from robot audition, active-speaker detection, selective prediction, runtime assurance, and HRI gaze.
 - [x] Obtain an initial external review of claims, protocol, and threat model.
 - [x] Correct the horizontal/vertical stage map and separate passive cueing from operator arming.
 - [x] Replace placeholder repository URL.
@@ -22,6 +25,7 @@
 
 ## Before additional physical motion
 
+- treat the completion date as unknown until the blocker below is diagnosed;
 - resolve the daemon/controller neutral-coordinate disagreement using read-only observations;
 - verify command and measurement frames against official daemon behavior;
 - replace fragile rotation-angle reconstruction with a numerically robust method;
@@ -29,6 +33,17 @@
 - add frozen settling dwell and trace sampling before target/return evaluation;
 - version and freeze a corrected protocol before observing its outcome;
 - run one direction at a time under direct operator supervision.
+
+The neutral-coordinate discrepancy is a hard dependency, not a task with a reliable time estimate. No V4 command should be sent and no 1° threshold should be weakened while it remains unresolved.
+
+## Reproducibility engineering
+
+- make the historical policy searches consume the public `evidence/` layout directly;
+- regenerate every published table and figure, not only the headline summary;
+- add a locked or otherwise reproducibly resolved dependency environment;
+- add coverage, static analysis, and property tests at the numeric safety boundaries;
+- create a hardware/software bill of materials and room/acquisition appendix;
+- centralize current reference entry points without erasing the versioned audit trail.
 
 ## Longer term
 

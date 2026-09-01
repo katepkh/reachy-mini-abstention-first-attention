@@ -1,6 +1,6 @@
 # Frozen results
 
-Run `python scripts/verify_results.py` to check the public copy against its source manifests.
+Run `python scripts/verify_results.py` to check the public copy against its source manifests. Run `python scripts/regenerate_public_results.py --check` to reconstruct the headline table from the frozen machine-readable artifacts and compare it with [`GENERATED_RESULTS.md`](GENERATED_RESULTS.md).
 
 These are frozen engineering results, not population-rate estimates. Rows within a trial are correlated telemetry. Across the principal passive protocols there are 42 accepted trials; Stage 4 adds one failed physical trial. See [`ATTEMPT_ACCOUNTING.md`](ATTEMPT_ACCOUNTING.md) for attempt flow and uncertainty context.
 

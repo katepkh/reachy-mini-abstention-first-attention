@@ -143,11 +143,13 @@ No V4 physical result is published. Repeated read-only preflights remain blocked
 - [`RESEARCH_NOTE.md`](RESEARCH_NOTE.md): compact paper-style narrative.
 - [`METHODS.md`](METHODS.md): staged experimental design.
 - [`RESULTS.md`](RESULTS.md): frozen metrics and fingerprints.
+- [`GENERATED_RESULTS.md`](GENERATED_RESULTS.md): deterministic headline table reconstructed from frozen JSON after source-file verification.
+- [`THRESHOLD_PROVENANCE.md`](THRESHOLD_PROVENANCE.md): distinguishes development-selected, protocol-fixed, project-fixed, and hardware-bound values.
 - [`ATTEMPT_ACCOUNTING.md`](ATTEMPT_ACCOUNTING.md): trial units, uncertainty context, and accepted/superseded attempt flow.
 - [`FAILURE_LEDGER.md`](FAILURE_LEDGER.md): preserved failures and responses.
 - [`LIMITATIONS.md`](LIMITATIONS.md): supported and unsupported claims.
 - [`DATA_CARD.md`](DATA_CARD.md): evidence contents, exclusions, privacy risks, and unsuitable uses.
-- [`PRIOR_ART.md`](PRIOR_ART.md): initial positioning against Reachy, selective prediction, runtime assurance, and audiovisual localization.
+- [`PRIOR_ART.md`](PRIOR_ART.md): primary-source positioning against Reachy, robot audition, active-speaker detection, selective prediction, runtime assurance, and social gaze.
 - [`SAFETY.md`](../SAFETY.md): hardware boundary and stop conditions.
 - [`DISCORD_MESSAGE.md`](../DISCORD_MESSAGE.md): expert-group introduction.
 - [`figures/architecture.png`](../figures/architecture.png) and [`figures/safety-coverage-frontier.png`](../figures/safety-coverage-frontier.png): public explanatory figures.
@@ -165,7 +167,7 @@ At the time of this audit the repository contains:
 - 110 source Python modules and 18,827 source lines;
 - 28 Python test modules and 2,059 test lines;
 - 40 explicitly versioned source modules preserving policy/protocol history;
-- one public evidence-verification script;
+- one public evidence-verification script and one deterministic public-summary generator;
 - 142 passing self-contained software tests.
 
 The test count must not be mistaken for an experimental sample size.
@@ -240,8 +242,9 @@ Review focus: whether the custom transport matches official semantics, atomic on
 ### Verification and tests
 
 - [`scripts/verify_results.py`](../scripts/verify_results.py): maps original manifest paths into the public `evidence/` layout, verifies hashes, and checks headline frozen assertions.
+- [`scripts/regenerate_public_results.py`](../scripts/regenerate_public_results.py): verifies those sources and reconstructs the committed headline table from frozen machine-readable artifacts.
 - [`tests/`](../tests): 142 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, and Stage 4 protocol/transport safety.
-- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the test extra, runs evidence verification, and runs the unit suite on Python 3.11.
+- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the test extra, runs evidence verification, rejects a stale generated result table, and runs the unit suite on Python 3.11.
 
 Review focus: absent coverage measurement, absent static type/lint checks, dependency reproducibility, missing property/fuzz tests at safety boundaries, and the distinction between unit verification and robot validation.
 
@@ -270,7 +273,8 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 7. **Controls are incomplete.** Overlapping live speech, room reverberation changes, moving talkers, off-screen speech, multiple visible faces, occlusion, adversarial playback, interruptions, and sensor dropout need systematic testing.
 8. **The cue and arming boundaries are narrow.** Stage 3P is a system-issued visual instruction after compatibility, not phrase recognition or authorization. Stage 4's typed arm is local operator confirmation, not consent, speaker intent, conversational turn-taking, or social permission.
 9. **No meaningful eye-contact claim exists.** Head orientation is not eye contact; that would require face/eye targeting, temporal behavior, human perception measures, and multiple consenting participants.
-10. **The prior-art review is preliminary.** It establishes that the ingredients are not individually novel but does not yet constitute a systematic review of active-speaker detection, audiovisual localization, turn-taking, gaze control, selective prediction, or runtime assurance.
+10. **The prior-art review is scoped, not systematic.** It now anchors the main boundaries in primary sources across robot audition, active-speaker detection, selective prediction, runtime assurance, and social gaze, but it is not a systematic review and does not establish novelty by itself.
+11. **Several thresholds remain calibration debt.** The public provenance table reveals which values came from disclosed development searches and which were simply fixed; many detector, timing, stability, and pilot-safety values still lack sensitivity analysis.
 
 ### Mechanical and safety engineering
 
@@ -282,7 +286,7 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 
 ### Software and reproducibility
 
-1. **The public layout is not a turnkey replay environment.** Public artifacts are under `evidence/`, while preserved modules refer to the original `data/...` laboratory layout. The verifier compensates, but the complete analysis pipeline is not directly rerunnable.
+1. **The public layout is not a turnkey full replay environment.** Public artifacts are under `evidence/`, while preserved modules refer to the original `data/...` laboratory layout. A new command reconstructs and checks the public headline table, but the original policy searches and complete historical analysis pipeline are not directly rerunnable.
 2. **The repository is an audit snapshot more than a library.** Forty version-suffixed source files are historically valuable but difficult to navigate, compare, or maintain.
 3. **There is no stable command-line interface.** Reviewers must infer entry points from modules and documents.
 4. **Dependencies are lower-bounded, not fully locked.** A future installation may resolve different transitive versions.
@@ -307,7 +311,7 @@ Remaining weaknesses:
 - the quantity of files can overwhelm a reviewer;
 - the version history is not summarized as a single decision log or diagram;
 - there is no tagged research-preview release or archival DOI;
-- there is no public notebook/report that regenerates all tables and figures from `evidence/`;
+- the headline table is now deterministic, but there is still no public workflow that regenerates every historical table and figure from `evidence/`;
 - no issue templates guide external protocol, safety, or reproducibility criticism;
 - the repository is not yet a polished package that another Reachy owner can run end to end;
 - the visual presentation may still appear more mature than the empirical sample unless readers notice the claim boundary.
@@ -329,25 +333,21 @@ The most credible current message is:
 
 > We built and audited a staged permission boundary for robot attention, found that spatial audio/visual agreement does not prove speaker ownership, passed two narrow passive protocols, and preserved a failed physical pilot. We are asking experts to challenge the design before broader data collection or further actuation.
 
-## Realistic roadmap and timeline
+## Roadmap and scheduling boundary
 
-These are effort ranges for one operator, not promises. Hardware faults, access to rooms, voice-recording consent, and reviewer availability can extend them.
+The work is dependency-gated, so calendar promises would currently be misleading. In particular, the neutral-coordinate discrepancy may be a software-frame issue, a daemon/platform issue, or a hardware-state issue; its resolution time is unknown. No V4 or end-to-end date should be quoted until that read-only diagnosis has a reproducible outcome.
 
-| Work package | Dependency | Focused effort | Realistic elapsed time | Completion criterion |
-|---|---|---:|---:|---|
-| External review and issue triage | Reviewers willing to engage | 1–2 days of author work | 2–7 days | Critiques logged and classified as claim, method, code, safety, or presentation issues. |
-| Public replay refactor | None | 2–4 days | 3–7 days | One command rebuilds public tables/figures from `evidence/`; CI tests it. |
-| Reproducibility hardening | Replay refactor | 2–4 days | 3–7 days | Locked environment, coverage report, type/lint checks, hardware/configuration appendix. |
-| Read-only neutral-coordinate diagnosis | Reachy consistently available | 1–3 days if software-only | 2–7 days; indeterminate if hardware/daemon support is needed | Controller and daemon frames agree reproducibly without bypassing the 1° gate. |
-| V4 four-direction mechanical pilot | Neutral issue resolved | 0.5–1 day | 1–3 days | Four separately armed directions pass unchanged target/return gates, or failures are frozen. |
-| Passive-to-live integration prototype | Mechanical pilot passes | 3–5 days | 1–2 weeks | A newly frozen protocol connects a bounded passive candidate to a separately armed governor and tests the complete transition. |
-| Solo multi-room recorded-voice benchmark | Consented recordings and at least three rooms | 7–12 days | 2–4 weeks | Preregistered voice- and room-held-out evaluation with trial-level uncertainty and baselines. |
-| Strong expert-facing research report | New benchmark complete | 3–5 days | About 1 week | Updated figures, statistics, threat model, limitations, and reproducible report. |
-| Live multi-speaker HRI and eye-contact study | Additional people, consent, protocol/ethics review | Not feasible solo | At least 6–12 weeks once collaborators exist | Multiple live participants, randomized conditions, behavioral measures, and independent analysis. |
-
-Optimistic path to a stronger engineering milestone: approximately **2–3 weeks**, assuming the neutral-coordinate issue is software-only and recorded-voice collection proceeds smoothly.
-
-Realistic path to a defensible multi-room research result: approximately **4–8 weeks**.
+| Work package | Dependency | Completion criterion | Schedulable now? |
+|---|---|---|---|
+| External review and issue triage | Reviewers willing to engage | Critiques logged and classified as claim, method, code, safety, or presentation issues. | Yes; reviewer response time remains external. |
+| Headline result regeneration | None | One command reconstructs the committed public table and CI rejects drift. | **Complete.** |
+| Full historical replay refactor | None | Public-layout commands rerun the relevant policy searches and regenerate all public tables/figures. | Yes, but effort is not yet estimated from a completed dependency audit. |
+| Reproducibility hardening | Replay refactor | Locked environment, coverage report, type/lint checks, and hardware/configuration appendix. | Partly; should be divided into reviewable changes. |
+| Read-only neutral-coordinate diagnosis | Reachy consistently available | Controller and daemon frames agree reproducibly without bypassing the 1° gate, or the unresolved platform/hardware fault is documented. | **Duration unknown.** |
+| V4 four-direction mechanical pilot | Neutral issue resolved | Four separately armed directions pass unchanged target/return gates, or failures are frozen. | No. |
+| Passive-to-live integration prototype | Mechanical pilot passes and a new protocol is frozen | A bounded passive candidate reaches a separately armed governor under an end-to-end test. | No. |
+| Solo multi-room recorded-voice benchmark | Consented recordings, rooms, preregistration, and baseline implementation | Voice- and room-held-out evaluation with trial-level uncertainty and baselines. | Design can begin; collection duration should be estimated only after a pilot. |
+| Live multi-speaker HRI and eye-contact study | Additional people, consent, and appropriate protocol/ethics review | Multiple live participants, randomized conditions, behavioral measures, and independent analysis. | Not feasible under the current solo constraint. |
 
 A credible live multi-person eye-contact claim cannot be scheduled under the present single-operator constraint.
 
@@ -355,7 +355,7 @@ A credible live multi-person eye-contact claim cannot be scheduled under the pre
 
 1. Ask reviewers to attack the claim boundary before adding functionality.
 2. Convert criticism into public GitHub issues or a review ledger.
-3. Make public analysis replayable from `evidence/` before collecting more data.
+3. Extend the now-reproducible headline table into full public policy-search and figure replay before collecting more data.
 4. Freeze a preregistered recorded-voice, multi-room protocol with room- and voice-level holdouts.
 5. Resolve the coordinate-frame disagreement read-only; do not widen the tolerance to make V4 pass.
 6. Run V4 one direction at a time only after consistent preflight success.
