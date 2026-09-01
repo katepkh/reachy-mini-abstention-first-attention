@@ -1,0 +1,22 @@
+{
+  "schema": "reachy-stage3p-cue-confirmation-progress-v1",
+  "accepted_steps": 9,
+  "total_steps": 9,
+  "accepted_csv_files": [
+    "2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170622.csv",
+    "2026-08-31_stage3p-cue-confirmation_02-of-09_association-gated-centre-to-up10_take01_20260831-170849.csv",
+    "2026-08-31_stage3p-cue-confirmation_03-of-09_association-gated-centre-to-up10_take02_20260831-171057.csv",
+    "2026-08-31_stage3p-cue-confirmation_04-of-09_association-gated-centre-to-down10_take02_20260831-171306.csv",
+    "2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171519.csv",
+    "2026-08-31_stage3p-cue-confirmation_06-of-09_association-gated-centre-to-up10_take03_20260831-171726.csv",
+    "2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-173945.csv",
+    "2026-08-31_stage3p-cue-confirmation_08-of-09_control-speaking-no-face_take01_20260831-174804.csv",
+    "2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175941.csv"
+  ],
+  "updated_time_iso": "2026-08-31T18:01:04+01:00",
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false,
+  "status": "COLLECTION_COMPLETE",
+  "protocol_fingerprint": "bb78a7a32c7b61f74e3b894c055e66f4515a361bdba7c9c0c232dcf79d92b158"
+}

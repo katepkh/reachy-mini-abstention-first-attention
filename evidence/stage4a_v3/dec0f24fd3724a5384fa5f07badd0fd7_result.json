@@ -1,0 +1,74 @@
+{
+  "schema": "reachy-stage4a-supervised-motion-trial-v1",
+  "session_id": "dec0f24fd3724a5384fa5f07badd0fd7",
+  "step_index": 1,
+  "direction": "UP",
+  "started_time_iso": "2026-08-31T18:42:16+00:00",
+  "finished_time_iso": "2026-08-31T18:42:22+00:00",
+  "mechanical_gate_passed": false,
+  "failure": null,
+  "target_error_deg": 1.631112992093788,
+  "restore_error_deg": 0.0,
+  "restore_translation_mm": 0.6000391888239139,
+  "target_measured_pose": [
+    [
+      0.999946844950806,
+      0.014640227286170515,
+      -0.01992656311548988,
+      7.805229147273186e-05
+    ],
+    [
+      -0.01483277169753679,
+      0.9998767251159512,
+      -0.006665324895448711,
+      -0.00019135814610227888
+    ],
+    [
+      0.01982404932772251,
+      0.006701411862308228,
+      1.0000265487211417,
+      -0.0010749908207506598
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "restored_measured_pose": [
+    [
+      0.9997994534133892,
+      0.019316486339492255,
+      -0.023083234259752505,
+      5.0176279321797526e-05
+    ],
+    [
+      -0.019659400616599952,
+      0.9997408848747008,
+      -0.012237715623885669,
+      -5.763123665033205e-05
+    ],
+    [
+      0.022839193032490126,
+      0.012429856181335805,
+      0.9999074306838351,
+      -0.001254279559460808
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "actuation_commands": 2,
+  "head_only_commands": 2,
+  "body_yaw_commands": 0,
+  "antenna_commands": 0,
+  "torque_or_motor_mode_commands": 0,
+  "media_access": 0,
+  "cloud_requests": 0,
+  "operator_review": "NOT_ELIGIBLE",
+  "integrity_sha256": "226f327b20f16ff7421d1b1fea9e25df492c82237ee7fa1a55b9dcdda43d7559"
+}

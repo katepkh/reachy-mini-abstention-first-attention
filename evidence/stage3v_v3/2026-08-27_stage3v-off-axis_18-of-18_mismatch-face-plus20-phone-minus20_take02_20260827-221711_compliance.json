@@ -1,0 +1,16 @@
+{
+  "schema": "reachy-stage3v-procedural-compliance-v1",
+  "protocol_fingerprint": "d2f1182dd1a4d2a3e6e2a6215277c94f07223abe36e619f6eedbaed15ed766d0",
+  "step_index": 18,
+  "trial_file": "2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221711.csv",
+  "data_mode": "privacy_validation",
+  "position_instruction_followed": false,
+  "speech_or_playback_instruction_followed": false,
+  "audit_clip_id": null,
+  "audit_verdict": null,
+  "verdict": "NONCOMPLIANT",
+  "reviewed_time_iso": "2026-08-27T22:17:18+01:00",
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false
+}

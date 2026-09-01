@@ -1,0 +1,16 @@
+{
+  "schema": "reachy-stage3v-procedural-compliance-v1",
+  "protocol_fingerprint": "bb78a7a32c7b61f74e3b894c055e66f4515a361bdba7c9c0c232dcf79d92b158",
+  "step_index": 7,
+  "trial_file": "2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172047.csv",
+  "data_mode": "development_audit",
+  "position_instruction_followed": false,
+  "speech_or_playback_instruction_followed": false,
+  "audit_clip_id": null,
+  "audit_verdict": null,
+  "verdict": "NONCOMPLIANT",
+  "reviewed_time_iso": "2026-08-31T17:20:54+01:00",
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false
+}

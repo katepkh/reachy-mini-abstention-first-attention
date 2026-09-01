@@ -1,0 +1,374 @@
+{
+  "schema": "reachy-stage3p-targeted-cue-result-integrity-freeze-v1",
+  "status": "FROZEN_PASSING_TARGETED_PASSIVE_RESULT_NOT_STANDALONE_ACTUATION_AUTHORITY",
+  "frozen_at_utc": "2026-08-31T17:20:06+00:00",
+  "protocol_fingerprint": "bb78a7a32c7b61f74e3b894c055e66f4515a361bdba7c9c0c232dcf79d92b158",
+  "policy_fingerprint": "cc6fc9731d2149a2e273989e6e0dea4caacca5859aee45ccf16d82d1f53b6da1",
+  "policy_bundle_sha256": "464fbe6c038d12a41685d40c7a4d29e7e893ca0f1ad9bf5869ce4054f2bb1caf",
+  "source_v6_result_bundle_sha256": "2a330cb7f65fc151306328fc95109da3ee61c4736cffd1bcd733aac4d9ca4db8",
+  "scope": {
+    "complete_collection_directory": "data/stage3p_cue_confirmation_v1",
+    "includes_accepted_attempts": true,
+    "includes_superseded_attempts": true,
+    "includes_metadata_and_compliance_sidecars": true,
+    "includes_audit_deletion_ledger": true,
+    "includes_final_analysis_artifacts": true,
+    "includes_upstream_policy_and_result_freezes": true,
+    "source_files_modified": false
+  },
+  "validated_state": {
+    "accepted_trials": 9,
+    "all_csv_attempts": 18,
+    "superseded_attempts": 9,
+    "accepted_compliant_audits": 9,
+    "accepted_audit_clips_deleted_after_review": 9,
+    "gates": {
+      "transition_cue_coverage": true,
+      "cue_evidence_integrity": true,
+      "fail_closed_controls": true,
+      "pre_cue_hold": true,
+      "vertical_direction": true,
+      "bounded_increment": true,
+      "post_cue_correction_coverage": true
+    },
+    "overall_passed": true,
+    "transition_trials": 6,
+    "fail_closed_controls": 3,
+    "control_gate_authorised_adjustments": 0,
+    "control_raw_policy_adjustment_rows": 10,
+    "robot_requests": 0,
+    "actuation_commands": 0,
+    "cloud_requests": 0
+  },
+  "file_count": 62,
+  "files": [
+    {
+      "path": "data/analysis/stage3p_association_gated_cue_confirmation_v1.json",
+      "bytes": 13261,
+      "sha256": "5333b5bf01fd93b963d25b4ed02fdafaa6a9264c6c4820656077017a90356305"
+    },
+    {
+      "path": "data/analysis/stage3p_association_gated_cue_confirmation_v1.md",
+      "bytes": 675,
+      "sha256": "889a8ee36a8fdfefe3cc316132c092c4c03b759c89eaa89696092d0f3d8daddb"
+    },
+    {
+      "path": "data/analysis/stage3p_association_gated_cue_confirmation_v1_trials.csv",
+      "bytes": 2912,
+      "sha256": "402e67e3952c84134af7611590e22b833c0109502cf984340d63677e1b9a6a7a"
+    },
+    {
+      "path": "data/manifests/stage3p_association_gated_cue_confirmation_v1.json",
+      "bytes": 11155,
+      "sha256": "7e8f828c52026c5952330b25c4a8b3cc7b1d456879ad0daf0a5bd125ab955f82"
+    },
+    {
+      "path": "data/manifests/stage3p_confirmation_result_v6_freeze.json",
+      "bytes": 23793,
+      "sha256": "4847876340170b84cade9bdff618dff5722c289e37daffbba701a2de0d7abae9"
+    },
+    {
+      "path": "data/manifests/stage3p_selected_policy_v6.json",
+      "bytes": 3781,
+      "sha256": "734683881774aefc7b3b5358ca96863fff5ec191e54076c5587fce23d415a0f8"
+    },
+    {
+      "path": "data/manifests/stage3p_selected_policy_v6_freeze.json",
+      "bytes": 3910,
+      "sha256": "526a0e89ef3c46a399b6c4d3a1851ef43c4b89bb53aa1e4c29358560ed7faa4c"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170547.csv",
+      "bytes": 21821,
+      "sha256": "44cf0b6b74c0dafabce59c29c94f0fb0bdb9bcfe4ec7986f09f347c2c8dd9ed9"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170547_compliance.json",
+      "bytes": 661,
+      "sha256": "473e33d4913a8a1c7557db8f9cbdb42e1686dbe88ed3a3ebd5b303016fab60a5"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170547_metadata.json",
+      "bytes": 1262,
+      "sha256": "e0f10162bc07bdd7c407332b546881436bfc04dc0c55276ecd87929d078a818f"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170622.csv",
+      "bytes": 26409,
+      "sha256": "d0838ca2fe0ae68fa7eebe2c7ca854662362fd714773dbca874f5c8f442d8350"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170622_compliance.json",
+      "bytes": 693,
+      "sha256": "ec9c30703d42ba3423ef86ff40a109acc009935ab7bbb823bc76022c796f752c"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_01-of-09_association-gated-centre-to-down10_take01_20260831-170622_metadata.json",
+      "bytes": 1347,
+      "sha256": "c98fc304eefba2e29112b98a7612f84c66abc4856e9490f5f398f1246fa0d562"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_02-of-09_association-gated-centre-to-up10_take01_20260831-170849.csv",
+      "bytes": 26834,
+      "sha256": "6154a4176f025a77531fbdc9440942f473e204a8f8fff044ef3de877521bc88a"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_02-of-09_association-gated-centre-to-up10_take01_20260831-170849_compliance.json",
+      "bytes": 691,
+      "sha256": "3ed3aae7d8bf8785e440f71d7d78320be4f333dd18c710c1d8626a0f42b4e892"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_02-of-09_association-gated-centre-to-up10_take01_20260831-170849_metadata.json",
+      "bytes": 1344,
+      "sha256": "1d0fbcddfc02a518403039cb622d669baaf007cceaec956e3f683ddfccce0817"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_03-of-09_association-gated-centre-to-up10_take02_20260831-171057.csv",
+      "bytes": 28246,
+      "sha256": "b404ddd062a28d96d32f088e85957770a3dc619dc952ccb3f8bb2d4aacfb9906"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_03-of-09_association-gated-centre-to-up10_take02_20260831-171057_compliance.json",
+      "bytes": 691,
+      "sha256": "9b7de2bcf5c3ce82db71256af32c7437afa9813cd38f571c06733a499197238a"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_03-of-09_association-gated-centre-to-up10_take02_20260831-171057_metadata.json",
+      "bytes": 1344,
+      "sha256": "13e86370b910bfc2e7ac44f16d7f219da15a0b277bcd080bf8a24f74d16030b8"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_04-of-09_association-gated-centre-to-down10_take02_20260831-171306.csv",
+      "bytes": 27954,
+      "sha256": "5b83312876c0e182b959b8d54990c84173369906a0eb1c62955d06df726df187"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_04-of-09_association-gated-centre-to-down10_take02_20260831-171306_compliance.json",
+      "bytes": 693,
+      "sha256": "f51b812b76480636928b4b874ee8f3450b83109a7741d9641cb15aadc87e320b"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_04-of-09_association-gated-centre-to-down10_take02_20260831-171306_metadata.json",
+      "bytes": 1347,
+      "sha256": "74cdd952dcebac00d03ebc6d3be8a9a7a3f161b94321d0b1da9a651c9b124e54"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171447.csv",
+      "bytes": 22653,
+      "sha256": "1d0a5ef09ccffc4fe0b3087551afaf4d17816b6e7ee76841beeb87f8167cb338"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171447_compliance.json",
+      "bytes": 661,
+      "sha256": "8f56b339f9afd3ba9c3fbabd1cc9f40a748a3f48a32755703359ee2ee1f40e38"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171447_metadata.json",
+      "bytes": 1262,
+      "sha256": "3980e73381e50ba9f10e7734d851ff2dbbc07e9e6f8dbe7a7bbff6b6d3571986"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171519.csv",
+      "bytes": 26792,
+      "sha256": "f5bbc09529d778cf759b8a3e8a5115014242a5a531c9df6dab0e58cdc640bc8a"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171519_compliance.json",
+      "bytes": 693,
+      "sha256": "f5f13fb5bcdf0314b78a72e4eb03c598be1ad48515c87d97a661d52d8545c8d5"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_05-of-09_association-gated-centre-to-down10_take03_20260831-171519_metadata.json",
+      "bytes": 1347,
+      "sha256": "67bcf935d2cd6926ea62d6d4e9d086e543a8fb0d9059bd4888e42eee2c7253ec"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_06-of-09_association-gated-centre-to-up10_take03_20260831-171726.csv",
+      "bytes": 24700,
+      "sha256": "36bfb9fe4a8219ff385f2496d19a0137f20b10e5513af191036cca064a9e5153"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_06-of-09_association-gated-centre-to-up10_take03_20260831-171726_compliance.json",
+      "bytes": 691,
+      "sha256": "7e9b9b9211896d909abcae95f7840c96987b1857da71a17f3b006f388ac2a03c"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_06-of-09_association-gated-centre-to-up10_take03_20260831-171726_metadata.json",
+      "bytes": 1346,
+      "sha256": "ab69a1334326a28728d9992d31b355046ab91f7368a4a506c827e8b2fd3d35a0"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-171924.csv",
+      "bytes": 23836,
+      "sha256": "fea69502f35aec75f328bd5e9aa30a4fbd856e1cc2298b1b11f35e69adb89814"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-171924_compliance.json",
+      "bytes": 656,
+      "sha256": "ee0c60a834eed8bb0b07621193d22b2d31d4ac1fffc8b3a0f8fa668a6249ab96"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-171924_metadata.json",
+      "bytes": 1253,
+      "sha256": "a877d009bab4389fc666d3078d52f94815e105ccc4ca86cca699af1de12ebf6c"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172018.csv",
+      "bytes": 22351,
+      "sha256": "18125bc4daf5799709b1b0f7e9374e78c83e4446a89b7f20e43a8e3bb4885a16"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172018_compliance.json",
+      "bytes": 656,
+      "sha256": "6535d17f2c062462b951804feb04b82e287e4c9c4d310a4b2a2de75e73daccf4"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172018_metadata.json",
+      "bytes": 1253,
+      "sha256": "03d2d34252b2aa4648bb4e2c94579eae2a672c89a388fca96a865787e8f575ec"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172047.csv",
+      "bytes": 23967,
+      "sha256": "5e539fe6311365359c0c7f3cb81bb920d595b9cd6c5357752cc3f88e165a2683"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172047_compliance.json",
+      "bytes": 656,
+      "sha256": "9c7f492524d5452cedc44417f88e7e9f7574876897912bd3a8adc6564d1530f1"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172047_metadata.json",
+      "bytes": 1253,
+      "sha256": "76238e8cfb818ebfcfc6fd03aace412faef74bfe3d8276e857bfc5d0f89c8227"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172115.csv",
+      "bytes": 25583,
+      "sha256": "be928888e708a0bce4dc88c9af6fee46cfefe04dc6717b71299d8a07784398bb"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172115_compliance.json",
+      "bytes": 656,
+      "sha256": "01b74ba8c185ed06a7bb34328049a3b2cfad02e1d876bd4e88180bee011a9fd0"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172115_metadata.json",
+      "bytes": 1253,
+      "sha256": "a877d009bab4389fc666d3078d52f94815e105ccc4ca86cca699af1de12ebf6c"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172204.csv",
+      "bytes": 21058,
+      "sha256": "41bc46d3f43a0c59188aaa76cb283b55d60fe97db1f7b06b3fba9d7f4df27a81"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172204_compliance.json",
+      "bytes": 656,
+      "sha256": "c4d66c3aafd6d567441a6c060167ad11103b70db3c48030ad3804fa29771eeda"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172204_metadata.json",
+      "bytes": 1253,
+      "sha256": "d4f75d3f0007305dad24611d4cd9b7b76bd726e66acb86ff5bfb292d27cf5e14"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172231.csv",
+      "bytes": 22264,
+      "sha256": "f54eda88263deaa9a36724809af2bd05cbcd3d5de29dc295bdc512ffaa1fd151"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-172231_metadata.json",
+      "bytes": 1253,
+      "sha256": "a34975827f2056b1ce816a800cfff62a40e8867dfb53d09cb90d5aef9db3f079"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-173945.csv",
+      "bytes": 20962,
+      "sha256": "60511d45ca0b8b51c43ff0bf1e94b9d72484af5ce45eee281d8d661b3d165b21"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-173945_compliance.json",
+      "bytes": 688,
+      "sha256": "ecb81e6d146f7920f01deb8acd9ab07b66eabc5fb09512c8783c48c880563655"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_07-of-09_control-silent-visible-centre_take01_20260831-173945_metadata.json",
+      "bytes": 1318,
+      "sha256": "3e446ad2223f504247ca69ac16d7427641f70fea7ff168a6f641ab160aabd4ae"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_08-of-09_control-speaking-no-face_take01_20260831-174804.csv",
+      "bytes": 14101,
+      "sha256": "3526df6cc3936446ec21cd9381a0a83a22ecbd4e443026df0f4a01b214bd6693"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_08-of-09_control-speaking-no-face_take01_20260831-174804_compliance.json",
+      "bytes": 683,
+      "sha256": "8c56ad35148a354272217aa1ed980d7732991a7163ebea8fc94cbef59c7eef52"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_08-of-09_control-speaking-no-face_take01_20260831-174804_metadata.json",
+      "bytes": 1315,
+      "sha256": "4d92208585d9b62d43c0ed4777ae7bc9816032bc83620dc5d1892555d26a1e57"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175855.csv",
+      "bytes": 22889,
+      "sha256": "6a3d12e4477a3d3dfc86809186ac3d9c35093ec876a44e89241a8a4e3e012488"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175855_compliance.json",
+      "bytes": 668,
+      "sha256": "67a84f3fffbc4a18836827506e121ee3aba8579ed8b7bbfb97394f2180f1a3a8"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175855_metadata.json",
+      "bytes": 1266,
+      "sha256": "022e95fe2cd84fa51ae575767077242e9bd9e472d030e38ef092ec0df605e9bf"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175941.csv",
+      "bytes": 24359,
+      "sha256": "700d3d04b8795da3d26c4fc53f82d0e4a16862a9de51d606d45076f2152c41c8"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175941_compliance.json",
+      "bytes": 700,
+      "sha256": "d6ce3289920fcf2674cbad8024dd0fe808952fe4c9f3c171b98a7a44ffdbc4ea"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/2026-08-31_stage3p-cue-confirmation_09-of-09_control-speaking-visible-up10-not-centred_take01_20260831-175941_metadata.json",
+      "bytes": 1331,
+      "sha256": "c6b0d32fc4adfe4381a919ece8ff7171fbd3e4d1d2ab43eed5922966ebc1c2c7"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1/progress.json",
+      "bytes": 1434,
+      "sha256": "e4a968184646ba2afaf815906e0a949402ea86bcdc0f50255e0acedbb308e48e"
+    },
+    {
+      "path": "data/stage3p_cue_confirmation_v1_audit/audit_index.json",
+      "bytes": 1798,
+      "sha256": "590000fc4170fecf53ad2c63200dc229ddd83e9005436e3031e9dd717d4e9460"
+    }
+  ],
+  "bundle_sha256": "033afdaf94117ca12c602b46bc28339ea45f8f3acfaa9508620bacaeb732e942",
+  "scientific_boundary": {
+    "result_was_targeted_and_fresh_when_collected": true,
+    "frozen_policy_did_not_change_after_outcomes": true,
+    "association_gated_operator_cue_boundary_confirmed": true,
+    "result_may_be_input_to_a_separate_supervised_motion_pilot": true,
+    "result_alone_authorises_physical_movement": false,
+    "general_autonomous_tracking_validated": false
+  },
+  "privacy": {
+    "main_dataset_contains_pixels": false,
+    "main_dataset_contains_audio": false,
+    "main_dataset_contains_transcript": false,
+    "accepted_audit_media_deleted_after_review": true
+  },
+  "robot_requests": 0,
+  "actuation_commands": 0,
+  "cloud_requests": 0
+}

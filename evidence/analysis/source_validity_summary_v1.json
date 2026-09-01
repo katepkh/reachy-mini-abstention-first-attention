@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "model_fingerprint": "1bbb131ff91a2ccffa48489e968e7531c51bf5238df86f16d17a2ae820297890",
+  "manifest_fingerprint": "ee413a0a59bd0f53d6bd1841542076ec291fbc1de2acf41abd5a958d4827781a",
+  "training_split": "development only",
+  "scope": "Held-out repetitions of known controlled conditions; not novel-source generalization.",
+  "development_group_cv": {
+    "trials": 61,
+    "live_trials": 47,
+    "non_live_trials": 14,
+    "coverage_pct": 19.672,
+    "selective_accuracy_pct": 100.0,
+    "live_acceptance_pct": 23.404,
+    "live_rejection_pct": 0.0,
+    "live_abstention_pct": 76.596,
+    "non_live_rejection_pct": 7.143,
+    "false_human_acceptance_pct": 0.0,
+    "non_live_abstention_pct": 92.857
+  },
+  "held_out_evaluation": {
+    "trials": 35,
+    "live_trials": 28,
+    "non_live_trials": 7,
+    "coverage_pct": 25.714,
+    "selective_accuracy_pct": 100.0,
+    "live_acceptance_pct": 28.571,
+    "live_rejection_pct": 0.0,
+    "live_abstention_pct": 71.429,
+    "non_live_rejection_pct": 14.286,
+    "false_human_acceptance_pct": 0.0,
+    "non_live_abstention_pct": 85.714
+  }
+}

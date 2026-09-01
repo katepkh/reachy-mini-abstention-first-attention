@@ -1,0 +1,386 @@
+{
+  "schema": "reachy-stage3v-v3-result-integrity-freeze-v1",
+  "status": "FROZEN_PASSIVE_HELD_OUT_RESULT_NOT_AUTHORISED_FOR_ACTUATION",
+  "frozen_at_utc": "2026-08-27T21:34:50+00:00",
+  "protocol_fingerprint": "d2f1182dd1a4d2a3e6e2a6215277c94f07223abe36e619f6eedbaed15ed766d0",
+  "policy_fingerprint": "34382c415d44cb595c1d03bb95f6fdbe4b4ea3a1b6372df012e79896473ec0d1",
+  "scope": {
+    "complete_collection_directory": "data/stage3v_confirmation_v3",
+    "includes_accepted_attempts": true,
+    "includes_rejected_and_noncompliant_attempts": true,
+    "includes_metadata_and_compliance_sidecars": true,
+    "includes_final_analysis_artifacts": true,
+    "source_files_modified": false
+  },
+  "validated_state": {
+    "accepted_trials": 18,
+    "all_csv_attempts": 21,
+    "rejected_or_noncompliant_attempts": 3,
+    "gates": {
+      "safety_passed": true,
+      "direction_passed": true,
+      "coverage_passed": true,
+      "accuracy_passed": true
+    },
+    "positive_trials_with_move": 12,
+    "hard_negative_would_move_rows": 0,
+    "wrong_sign_moves": 0,
+    "maximum_target_error_deg": 2.647237290037083
+  },
+  "file_count": 69,
+  "files": [
+    {
+      "path": "data/analysis/stage3v_confirmation_validation_v3.json",
+      "bytes": 20215,
+      "sha256": "f18e2528da9a5ea5fe82377bb64f2aa7b5dd6e93ac8278946346fa6a6db29aac"
+    },
+    {
+      "path": "data/analysis/stage3v_confirmation_validation_v3.md",
+      "bytes": 634,
+      "sha256": "9b4ad91602f4be181e6551966d271c98a7fa6aa7d8745010d32dd38e6a8d41c3"
+    },
+    {
+      "path": "data/analysis/stage3v_confirmation_validation_v3_trials.csv",
+      "bytes": 4744,
+      "sha256": "f272abfd8c3be3a30e18e3df3ad269ae32009e707b250980f5855084c320a26d"
+    },
+    {
+      "path": "data/manifests/stage3v_confirmation_protocol_v3.json",
+      "bytes": 13490,
+      "sha256": "1d8998208f01a6d15f47304bbfed002b7f46c7a3a22dd3be471f252df35bbca5"
+    },
+    {
+      "path": "data/manifests/stage3v_revised_policy_v3.json",
+      "bytes": 54141,
+      "sha256": "e242730ce858700e33b57e07ddf332a9fd0651018a4367208157f7e86f79f7cd"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_01-of-18_matching-minus20deg_take01_20260827-220412.csv",
+      "bytes": 21903,
+      "sha256": "8227e32056524b1a2c3a80f71362d9bdb9a80a4fd7224a1e343cfc740ca03a23"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_01-of-18_matching-minus20deg_take01_20260827-220412_compliance.json",
+      "bytes": 634,
+      "sha256": "a1ee77f06750138882b511e314b5892a8246fa88c6f53b2bc079b2d969614452"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_01-of-18_matching-minus20deg_take01_20260827-220412_metadata.json",
+      "bytes": 707,
+      "sha256": "836b1c637635d2bf14b28c62dc4a33d9415989bc019fa208ffb0ee4748475c63"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_02-of-18_matching-minus10deg_take01_20260827-220446.csv",
+      "bytes": 20989,
+      "sha256": "346617680811644247b745174bc4778a49c8f13facf9722175a013639601e465"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_02-of-18_matching-minus10deg_take01_20260827-220446_compliance.json",
+      "bytes": 634,
+      "sha256": "7725bf605193e9af9ba81a6241cf99c732b9555768ae55ccd5dbd4cc61628585"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_02-of-18_matching-minus10deg_take01_20260827-220446_metadata.json",
+      "bytes": 707,
+      "sha256": "11d445b874f0b38899cc1fffe5c0acf35df23e9f9de9ef5d7a5ef324b48261b1"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_03-of-18_matching-plus10deg_take01_20260827-220604.csv",
+      "bytes": 19460,
+      "sha256": "5d3d206bab69b75d7b291e5024ce6936d1918f8d969a0d6b6b529a915a434d15"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_03-of-18_matching-plus10deg_take01_20260827-220604_compliance.json",
+      "bytes": 633,
+      "sha256": "f4a112178fd5d0f33441a2d28d7b16c49db23634cb8be9cc471849c11d23dfed"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_03-of-18_matching-plus10deg_take01_20260827-220604_metadata.json",
+      "bytes": 703,
+      "sha256": "496230c39e21d00393ffb7d17dc848e659e2b4e053c057292eee8ab2930357e0"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_04-of-18_matching-plus20deg_take01_20260827-220642.csv",
+      "bytes": 20386,
+      "sha256": "ccd652a84004663b789f2bd0da74e4dea2a4c219f68bead6ad04f308d8715c36"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_04-of-18_matching-plus20deg_take01_20260827-220642_compliance.json",
+      "bytes": 633,
+      "sha256": "cd9650d7dc5b43d226bb9bdf4a68871b2381c27064da23b4877b62f3852b413c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_04-of-18_matching-plus20deg_take01_20260827-220642_metadata.json",
+      "bytes": 703,
+      "sha256": "15b4640c4458a1d4d20e76cec82a337912df07808d49b7df2a01115660c1210b"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_05-of-18_matching-minus20deg_take02_20260827-220719.csv",
+      "bytes": 19826,
+      "sha256": "297f52b7797c35c66cb10934100142e418dbe38962e883c20a1c8103f2d2c003"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_05-of-18_matching-minus20deg_take02_20260827-220719_compliance.json",
+      "bytes": 634,
+      "sha256": "2b6e40cddb588450d2e173ddbf5a8139a0c7a3fe7eb07c888c3f4c4aa4ee8741"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_05-of-18_matching-minus20deg_take02_20260827-220719_metadata.json",
+      "bytes": 707,
+      "sha256": "e6930e754c5206428d3af2580445687bf9faee07c196b72b61ca2e649861d7e5"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_06-of-18_matching-minus10deg_take02_20260827-220753.csv",
+      "bytes": 20825,
+      "sha256": "e1221b32736cc88aaec6f6f1a5ee75c9eba0391c18c2ed3444e78428ea767441"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_06-of-18_matching-minus10deg_take02_20260827-220753_compliance.json",
+      "bytes": 634,
+      "sha256": "ba832f21bb014c764e245748ff395ef741dd57fb52274fef4712a48d5ce51c44"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_06-of-18_matching-minus10deg_take02_20260827-220753_metadata.json",
+      "bytes": 707,
+      "sha256": "278a0684d76efe6f4eeddc6bcb080d7e7b5f7ea0554c5c4669839dfba3ea170d"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_07-of-18_matching-plus10deg_take02_20260827-220826.csv",
+      "bytes": 18365,
+      "sha256": "749ffbcf86a682ceaabc8cb2dd06d814ffa160e49f284ec485df9690cfd61c5c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_07-of-18_matching-plus10deg_take02_20260827-220826_compliance.json",
+      "bytes": 633,
+      "sha256": "316c716aead0efd0402345e2e4dc7e05785851937f2ded9a576d1dd7aceb7250"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_07-of-18_matching-plus10deg_take02_20260827-220826_metadata.json",
+      "bytes": 703,
+      "sha256": "219e524caadf9b4a420f7fd9d2b0a5e1f8f310f26609b4504206c216d0d33ea5"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_08-of-18_matching-plus20deg_take02_20260827-220904.csv",
+      "bytes": 19765,
+      "sha256": "ea1865ee8ff6f7e259d30a72edc94c360a4def7dfc508b2b0f853a40d90ffa7f"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_08-of-18_matching-plus20deg_take02_20260827-220904_compliance.json",
+      "bytes": 633,
+      "sha256": "078a5feccc6e784c8c41461cc1c209f86009aa28ebd9288c925ff65aee1c1557"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_08-of-18_matching-plus20deg_take02_20260827-220904_metadata.json",
+      "bytes": 703,
+      "sha256": "c44192ce8274dcaf9adf5de91f08f31791772724a962c5d5e9bbeae9102e0bb0"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_09-of-18_matching-minus20deg_take03_20260827-220954.csv",
+      "bytes": 20469,
+      "sha256": "fca0971b30c7dd827663fcb1db257197f564f38516157ff6d342d806853020ba"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_09-of-18_matching-minus20deg_take03_20260827-220954_compliance.json",
+      "bytes": 634,
+      "sha256": "60d7b0e77ead6bf47f302afcc3ee191b038c05d1fa727586af64d93d97ce5a9d"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_09-of-18_matching-minus20deg_take03_20260827-220954_metadata.json",
+      "bytes": 707,
+      "sha256": "a7048af794010d90c2d328fee15fafc39350b3b5daa445e26b0765d07db30213"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_10-of-18_matching-minus10deg_take03_20260827-221028.csv",
+      "bytes": 20006,
+      "sha256": "44abf553854cbfb09e1c99d28b9cdc90a02f84200b1710078dd1c27860bbe197"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_10-of-18_matching-minus10deg_take03_20260827-221028_compliance.json",
+      "bytes": 635,
+      "sha256": "1e38aa5284b839ef0f88d8bf2a863a3ec37b94c82952f57958f3a9a42da3f23f"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_10-of-18_matching-minus10deg_take03_20260827-221028_metadata.json",
+      "bytes": 708,
+      "sha256": "2cf40a547227a0d70d09d5431314c8c141707494ba2d403cb02b6ce0848452e4"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_11-of-18_matching-plus10deg_take03_20260827-221101.csv",
+      "bytes": 19523,
+      "sha256": "8fb93b55649b3e1a360e6b91958c8ff6f748f6bf657236582ae97dd7d2671d9d"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_11-of-18_matching-plus10deg_take03_20260827-221101_compliance.json",
+      "bytes": 634,
+      "sha256": "cc67e87f6ed3c910243f5a605d528ac254908f8fdc8fe473832824a414b49b44"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_11-of-18_matching-plus10deg_take03_20260827-221101_metadata.json",
+      "bytes": 704,
+      "sha256": "a3532324d701bc82fd495046aeec79f32b367659976e8bc46e197a7b5dcba39b"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_12-of-18_matching-plus20deg_take03_20260827-221137.csv",
+      "bytes": 18924,
+      "sha256": "8b84c517320b2c1203c1ce906a538c28185f0c997013970304ce6056ecee218c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_12-of-18_matching-plus20deg_take03_20260827-221137_compliance.json",
+      "bytes": 634,
+      "sha256": "71a048702216e9874c13913ed61c3c1829212b5bb053f1c5aadfb188b4be91e6"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_12-of-18_matching-plus20deg_take03_20260827-221137_metadata.json",
+      "bytes": 704,
+      "sha256": "a9e3bd595f4de4ac23ff9197ead9fe7d13d96e2900a5c7646a2b94c5a9addccc"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_13-of-18_silent-face-minus20deg_take01_20260827-221219.csv",
+      "bytes": 18750,
+      "sha256": "0e9f2be0f6ed2ddb0c07055d7746e1e59b342885a9371736bce9f269de6cc6ca"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_13-of-18_silent-face-minus20deg_take01_20260827-221219_compliance.json",
+      "bytes": 638,
+      "sha256": "f9c37a6969fed57435f8c46fb5d41f74c3b2002060e39085510ce38295b2504f"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_13-of-18_silent-face-minus20deg_take01_20260827-221219_metadata.json",
+      "bytes": 706,
+      "sha256": "caae60bc3ccc901073da1e5c95e1887128245994815374dc9821a53f229cfb14"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_14-of-18_silent-face-plus20deg_take01_20260827-221253.csv",
+      "bytes": 18097,
+      "sha256": "f6ce99523082ae013813aaff06891aeb2708d921eca09a73eff8c884226702c6"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_14-of-18_silent-face-plus20deg_take01_20260827-221253_compliance.json",
+      "bytes": 637,
+      "sha256": "0892ecbb99aebc16b42b76c1d6e318aac165d56b9b2c3279ebd84caec43dda7b"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_14-of-18_silent-face-plus20deg_take01_20260827-221253_metadata.json",
+      "bytes": 703,
+      "sha256": "b45295892d6745970feecf7ff588c74309d2cb335475bc5ce29a2b1f6e44989c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_15-of-18_mismatch-face-minus20-phone-plus20_take01_20260827-221406.csv",
+      "bytes": 17788,
+      "sha256": "54ab7c62ce641b9e77a24870bedf40d414260862a883adcc3832242d067d8727"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_15-of-18_mismatch-face-minus20-phone-plus20_take01_20260827-221406_compliance.json",
+      "bytes": 650,
+      "sha256": "0b4d7bb13badd3345e2c195ace056528a42bd631b17ba6c5ad5d5b00121e49a5"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_15-of-18_mismatch-face-minus20-phone-plus20_take01_20260827-221406_metadata.json",
+      "bytes": 718,
+      "sha256": "5d0a08fc350f2576e4f6723b2239e42e1f16a0b43f2a2052047f048dd002126c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_16-of-18_mismatch-face-plus20-phone-minus20_take01_20260827-221503.csv",
+      "bytes": 19445,
+      "sha256": "7a70a87af4d9babf278326eb48f91b3738a595fd6fb916ec2142c7999deb3023"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_16-of-18_mismatch-face-plus20-phone-minus20_take01_20260827-221503_compliance.json",
+      "bytes": 650,
+      "sha256": "86fee70f3077f43cc3908264dfc267ee771d8810ed6153c5d74faf49c72c98ea"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_16-of-18_mismatch-face-plus20-phone-minus20_take01_20260827-221503_metadata.json",
+      "bytes": 717,
+      "sha256": "be824cf705708b7e00ecbf7fc6db75fe42b3ae4aa22e592179a809b05822d357"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221600.csv",
+      "bytes": 18315,
+      "sha256": "1d7ce6e5a96514bb90ee6d8fec73509eae0209f0baa9c619a5df46a369e8fd70"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221600_compliance.json",
+      "bytes": 655,
+      "sha256": "4028780cf40508deb9167e2cafc04bef7715563126090f5ed628c65e5be88ad1"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221600_metadata.json",
+      "bytes": 718,
+      "sha256": "e0ececcbb0ec77f7135981afad903c388e6bb785b9558d4ce4d3e83e8da63ac1"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221629.csv",
+      "bytes": 18972,
+      "sha256": "ca9bd9d78ed13b2ce2ab8406bf20325740e484aa5d7142a1bae15a6e616b5f0c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221629_compliance.json",
+      "bytes": 650,
+      "sha256": "f047e8e21328f844daab88a3e41883ba7e624825d3ac53448d4d139e3e48aa4c"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221629_metadata.json",
+      "bytes": 718,
+      "sha256": "e0ececcbb0ec77f7135981afad903c388e6bb785b9558d4ce4d3e83e8da63ac1"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221711.csv",
+      "bytes": 18060,
+      "sha256": "8f7f2c11e6e850cb1634b696abed26074b44169f7cda94100406ea5e0ce8fea5"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221711_compliance.json",
+      "bytes": 655,
+      "sha256": "77555bb5fd7b052957b484744981a06a0c9db29177f00d6a0a414161cd5f0840"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221711_metadata.json",
+      "bytes": 717,
+      "sha256": "52b59178d2f4127d741be8ffe0efc9ee0480b98f9db6fb1e2ab61011510b51b4"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221740.csv",
+      "bytes": 22610,
+      "sha256": "408f49a2b873cd012a0a11d628ba1e78f2d5f9a3eda37bb87d0874bfc63dc37a"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221740_compliance.json",
+      "bytes": 655,
+      "sha256": "c391260039df8e2f166b1d7a5e63bf79bd7e62749a405eb7490b5308601ba897"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221740_metadata.json",
+      "bytes": 717,
+      "sha256": "52b59178d2f4127d741be8ffe0efc9ee0480b98f9db6fb1e2ab61011510b51b4"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221834.csv",
+      "bytes": 20482,
+      "sha256": "5a5c02d3e2625360cd88f4283761668312f120a867e7dcf8a7ac7c7976858fac"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221834_compliance.json",
+      "bytes": 650,
+      "sha256": "28c3050f7e647bfda9282942d48b5e311980a45c024dff19f5b5e41bea7ed236"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221834_metadata.json",
+      "bytes": 717,
+      "sha256": "52b59178d2f4127d741be8ffe0efc9ee0480b98f9db6fb1e2ab61011510b51b4"
+    },
+    {
+      "path": "data/stage3v_confirmation_v3/progress.json",
+      "bytes": 1982,
+      "sha256": "f2728cd26e0b8ec22a704a59c40dae0675daaedac1770c73afc3420963a5396b"
+    }
+  ],
+  "bundle_sha256": "d1bd3e7188761fc08cce93c56ecea09d168589d515f71b7e783d347f6f0b0fd8",
+  "privacy": {
+    "main_dataset_contains_pixels": false,
+    "main_dataset_contains_audio": false,
+    "main_dataset_contains_transcript": false
+  },
+  "actuation_commands": 0,
+  "cloud_requests": 0
+}

@@ -1,0 +1,177 @@
+{
+  "schema": "reachy-stage2a-policy-tournament-split-v1",
+  "frozen_after_full_matrix_inspection": true,
+  "evaluation_status": "retrospectively_frozen_not_pristine_blind_holdout",
+  "guardrail": "Repetitions 1-2 are development and repetition 3 is evaluation. The complete matrix had already been inspected before formalising this split, so evaluation is comparative internal evidence, not an unbiased generalisation claim.",
+  "development_rule": "repetitions 1 and 2",
+  "evaluation_rule": "repetition 3",
+  "selection_rule": "On development only: prefer zero hard-negative confirmed rows; then maximise matching-positive row coverage; then matching trial coverage. If none has zero, minimise hard-negative confirmations before maximising coverage.",
+  "fingerprint": "f3832e8a2637ffbf478d91434c1cf69a42a4bb9123dc5da95fefca820463f959",
+  "entries": [
+    {
+      "step": 1,
+      "condition": "visible-silent-face",
+      "role": "hard_negative",
+      "repetition": 1,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_01-of-15_visible-silent-face_take01_20260825-090845.csv",
+      "csv_sha256": "e65f1039c0619b459182d86d43cf6e31adb29c09d37ec42101229a69ea470f53",
+      "metadata_file": "2026-08-25_stage2a-matrix_01-of-15_visible-silent-face_take01_20260825-090845_metadata.json",
+      "metadata_sha256": "6712ef718a781ff10de53ea8cd1220bc6e26a22c770bf4813bd80d164c5d8fc7"
+    },
+    {
+      "step": 2,
+      "condition": "visible-silent-face",
+      "role": "hard_negative",
+      "repetition": 2,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_02-of-15_visible-silent-face_take02_20260825-090919.csv",
+      "csv_sha256": "4c1f25009db5cd5263842e498092e8a3eca7e3ad29b3596a28233ff9bd58856e",
+      "metadata_file": "2026-08-25_stage2a-matrix_02-of-15_visible-silent-face_take02_20260825-090919_metadata.json",
+      "metadata_sha256": "5169775a5e715ff93340ab73454de0962317fe1012414c5242a1e5062a79b9cb"
+    },
+    {
+      "step": 3,
+      "condition": "visible-silent-face",
+      "role": "hard_negative",
+      "repetition": 3,
+      "split": "evaluation",
+      "file": "2026-08-25_stage2a-matrix_03-of-15_visible-silent-face_take03_20260825-090952.csv",
+      "csv_sha256": "09a51e58934bd3ae0a0e79af79ea437efcea4e3a29ac6b807b990d11ca91e418",
+      "metadata_file": "2026-08-25_stage2a-matrix_03-of-15_visible-silent-face_take03_20260825-090952_metadata.json",
+      "metadata_sha256": "c599c90bfa8de6985adbe3e51c9276c2037269e2a80b6b00dbfae03b16722cad"
+    },
+    {
+      "step": 4,
+      "condition": "speech-no-visible-face",
+      "role": "hard_negative",
+      "repetition": 1,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_04-of-15_speech-no-visible-face_take01_20260825-091057.csv",
+      "csv_sha256": "680c76ee107b8ac725d24fe7d97d0447f06003420d9ee923aa7719eae21b699b",
+      "metadata_file": "2026-08-25_stage2a-matrix_04-of-15_speech-no-visible-face_take01_20260825-091057_metadata.json",
+      "metadata_sha256": "472feacfd2bbda7ab62c35943e2efec2f1364d86038fa1bf3fad575dc3c4d362"
+    },
+    {
+      "step": 5,
+      "condition": "speech-no-visible-face",
+      "role": "hard_negative",
+      "repetition": 2,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_05-of-15_speech-no-visible-face_take02_20260825-091131.csv",
+      "csv_sha256": "fb6fe39c18756a5480489d56f1d4b04b53ccd08e3eb4129839a4194f8809856b",
+      "metadata_file": "2026-08-25_stage2a-matrix_05-of-15_speech-no-visible-face_take02_20260825-091131_metadata.json",
+      "metadata_sha256": "b27a1f5589d94be618c8dad7d9eafba0a1da38ba2c64c0ea94b2b07139363388"
+    },
+    {
+      "step": 6,
+      "condition": "speech-no-visible-face",
+      "role": "hard_negative",
+      "repetition": 3,
+      "split": "evaluation",
+      "file": "2026-08-25_stage2a-matrix_06-of-15_speech-no-visible-face_take03_20260825-091204.csv",
+      "csv_sha256": "ae111651c884c861eb5697ec62817b4c624aeb15b1bc316e58ca4b91cb4e3d0e",
+      "metadata_file": "2026-08-25_stage2a-matrix_06-of-15_speech-no-visible-face_take03_20260825-091204_metadata.json",
+      "metadata_sha256": "7ea055bd4409ca94e57ba06b68f0e882206e0458262d0fc8a54fde9b82d013ca"
+    },
+    {
+      "step": 7,
+      "condition": "matching-face-speech",
+      "role": "matching_positive",
+      "repetition": 1,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_07-of-15_matching-face-speech_take01_20260825-092642.csv",
+      "csv_sha256": "bba9540cf9bb915d3ec819b136db5f9d5f9987d527e6520159f80f5ceffc25b7",
+      "metadata_file": "2026-08-25_stage2a-matrix_07-of-15_matching-face-speech_take01_20260825-092642_metadata.json",
+      "metadata_sha256": "e3193ec55ee791419841ab50f835c7fac24c7bbdfbc1d875d77264881d81e103"
+    },
+    {
+      "step": 8,
+      "condition": "matching-face-speech",
+      "role": "matching_positive",
+      "repetition": 2,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_08-of-15_matching-face-speech_take02_20260825-093013.csv",
+      "csv_sha256": "3690a262ded1286d03b556f2a3d4101e1f8c718a11122c032d7ed4e628a38952",
+      "metadata_file": "2026-08-25_stage2a-matrix_08-of-15_matching-face-speech_take02_20260825-093013_metadata.json",
+      "metadata_sha256": "59abf066d030fbae66dc9845fdb6cd928e4042bb45389bdeeb7097c2acc3230f"
+    },
+    {
+      "step": 9,
+      "condition": "matching-face-speech",
+      "role": "matching_positive",
+      "repetition": 3,
+      "split": "evaluation",
+      "file": "2026-08-25_stage2a-matrix_09-of-15_matching-face-speech_take03_20260825-093051.csv",
+      "csv_sha256": "d60d7f777c2b34ed323e86415fb94387388076024fd57f1a414f94995853dcab",
+      "metadata_file": "2026-08-25_stage2a-matrix_09-of-15_matching-face-speech_take03_20260825-093051_metadata.json",
+      "metadata_sha256": "4b934b271cb5ac386ca92e1d973356e07736d91f70b6e6d61e553d1e8f9a0bf5"
+    },
+    {
+      "step": 10,
+      "condition": "mismatched-face-phone-right",
+      "role": "hard_negative",
+      "repetition": 1,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_10-of-15_mismatched-face-phone-right_take01_20260825-095800.csv",
+      "csv_sha256": "7aab6bf9fba82668c099f1abdfb5f734648c3b747134def127082dfafbd4b8fd",
+      "metadata_file": "2026-08-25_stage2a-matrix_10-of-15_mismatched-face-phone-right_take01_20260825-095800_metadata.json",
+      "metadata_sha256": "418bdb118a564a380e7efab107e55b9927bad9ad7045cfc45fd47b14d01b6f63"
+    },
+    {
+      "step": 11,
+      "condition": "mismatched-face-phone-right",
+      "role": "hard_negative",
+      "repetition": 2,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_11-of-15_mismatched-face-phone-right_take02_20260825-095923.csv",
+      "csv_sha256": "6b14f0b938a207572542209951470a81d8d3bbf351e19b5753e9ba375c4d36e9",
+      "metadata_file": "2026-08-25_stage2a-matrix_11-of-15_mismatched-face-phone-right_take02_20260825-095923_metadata.json",
+      "metadata_sha256": "981a4ac2fa02817c9ac0890493eb62a0430e617882b9d1eccdf17cbb9902fb29"
+    },
+    {
+      "step": 12,
+      "condition": "mismatched-face-phone-right",
+      "role": "hard_negative",
+      "repetition": 3,
+      "split": "evaluation",
+      "file": "2026-08-25_stage2a-matrix_12-of-15_mismatched-face-phone-right_take03_20260825-100312.csv",
+      "csv_sha256": "9df2321a13da3b891378d550c359628ed24ab8947a2922a7154dd1b9d4f0fb76",
+      "metadata_file": "2026-08-25_stage2a-matrix_12-of-15_mismatched-face-phone-right_take03_20260825-100312_metadata.json",
+      "metadata_sha256": "769a64e2865c8204acf21f27e41d5bee2c1153f8af7ffb9ea0ee8ff7a1813830"
+    },
+    {
+      "step": 13,
+      "condition": "partial-edge-face-speech",
+      "role": "boundary_challenge",
+      "repetition": 1,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_13-of-15_partial-edge-face-speech_take01_20260825-101630.csv",
+      "csv_sha256": "9540b6234c78379dc2ce60a7cada9c5b1dda3cf3b5ae8eba5cdd5722925492fa",
+      "metadata_file": "2026-08-25_stage2a-matrix_13-of-15_partial-edge-face-speech_take01_20260825-101630_metadata.json",
+      "metadata_sha256": "28a9243afac37e3028c6ea5dcdba36d4dfb8a03c821e5ee8ba1765569050783c"
+    },
+    {
+      "step": 14,
+      "condition": "partial-edge-face-speech",
+      "role": "boundary_challenge",
+      "repetition": 2,
+      "split": "development",
+      "file": "2026-08-25_stage2a-matrix_14-of-15_partial-edge-face-speech_take02_20260825-101703.csv",
+      "csv_sha256": "cf037bf2a89019feb6a61ce6023f53516dc4d18b464f68099a7390e858ab9791",
+      "metadata_file": "2026-08-25_stage2a-matrix_14-of-15_partial-edge-face-speech_take02_20260825-101703_metadata.json",
+      "metadata_sha256": "4750bb2b1235909dc1cfa80b7608bbfe8e60c0d357648e87fb65d957d55928e5"
+    },
+    {
+      "step": 15,
+      "condition": "partial-edge-face-speech",
+      "role": "boundary_challenge",
+      "repetition": 3,
+      "split": "evaluation",
+      "file": "2026-08-25_stage2a-matrix_15-of-15_partial-edge-face-speech_take03_20260825-101755.csv",
+      "csv_sha256": "e31b5d60e481de95ef30bd5f4271e9a2ab2ddca7e47a649a6c038f03415dceaf",
+      "metadata_file": "2026-08-25_stage2a-matrix_15-of-15_partial-edge-face-speech_take03_20260825-101755_metadata.json",
+      "metadata_sha256": "90b4e2b077266dfa58350f86b2ed28c0712105e461078bc44f0c6e683b79575e"
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "schema": "reachy-stage3v-held-out-confirmation-protocol-v3",
+  "status": "FROZEN_AWAITING_NEW_INDEPENDENT_V3_COLLECTION",
+  "prior_dataset_reuse_forbidden": [
+    "data/stage3v",
+    "data/stage3v_confirmation",
+    "data/stage3v_confirmation_v2"
+  ],
+  "new_data_directory": "data/stage3v_confirmation_v3",
+  "coordinate_frame": "front=0; diagram-left=negative; diagram-right=positive; stored camera-right bearings are multiplied by -1 and then shifted -4.0 degrees before fusion",
+  "steps": [
+    {
+      "index": 1,
+      "condition_id": "matching-minus20deg",
+      "role": "matching_positive",
+      "repetition": 1,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": -20.0,
+      "title": "Matching face + live speech at -20\u00b0",
+      "instruction": "Stand on the -20\u00b0 floor mark: 20\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 2,
+      "condition_id": "matching-minus10deg",
+      "role": "matching_positive",
+      "repetition": 1,
+      "true_heading_deg": -10.0,
+      "face_heading_deg": -10.0,
+      "sound_heading_deg": -10.0,
+      "title": "Matching face + live speech at -10\u00b0",
+      "instruction": "Stand on the -10\u00b0 floor mark: 10\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 3,
+      "condition_id": "matching-plus10deg",
+      "role": "matching_positive",
+      "repetition": 1,
+      "true_heading_deg": 10.0,
+      "face_heading_deg": 10.0,
+      "sound_heading_deg": 10.0,
+      "title": "Matching face + live speech at +10\u00b0",
+      "instruction": "Stand on the +10\u00b0 floor mark: 10\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 4,
+      "condition_id": "matching-plus20deg",
+      "role": "matching_positive",
+      "repetition": 1,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": 20.0,
+      "title": "Matching face + live speech at +20\u00b0",
+      "instruction": "Stand on the +20\u00b0 floor mark: 20\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 5,
+      "condition_id": "matching-minus20deg",
+      "role": "matching_positive",
+      "repetition": 2,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": -20.0,
+      "title": "Matching face + live speech at -20\u00b0",
+      "instruction": "Stand on the -20\u00b0 floor mark: 20\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 6,
+      "condition_id": "matching-minus10deg",
+      "role": "matching_positive",
+      "repetition": 2,
+      "true_heading_deg": -10.0,
+      "face_heading_deg": -10.0,
+      "sound_heading_deg": -10.0,
+      "title": "Matching face + live speech at -10\u00b0",
+      "instruction": "Stand on the -10\u00b0 floor mark: 10\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 7,
+      "condition_id": "matching-plus10deg",
+      "role": "matching_positive",
+      "repetition": 2,
+      "true_heading_deg": 10.0,
+      "face_heading_deg": 10.0,
+      "sound_heading_deg": 10.0,
+      "title": "Matching face + live speech at +10\u00b0",
+      "instruction": "Stand on the +10\u00b0 floor mark: 10\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 8,
+      "condition_id": "matching-plus20deg",
+      "role": "matching_positive",
+      "repetition": 2,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": 20.0,
+      "title": "Matching face + live speech at +20\u00b0",
+      "instruction": "Stand on the +20\u00b0 floor mark: 20\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 9,
+      "condition_id": "matching-minus20deg",
+      "role": "matching_positive",
+      "repetition": 3,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": -20.0,
+      "title": "Matching face + live speech at -20\u00b0",
+      "instruction": "Stand on the -20\u00b0 floor mark: 20\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 10,
+      "condition_id": "matching-minus10deg",
+      "role": "matching_positive",
+      "repetition": 3,
+      "true_heading_deg": -10.0,
+      "face_heading_deg": -10.0,
+      "sound_heading_deg": -10.0,
+      "title": "Matching face + live speech at -10\u00b0",
+      "instruction": "Stand on the -10\u00b0 floor mark: 10\u00b0 toward diagram-left from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 11,
+      "condition_id": "matching-plus10deg",
+      "role": "matching_positive",
+      "repetition": 3,
+      "true_heading_deg": 10.0,
+      "face_heading_deg": 10.0,
+      "sound_heading_deg": 10.0,
+      "title": "Matching face + live speech at +10\u00b0",
+      "instruction": "Stand on the +10\u00b0 floor mark: 10\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 12,
+      "condition_id": "matching-plus20deg",
+      "role": "matching_positive",
+      "repetition": 3,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": 20.0,
+      "title": "Matching face + live speech at +20\u00b0",
+      "instruction": "Stand on the +20\u00b0 floor mark: 20\u00b0 toward diagram-right from front-centre, at 1 m radius. Face Reachy. During RECORDING, say \u2018Reachy, this is a sound-direction test.\u2019 naturally about every 2 seconds. Keep your feet on the mark.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 13,
+      "condition_id": "silent-face-minus20deg",
+      "role": "hard_negative",
+      "repetition": 1,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": null,
+      "title": "Silent visible face at -20\u00b0",
+      "instruction": "Stand at the -20\u00b0 diagram-left mark, 1 m from Reachy. Face Reachy, remain silent and still, and keep all playback stopped during RECORDING.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 14,
+      "condition_id": "silent-face-plus20deg",
+      "role": "hard_negative",
+      "repetition": 1,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": null,
+      "title": "Silent visible face at +20\u00b0",
+      "instruction": "Stand at the +20\u00b0 diagram-right mark, 1 m from Reachy. Face Reachy, remain silent and still, and keep all playback stopped during RECORDING.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 15,
+      "condition_id": "mismatch-face-minus20-phone-plus20",
+      "role": "hard_negative",
+      "repetition": 1,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": 20.0,
+      "title": "Silent face -20\u00b0 + phone speech +20\u00b0",
+      "instruction": "Stand silently on the -20\u00b0 diagram-left mark, facing Reachy. Place the phone on the +20\u00b0 diagram-right mark at 1 m. During RECORDING play the same podcast-speech clip at about 35% volume. Keep your face visible and do not speak.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 16,
+      "condition_id": "mismatch-face-plus20-phone-minus20",
+      "role": "hard_negative",
+      "repetition": 1,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": -20.0,
+      "title": "Silent face +20\u00b0 + phone speech -20\u00b0",
+      "instruction": "Stand silently on the +20\u00b0 diagram-right mark, facing Reachy. Place the phone on the -20\u00b0 diagram-left mark at 1 m. During RECORDING play the same podcast-speech clip at about 35% volume. Keep your face visible and do not speak.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 17,
+      "condition_id": "mismatch-face-minus20-phone-plus20",
+      "role": "hard_negative",
+      "repetition": 2,
+      "true_heading_deg": -20.0,
+      "face_heading_deg": -20.0,
+      "sound_heading_deg": 20.0,
+      "title": "Silent face -20\u00b0 + phone speech +20\u00b0",
+      "instruction": "Stand silently on the -20\u00b0 diagram-left mark, facing Reachy. Place the phone on the +20\u00b0 diagram-right mark at 1 m. During RECORDING play the same podcast-speech clip at about 35% volume. Keep your face visible and do not speak.",
+      "countdown_s": 5,
+      "duration_s": 12
+    },
+    {
+      "index": 18,
+      "condition_id": "mismatch-face-plus20-phone-minus20",
+      "role": "hard_negative",
+      "repetition": 2,
+      "true_heading_deg": 20.0,
+      "face_heading_deg": 20.0,
+      "sound_heading_deg": -20.0,
+      "title": "Silent face +20\u00b0 + phone speech -20\u00b0",
+      "instruction": "Stand silently on the +20\u00b0 diagram-right mark, facing Reachy. Place the phone on the -20\u00b0 diagram-left mark at 1 m. During RECORDING play the same podcast-speech clip at about 35% volume. Keep your face visible and do not speak.",
+      "countdown_s": 5,
+      "duration_s": 12
+    }
+  ],
+  "policy": {
+    "name": "Stage 3V V3 calibrated speech-latched three-hit visual-target consensus",
+    "face_heading_multiplier": -1.0,
+    "face_heading_offset_deg": -4.0,
+    "maximum_geometry_error_deg": 10.0,
+    "required_hits": 3,
+    "window_ms": 600.0,
+    "heading_tolerance_deg": 8.0,
+    "disagreement_lockout_ms": 1500.0,
+    "speech_latch_ms": 800.0,
+    "clear_speech_latch_on_fault": true,
+    "target_source": "visual",
+    "fingerprint": "34382c415d44cb595c1d03bb95f6fdbe4b4ea3a1b6372df012e79896473ec0d1"
+  },
+  "success_criteria": {
+    "instrumentation_quality": {
+      "minimum_samples": 48,
+      "nominal_samples": 60,
+      "minimum_valid_pct": 80.0,
+      "minimum_single_face_pct": 60.0,
+      "maximum_face_age_ms": 1500.0,
+      "minimum_fresh_single_face_pct": 80.0,
+      "minimum_speech_positive_matching": 3,
+      "minimum_speech_positive_mismatch": 3
+    },
+    "procedural_quality": {
+      "operator_attestation_required": true,
+      "audit_review_required_when_audit_mode_selected": true,
+      "noncompliant_attempt_is_saved_but_not_accepted": true
+    },
+    "shadow_safety": {
+      "maximum_hard_negative_would_move_rows": 0
+    },
+    "shadow_direction": {
+      "minimum_positive_trials_with_move_per_heading": 2,
+      "repetitions_per_heading": 3,
+      "maximum_target_error_deg": 8.0,
+      "maximum_wrong_sign_moves": 0
+    }
+  },
+  "data_modes": {
+    "privacy_validation": {
+      "main_dataset_contains_media": false,
+      "operator_attestation_required": true
+    },
+    "development_audit": {
+      "main_dataset_contains_media": false,
+      "separate_encrypted_local_media_sidecar": true,
+      "cloud_transfer": false,
+      "retention_is_bounded": true,
+      "review_before_acceptance": true
+    }
+  },
+  "actuation_commands": 0,
+  "cloud_requests": 0,
+  "fingerprint": "d2f1182dd1a4d2a3e6e2a6215277c94f07223abe36e619f6eedbaed15ed766d0"
+}

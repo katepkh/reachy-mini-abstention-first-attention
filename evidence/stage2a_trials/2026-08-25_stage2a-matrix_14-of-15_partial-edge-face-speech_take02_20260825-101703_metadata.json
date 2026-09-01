@@ -1,0 +1,9 @@
+{
+  "schema": "reachy-stage2a-derived-metadata-v1",
+  "condition_code": "stage2a-matrix-partial-edge-face-speech",
+  "row_count": 59,
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false,
+  "contains_identity_embedding": false
+}

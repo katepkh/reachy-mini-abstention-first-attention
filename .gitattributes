@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+# Frozen evidence hashes cover exact source bytes. Never rewrite line endings.
+evidence/** -text
+
+# Binary assets.
+*.onnx -text
+*.png -text
+

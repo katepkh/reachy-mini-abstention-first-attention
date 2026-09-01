@@ -1,0 +1,95 @@
+{
+  "schema": "reachy-stage3p-selected-policy-v6-integrity-freeze-v1",
+  "status": "FROZEN_FOR_FRESH_HELD_OUT_PASSIVE_STAGE3P_V6_NOT_AUTHORISED_FOR_ACTUATION",
+  "frozen_at_utc": "2026-08-30T22:57:05+00:00",
+  "validated_selection": {
+    "policy_fingerprint": "cc6fc9731d2149a2e273989e6e0dea4caacca5859aee45ccf16d82d1f53b6da1",
+    "candidate_count": 48,
+    "passing_candidate_count": 9,
+    "selection_gates": {
+      "prior_calibration_center_deadband": true,
+      "prior_calibration_signed_separation": true,
+      "prior_v1_static_and_maintenance_coverage": true,
+      "prior_v3_static_and_maintenance_coverage": true,
+      "prior_v1_pretransition_association": true,
+      "prior_v3_pretransition_association": true,
+      "prior_no_pretransition_pitch_adjustment": true,
+      "prior_correct_direction_all_replays": true,
+      "prior_hard_negative_safety_all_replays": true,
+      "prior_silent_vad_safety": true,
+      "prior_face_fault_safety": true,
+      "prior_bounded_increment": true,
+      "v5_hard_negative_safety": true,
+      "v5_vertical_direction": true,
+      "v5_bounded_increment": true,
+      "v5_static_relative_correction_coverage": true,
+      "v5_pretransition_association": true,
+      "v5_pretransition_center_hold": true,
+      "v5_silent_maintenance_relative_correction_coverage": true,
+      "v5_zero_hard_negative_adjustments": true,
+      "v5_all_maintenance_trials_recovered": true,
+      "v5_control_law_unchanged": true
+    },
+    "failed_v5_result_bundle_sha256": "73609896e7b1e2667dd5d42a17282fcbf04a076e3e5df65f48b758cf1901433f",
+    "fallback_geometry_error_deg": 13.0,
+    "fallback_speech_onset_window_ms": 2500.0,
+    "association_consensus_hits": 2,
+    "maximum_abs_increment_deg": 3.0,
+    "fresh_held_out_stage3p_v6_required": true,
+    "physical_actuation_authorised": false
+  },
+  "file_count": 8,
+  "files": [
+    {
+      "path": "data/manifests/stage3p_selected_policy_v6.json",
+      "bytes": 3781,
+      "sha256": "734683881774aefc7b3b5358ca96863fff5ec191e54076c5587fce23d415a0f8"
+    },
+    {
+      "path": "data/analysis/stage3p_candidate_v6_association_repair_tournament.json",
+      "bytes": 507939,
+      "sha256": "63f72547ca167d680a93364f4588b6013d3117d8d9c408880eebd46698fd534f"
+    },
+    {
+      "path": "data/analysis/stage3p_v5_failure_offline_diagnosis_v6.json",
+      "bytes": 4703,
+      "sha256": "f26332873619d3eeebddb1fedd566a9fca71fd63f9072ff6b50c237a7de04232"
+    },
+    {
+      "path": "data/analysis/stage3p_v5_failure_offline_diagnosis_v6.md",
+      "bytes": 1395,
+      "sha256": "c4269d0b80e7c36b60223603fb2945627f166a8229ba4fc21940fe2234ab6578"
+    },
+    {
+      "path": "reachy_stage3p/policy_v6.py",
+      "bytes": 2576,
+      "sha256": "70c00dc21b3d4898772d646ba7b986fd5351560bee42c6442db8bce7978bf1ff"
+    },
+    {
+      "path": "reachy_stage3p/analysis_v6.py",
+      "bytes": 13355,
+      "sha256": "297092a54a28a58de985bfa1c6d4531b4f917b1198917b5f867b28a9cab978c9"
+    },
+    {
+      "path": "data/manifests/stage3p_confirmation_result_v5_freeze.json",
+      "bytes": 30957,
+      "sha256": "9a7c2dab920a5039eaf93548a082057d65adcc3b14c2fe1195705c47db307463"
+    },
+    {
+      "path": "data/manifests/stage3p_selected_policy_v5_freeze.json",
+      "bytes": 4521,
+      "sha256": "3daf9442f0caf1bc13d777b7f7319a05b265ef53768b9df5d322c77f7ab4f699"
+    }
+  ],
+  "bundle_sha256": "464fbe6c038d12a41685d40c7a4d29e7e893ca0f1ad9bf5869ce4054f2bb1caf",
+  "scientific_boundary": {
+    "failed_held_out_v5_preserved_as_failure": true,
+    "v5_now_used_only_as_disclosed_development_evidence": true,
+    "association_repair_selected_after_observing_v5": true,
+    "fresh_held_out_v6_confirmation_required": true,
+    "no_physical_motion_authorised": true
+  },
+  "robot_requests": 0,
+  "actuation_commands": 0,
+  "cloud_requests": 0
+}

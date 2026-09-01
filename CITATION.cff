@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this research preview, please cite it using these metadata."
+title: "Reachy Mini Abstention-First Attention"
+type: software
+authors:
+  - name: "Kate P."
+version: 0.1.0
+date-released: 2026-09-01
+abstract: >-
+  A privacy-minimal, abstention-first pipeline for selective speaker grounding,
+  explicit movement authorization, and bounded Reachy Mini head-motion pilots.
+keywords:
+  - human-robot interaction
+  - direction of arrival
+  - selective prediction
+  - abstention
+  - runtime assurance
+  - Reachy Mini
+license: Apache-2.0
+repository-code: "https://github.com/katepkh/reachy-mini-abstention-first-attention"

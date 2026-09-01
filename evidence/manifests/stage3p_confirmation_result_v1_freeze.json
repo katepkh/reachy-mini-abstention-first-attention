@@ -1,0 +1,435 @@
+{
+  "schema": "reachy-stage3p-v1-failed-result-integrity-freeze-v1",
+  "status": "FROZEN_FAILED_PASSIVE_HELD_OUT_RESULT_NOT_AUTHORISED_FOR_ACTUATION",
+  "frozen_at_utc": "2026-08-29T17:55:41+00:00",
+  "protocol_fingerprint": "96bb86ff37ac047a2faa8f112c306cc45f2dbea59fed3217ecf5c48eea9472f7",
+  "policy_fingerprint": "25f21edef1ca431331165779fd44c037a9cf4399174fe90e5848d6401b3e9e6e",
+  "scope": {
+    "complete_collection_directory": "data/stage3p_confirmation",
+    "includes_accepted_attempts": true,
+    "includes_superseded_attempts": true,
+    "includes_metadata_and_compliance_sidecars": true,
+    "includes_audit_deletion_ledger": true,
+    "includes_final_analysis_artifacts": true,
+    "source_files_modified": false
+  },
+  "validated_state": {
+    "accepted_trials": 18,
+    "all_csv_attempts": 23,
+    "superseded_attempts": 5,
+    "accepted_compliant_audits": 18,
+    "accepted_audit_clips_deleted_after_review": 18,
+    "gates": {
+      "hard_negative_safety": true,
+      "vertical_direction": false,
+      "static_acquisition_coverage": true,
+      "static_acquisition_accuracy": false,
+      "pretransition_association": false,
+      "silent_maintenance_coverage": false,
+      "silent_maintenance_accuracy": false
+    },
+    "overall_passed": false,
+    "hard_negative_would_adjust_rows": 0,
+    "development_files_used": 0,
+    "actuation_commands": 0,
+    "cloud_requests": 0
+  },
+  "file_count": 76,
+  "files": [
+    {
+      "path": "data/analysis/stage3p_confirmation_validation_v1.json",
+      "bytes": 19925,
+      "sha256": "0840bad2bce6692a89e4b30a25ce2f9ffb999a4d39fd2a0e4da0851fe04fb881"
+    },
+    {
+      "path": "data/analysis/stage3p_confirmation_validation_v1.md",
+      "bytes": 636,
+      "sha256": "e51a2e5a0378383cca8da12c72194ba783556575c3f67e3bfe08d003725358c1"
+    },
+    {
+      "path": "data/analysis/stage3p_confirmation_validation_v1_trials.csv",
+      "bytes": 4473,
+      "sha256": "90dfeb3a03400a3cf52dfe2eb09aa54e82fbf85268ae2baac01c6d196f0c7e91"
+    },
+    {
+      "path": "data/manifests/stage3p_confirmation_protocol_v1.json",
+      "bytes": 16036,
+      "sha256": "c56f88733ca1e8dd595f0df55d43d756bd4053ff60189672ba3412b37cfc9069"
+    },
+    {
+      "path": "data/manifests/stage3p_selected_policy_v2.json",
+      "bytes": 3328,
+      "sha256": "cb2c29fd3dab7db5fb1b7cca411096e1542023eac9c3b20ed2bbdb3eb11bf129"
+    },
+    {
+      "path": "data/manifests/stage3p_selected_policy_v2_freeze.json",
+      "bytes": 3029,
+      "sha256": "8b3a9155cf385e90d26dcb6bb3069a1097b906c08328ede3ccb4ada63eaf59e8"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_01-of-18_heldout-acquire-down10deg_take01_20260829-171700.csv",
+      "bytes": 24901,
+      "sha256": "387406d41fbbf53afaaef66f41263483888f90f31ed220f5680c16120847e52a"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_01-of-18_heldout-acquire-down10deg_take01_20260829-171700_compliance.json",
+      "bytes": 674,
+      "sha256": "5e178c7c005581bef0d513743fce623c15b9aadce830784e46f12c7122183611"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_01-of-18_heldout-acquire-down10deg_take01_20260829-171700_metadata.json",
+      "bytes": 910,
+      "sha256": "33a570aff3e2d25aad5c9c11db62bd24478de4c22fb1afc25f36f3db24a7aa45"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_02-of-18_heldout-acquire-up10deg_take01_20260829-172132.csv",
+      "bytes": 24887,
+      "sha256": "9987bbc013a4de99a88e4483a654e448e500930dac86ede0e88775f9b9861626"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_02-of-18_heldout-acquire-up10deg_take01_20260829-172132_compliance.json",
+      "bytes": 672,
+      "sha256": "a5cf5b85202f5729d50564c901afd8d5fae10af834952d6d01c244a22813a376"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_02-of-18_heldout-acquire-up10deg_take01_20260829-172132_metadata.json",
+      "bytes": 906,
+      "sha256": "2b6695f6c2d2d10fdf33fa1cc1c1191ae8c51dda539b9fdc39adf0d23eb590c3"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_03-of-18_heldout-acquire-up10deg_take02_20260829-172352.csv",
+      "bytes": 24066,
+      "sha256": "fd2cd1c9d688a85e491c7c5d2ee7c7a3ad5172716dd7b1cb35cb8bcc496bcda8"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_03-of-18_heldout-acquire-up10deg_take02_20260829-172352_compliance.json",
+      "bytes": 672,
+      "sha256": "91d3ac3e18e02fb3070d24e298642c7fdea6bb048a337ea48dc56efa32c9ccf3"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_03-of-18_heldout-acquire-up10deg_take02_20260829-172352_metadata.json",
+      "bytes": 906,
+      "sha256": "086dc7957d1d9ba3ea3d57feb6c87adbfcc294fa97f369cb51d662d6251cbb7d"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_04-of-18_heldout-acquire-down10deg_take02_20260829-172544.csv",
+      "bytes": 24340,
+      "sha256": "c475134d99be80ce14d1433480543c70c294919a4b00c56d3755e41a059c3ffa"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_04-of-18_heldout-acquire-down10deg_take02_20260829-172544_compliance.json",
+      "bytes": 674,
+      "sha256": "9c804b36dc3503fd8fba0ad429deb098afb78110c1ab81372c18f2ab1a5d05de"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_04-of-18_heldout-acquire-down10deg_take02_20260829-172544_metadata.json",
+      "bytes": 910,
+      "sha256": "ea3f93c7f3b15a06abbd36e2c486cbc1e227d91559087d2162101be340121988"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_05-of-18_heldout-acquire-down10deg_take03_20260829-172739.csv",
+      "bytes": 23996,
+      "sha256": "c66f942050bfc1fdbc75d6538b430c49ee26dd7132ba83a40edc60148afd4eb4"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_05-of-18_heldout-acquire-down10deg_take03_20260829-172739_compliance.json",
+      "bytes": 674,
+      "sha256": "764c895a1906680ecd745f7f39168146153a4fe022a235b3f4246cce5fcb124c"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_05-of-18_heldout-acquire-down10deg_take03_20260829-172739_metadata.json",
+      "bytes": 910,
+      "sha256": "9ff9b08ea06f5b302e9c6aff7b7d9ed9bf9a948d5b59929965262f7f205751eb"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_06-of-18_heldout-acquire-up10deg_take03_20260829-172937.csv",
+      "bytes": 24208,
+      "sha256": "59f829e0be0fe4cd3aded8e8bc05d7ab91a216e0adf5b7c7b3768f6b196c2f34"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_06-of-18_heldout-acquire-up10deg_take03_20260829-172937_compliance.json",
+      "bytes": 672,
+      "sha256": "c2389895fba52e5f9ca6d0348fa9d6e0ddf4ba0863eca9eb88ad43c38615170d"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_06-of-18_heldout-acquire-up10deg_take03_20260829-172937_metadata.json",
+      "bytes": 906,
+      "sha256": "c36f9b6c669792807c01640c296363ae01cfeec23c9b38ea5cfa3887be58e6b7"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_07-of-18_heldout-maintain-centre-to-up10deg_take01_20260829-174721.csv",
+      "bytes": 29467,
+      "sha256": "0636f452fe4979b67566a0c7479f3b3b97c28b63e28b550d129ea1fa7003c7e7"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_07-of-18_heldout-maintain-centre-to-up10deg_take01_20260829-174721_compliance.json",
+      "bytes": 683,
+      "sha256": "770e30e636e0098be5192b321c377205fbd5a9a9915ab1955b0754a30cf9fece"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_07-of-18_heldout-maintain-centre-to-up10deg_take01_20260829-174721_metadata.json",
+      "bytes": 917,
+      "sha256": "74d346d9faa8cf223ceec3e05bb8be2d4dee01a301c514b72c2a462bed20d5a4"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_08-of-18_heldout-maintain-centre-to-down10deg_take01_20260829-175017.csv",
+      "bytes": 30475,
+      "sha256": "ef1237371aaefb151778094df80a0362067601ac7c239910be0a3a2b53518a65"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_08-of-18_heldout-maintain-centre-to-down10deg_take01_20260829-175017_compliance.json",
+      "bytes": 685,
+      "sha256": "20f7d9c5b0b5fa8cf0b30f4248705ec8dc3a4b57d6ad7e9ce76b882feb6c4f09"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_08-of-18_heldout-maintain-centre-to-down10deg_take01_20260829-175017_metadata.json",
+      "bytes": 920,
+      "sha256": "de9264bce0c71fc45682e68751a2c5e0dc7e01c5483f672b705c33e09771b209"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_09-of-18_heldout-maintain-centre-to-down10deg_take02_20260829-175219.csv",
+      "bytes": 29505,
+      "sha256": "7fe175240f7b538b1b1517b5b2d076b1d50a9a9c668c441183d588c207338749"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_09-of-18_heldout-maintain-centre-to-down10deg_take02_20260829-175219_compliance.json",
+      "bytes": 685,
+      "sha256": "3855d98239951a1d749fb2b2372fbdba41054f305442a378f99d514d2e496ced"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_09-of-18_heldout-maintain-centre-to-down10deg_take02_20260829-175219_metadata.json",
+      "bytes": 920,
+      "sha256": "5bd994684cbe878be150da2dc0c203fedb4750037c0b5c4b250955646c661916"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_10-of-18_heldout-maintain-centre-to-up10deg_take02_20260829-175446.csv",
+      "bytes": 30115,
+      "sha256": "a3fe55b754e6e917263601003688630fd14d1edc74996072a6083adf942abfcf"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_10-of-18_heldout-maintain-centre-to-up10deg_take02_20260829-175446_metadata.json",
+      "bytes": 861,
+      "sha256": "167b9934d7f4fe91d4d37f4d0858166b0d642b11e95bcf7e3e86c32f3ce3997f"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_10-of-18_heldout-maintain-centre-to-up10deg_take02_20260829-180759.csv",
+      "bytes": 29707,
+      "sha256": "4e9915effb18d63c52a5d31bd21c46cf1175758d991bc5065da65775fec6781a"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_10-of-18_heldout-maintain-centre-to-up10deg_take02_20260829-180759_compliance.json",
+      "bytes": 684,
+      "sha256": "28932c729bce5437292748d3cc96e45621ed7f9577ecd081c6161d0a8b3422c4"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_10-of-18_heldout-maintain-centre-to-up10deg_take02_20260829-180759_metadata.json",
+      "bytes": 918,
+      "sha256": "81192b12fd4c38b5a2a372e46c6c4205c212732311cbdd9c253fdb45ae3caae9"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_11-of-18_heldout-maintain-centre-to-up10deg_take03_20260829-181057.csv",
+      "bytes": 29113,
+      "sha256": "e58e0ac23a7bc9eb6ea025f40db03693c195b9aec644b0edfc9699e6c1925896"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_11-of-18_heldout-maintain-centre-to-up10deg_take03_20260829-181057_compliance.json",
+      "bytes": 684,
+      "sha256": "2301652df40bc2bd60cf0320b1062e9ff93633d37514adea30d349d076fa7708"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_11-of-18_heldout-maintain-centre-to-up10deg_take03_20260829-181057_metadata.json",
+      "bytes": 918,
+      "sha256": "76a99b27267ee05e80f2f8c635dc19607ed3f9240b710de5c5b09de7ecf5584e"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_12-of-18_heldout-maintain-centre-to-down10deg_take03_20260829-181255.csv",
+      "bytes": 27987,
+      "sha256": "3848abf82b102b84255fcff07923879a9c3b1dce4a4fb4b1c531bb5c532f9b43"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_12-of-18_heldout-maintain-centre-to-down10deg_take03_20260829-181255_compliance.json",
+      "bytes": 686,
+      "sha256": "d50daba35367eeea16988f58d815bf00a9731ce1f43818ca9945d7f8d9e4525d"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_12-of-18_heldout-maintain-centre-to-down10deg_take03_20260829-181255_metadata.json",
+      "bytes": 921,
+      "sha256": "3c9730d40a81cf42c96d33d74cee5ce6a86375acbcd974996e119501e1887061"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_13-of-18_heldout-silent-visible-down10deg_take01_20260829-181517.csv",
+      "bytes": 22369,
+      "sha256": "6f99a98013af4e71512b32364ab6b2348665a06ff9357e0589e502031f1ab218"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_13-of-18_heldout-silent-visible-down10deg_take01_20260829-181517_compliance.json",
+      "bytes": 682,
+      "sha256": "2d7e73fe7abb6c7ad3620ca30df64bd0acc626388d97c0e3b8a4a9c50275ee98"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_13-of-18_heldout-silent-visible-down10deg_take01_20260829-181517_metadata.json",
+      "bytes": 912,
+      "sha256": "5f6851dce9f596fdd1943c4ea7a7c5201d1356cdbbf0398c3b1305c86441a6dc"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181706.csv",
+      "bytes": 21001,
+      "sha256": "e02d88523f768442590f5d55ed41952904a5a0b39a6866ea07d0d50be785ec75"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181706_compliance.json",
+      "bytes": 648,
+      "sha256": "bec17cfd4b6551c0c3c5c15a0514cfd153529885b4bb140627f463fe96c77ce8"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181706_metadata.json",
+      "bytes": 851,
+      "sha256": "f57be548debfc63c1d8e5d6d25f50101188ac05bbe3c97405ca23d351c32be8e"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181739.csv",
+      "bytes": 22016,
+      "sha256": "6217086f360e9cc041fcf5640d371667cc5fed1cfd97f5829c70b5ba1dd6cb8b"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181739_compliance.json",
+      "bytes": 680,
+      "sha256": "e972e770eb461591154720c8195e9e543715bb6f84f37ab4f79f0305a5344ca9"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_14-of-18_heldout-silent-visible-up10deg_take01_20260829-181739_metadata.json",
+      "bytes": 908,
+      "sha256": "0333d166a4dd8e9d243e34360dc914c17df5c7c5c8555a75ef747cbf11ce626b"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182340.csv",
+      "bytes": 13716,
+      "sha256": "9bbac9a13c9bb37be4ea872abe74cb02f5461b43c05fffb79264092ac0096f2c"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182340_compliance.json",
+      "bytes": 645,
+      "sha256": "1dd0623d462c45eda83e73c4ab8f9fd79afa37a6e4ac16869871d14e481f4c9c"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182340_metadata.json",
+      "bytes": 848,
+      "sha256": "c27b48d9303122fefd66d316f40fdd20fe3197dc8878efcfea5c200485775da8"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182405.csv",
+      "bytes": 14644,
+      "sha256": "733f5e2462d6dd40662fcddef39976ef0cd6e1fde7361eb9cade1ed9ad521d1d"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182405_compliance.json",
+      "bytes": 677,
+      "sha256": "130bbedea81d5e6d673692c59518c95b4a328be636aa0be77fae20f7b04a4d96"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_15-of-18_heldout-speech-with-no-face_take01_20260829-182405_metadata.json",
+      "bytes": 905,
+      "sha256": "df9d265839701e0f5074e9043875851fe5cb543a6a9ce16af66ae3975a424a4e"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_16-of-18_heldout-speech-with-no-face_take02_20260829-182906.csv",
+      "bytes": 14346,
+      "sha256": "09ed040322c2e5333f9019cde6e43ab2cd05e143958884ce08caddaae83637c3"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_16-of-18_heldout-speech-with-no-face_take02_20260829-182906_compliance.json",
+      "bytes": 677,
+      "sha256": "9cba262aaa8ee0a6a512bde5da8bf1188cada669d76239f1f94977b155c721d0"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_16-of-18_heldout-speech-with-no-face_take02_20260829-182906_metadata.json",
+      "bytes": 905,
+      "sha256": "a64b032efe7b9876ad49103ebc333e33388bed4e0dbb329f456fc844b89550df"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183406.csv",
+      "bytes": 20935,
+      "sha256": "c95491723a302728bc838e2f9707a5b89167871a46854c0cbac7fd73ee23f596"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183406_compliance.json",
+      "bytes": 667,
+      "sha256": "6a1b52f5c42642fa6792cad69777dc9ea997f5104ee12a96bd8a0a1addc5b728"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183406_metadata.json",
+      "bytes": 874,
+      "sha256": "9957fb4a3594412d550d7212269bc88cf2ed0b25e7e2f1309ddb0f593c4ff1d7"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183442.csv",
+      "bytes": 23357,
+      "sha256": "b72d0e0b7f5961f6e70334b654657935ef08b0936be50977ad9e2e0db48713d0"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183442_compliance.json",
+      "bytes": 699,
+      "sha256": "4547941ea96d1beda44a741eae78472bce1622b08586d2cbb41bbfc2ad35a74b"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_17-of-18_heldout-mismatch-face-minus20-down10-sound-plus20_take01_20260829-183442_metadata.json",
+      "bytes": 931,
+      "sha256": "4f7bab3b7c1dfbce535fdbff5c91a31d93d16e2e08745ca6a605be040064732b"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184034.csv",
+      "bytes": 20998,
+      "sha256": "3b0156e475845031651737edc4e0cac5d55bf9561ed99b40a2086da92ec41ad4"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184034_compliance.json",
+      "bytes": 665,
+      "sha256": "eca63d87212af6038df9adcd6c7d33841d41277152a182a0fdada9d30163cca1"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184034_metadata.json",
+      "bytes": 870,
+      "sha256": "9b684d921be601c109ccfd12627d23d24e69b6ff6e259615f9bc188353e23fca"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184103.csv",
+      "bytes": 23010,
+      "sha256": "2c4f03f01ffdf81f342f23f7e5fcf60fb81df20fb7edf94c7e9a1de9626f693e"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184103_compliance.json",
+      "bytes": 697,
+      "sha256": "279b450e03ac40a8809e9efe993d09a42f4688f32e1c064fd27dbca084151f24"
+    },
+    {
+      "path": "data/stage3p_confirmation/2026-08-29_stage3p-vertical_18-of-18_heldout-mismatch-face-plus20-up10-sound-minus20_take01_20260829-184103_metadata.json",
+      "bytes": 927,
+      "sha256": "044aabe756dbac44f65dd3ee26218242a740c70f33d8377acc6ef936ba952a4d"
+    },
+    {
+      "path": "data/stage3p_confirmation/progress.json",
+      "bytes": 2291,
+      "sha256": "56021f7ecf38995da7f36560d72c602435b234bf7ac0668bafb320fcfd87ca3f"
+    },
+    {
+      "path": "data/stage3p_confirmation_audit/audit_index.json",
+      "bytes": 3436,
+      "sha256": "fce20afd7b72c189fa5a58a041490cf6ecf63fb24523b8f9c213abfcd0d79f39"
+    }
+  ],
+  "bundle_sha256": "2c49795bedb0cd2a28e5a4e0bf87c0de8a20fbf24d3b1683da8dbd49ed59ccbc",
+  "scientific_boundary": {
+    "result_was_held_out_when_collected": true,
+    "result_failed_before_any_policy_revision": true,
+    "dataset_may_now_be_used_only_as_label_disclosed_development_evidence": true,
+    "fresh_held_out_confirmation_required_for_any_revised_policy": true
+  },
+  "privacy": {
+    "main_dataset_contains_pixels": false,
+    "main_dataset_contains_audio": false,
+    "main_dataset_contains_transcript": false,
+    "accepted_audit_media_deleted_after_review": true
+  },
+  "actuation_commands": 0,
+  "cloud_requests": 0
+}
