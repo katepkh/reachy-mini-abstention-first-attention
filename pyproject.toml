@@ -36,6 +36,7 @@ live = [
   "opencv-python-headless>=4.10",
 ]
 test = [
+  "aiortc>=1.9",
   "opencv-python-headless>=4.10",
 ]
 
