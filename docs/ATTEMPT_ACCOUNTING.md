@@ -11,7 +11,7 @@ This note prevents observation rows, accepted trials, attempts, and software tes
 | 3P vertical visual-cue boundary | 9 | 18 | Trial; 6 cue transitions and 3 fail-closed controls. | Fresh passive protocol; no transcript, robot request, or actuation path. |
 | 4A V3 physical pilot | 0 accepted | 1 commanded trial | Physical trial. | Mechanical gate failed and remains failed. |
 
-The 42 accepted passive trials are not independent replications of a population: they share one robot, site, room context, and primary operator. The 142 passing tests are software tests, not empirical trials.
+The 42 accepted passive trials are not independent replications of a population: they share one robot, site, room context, and primary operator. The 213 passing tests are software tests, not empirical trials.
 
 ## Stage 3V attempt flow
 

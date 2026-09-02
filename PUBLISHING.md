@@ -21,7 +21,7 @@ python -m unittest discover -s tests -p "test_*.py"
 git diff --cached --name-only
 ```
 
-Expected results: 171 evidence files verified, the generated public result summary matching frozen evidence, 142 tests passing, and no media/audit/private-environment files in the staged list.
+Expected results: 171 evidence files verified, the generated public result summary matching frozen evidence, 185 tests passing, and no media/audit/private-environment files in the staged list.
 
 ## 3. Commit locally
 

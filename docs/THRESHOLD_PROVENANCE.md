@@ -63,11 +63,56 @@ These values in [`reachy_stage4/config.py`](../reachy_stage4/config.py#L28-L43) 
 | Move / return duration | 2.0 s / 2.0 s | Hardware-bound | Slow experimental motion profile, not independently validated. |
 | Target / return settling dwell | 0.75 s / 0.75 s | Hardware-bound repair | Added after diagnosing premature V3 sampling; still unvalidated physically. |
 | Preflight lifetime | 600 s | Project-fixed | Expiring one-shot operator session; not a safety proof. |
-| Baseline neutral / recheck error | 1.0 / 1.0 degrees | Hardware-bound | The current controller/daemon neutral disagreement blocks preflight rather than being overridden. |
+| Baseline neutral / recheck error | 1.0 / 1.0 degrees | Hardware-bound | This is a conservative project gate, not a vendor tolerance. A controlled three-start series measured 2.529–2.752° mean offsets after identity-directed wake; all traces failed. Official issue #1306 reports one enabled+wake observation at 1.9° pitch, which is context rather than a specification and makes it especially important not to call a >1° result proof of hardware failure. V4 stays blocked against its frozen gate; any baseline-relative successor must be separately versioned and preregistered. See the [`post-wake reference audit`](POST_WAKE_REFERENCE_AUDIT.md) and [`maintenance triage`](MAINTENANCE_TRIAGE.md). |
 | Target / return error | 1.5 / 1.0 degrees | Hardware-bound | The failed V3 outcome was preserved; limits were not relaxed afterward. |
 | Translation envelope | 8 mm | Hardware-bound | Prevents a nominally rotational trial from accepting excessive translation; not manufacturer-certified. |
 | Control-loop frequency / interval | 40–60 Hz / <=0.1 s | Project-fixed | Runtime-health checks for this pilot implementation. |
 | Telemetry age | <=2 s | Project-fixed | Stale-state rejection boundary. |
+
+### Rejected centring candidates
+
+The 6° eligible-start ceiling, 1.5° waypoint, 2° measured-step ceiling, 1°
+target error, 2 mm translation drift, 0.25° progress floor, and four-session cap
+in [`centering_plan.py`](../reachy_stage4/centering_plan.py) were proposed after
+observing the 4.18° case. They are retained for audit but were rejected as
+hardware bounds by [`CENTERING_REVIEW.md`](CENTERING_REVIEW.md). Passing their
+unit tests proves deterministic arithmetic only; it does not establish safe or
+useful physical motion.
+
+### Baseline-relative successor design candidates
+
+The values below were selected only after the V4 gate had already blocked the
+robot. They are therefore **post-V4 project-fixed review candidates**, not a
+retroactive repair, manufacturer limits, or an executable hardware protocol.
+They live in [`successor_review.py`](../reachy_stage4/successor_review.py) and
+are discussed in
+[`BASELINE_RELATIVE_SUCCESSOR.md`](BASELINE_RELATIVE_SUCCESSOR.md).
+
+| Boundary | Draft value | Provenance | Current status |
+|---|---:|---|---|
+| Baseline sample count | at least 50 | Post-V4 project-fixed | Design-only; sampling rate and duration still require review. |
+| Maximum pairwise baseline rotational spread | 0.25 degrees | Post-V4 project-fixed | Chosen after observing 0.170-degree maximum drift; not independently validated. |
+| Maximum pairwise baseline translation spread | 1 mm | Post-V4 project-fixed | Conservative proposal without manufacturer support. |
+| Absolute Euler components | 10 degrees each | Post-V4 project-fixed | Representation-dependent diagnostic bound, supplemented by a geodesic bound. |
+| Absolute geodesic rotation from identity | 10 degrees | Post-V4 project-fixed | Prevents combined-axis rotation from evading component checks; not a collision guarantee. |
+| Translation from identity | 8 mm | Inherited hardware-bound candidate | Reused for continuity, not because V4 validated it. |
+| Baseline-relative increment | exactly 3 degrees | Inherited experimental question, separately defined | Preserves comparability with V3/V4; no successful physical result exists. |
+
+Even a clean geometry packet does not authorize power-on or motion. Required
+review records must reference hashed artifacts, and the helper still reports
+`DESIGN_ONLY_NO_COMMAND_AUTHORITY` after every record is populated.
+
+### Exact-path configured-limit result
+
+The candidate bounds above remain unvalidated. Separately, the offline
+[`SUCCESSOR_TRAJECTORY_REVIEW`](SUCCESSOR_TRAJECTORY_REVIEW.md) used the exact
+daemon 1.9.0 interpolation implementation and analytical IK on an inclusive
+100 Hz ideal grid. Across the four baseline-relative 3° outward and nominal
+return paths, the smallest configured-limit margin was 42.706° (DOWN,
+Stewart 4 lower side). This is a computed result rather than a newly selected
+threshold. No minimum acceptable margin has been chosen, and the result does
+not cover collision, singularity conditioning, load/current, cables, tracking,
+or timing. Those gaps remain external-review debt.
 
 ## What is still missing
 

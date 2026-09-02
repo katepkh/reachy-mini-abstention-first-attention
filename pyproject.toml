@@ -38,6 +38,14 @@ live = [
 test = [
   "aiortc>=1.9",
   "opencv-python-headless>=4.10",
+  "pydantic>=2.12.5,<3",
+  "scipy>=1.15.3,<2",
+]
+upstream-test = [
+  "fastapi>=0.115,<1",
+  "httpx>=0.27,<1",
+  "pydantic>=2.12.5,<3",
+  "scipy>=1.15.3,<2",
 ]
 
 [tool.setuptools.packages.find]

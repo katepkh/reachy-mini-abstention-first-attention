@@ -57,7 +57,9 @@ The strongest evidence here is not raw accuracy. It is the sequence of falsifiab
 
 This approach is relevant to any embodied system in which an uncertain perception estimate could trigger a socially or physically consequential action.
 
-The passive candidate, visual cue, and physical command boundary remain separately tested components. No end-to-end speaker-to-motion system has been validated.
+The passive candidate, visual cue, and physical command boundary remain separately tested components. No end-to-end speaker-to-motion system has been validated. A controlled three-start, command-free series found repeatable 2.529–2.752° mean post-wake offsets, all outside the unchanged 1° project gate, with enabled motors and zero reported loop errors. A source-backed review rejected a custom corrective-centring proposal pending independent review of gate validity, observable present-versus-target state, and open maintenance hypotheses; the gate failure is not presented as proof of hardware fault.
+
+A design-only successor now adds a receive-only simultaneous present/target recorder, exact offline daemon 1.9.0 trajectory and analytical-IK reconstruction, and separate target/return authorization states. The offline path matched official `GotoMove` at 201 ideal samples per leg and stayed at least 42.706° inside the supplied configured joint bounds. This is not collision, load, tracking, cable, timing, or physical-safety validation. The recorder has not been run, its required target-state schema patch is uninstalled, no executor exists, and neither owner scope nor an independent human robotics verdict has been recorded.
 
 ## Status
 

@@ -22,7 +22,7 @@ The reviewer is asked to assess four different things separately:
 - Raw audio, camera images, transcripts, identity labels, and face embeddings are deliberately excluded from the public repository.
 - Passive experiments are complete for the published frozen protocols.
 - One supervised physical motion trial ran and failed.
-- The corrected V4 physical path is currently blocked because the controller can display zero while the daemon reports the head more than the frozen 1° neutral tolerance from its own reference.
+- The corrected V4 physical path is currently blocked. After two exploratory command-free captures, a controlled three-power-cycle series measured repeatable mean rotations of 2.529°, 2.752°, and 2.746° from nominal identity, all outside the frozen 1° project gate. Motor mode was enabled and no control-loop error was reported during those captures. The controller's zero display has separately been traced to a matrix/object synchronization defect; target state remains hidden by a reproduced response-schema defect.
 
 These constraints matter. Recorded voices can test acoustic variability and playback hard negatives, but they cannot substitute for a live multi-person HRI study, independent operation, or socially meaningful eye-contact evaluation.
 
@@ -133,7 +133,13 @@ The diagnostic identified four defects:
 
 The current Stage 4 code changes the target to a captured-baseline-relative 3° increment, projects poses to the nearest rigid transform, measures SO(3) distance after projection, and includes target and return settling intervals. It retains expiring read-only preflight, one-shot consumption, exact direction locking, head-only commands, automatic return, and unchanged acceptance thresholds.
 
-No V4 physical result is published. Repeated read-only preflights remain blocked because daemon neutral and the controller's displayed zero do not agree inside the frozen tolerance. Motor discovery found 9/9 motors and the inspected motor configuration fields were reported as valid, which distinguishes bus/configuration health from coordinate-frame agreement but does not resolve the discrepancy.
+No V4 physical result is published. Initial 2026-09-01 command-free captures resolved the display ambiguity: the daemon's matrix REST, Euler REST, and matrix stream agreed within sampling drift, while desktop app v0.9.34 substituted zeros after reading matrix data as named fields. A later controlled three-power-cycle series found repeatable means of 2.529°, 2.752°, and 2.746°, with motor mode enabled and zero reported loop errors. Motor discovery found 9/9 motors and the inspected configuration fields were valid, but those checks do not validate assembled geometry, friction, cable clearance, or physical neutral. Daemon 1.9.0 also drops requested target head fields from its released `FullState` response, preventing present-versus-target diagnosis through that route. The custom centring proposal is therefore rejected for hardware execution pending independent review of gate validity, target-state observability, and open maintenance hypotheses. The 1° gate is a project threshold, not proof of hardware fault.
+
+### Stage 4A successor: offline progress, still zero authority
+
+A separately versioned successor now contains a receive-only simultaneous present/target recorder, an exact offline 1.9.0 trajectory/IK validator, external-record verification, and a pure split target/return state machine. The offline validator byte-verified the official 1.9.0 wheel and installed source, pinned Rust kinematics 1.0.3, matched official `GotoMove` at every one of 201 ideal samples per leg to a maximum matrix-element difference of `4.44e-16`, and found a 42.706° minimum supplied configured-limit margin across the four 3° outward and nominal-return paths.
+
+This does not clear physical motion. Analytical collision checking is absent; actual loop timestamps, endpoint writes, tracking, load/current, cables, and the return from a measured post-target pose remain untested. The recorder cannot obtain target fields from the unmodified daemon, its observational patch is not installed, the owner has not confirmed that modification/powered-test scope, and no independent human reviewer has approved the protocol. The successor has no executor and authorizes zero commands. Unlike frozen V4, its design does not automatically return: target success leads to a new return preflight and a different authorization; any target failure leads to supervised power-down.
 
 ## Public artifacts produced
 
@@ -147,6 +153,17 @@ No V4 physical result is published. Repeated read-only preflights remain blocked
 - [`THRESHOLD_PROVENANCE.md`](THRESHOLD_PROVENANCE.md): distinguishes development-selected, protocol-fixed, project-fixed, and hardware-bound values.
 - [`ATTEMPT_ACCOUNTING.md`](ATTEMPT_ACCOUNTING.md): trial units, uncertainty context, and accepted/superseded attempt flow.
 - [`FAILURE_LEDGER.md`](FAILURE_LEDGER.md): preserved failures and responses.
+- [`CENTERING_REVIEW.md`](CENTERING_REVIEW.md): source-backed review and rejection of the custom centring proposal for hardware execution.
+- [`STARTUP_CHARACTERIZATION.md`](STARTUP_CHARACTERIZATION.md): controlled command-free repeated-start protocol and powered-off inspection boundary.
+- [`TARGET_STATE_OBSERVABILITY.md`](TARGET_STATE_OBSERVABILITY.md): released API gap, startup target sequence, and an uninstalled minimal repair proposal.
+- [`BASELINE_RELATIVE_SUCCESSOR.md`](BASELINE_RELATIVE_SUCCESSOR.md): separately versioned, non-executable successor draft with post-V4 candidate bounds and explicit review debt.
+- [`RECEIVE_ONLY_SUCCESSOR_TRACE.md`](RECEIVE_ONLY_SUCCESSOR_TRACE.md): exact recorder scope, released-schema blocker, and owner-gated capture boundary.
+- [`SUCCESSOR_TRAJECTORY_REVIEW.md`](SUCCESSOR_TRAJECTORY_REVIEW.md): exact 1.9.0 interpolation/IK cross-check, configured-limit margins, and missing physical assurances.
+- [`SPLIT_TARGET_RETURN_PROTOCOL.md`](SPLIT_TARGET_RETURN_PROTOCOL.md): target/return state graph, independent phrases, and fail-to-power-down semantics.
+- [`OWNER_SCOPE_REQUEST.md`](OWNER_SCOPE_REQUEST.md): itemized request template; it is explicitly not permission.
+- [`RETURN_TO_BORROWED_CONDITION.md`](RETURN_TO_BORROWED_CONDITION.md): baseline, temporary-deployment, rollback, discrepancy, and owner-acceptance requirements for the borrowed unit.
+- [`INDEPENDENT_PROTOCOL_REVIEW.md`](INDEPENDENT_PROTOCOL_REVIEW.md): complete human robotics review packet and required verdict format.
+- [`SUCCESSOR_REVIEW_MANIFEST.json`](SUCCESSOR_REVIEW_MANIFEST.json): hashes the exact code, documentation, patch, and tests submitted as the successor review packet.
 - [`LIMITATIONS.md`](LIMITATIONS.md): supported and unsupported claims.
 - [`DATA_CARD.md`](DATA_CARD.md): evidence contents, exclusions, privacy risks, and unsuitable uses.
 - [`PRIOR_ART.md`](PRIOR_ART.md): primary-source positioning against Reachy, robot audition, active-speaker detection, selective prediction, runtime assurance, and social gaze.
@@ -164,11 +181,11 @@ It deliberately excludes raw audio, camera pixels, transcripts, face embeddings,
 
 At the time of this audit the repository contains:
 
-- 110 source Python modules and 18,827 source lines;
-- 28 Python test modules and 2,059 test lines;
+- 120 source Python modules and 20,659 source lines;
+- 41 Python test modules;
 - 40 explicitly versioned source modules preserving policy/protocol history;
-- one public evidence-verification script and one deterministic public-summary generator;
-- 142 passing self-contained software tests.
+- seven public verification/diagnostic scripts, including the evidence verifier, deterministic public-summary generator, exact 1.9.0 trajectory validator, owner-gated receive-only recorder, and successor packet manifest checker;
+- 213 passing self-contained software tests.
 
 The test count must not be mistaken for an experimental sample size.
 
@@ -236,6 +253,14 @@ Review focus: the high number of versions, researcher degrees of freedom, whethe
 - [`protocol.py`](../reachy_stage4/protocol.py): fingerprinted V4 protocol and explicit prohibited commands.
 - [`pilot.py`](../reachy_stage4/pilot.py): read-only preflight, expiring signed session, one-shot execution, automatic restore, result integrity, and operator disposition.
 - [`result_freeze_v3.py`](../reachy_stage4/result_freeze_v3.py): verification of the preserved failed V3 result and robust diagnostic reconstruction.
+- [`neutral_diagnostic.py`](../reachy_stage4/neutral_diagnostic.py): command-free comparison of matrix, Euler, stream, joint, and daemon-status state.
+- [`startup_characterization.py`](../reachy_stage4/startup_characterization.py): checksum-verified private aggregation of controlled physical power-cycle captures; no network or robot transport.
+- [`centering_plan.py`](../reachy_stage4/centering_plan.py): zero-authority counterfactual record of the rejected centring design; it is not a hardware procedure.
+- [`successor_review.py`](../reachy_stage4/successor_review.py): pure, separately versioned assessment of a possible baseline-relative successor; it imports no transport, accepts no boolean-only review claims, and always authorizes zero commands.
+- [`successor_trace.py`](../reachy_stage4/successor_trace.py): bounded full-state receive-only recorder; it has no application `send` or command route and fails closed without real target fields.
+- [`trajectory_review.py`](../reachy_stage4/trajectory_review.py): pure 1.9.0 minimum-jerk/yaw-scalar path reconstruction and injected IK margin analysis.
+- [`split_authorization.py`](../reachy_stage4/split_authorization.py): pure successor transition system; target authorization cannot authorize return, and failure never enters a software-return state.
+- [`external_records.py`](../reachy_stage4/external_records.py): byte-verifies preserved owner/reviewer replies before their structured records can count.
 
 Review focus: whether the custom transport matches official semantics, atomic one-shot behavior, recovery if the target command succeeds but return fails, exception handling, telemetry freshness, coordinate frames, preflight/execute race conditions, and whether a software governor should be called runtime assurance without formal safety guarantees.
 
@@ -243,7 +268,10 @@ Review focus: whether the custom transport matches official semantics, atomic on
 
 - [`scripts/verify_results.py`](../scripts/verify_results.py): maps original manifest paths into the public `evidence/` layout, verifies hashes, and checks headline frozen assertions.
 - [`scripts/regenerate_public_results.py`](../scripts/regenerate_public_results.py): verifies those sources and reconstructs the committed headline table from frozen machine-readable artifacts.
-- [`tests/`](../tests): 142 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, and Stage 4 protocol/transport safety.
+- [`scripts/validate_successor_trajectory_v190.py`](../scripts/validate_successor_trajectory_v190.py): exact-wheel/source cross-check and offline analytical-IK/configured-margin report; imports no networking stack or command method.
+- [`scripts/capture_successor_present_target_trace.py`](../scripts/capture_successor_present_target_trace.py): owner-record-gated receive-only capture entry point; not run on the robot.
+- [`scripts/build_successor_review_manifest.py`](../scripts/build_successor_review_manifest.py): deterministic content manifest for the full successor review packet; CI rejects stale hashes.
+- [`tests/`](../tests): 213 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, and Stage 4 protocol/transport safety.
 - [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the test extra, runs evidence verification, rejects a stale generated result table, and runs the unit suite on Python 3.11.
 
 Review focus: absent coverage measurement, absent static type/lint checks, dependency reproducibility, missing property/fuzz tests at safety boundaries, and the distinction between unit verification and robot validation.
@@ -257,7 +285,7 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 5. **Passive and physical authority are separated.** Passive success cannot silently enable motion.
 6. **The physical failure was preserved.** Thresholds remained unchanged, and the failure was reconstructed with better geometry instead of relabelled.
 7. **Data minimization is concrete.** The public evidence excludes media and identity features while retaining numeric auditability.
-8. **Safety boundaries exist in code.** Read-only preflight, expiring sessions, one-shot locks, exact direction checks, bounded relative poses, and automatic return are meaningful engineering controls.
+8. **Safety boundaries exist in code.** Read-only preflight, expiring sessions, one-shot locks, exact direction checks, and bounded relative poses are meaningful engineering controls. The successor also treats return as a separately authorized action rather than assuming an automatic return is always safe.
 9. **Claims are cautious.** The repository explicitly rejects identity, intent, generalization, formal safety, and successful physical-validation claims.
 
 ## Mistakes, weaknesses, and risks
@@ -279,9 +307,9 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 ### Mechanical and safety engineering
 
 1. **The first physical protocol had measurement and geometry defects.** Early sampling, no restore dwell, non-orthonormal rotation input, and absolute-neutral targeting invalidated the intended 3° test.
-2. **Controller zero and daemon neutral disagree.** This unresolved coordinate-frame problem correctly blocks V4 but also shows that the software safety model depends on platform semantics not yet fully understood.
+2. **Controller zero was not measured state; the controlled post-wake residual is repeatable but unexplained.** Source inspection and live traces showed that desktop app v0.9.34 stores a matrix pose while its controller sync reads named pose fields and substitutes zero. Three controlled starts later settled at mean rotations of 2.529°, 2.752°, and 2.746°, with enabled motors and zero reported loop errors. Daemon 1.9.0's released response also drops requested target head fields. This correctly blocks V4 against its frozen project gate, but it does not prove a hardware fault; the custom centring proposal was rejected pending gate/target/maintenance review.
 3. **Only one physical motion trial exists.** It failed. There is no estimate of repeatability, direction-dependent performance, or safe long-duration behavior.
-4. **Automatic return is not guaranteed under all faults.** Exceptions, connection loss, daemon failure, motor stalls, or process termination can defeat a software return path.
+4. **Automatic return is not guaranteed or always appropriate under faults.** Exceptions, connection loss, daemon failure, motor stalls, or process termination can defeat a software return path; commanding return from an unknown state may also add risk. The new design-only state machine addresses authorization structure but does not yet prove that normal power-down is the right response for every fault.
 5. **The governor is not formal assurance.** Hashes and checks support auditability, not proof of safety, worst-case timing, or fault containment.
 
 ### Software and reproducibility
@@ -290,11 +318,11 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 2. **The repository is an audit snapshot more than a library.** Forty version-suffixed source files are historically valuable but difficult to navigate, compare, or maintain.
 3. **There is no stable command-line interface.** Reviewers must infer entry points from modules and documents.
 4. **Dependencies are lower-bounded, not fully locked.** A future installation may resolve different transitive versions.
-5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 142 tests says nothing about unexecuted branches.
+5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 213 tests says nothing about unexecuted branches.
 6. **Hardware and media transport are mock-tested, not publicly integration-tested.** The public suite intentionally has no robot, camera, microphone, or private launcher.
 7. **No environment or hardware bill of materials is complete enough for exact independent replication.** Robot/daemon version is fixed, but room geometry, audio firmware/configuration, camera parameters, operating-system details, and timing conditions need a formal reproducibility appendix.
 8. **The initial GitHub CI failed because `aiortc` was missing from test dependencies.** This was corrected, and the subsequent workflow passed, but it shows release verification did not initially match CI installation.
-9. **The current dependency range already exposes API drift.** The isolated Python 3.12 verification passed all 142 tests with current dependencies, but `websockets` 17.1 emitted a deprecation warning for direct `connect()` use in the transport path. Lower bounds without a lock or upper compatibility policy make this likely to recur.
+9. **The dependency range already exposed API drift.** An earlier isolated Python 3.12 verification passed the then-current 162 tests, but `websockets` 17.1 emitted a deprecation warning for direct `connect()` use in the transport path. That historical run has not been repeated for the current 213-test suite. Lower bounds without a lock or upper compatibility policy make this likely to recur.
 
 ### GitHub presentation
 
@@ -335,7 +363,7 @@ The most credible current message is:
 
 ## Roadmap and scheduling boundary
 
-The work is dependency-gated, so calendar promises would currently be misleading. In particular, the neutral-coordinate discrepancy may be a software-frame issue, a daemon/platform issue, or a hardware-state issue; its resolution time is unknown. No V4 or end-to-end date should be quoted until that read-only diagnosis has a reproducible outcome.
+The work is dependency-gated, so calendar promises would currently be misleading. The display bug has a reproducible command-free explanation, and three controlled starts show a repeatable 2.529–2.752° mean post-wake residual under one setup. Whether it reflects ordinary endpoint accuracy relative to an overly conservative project gate, a retained target, tracking error, model/unit geometry, or mechanical load remains unresolved. No V4 or end-to-end date should be quoted until independent gate/target/maintenance review and a newly frozen physical protocol.
 
 | Work package | Dependency | Completion criterion | Schedulable now? |
 |---|---|---|---|
@@ -343,7 +371,11 @@ The work is dependency-gated, so calendar promises would currently be misleading
 | Headline result regeneration | None | One command reconstructs the committed public table and CI rejects drift. | **Complete.** |
 | Full historical replay refactor | None | Public-layout commands rerun the relevant policy searches and regenerate all public tables/figures. | Yes, but effort is not yet estimated from a completed dependency audit. |
 | Reproducibility hardening | Replay refactor | Locked environment, coverage report, type/lint checks, and hardware/configuration appendix. | Partly; should be divided into reviewable changes. |
-| Read-only neutral-coordinate diagnosis | Reachy consistently available | Controller and daemon frames agree reproducibly without bypassing the 1° gate, or the unresolved platform/hardware fault is documented. | **Duration unknown.** |
+| Read-only neutral diagnosis | Complete | Matrix, Euler, stream, joint state, desktop data flow, and daemon readiness reporting inspected without commands. | **Completed 2026-09-01.** |
+| Exact nominal trajectory and configured-limit review | Exact 1.9.0 environment and controlled baseline capture | Official path cross-check and per-sample analytical IK/configured margins for four target/return pairs. | **Offline component complete 2026-09-02; not a physical-safety pass.** |
+| Owner scope and independent protocol review | Owner and suitable human reviewer respond | Byte-preserved itemized owner scope plus an independent verdict on the complete successor. | Packets complete; responses and timing are external. |
+| Live present/target trace | Owner/reviewer approve observational patch and restart | Bounded command-free trace preserves simultaneous present/target pose, joints, body yaw, status, and timing. | No; recorder code exists but patch is uninstalled. |
+| Gate, target, and maintenance review | Controlled command-free starts, static visual inspection, and offline nominal path are complete | Reviewer accepts either the frozen 1° V4 criterion or a separately versioned successor; target state is observable; physical/collision/fault assumptions are resolved; invasive inspection is symptom-led and owner-approved. | Partly; external review and any hardware resolution time are unknown. |
 | V4 four-direction mechanical pilot | Neutral issue resolved | Four separately armed directions pass unchanged target/return gates, or failures are frozen. | No. |
 | Passive-to-live integration prototype | Mechanical pilot passes and a new protocol is frozen | A bounded passive candidate reaches a separately armed governor under an end-to-end test. | No. |
 | Solo multi-room recorded-voice benchmark | Consented recordings, rooms, preregistration, and baseline implementation | Voice- and room-held-out evaluation with trial-level uncertainty and baselines. | Design can begin; collection duration should be estimated only after a pilot. |
@@ -357,9 +389,10 @@ A credible live multi-person eye-contact claim cannot be scheduled under the pre
 2. Convert criticism into public GitHub issues or a review ledger.
 3. Extend the now-reproducible headline table into full public policy-search and figure replay before collecting more data.
 4. Freeze a preregistered recorded-voice, multi-room protocol with room- and voice-level holdouts.
-5. Resolve the coordinate-frame disagreement read-only; do not widen the tolerance to make V4 pass.
-6. Run V4 one direction at a time only after consistent preflight success.
-7. Treat live speaker following and eye contact as later studies requiring additional people, not as a final feature toggle.
+5. Send the itemized owner request and complete successor packet to distinct human reviewers; preserve their actual responses rather than converting silence or informal encouragement into approval.
+6. If both gates approve the observational change, collect one command-free present/target trace, power down, and review it before designing any executor.
+7. Keep the custom centring proposal rejected and V4 frozen. Only a newly frozen successor may later run one separately authorized direction; target and return must remain different decisions.
+8. Treat live speaker following and eye contact as later studies requiring additional people, not as a final feature toggle.
 
 ## Suggested review sequence
 

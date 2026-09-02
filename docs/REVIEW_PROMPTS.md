@@ -28,6 +28,7 @@ Start with:
 - docs/RESULTS.md
 - docs/FAILURE_LEDGER.md
 - docs/LIMITATIONS.md
+- docs/MAINTENANCE_TRIAGE.md
 - docs/DATA_CARD.md
 - docs/PRIOR_ART.md
 - SAFETY.md
@@ -160,7 +161,7 @@ Prioritize:
 
 Threat-model the boundary from passive target to physical command. Examine:
 - stale or inconsistent telemetry;
-- controller/daemon coordinate disagreement;
+- diagnosed desktop matrix/object synchronization defect; a controlled three-start series with mean residuals of 2.529°, 2.752°, and 2.746°, enabled motors, and zero reported loop errors; daemon 1.9.0's dropped target-state response fields; the project's non-vendor 1° gate; and the rejected custom centring proposal;
 - TOCTOU between preflight and execution;
 - replay or reuse of a one-shot armed session;
 - process crash after target motion but before return;
@@ -178,10 +179,16 @@ Return:
 3. confirmed safeguards versus assumed safeguards;
 4. missing tests, including property, fuzz, fault-injection, and hardware-in-the-loop tests;
 5. a verdict on whether any additional physical pilot is justified;
-6. exact preconditions that must be met before V4 actuation;
-7. language corrections needed to avoid implying certified safety.
+6. whether the frozen 1° V4 identity gate is defensible, and what a separately
+   versioned baseline-relative successor would need if it is not;
+7. exact preconditions that must be met before any actuation;
+8. language corrections needed to avoid implying certified safety or diagnosed
+   hardware failure.
 
-Do not recommend bypassing or relaxing the neutral-pose gate merely to collect a passing result.
+Do not recommend bypassing or retroactively relaxing the neutral-pose gate
+merely to collect a passing V4 result. You may recommend a separately versioned,
+preregistered successor criterion if you can justify its absolute mechanical
+envelope and baseline-relative measurement.
 ```
 
 ## Software engineering and reproducibility prompt
@@ -337,7 +344,7 @@ Tell me:
 7. the single next experiment with highest information value;
 8. whether you would share this with robotics colleagues, and under what framing.
 
-Be specific and cite files. Do not equate 142 software tests with empirical validation.
+Be specific and cite files. Do not equate 213 software tests with empirical validation.
 ```
 
 ## Suggested reviewer cover note

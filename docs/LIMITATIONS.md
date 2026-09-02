@@ -17,9 +17,12 @@
 - **No generalization:** one robot, room, microphone geometry, operator, and narrow set of controlled recordings are insufficient.
 - **No participant study:** recorded voices are stimuli, not a multi-person user study.
 - **No autonomous safety:** software guards are not certified functional safety.
-- **No successful physical validation:** one failed mechanical trial is neither success nor a performance estimate.
+- **No successful physical validation:** one failed mechanical trial is neither success nor a performance estimate; a pure centring planner is a rejected counterfactual, not a repair or hardware result.
 - **No formal privacy proof:** removing raw media reduces exposure, but timestamps, headings, filenames, and experimental metadata may still reveal context.
 - **No formal verification:** hashes demonstrate file integrity, not correctness of every implementation or assumption.
+- **No executable successor:** the baseline-relative successor is a post-V4, design-only review artifact. Its receive-only recorder has not been run, and the split target/return state machine has no executor. Candidate bounds and complete-record state authorize zero robot connections or commands.
+- **No physical-safety result from offline IK:** the exact 1.9.0 path stayed at least 42.706° inside the supplied configured joint bounds on the ideal grid, but analytical collision checking is absent and load, current, cables, enclosure clearance, tracking, scheduling, and the actual measured return path were not validated.
+- **No external approvals yet:** the owner request and independent review packet are templates. No owner scope confirmation or independent human robotics verdict has been recorded.
 
 ## Evaluation risks
 
@@ -33,4 +36,4 @@
 
 ## Next evidence needed
 
-An independent protocol should preregister hypotheses and thresholds, use new rooms and positions, include multiple live speakers with consent, randomize playback and hard negatives, report trial-level uncertainty, and keep all policy development separate from the final test set. Physical work should resume only after the neutral-coordinate disagreement is resolved by read-only diagnosis and a newly frozen protocol.
+An independent protocol should preregister hypotheses and thresholds, use new rooms and positions, include multiple live speakers with consent, randomize playback and hard negatives, report trial-level uncertainty, and keep all policy development separate from the final test set. The controller/daemon display discrepancy has been diagnosed, and a controlled three-start series found repeatable 2.529–2.752° mean post-wake offsets with enabled motors and zero reported loop errors. Daemon 1.9.0 still does not expose requested target fields through its released `FullState` response. The receive-only successor instrument therefore remains blocked pending explicit owner approval of its observational patch/restart and independent human review. Because the frozen 1° gate is project-selected rather than a vendor tolerance, physical work should resume only after those reviews, a successful present/target trace, and a newly frozen protocol; failing that gate alone is not proof of hardware failure. The current custom centring proposal is [rejected for hardware execution](CENTERING_REVIEW.md); see the [maintenance triage](MAINTENANCE_TRIAGE.md), [offline trajectory result](SUCCESSOR_TRAJECTORY_REVIEW.md), and [split return design](SPLIT_TARGET_RETURN_PROTOCOL.md).
