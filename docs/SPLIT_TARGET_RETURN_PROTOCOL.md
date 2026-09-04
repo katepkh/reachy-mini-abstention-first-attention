@@ -13,12 +13,12 @@ owner scope + independent review
               v
 target preflight -> target authorization -> target execution/observation
                                                 |
-                         success ---------------+--- failure -> power down
+                         success ---------------+--- failure -> no automatic return
                             |
                             v
 return preflight -> NEW return authorization -> return execution/observation
                                                         |
-                                      success ----------+--- failure -> power down
+                                      success ----------+--- failure -> no automatic return
 ```
 
 The precise states and allowed transitions are in
@@ -38,15 +38,17 @@ preflight artifact must also differ from the target-observation artifact.
 ## Failure semantics
 
 `HEALTH_FAILURE`, `TIMEOUT`, or `UNEXPECTED_MOTION` transitions every
-nonterminal state to `ABORT_POWER_DOWN`. A failed outward leg also transitions
-to `ABORT_POWER_DOWN`; it does **not** attempt a software return in a `finally`
-block. The intended response is supervised normal power-down, followed by
-inspection and review. This avoids issuing a second command from an unknown
-state merely because the first command failed.
+nonterminal state to `ABORT_NO_AUTOMATIC_RETURN`. A failed motion leg enters the
+same state. It does **not** attempt a software return in a `finally` block, and
+it no longer assumes that either normal daemon shutdown or hard power removal
+is automatically safe.
 
-This is a deliberate change from the frozen V4 pilot. It does not claim that
-power-down is mechanically risk-free in every failure mode; that question is
-part of the requested external review.
+The pure [`failure-response matrix`](../reachy_stage4/failure_response.py)
+distinguishes a torque-disabled observation failure, a responsive daemon with
+fresh telemetry, daemon loss, and ambiguous/stale state. It authorizes no
+response. Every branch preserves evidence, forbids automatic return, and points
+to a separately reviewed unit-specific procedure. This is a deliberate change
+from the frozen V4 pilot and the previous `ABORT_POWER_DOWN` design.
 
 ## Still missing before implementation
 
@@ -55,6 +57,7 @@ part of the requested external review.
 - live present/target observability;
 - validated continuous health thresholds and trace freshness rules;
 - a reviewed executor boundary with explicit command accounting; and
+- a Reachy-specific stop/de-energization procedure for daemon failure; and
 - evidence from a nonmoving mock/simulation integration test before any
   physical run.
 

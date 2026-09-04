@@ -7,3 +7,5 @@ evidence/** -text
 *.onnx -text
 *.png -text
 
+# Unified-diff context blank lines consist of one required leading space.
+*.patch -whitespace

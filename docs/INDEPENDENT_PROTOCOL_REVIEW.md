@@ -7,6 +7,11 @@ review do not satisfy this gate. The reviewer should be a human with relevant
 robot motion, controls, safety, or Reachy Mini expertise, distinct from the
 operator and identified in the preserved response.
 
+The owner has confirmed the limited temporary-daemon, restore-and-verify scope;
+the exact exchange is held in a hash-verified private record. That permission
+does not cover the proposed 3° target or return legs. The reviewer is assessing
+technical adequacy, not granting owner permission.
+
 ## Message for the independent reviewer
 
 > Could you review this as a pre-actuation protocol, not as a polished demo? I
@@ -19,6 +24,7 @@ operator and identified in the preserved response.
 > - `docs/EXTERNAL_REVIEW.md`
 > - `docs/BASELINE_RELATIVE_SUCCESSOR.md`
 > - `docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md`
+> - `docs/TEMPORARY_DAEMON_LIFECYCLE.md`
 > - `docs/SUCCESSOR_TRAJECTORY_REVIEW.md`
 > - `docs/SPLIT_TARGET_RETURN_PROTOCOL.md`
 > - `docs/RETURN_TO_BORROWED_CONDITION.md`
@@ -27,18 +33,29 @@ operator and identified in the preserved response.
 > - `reachy_stage4/successor_trace.py`
 > - `reachy_stage4/trajectory_review.py`
 > - `reachy_stage4/split_authorization.py`
+> - `reachy_stage4/daemon_lifecycle.py`
+> - `reachy_stage4/failure_response.py`
+> - `reachy_stage4/rollback_inventory.py`
 > - `scripts/validate_successor_trajectory_v190.py`
 > - `patches/reachy-mini-v1.9.0-target-state-observability.patch`
+> - `patches/reachy-mini-v1.9.0-observation-lifecycle.patch`
 >
 > Known non-results: the patch is not installed; no live present/target trace
 > exists; the offline margin result is not collision or load validation; the
 > non-identity start-pose cause remains unknown; no successor command has been
-> sent; and 0/4 physical directions are accepted. Please state your expertise,
-> assumptions, blocking findings, required changes, and whether power-down
-> rather than software return is the right failure response. Please separately
+> sent; and 0/4 physical directions are accepted. The lifecycle patch suppresses
+> the daemon reflash helper but motor-controller 1.5.5 can still conditionally
+> reboot a motor with a pre-existing non-voltage hardware error. Please state your expertise,
+> assumptions, blocking findings, required changes, and assess the conditional
+> failure-response matrix rather than choosing one universal power-down or return.
+> Please separately
 > decide whether the temporary deployment/rollback design can return a borrowed
 > unit to a documented practical equivalent state; do not interpret that as a
 > promise of literal zero wear or byte-identical storage.
+
+The local mock-process fault rehearsal passes all four cases, but reviewers
+must not treat mock exit as evidence of real torque removal, serial-bus release,
+or a safe daemon restart. See [`OFFLINE_FAILURE_REHEARSAL.md`](OFFLINE_FAILURE_REHEARSAL.md).
 
 ## Required review questions
 
@@ -58,18 +75,20 @@ operator and identified in the preserved response.
    extrema for these paths? If not, what continuous or adaptive verification is
    needed?
 6. Is splitting target and return authorization safer than an automatic
-   `finally` return? Under which failure modes would normal power-down itself be
-   inappropriate?
+   `finally` return? For each failure class, is the proposed stay-clear,
+   supported stop/disable, or owner-approved physical de-energization response
+   appropriate? Neither normal shutdown nor hard power removal is assumed safe.
 7. Are the candidate readiness limits (10° absolute RPY/geodesic, 8 mm
    translation, 0.25°/1 mm baseline drift, 50 frames) defensible? If not,
    replace them with source-backed or experimentally justified values.
 8. What exact outcome would make one physical leg acceptable, and what outcome
    must terminate the entire series?
 9. Is the return-to-borrowed-condition protocol adequate? In particular, assess
-   baseline completeness, temporary-versus-system installation, log retention,
-   cleanup, and the fact that daemon 1.9.0 startup calls
-   `reflash_motors_if_needed` and can execute a wake. Must vendor review replace
-   or supplement this independent review before any patched hardware startup?
+   baseline completeness, isolated caches/logs, temporary-versus-system
+   installation, omission of `--wireless-version`, and the lifecycle patch's
+   no-reflash/no-startup-app/no-mDNS controls. Does conditional motor reboot or
+   the lack of proved torque removal after daemon failure require vendor review
+   before any patched hardware startup?
 
 ## Expected response format
 

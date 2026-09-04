@@ -10,6 +10,11 @@ four-field observability patch is installed.
 
 This is an instrument, not evidence that target state has been observed.
 
+The owner has confirmed the limited temporary-daemon and restore/verify scope,
+and that exchange is preserved in a hash-verified private record. Independent
+human review of the exact patch, lifecycle, and failure response is still
+absent, so the recorder remains blocked.
+
 ## What it records
 
 [`successor_trace.py`](../reachy_stage4/successor_trace.py) opens only the
@@ -43,14 +48,23 @@ but released [`FullState`](https://github.com/pollen-robotics/reachy_mini/blob/v
 does not declare those members. Both the REST and WebSocket full-state routes
 therefore serialize them away. The route behavior is visible in the official
 [`state.py`](https://github.com/pollen-robotics/reachy_mini/blob/v1.9.0/src/reachy_mini/daemon/app/routers/state.py).
-The repository patch passes isolated route and complete mock-daemon tests, but
-it remains uninstalled on the borrowed robot.
+The repository schema patch passes isolated route and complete mock-daemon
+tests. A separate lifecycle patch now exposes explicit no-reflash,
+no-startup-app, and no-mDNS controls and passes an exact-source offline
+validator. Both remain uninstalled on the borrowed robot; see the
+[`temporary-daemon lifecycle review`](TEMPORARY_DAEMON_LIFECYCLE.md).
 
 ## Conditions before any capture
 
-- The owner explicitly approves all three actions above and any conditions.
-- The external reply and a structured record are preserved and hashed.
+- [satisfied privately] The owner approves the limited three-action
+  observational scope and the external reply plus structured record are
+  preserved and hashed.
 - The patch is independently reviewed before installation.
+- The separate lifecycle patch and exact loopback-only invocation are reviewed.
+- The offline mock-process failure rehearsal passes; this is already satisfied,
+  but it does not replace unit-specific recovery guidance.
+- The stock service reports no motor error before shutdown and motor control
+  disabled after shutdown; otherwise controller construction is prohibited.
 - Installation and restart are treated as a change to experimental state.
 - The first run is state capture only: no target, torque, tracking, antenna,
   body-yaw, media, or app-start command.

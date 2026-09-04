@@ -14,11 +14,11 @@ from typing import Any, Mapping
 from .safety import validate_direction
 
 
-SCHEMA_VERSION = "reachy-stage4a-split-target-return-design-v1"
+SCHEMA_VERSION = "reachy-stage4a-split-target-return-design-v2"
 STATUS_DESIGN_ONLY = "DESIGN_ONLY_NO_COMMAND_AUTHORITY"
 TARGET_ARM_PHRASE = "AUTHORIZE REACHY TARGET 3 DEGREES"
 RETURN_ARM_PHRASE = "AUTHORIZE REACHY RETURN TO CAPTURED BASELINE"
-TERMINAL_STATES = {"COMPLETE", "ABORT_POWER_DOWN"}
+TERMINAL_STATES = {"COMPLETE", "ABORT_NO_AUTOMATIC_RETURN"}
 FAILURE_EVENTS = {"HEALTH_FAILURE", "TIMEOUT", "UNEXPECTED_MOTION"}
 TRANSITIONS = {
     ("EXTERNAL_APPROVALS_REQUIRED", "RECORD_EXTERNAL_APPROVALS"): "TARGET_PREFLIGHT_REQUIRED",
@@ -26,12 +26,12 @@ TRANSITIONS = {
     ("TARGET_AUTHORIZATION_REQUIRED", "AUTHORIZE_TARGET"): "TARGET_AUTHORIZED",
     ("TARGET_AUTHORIZED", "TARGET_STARTED"): "TARGET_IN_PROGRESS",
     ("TARGET_IN_PROGRESS", "TARGET_OBSERVED_SUCCESS"): "RETURN_PREFLIGHT_REQUIRED",
-    ("TARGET_IN_PROGRESS", "TARGET_OBSERVED_FAILURE"): "ABORT_POWER_DOWN",
+    ("TARGET_IN_PROGRESS", "TARGET_OBSERVED_FAILURE"): "ABORT_NO_AUTOMATIC_RETURN",
     ("RETURN_PREFLIGHT_REQUIRED", "RETURN_PREFLIGHT_PASS"): "RETURN_AUTHORIZATION_REQUIRED",
     ("RETURN_AUTHORIZATION_REQUIRED", "AUTHORIZE_RETURN"): "RETURN_AUTHORIZED",
     ("RETURN_AUTHORIZED", "RETURN_STARTED"): "RETURN_IN_PROGRESS",
     ("RETURN_IN_PROGRESS", "RETURN_OBSERVED_SUCCESS"): "COMPLETE",
-    ("RETURN_IN_PROGRESS", "RETURN_OBSERVED_FAILURE"): "ABORT_POWER_DOWN",
+    ("RETURN_IN_PROGRESS", "RETURN_OBSERVED_FAILURE"): "ABORT_NO_AUTOMATIC_RETURN",
 }
 
 
@@ -129,7 +129,7 @@ def apply_design_event(
         raise ValueError(f"Terminal state {state} cannot transition.")
 
     if name in FAILURE_EVENTS:
-        next_state = "ABORT_POWER_DOWN"
+        next_state = "ABORT_NO_AUTOMATIC_RETURN"
         validated: Any = {"reason": _require_text(supplied, "reason")}
     else:
         try:
@@ -211,7 +211,10 @@ def apply_design_event(
         "RETURN_AUTHORIZED": "separate executor may start return leg",
         "RETURN_IN_PROGRESS": "observe return leg",
         "COMPLETE": "none",
-        "ABORT_POWER_DOWN": "normal power-down; return is not authorized",
+        "ABORT_NO_AUTOMATIC_RETURN": (
+            "return is not authorized; classify the failure with the reviewed response "
+            "matrix; normal shutdown and hard power removal are not automatically authorized"
+        ),
     }
     result["next_requirement"] = requirements[next_state]
     # These counters describe this pure design evaluator, not a future executor.

@@ -2,12 +2,27 @@
 
 ## Current status
 
-**No owner confirmation has been recorded.** This document is a request
-template, not permission. The project must not interpret silence, a general
-loan of the robot, or approval of earlier playful demos as approval of daemon
-modification or the proposed physical protocol.
+The owner directly accepted a shorter written request to temporarily run a
+separate minimally patched daemon, restore and verify the untouched original,
+avoid recalibration and permanent installation, and allow the incidental normal
+wake movement. The screenshot and exact transcription are preserved outside Git
+in a byte-verified private v2 record.
 
-## Short message for the robot owner
+Public cryptographic commitments:
+
+- source screenshot SHA-256: `a107dfedfa35bdd91a7da6689957cb60a39d86286f2e5da115a20611be17ead1`;
+- normalized private record SHA-256: `ea11d01481eb6b31fc987ae849e1057bb96d4608f861c1bff3273996c1e491ea`.
+
+This is limited lifecycle/observability permission. The physical 3° target and
+return legs, disassembly, recalibration, firmware or torque changes, and
+publication of the owner's identity or correspondence were not requested and
+are not inferred. Hash validation proves only byte preservation and record
+structure; it does not authenticate the sender. Mapping the accepted
+temporary-daemon request to the project's three command-free observability
+action identifiers is a disclosed normalization judgment, not an item-by-item
+reply from the owner.
+
+## Unsent itemized template for any later expansion of scope
 
 > I found that Reachy Mini daemon 1.9.0 drops target pose/joint fields from its
 > read-only state response. I have a minimal four-field schema patch that has
@@ -43,13 +58,13 @@ modification or the proposed physical protocol.
 
 | Action | Owner response | Required before action |
 |---|---|---|
-| Power for baseline inventory/receive-only state capture | pending | explicit yes |
-| Create a separate temporary patched daemon environment | pending | explicit yes + independent review of exact procedure |
-| Stop original daemon, start temporary daemon, then restore original service | pending | explicit yes + approved rollback protocol |
-| Accept disclosed unavoidable logs/use and define practical return condition | pending | explicit owner definition |
-| One 3° outward head leg | pending | explicit yes + independent approval + fresh preflight + separate operator authorization |
-| One separately authorized return leg | pending | explicit yes + successful outward observation + new preflight + new authorization |
-| Publish derived non-media data/code | pending | explicit yes |
+| Power for baseline inventory/receive-only state capture | confirmed within the limited temporary-daemon request | independent review of exact procedure still required |
+| Create a separate temporary patched daemon environment | confirmed | independent review of exact procedure still required |
+| Stop original daemon, start temporary daemon, then restore original service | confirmed | independently accepted rollback protocol still required |
+| Restore/verify original installation; no recalibration or permanent install | confirmed | discrepancies must still be disclosed rather than erased |
+| One 3° outward head leg | not requested; no approval inferred | explicit later yes + independent approval + fresh preflight + separate operator authorization |
+| One separately authorized return leg | not requested; no approval inferred | explicit later yes + successful outward observation + new preflight + new authorization |
+| Publish derived non-media data/code | not requested in this exchange | preserve existing privacy boundary; seek permission if owner-related material would be published |
 | Disassembly or mechanical calibration | prohibited unless separately requested and approved | not requested |
 | Torque/motor-mode changes or autonomous tracking | prohibited | not requested |
 

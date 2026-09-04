@@ -17,11 +17,13 @@ git config user.email "katepakhomova.work@gmail.com"
 ```bash
 python scripts/verify_results.py
 python scripts/regenerate_public_results.py --check
+python scripts/run_offline_fault_rehearsal.py --check
+python scripts/build_successor_review_manifest.py --check
 python -m unittest discover -s tests -p "test_*.py"
 git diff --cached --name-only
 ```
 
-Expected results: 171 evidence files verified, the generated public result summary matching frozen evidence, 185 tests passing, and no media/audit/private-environment files in the staged list.
+Expected results: 171 evidence files verified, the generated public result summary matching frozen evidence, four fresh mock-process failure rehearsals matching the frozen report, the 48-file successor review manifest matching, 227 tests passing, and no media/audit/private-environment files in the staged list.
 
 ## 3. Commit locally
 

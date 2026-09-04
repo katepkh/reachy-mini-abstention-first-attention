@@ -25,18 +25,27 @@ REVIEW_FILES = (
     "docs/STARTUP_CHARACTERIZATION.md",
     "docs/BASELINE_RELATIVE_SUCCESSOR.md",
     "docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md",
+    "docs/TEMPORARY_DAEMON_LIFECYCLE.md",
+    "docs/OFFLINE_FAILURE_REHEARSAL.md",
     "docs/SUCCESSOR_TRAJECTORY_REVIEW.md",
     "docs/SPLIT_TARGET_RETURN_PROTOCOL.md",
     "docs/RETURN_TO_BORROWED_CONDITION.md",
     "docs/OWNER_SCOPE_REQUEST.md",
     "docs/INDEPENDENT_PROTOCOL_REVIEW.md",
     "patches/reachy-mini-v1.9.0-target-state-observability.patch",
+    "patches/reachy-mini-v1.9.0-observation-lifecycle.patch",
+    "reachy_stage4/daemon_lifecycle.py",
+    "reachy_stage4/failure_response.py",
+    "reachy_stage4/rollback_inventory.py",
+    "reachy_stage4/offline_fault_rehearsal.py",
     "reachy_stage4/successor_review.py",
     "reachy_stage4/successor_trace.py",
     "reachy_stage4/trajectory_review.py",
     "reachy_stage4/split_authorization.py",
     "reachy_stage4/external_records.py",
     "scripts/build_successor_review_manifest.py",
+    "scripts/validate_daemon_lifecycle_patch.py",
+    "scripts/run_offline_fault_rehearsal.py",
     "scripts/capture_successor_present_target_trace.py",
     "scripts/validate_successor_trajectory_v190.py",
     "tests/test_stage4a_successor_review.py",
@@ -45,6 +54,12 @@ REVIEW_FILES = (
     "tests/test_stage4a_trajectory_validator.py",
     "tests/test_stage4a_split_authorization.py",
     "tests/test_stage4a_external_records.py",
+    "tests/test_stage4a_daemon_lifecycle.py",
+    "tests/test_stage4a_failure_response.py",
+    "tests/test_stage4a_rollback_inventory.py",
+    "tests/test_stage4a_offline_fault_rehearsal.py",
+    "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json",
+    "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json.sha256",
 )
 
 
@@ -61,18 +76,25 @@ def build_payload() -> dict:
             }
         )
     return {
-        "schema": "reachy-stage4a-successor-review-manifest-v1",
+        "schema": "reachy-stage4a-successor-review-manifest-v2",
         "status": "DESIGN_ONLY_NO_COMMAND_AUTHORITY",
+        "owner_scope_status": (
+            "HASH_VERIFIED_PRIVATE_RECORD_FOR_TEMPORARY_OBSERVATIONAL_DAEMON_"
+            "AND_RESTORE_ONLY_NO_MOTION_SCOPE"
+        ),
         "file_count": len(files),
         "files": files,
         "known_blockers": [
-            "NO_OWNER_SCOPE_CONFIRMATION_RECORDED",
+            "NO_OWNER_PHYSICAL_TARGET_OR_RETURN_SCOPE_RECORDED",
             "NO_INDEPENDENT_HUMAN_ROBOTICS_VERDICT_RECORDED",
             "TARGET_STATE_PATCH_NOT_INSTALLED",
+            "OBSERVATION_LIFECYCLE_PATCH_NOT_INSTALLED",
             "NO_LIVE_PRESENT_TARGET_TRACE",
             "NO_SUCCESSOR_EXECUTOR",
             "NO_COLLISION_LOAD_TRACKING_OR_PHYSICAL_SAFETY_VALIDATION",
             "NO_APPROVED_RETURN_TO_BORROWED_CONDITION_PROCEDURE",
+            "NO_VERIFIED_TORQUE_REMOVAL_AFTER_DAEMON_FAILURE",
+            "NO_UNIT_SPECIFIC_PHYSICAL_DEENERGIZATION_PROCEDURE",
         ],
         "robot_connections": 0,
         "robot_commands_authorized": 0,

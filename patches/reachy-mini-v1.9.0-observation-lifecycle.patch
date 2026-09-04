@@ -1,0 +1,146 @@
+diff --git a/src/reachy_mini/daemon/app/main.py b/src/reachy_mini/daemon/app/main.py
+--- a/src/reachy_mini/daemon/app/main.py
++++ b/src/reachy_mini/daemon/app/main.py
+@@ -95,6 +95,9 @@ class Args:
+ 
+     wake_up_on_start: bool = True
+     goto_sleep_on_stop: bool = True
++    reflash_motors_on_start: bool = True
++    startup_app_enabled: bool = True
++    mdns_enabled: bool = True
+     preload_datasets: bool = False
+     dataset_update_interval_hours: float = 24.0  # 0 to disable periodic updates
+ 
+@@ -182,7 +185,7 @@ def create_app(args: Args, health_check_event: asyncio.Event | None = None) -> F
+             on_wake_up_callback = None
+             startup_app = startup_app_config.get_startup_app()
+             startup_app_ready = False
+-            if args.autostart and startup_app:
++            if args.autostart and args.startup_app_enabled and startup_app:
+                 if await ensure_startup_app_installed(
+                     app.state.app_manager, startup_app
+                 ):
+@@ -204,6 +207,7 @@ def create_app(args: Args, health_check_event: asyncio.Event | None = None) -> F
+                     wake_up_on_start=args.wake_up_on_start,
+                     hardware_config_filepath=args.hardware_config_filepath,
+                     on_wake_up_callback=on_wake_up_callback,
++                    reflash_motors_on_start=args.reflash_motors_on_start,
+                 )
+ 
+             if (
+@@ -223,8 +227,9 @@ def create_app(args: Args, health_check_event: asyncio.Event | None = None) -> F
+                     f"Startup app antenna watcher started for app: {startup_app}"
+                 )
+ 
+-            # Register mDNS service only after the daemon is ready
+-            mdns.register()
++            # Register mDNS service only after the daemon is ready and when requested.
++            if args.mdns_enabled:
++                mdns.register()
+ 
+             yield
+         finally:
+@@ -245,8 +250,9 @@ def create_app(args: Args, health_check_event: asyncio.Event | None = None) -> F
+                 except asyncio.CancelledError:
+                     pass
+ 
+-            # Unregister mDNS service
+-            mdns.unregister()
++            # Unregister mDNS service only when it was registered.
++            if args.mdns_enabled:
++                mdns.unregister()
+ 
+             # Ensure cleanup happens even if there's an exception
+             try:
+@@ -716,6 +722,27 @@ def main() -> None:
+         help="Do not put the robot to sleep on daemon stop (default: False).",
+     )
+     parser.add_argument(
++        "--no-reflash-motors-on-start",
++        action="store_false",
++        dest="reflash_motors_on_start",
++        default=default_args.reflash_motors_on_start,
++        help="Skip the motor configuration check/reflash helper on daemon start.",
++    )
++    parser.add_argument(
++        "--no-startup-app",
++        action="store_false",
++        dest="startup_app_enabled",
++        default=default_args.startup_app_enabled,
++        help="Do not install, launch, or watch the configured startup app.",
++    )
++    parser.add_argument(
++        "--no-mdns",
++        action="store_false",
++        dest="mdns_enabled",
++        default=default_args.mdns_enabled,
++        help="Do not advertise the daemon through mDNS.",
++    )
++    parser.add_argument(
+         "--preload-datasets",
+         action="store_true",
+         default=default_args.preload_datasets,
+diff --git a/src/reachy_mini/daemon/daemon.py b/src/reachy_mini/daemon/daemon.py
+--- a/src/reachy_mini/daemon/daemon.py
++++ b/src/reachy_mini/daemon/daemon.py
+@@ -233,6 +233,7 @@ class Daemon:
+         use_audio: bool = True,  # kept for backward compat, overridden by no_media
+         hardware_config_filepath: str | None = None,
+         on_wake_up_callback: Callable[[], None] | None = None,
++        reflash_motors_on_start: bool = True,
+     ) -> "DaemonState":
+         """Start the Reachy Mini daemon.
+ 
+@@ -248,6 +249,7 @@ class Daemon:
+             use_audio (bool): If True, enable audio. Defaults to True.
+             hardware_config_filepath (str | None): Path to the hardware configuration YAML file. Defaults to None.
+             on_wake_up_callback (Callable[[], None] | None): Fired once each time the robot finishes waking up. Defaults to None.
++            reflash_motors_on_start (bool): If True, check and repair motor configuration before backend construction. Defaults to True.
+ 
+         Returns:
+             DaemonState: The current state of the daemon after attempting to start it.
+@@ -258,7 +260,7 @@ class Daemon:
+             return self._status.state
+ 
+         self.logger.info(
+-            f"Daemon start parameters: sim={sim}, mockup_sim={mockup_sim}, serialport={serialport}, scene={scene}, wake_up_on_start={wake_up_on_start}, check_collision={check_collision}, kinematics_engine={kinematics_engine}, headless={headless}, hardware_config_filepath={hardware_config_filepath}"
++            f"Daemon start parameters: sim={sim}, mockup_sim={mockup_sim}, serialport={serialport}, scene={scene}, wake_up_on_start={wake_up_on_start}, check_collision={check_collision}, kinematics_engine={kinematics_engine}, headless={headless}, hardware_config_filepath={hardware_config_filepath}, reflash_motors_on_start={reflash_motors_on_start}"
+         )
+ 
+         # mockup-sim behaves exactly like a real robot for apps (they open webcam directly)
+@@ -281,6 +283,7 @@ class Daemon:
+             "headless": headless,
+             "use_audio": effective_use_audio,
+             "scene": scene,
++            "reflash_motors_on_start": reflash_motors_on_start,
+         }
+ 
+         self.logger.info("Starting Reachy Mini daemon...")
+@@ -298,6 +301,7 @@ class Daemon:
+                 headless=headless,
+                 use_audio=effective_use_audio,
+                 hardware_config_filepath=hardware_config_filepath,
++                reflash_motors_on_start=reflash_motors_on_start,
+             )
+ 
+             self.ws_server = WSServer(backend=self.backend)
+@@ -527,6 +531,7 @@ class Daemon:
+                 "wake_up_on_start": wake_up_on_start
+                 if wake_up_on_start is not None
+                 else False,
++                "reflash_motors_on_start": self._start_params["reflash_motors_on_start"],
+             }
+ 
+             return await self.start(**params)
+@@ -753,7 +758,11 @@ class Daemon:
+             )
+ 
+             if reflash_motors_on_start:
+                 reflash_motors_if_needed(serialport, dont_light_up=True)
++            else:
++                self.logger.warning(
++                    "Motor configuration check/reflash skipped for this daemon start."
++                )
+ 
+             return RobotBackend(
+                 serialport=serialport,

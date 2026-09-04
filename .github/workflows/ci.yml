@@ -22,6 +22,8 @@ jobs:
         run: python scripts/verify_results.py
       - name: Check generated public results
         run: python scripts/regenerate_public_results.py --check
+      - name: Rehearse temporary-daemon faults with local mocks
+        run: python scripts/run_offline_fault_rehearsal.py --check
       - name: Check successor review manifest
         run: python scripts/build_successor_review_manifest.py --check
       - name: Run curated tests

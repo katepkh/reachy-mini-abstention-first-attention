@@ -98,14 +98,14 @@ class SplitAuthorizationTests(unittest.TestCase):
         session = apply_design_event(session, "AUTHORIZE_TARGET", authorization("target-1", TARGET_ARM_PHRASE))
         session = apply_design_event(session, "TARGET_STARTED", {"executor_receipt": "receipt-1"})
         session = apply_design_event(session, "TARGET_OBSERVED_FAILURE", {"reason": "unexpected sound"})
-        self.assertEqual(session["state"], "ABORT_POWER_DOWN")
+        self.assertEqual(session["state"], "ABORT_NO_AUTOMATIC_RETURN")
         self.assertIn("return is not authorized", session["next_requirement"])
 
     def test_health_failure_from_review_state_aborts(self):
         session = apply_design_event(
             approved_session(), "HEALTH_FAILURE", {"reason": "stale telemetry"}
         )
-        self.assertEqual(session["state"], "ABORT_POWER_DOWN")
+        self.assertEqual(session["state"], "ABORT_NO_AUTOMATIC_RETURN")
 
     def test_module_exposes_no_command_or_transport_surface(self):
         tree = ast.parse(Path(split_authorization.__file__).read_text(encoding="utf-8"))

@@ -344,7 +344,7 @@ Tell me:
 7. the single next experiment with highest information value;
 8. whether you would share this with robotics colleagues, and under what framing.
 
-Be specific and cite files. Do not equate 213 software tests with empirical validation.
+Be specific and cite files. Do not equate 223 software tests with empirical validation.
 ```
 
 ## Suggested reviewer cover note

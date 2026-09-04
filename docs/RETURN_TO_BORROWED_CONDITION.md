@@ -48,7 +48,8 @@ Before even the baseline inventory is collected from the powered robot:
    approve the listed observations, temporary files, daemon stop/start, known
    residual logs, and cleanup method;
 2. an independent human robotics reviewer must approve the exact deployment and
-   rollback procedure, including daemon-start motor reflash and wake semantics;
+   rollback procedure, including the lifecycle patch, conditional controller
+   reboot, torque-state assumptions, and failure response;
 3. the operator must accept a written stop rule and must not improvise if any
    baseline field cannot be captured or restored.
 
@@ -64,7 +65,9 @@ Capture immutable, timestamped records before stopping the original service:
 | Physical exterior | Owner-approved photographs; cable and enclosure observations | No new visible damage or changed assembly |
 | Robot identity | Hardware identifier recorded privately | Exact match |
 | OS and daemon | OS release; daemon/package version; Python environment/package inventory | Exact values unless owner explicitly accepts a difference |
-| Code and configuration | SHA-256 of the installed `reachy_mini` package tree, hardware configuration, daemon service unit and relevant startup configuration | Exact hash match |
+| Code and configuration | SHA-256 of the installed `reachy_mini` package tree, hardware configuration, daemon service unit and launcher | Exact hash match |
+| Environments | Canonical package/tree manifests for `/venvs/mini_daemon`, apps environment, and restore environment | Exact hash match |
+| Wireless maintenance surfaces | Bluetooth service/configuration, `~/.asoundrc` presence/content, `/venvs` ownership metadata | Exact match; temporary daemon must not invoke maintenance hooks |
 | Services | Enabled/running state and exact daemon launch configuration | Exact match |
 | Installed/startup apps | Installed-app inventory and configured/running startup app | Exact match |
 | Network configuration | Non-secret identifiers and configuration hashes; do not export credentials | Exact match or owner-approved exception |
@@ -74,6 +77,13 @@ Capture immutable, timestamped records before stopping the original service:
 Every raw baseline artifact receives a SHA-256 sidecar and remains private.
 Missing data is not filled from memory. If an exact baseline cannot be captured,
 the corresponding change is prohibited.
+
+[`rollback_inventory.py`](../reachy_stage4/rollback_inventory.py) compares
+canonical private-record hashes for the physical exterior, identity, software,
+configuration, environments, services, non-secret network state, robot status,
+and startup behavior. A byte match means only that every reviewed surface
+matches. Practical equivalence remains false until the owner accepts the full
+comparison and any ordinary logs, timestamps, storage writes, and physical use.
 
 ## Phase B — bounded temporary deployment
 
@@ -86,10 +96,13 @@ This phase remains prohibited until the two approvals above exist.
    configuration, installed apps, or motor configuration.
 3. Record all files created on the robot and their locations before launch.
 4. Stop the original daemon through the reviewed service procedure.
-5. Start only the reviewed temporary daemon invocation. The reviewer must first
-   resolve whether motor reflashing can occur and whether wake can be suppressed
-   without introducing a different unreviewed patch. Unexpected firmware work,
-   wake motion, version drift, or startup output terminates the procedure.
+5. Start only the reviewed temporary invocation in
+   [`TEMPORARY_DAEMON_LIFECYCLE.md`](TEMPORARY_DAEMON_LIFECYCLE.md). It must omit
+   `--wireless-version`, use the explicit serial port and lifecycle patch, bind
+   loopback, suppress wake/sleep, startup apps, mDNS, media, datasets, and the
+   motor reflash helper, and isolate logs and caches. A pre-existing motor error,
+   conditional motor reboot, unexpected write, motion, version drift, or startup
+   output terminates the procedure.
 6. Run one bounded state-only capture. It may receive present/target state but
    must send no application command or start any robot app.
 7. Stop the temporary daemon. Do not combine this phase with a target or return
@@ -147,6 +160,8 @@ Stop without attempting an improvised fix if any of these occurs:
 - owner or reviewer approval is absent, expired, conditional in an unmet way,
   or withdrawn.
 
-The default response is safe shutdown, evidence preservation, and owner
-notification—not factory reset, calibration, continued experimentation, or
-concealment of the difference.
+The default response is to remain clear, issue no improvised return, preserve
+evidence, classify the failure using the reviewed matrix, and notify the owner.
+Neither normal daemon shutdown nor hard power removal is called universally
+safe. Factory reset, calibration, continued experimentation, and concealment of
+the difference remain prohibited.

@@ -96,7 +96,7 @@ It does not import V4's movement constant or executable pilot.
 | Run exact 1.9.0 IK and compare configured joint limits | **Offline complete, safety incomplete** | The minimum supplied configured-limit margin was 42.706°. No acceptable-margin threshold, collision, conditioning, load, cable, or enclosure check has been approved. |
 | Add a receive-only continuous recorder | **Code complete; not run** | It sends zero client application messages and writes immutable traces, but requires owner-approved patch/restart first. |
 | Split target and return authorization | **Design state machine complete; no executor** | [`SPLIT_TARGET_RETURN_PROTOCOL.md`](SPLIT_TARGET_RETURN_PROTOCOL.md) requires a new return trace, phrase, and identifier. Failure leads to supervised power-down, not an automatic second command. |
-| Record owner scope and independent robotics approval | **Packets complete; real responses absent** | Use [`OWNER_SCOPE_REQUEST.md`](OWNER_SCOPE_REQUEST.md) and [`INDEPENDENT_PROTOCOL_REVIEW.md`](INDEPENDENT_PROTOCOL_REVIEW.md). Templates and AI review do not satisfy either gate. |
+| Record owner scope and independent robotics approval | **Limited owner lifecycle scope recorded; human review absent** | The private hash-verified owner record covers the temporary observational daemon and restoration, not physical target/return motion. Use [`OWNER_SCOPE_REQUEST.md`](OWNER_SCOPE_REQUEST.md) and [`INDEPENDENT_PROTOCOL_REVIEW.md`](INDEPENDENT_PROTOCOL_REVIEW.md). AI review does not satisfy the independent gate. |
 | Freeze a command-capable successor | **Not started** | It cannot begin until the external gates and command-free live trace pass. |
 
 The current V4 executor attempts return in `finally` after any target attempt
@@ -105,9 +105,10 @@ must not be reused as V5.
 
 ## Earliest justified power-on point
 
-Power-on becomes useful only after the owner explicitly approves the powered
-capture and daemon patch/restart and an independent reviewer approves the
-observability plan. The first powered step should still be command-free:
+Power-on becomes useful only after an independent reviewer approves the
+observability plan; the owner has already confirmed the limited powered
+temporary-daemon and restore/verify request. The first powered step should
+still be command-free:
 
 1. normal startup with the exterior fully reassembled;
 2. no controller or app interaction;

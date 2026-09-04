@@ -44,7 +44,8 @@
 - [x] test released and patched complete daemon application processes with the official 1.9.0 mockup backend under loopback-only enforcement; the released daemon retained 0/4 target fields and the patched daemon retained 4/4 on both REST representations and WebSocket, with zero robot connections or commands;
 - [x] prepare an explicit [`robot-owner scope request`](OWNER_SCOPE_REQUEST.md) separating powered observation, daemon modification/restart, physical target/return, and publication;
 - [x] specify a review-gated [`return-to-borrowed-condition protocol`](RETURN_TO_BORROWED_CONDITION.md) that prohibits system-wide replacement, calibration, factory reset, log erasure, and undocumented rollback claims;
-- obtain the owner's actual item-by-item response and preserve it as a hashed private artifact before any patch installation, restart, or successor capture;
+- [x] preserve the owner's actual acceptance of the limited temporary-daemon and restore/verify request as a hash-verified private artifact; physical target/return permission remains unrequested and must be obtained separately before motion;
+- [x] run a deterministic [`offline failure rehearsal`](OFFLINE_FAILURE_REHEARSAL.md) covering start failure, health timeout, state-stream disconnect, shutdown hang, duplicate-start refusal, and restoration blocking; retain the explicit boundary that mock process exit does not prove hardware de-energization;
 - [x] replace fragile rotation-angle reconstruction with a numerically robust method in V4;
 - [x] guarantee relative 3° increments from the captured baseline in V4;
 - [x] add frozen settling dwell before V4 target/return evaluation; continuous trace capture remains missing;
