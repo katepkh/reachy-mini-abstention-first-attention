@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760" role="img" aria-labelledby="title desc">
+<title id="title">Abstention-first permission architecture</title>
+<desc id="desc">Four separately inspectable boundaries lead from local numeric evidence to a bounded mechanical decision. Missing or conflicting evidence leads to abstention. The stages are not validated end to end.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#167d75"/></marker></defs>
+<rect width="1500" height="760" fill="#f7fafc"/>
+<text x="60" y="80" font-family="Segoe UI,Arial,sans-serif" font-size="42" font-weight="700" fill="#102a43">Movement as a permission decision</text>
+<text x="60" y="125" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#486581">Separately tested research boundaries; no end-to-end or certified-safety claim</text>
+<rect x="60" y="210" width="280" height="300" rx="22" fill="#ffffff" stroke="#9fb3c8" stroke-width="3"/>
+<text x="85" y="268" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Local numeric evidence</text>
+<text x="85" y="330" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">DoA + speech state</text>
+<text x="85" y="378" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Face geometry</text>
+<text x="85" y="426" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Freshness + health</text>
+<line x1="352" y1="360" x2="398" y2="360" stroke="#167d75" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="410" y="210" width="280" height="300" rx="22" fill="#ffffff" stroke="#9fb3c8" stroke-width="3"/>
+<text x="435" y="268" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Compatibility gate</text>
+<text x="435" y="330" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">PROPOSE candidate</text>
+<text x="435" y="378" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">or ABSTAIN / HOLD</text>
+<text x="435" y="426" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">No identity claim</text>
+<line x1="702" y1="360" x2="748" y2="360" stroke="#167d75" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="760" y="210" width="280" height="300" rx="22" fill="#ffffff" stroke="#9fb3c8" stroke-width="3"/>
+<text x="785" y="268" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Human boundary</text>
+<text x="785" y="330" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Passive cue</text>
+<text x="785" y="378" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Separate typed arm</text>
+<text x="785" y="426" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">No implied consent</text>
+<line x1="1052" y1="360" x2="1098" y2="360" stroke="#167d75" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="1110" y="210" width="330" height="300" rx="22" fill="#e6fffa" stroke="#167d75" stroke-width="3"/>
+<text x="1135" y="268" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Mechanical boundary</text>
+<text x="1135" y="330" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Fresh preflight</text>
+<text x="1135" y="378" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Bounded one-shot scope</text>
+<text x="1135" y="426" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#334e68">Target and return split</text>
+<rect x="60" y="565" width="1380" height="115" rx="18" fill="#102a43"/>
+<text x="750" y="615" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" fill="#ffffff">Any missing, stale, ambiguous, conflicting, or unauthorized state → ABSTAIN / HOLD</text>
+<text x="750" y="655" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#d9e2ec">After a target, return requires a fresh state and separate authorization; failure does not trigger automatic motion.</text>
+</svg>

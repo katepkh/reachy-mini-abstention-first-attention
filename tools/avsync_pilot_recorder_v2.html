@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V2 face-landmark synchrony pilot</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 1080px; margin: 1.5rem auto; padding: 0 1rem; line-height: 1.4; }
+    .grid { display: grid; grid-template-columns: minmax(420px, 1.25fr) minmax(340px, .75fr); gap: 1.25rem; }
+    .camera { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #111; overflow: hidden; border-radius: 12px; }
+    video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; transform: scaleX(-1); pointer-events: none; }
+    .panel { border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+    button { margin: .3rem .3rem .3rem 0; padding: .65rem .9rem; font-weight: 650; }
+    button:disabled { opacity: .45; }
+    meter, progress { width: 100%; }
+    .warning { border-left: 5px solid #d97706; padding: .7rem 1rem; background: #d9770618; }
+    .good { color: #15803d; font-weight: 700; }
+    .bad { color: #b91c1c; font-weight: 700; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; margin: .8rem 0; }
+    code { overflow-wrap: anywhere; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>V2 face-landmark synchrony development pilot</h1>
+  <p class="warning"><strong>Development only.</strong> Keep Reachy powered off. This page loads a pinned model from localhost, performs landmark inference in this browser, uploads nothing, and downloads numeric features only.</p>
+
+  <div class="grid">
+    <section>
+      <div class="camera">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="overlay" width="640" height="480"></canvas>
+      </div>
+      <div class="metrics">
+        <span>Face lock: <strong id="faceMetric">not running</strong></span>
+        <span>Face scale: <strong id="scaleMetric">—</strong></span>
+        <span>Audio: <strong id="audioMetric">—</strong></span>
+        <span>Lip aperture: <strong id="lipMetric">—</strong></span>
+        <span>Landmark inference: <strong id="inferenceMetric">—</strong></span>
+      </div>
+      <p>Keep one face visible, look forward, avoid head motion, and keep the camera, lighting, playback position, clip, and volume fixed.</p>
+    </section>
+
+    <section class="panel">
+      <p>Protocol: <code id="fingerprint">loading…</code></p>
+      <h2 id="trialTitle">Loading frozen schedule…</h2>
+      <p id="trialInstruction"></p>
+      <p id="playbackInstruction"><strong>Before Start:</strong> prepare or stop the consented playback source exactly as instructed. This page does not control playback.</p>
+      <button id="initializeButton">Initialize pinned local model</button>
+      <button id="previewButton" disabled>Enable camera and microphone</button>
+      <button id="stopButton" disabled>Stop preview</button>
+      <button id="recordButton" disabled>Start numeric capture</button>
+      <button id="repeatButton" disabled>Repeat current trial</button>
+      <button id="nextButton" disabled>Next scheduled trial</button>
+      <progress id="progress" max="8" value="0"></progress>
+      <p id="status">No model or media access has started.</p>
+      <div id="quality"></div>
+    </section>
+  </div>
+
+  <h2>What is saved</h2>
+  <p><code>timestamp_ms</code>, microphone <code>audio_dbfs</code>, face-normalized <code>lip_aperture</code>, <code>face_scale</code>, and <code>face_count</code>. No image, pixel array, waveform, transcript, face embedding, name, network upload, or robot field is written.</p>
+
+  <script type="module">
+    "use strict";
+
+    const manifestUrl = "../evidence/manifests/av_synchrony_pilot_protocol_v2.json";
+    const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
+    const wasmRoot = "../models/avsync_v2/runtime/wasm";
+    const modelUrl = "../models/avsync_v2/face_landmarker.task";
+    const video = document.getElementById("video");
+    const overlay = document.getElementById("overlay");
+    const overlayContext = overlay.getContext("2d");
+    const initializeButton = document.getElementById("initializeButton");
+    const previewButton = document.getElementById("previewButton");
+    const stopButton = document.getElementById("stopButton");
+    const recordButton = document.getElementById("recordButton");
+    const repeatButton = document.getElementById("repeatButton");
+    const nextButton = document.getElementById("nextButton");
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+    const quality = document.getElementById("quality");
+    const fingerprint = document.getElementById("fingerprint");
+    const trialTitle = document.getElementById("trialTitle");
+    const trialInstruction = document.getElementById("trialInstruction");
+    const faceMetric = document.getElementById("faceMetric");
+    const scaleMetric = document.getElementById("scaleMetric");
+    const audioMetric = document.getElementById("audioMetric");
+    const lipMetric = document.getElementById("lipMetric");
+    const inferenceMetric = document.getElementById("inferenceMetric");
+
+    let manifest = null;
+    let schedule = [];
+    let scheduleIndex = 0;
+    let faceLandmarker = null;
+    let stream = null;
+    let audioContext = null;
+    let analyser = null;
+    let audioBuffer = null;
+    let previewTimer = null;
+    let previewRows = [];
+    let previewInferenceMs = [];
+    let lastInferenceMs = Infinity;
+    let recording = false;
+    let currentAttempt = 0;
+    let acceptedCurrentTrial = false;
+
+    function mean(values) {
+      return values.reduce((total, value) => total + value, 0) / Math.max(values.length, 1);
+    }
+
+    function standardDeviation(values) {
+      if (!values.length) return 0;
+      const average = mean(values);
+      return Math.sqrt(mean(values.map(value => (value - average) ** 2)));
+    }
+
+    function median(values) {
+      if (!values.length) return 0;
+      const sorted = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+    }
+
+    function distance(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function measureAudio() {
+      analyser.getFloatTimeDomainData(audioBuffer);
+      let sum = 0;
+      for (const value of audioBuffer) sum += value * value;
+      const rms = Math.sqrt(sum / audioBuffer.length);
+      return 20 * Math.log10(Math.max(rms, 1e-6));
+    }
+
+    function measureFace(timestamp) {
+      const inferenceStarted = performance.now();
+      const result = faceLandmarker.detectForVideo(video, timestamp);
+      lastInferenceMs = performance.now() - inferenceStarted;
+      inferenceMetric.textContent = `${lastInferenceMs.toFixed(1)} ms`;
+      const faces = result.faceLandmarks || [];
+      overlayContext.clearRect(0, 0, overlay.width, overlay.height);
+      if (faces.length !== 1) return { lip: 0, scale: 0, count: Math.min(faces.length, 2) };
+      const points = faces[0];
+      const scale = distance(points[33], points[263]);
+      const lip = scale > 0 ? distance(points[13], points[14]) / scale : 0;
+      overlayContext.fillStyle = "#22c55e";
+      for (const index of [13, 14, 33, 263]) {
+        overlayContext.beginPath();
+        overlayContext.arc(points[index].x * overlay.width, points[index].y * overlay.height, 4, 0, Math.PI * 2);
+        overlayContext.fill();
+      }
+      return { lip: Math.max(0, Math.min(1, lip)), scale: Math.max(0, Math.min(1, scale)), count: 1 };
+    }
+
+    function sample() {
+      const now = performance.now();
+      const audio = measureAudio();
+      const face = measureFace(now);
+      faceMetric.textContent = face.count === 1 ? "one face" : `${face.count} faces`;
+      faceMetric.className = face.count === 1 ? "good" : "bad";
+      scaleMetric.textContent = face.scale.toFixed(3);
+      audioMetric.textContent = `${audio.toFixed(1)} dBFS`;
+      lipMetric.textContent = face.count === 1 ? face.lip.toFixed(4) : "—";
+      return [now, audio, face.lip, face.scale, face.count];
+    }
+
+    function objectiveQuality(rows, conditionId) {
+      const gates = manifest.quality_gates;
+      const timestamps = rows.map(row => row[0]);
+      const audio = rows.map(row => row[1]);
+      const valid = rows.filter(row => row[4] === 1);
+      const failures = [];
+      const gaps = timestamps.slice(1).map((value, index) => value - timestamps[index]);
+      const validTimes = valid.map(row => row[0]);
+      const validGaps = validTimes.slice(1).map((value, index) => value - validTimes[index]);
+      const span = timestamps.length > 1 ? timestamps.at(-1) - timestamps[0] : 0;
+      const singleFraction = valid.length / Math.max(rows.length, 1);
+      const multipleRows = rows.filter(row => row[4] > 1).length;
+      const faceScale = median(valid.map(row => row[3]));
+      const audioStd = standardDeviation(audio);
+      const lipStd = standardDeviation(valid.map(row => row[2]));
+      if (rows.length < gates.minimum_samples) failures.push("INSUFFICIENT_SAMPLES");
+      if (timestamps.length < 2 || gaps.some(value => value <= 0)) failures.push("TIMESTAMPS_NOT_STRICTLY_INCREASING");
+      if (span < gates.minimum_span_ms) failures.push("OBSERVATION_SPAN_TOO_SHORT");
+      if (gaps.length && Math.max(...gaps) > gates.maximum_sample_gap_ms) failures.push("SAMPLE_GAP_EXCESSIVE");
+      if (singleFraction < gates.minimum_single_face_fraction) failures.push("SINGLE_FACE_FRACTION_TOO_LOW");
+      if (multipleRows > gates.multiple_face_rows_allowed) failures.push("MULTIPLE_FACES_OBSERVED");
+      if (faceScale < gates.minimum_median_face_scale) failures.push("FACE_SCALE_TOO_SMALL");
+      if (audioStd < gates.minimum_audio_dbfs_std) failures.push("AUDIO_DYNAMIC_RANGE_TOO_LOW");
+      if (gates.motion_required_conditions.includes(conditionId) && lipStd < gates.minimum_lip_aperture_std_when_motion_required) failures.push("LIP_DYNAMIC_RANGE_TOO_LOW");
+      if (validGaps.length && Math.max(...validGaps) > gates.maximum_sample_gap_ms) failures.push("VALID_FACE_GAP_EXCESSIVE");
+      return { passed: failures.length === 0, failures, span, singleFraction, multipleRows, faceScale, audioStd, lipStd };
+    }
+
+    function updatePreviewReadiness() {
+      if (
+        recording
+        || previewRows.length < 25
+        || acceptedCurrentTrial
+        || !repeatButton.disabled
+      ) {
+        recordButton.disabled = true;
+        return;
+      }
+      const recent = previewRows.slice(-25);
+      const singleFraction = recent.filter(row => row[4] === 1).length / recent.length;
+      const multiple = recent.some(row => row[4] > 1);
+      const scale = median(recent.filter(row => row[4] === 1).map(row => row[3]));
+      const inferenceMs = median(previewInferenceMs.slice(-25));
+      const performanceReady = (
+        previewInferenceMs.length >= manifest.instrument_preflight.preview_measurements
+        && inferenceMs <= manifest.instrument_preflight.maximum_median_landmark_inference_ms
+      );
+      const ready = singleFraction >= 0.95 && !multiple && scale >= 0.16 && performanceReady;
+      recordButton.disabled = !ready || acceptedCurrentTrial;
+      if (ready) {
+        status.textContent = "Face and recorder-performance preflight ready. Prepare this trial's audio condition, then press Start.";
+      } else if (!performanceReady) {
+        status.textContent = `Recorder performance preflight: median landmark inference ${inferenceMs.toFixed(1)} ms; must be at most ${manifest.instrument_preflight.maximum_median_landmark_inference_ms.toFixed(1)} ms.`;
+      } else {
+        status.textContent = "Face preflight not ready: show exactly one sufficiently large, stable face.";
+      }
+    }
+
+    function startPreviewLoop() {
+      previewRows = [];
+      previewInferenceMs = [];
+      previewTimer = window.setInterval(() => {
+        if (recording || !stream) return;
+        previewRows.push(sample());
+        previewInferenceMs.push(lastInferenceMs);
+        if (previewRows.length > 75) previewRows.shift();
+        if (previewInferenceMs.length > 75) previewInferenceMs.shift();
+        updatePreviewReadiness();
+      }, 80);
+    }
+
+    function displayTrial() {
+      if (scheduleIndex >= schedule.length) {
+        trialTitle.textContent = "V2 pilot complete";
+        trialInstruction.textContent = "Keep all canonical CSVs and every failed-attempt CSV. Do not rename or publish them yet.";
+        recordButton.disabled = true;
+        nextButton.disabled = true;
+        repeatButton.disabled = true;
+        stopPreview();
+        return;
+      }
+      const item = schedule[scheduleIndex];
+      trialTitle.textContent = `Trial ${scheduleIndex + 1}/12 — ${item.trial_id}`;
+      trialInstruction.textContent = item.instruction;
+      recordButton.textContent = `Start ${item.duration_s}-second numeric capture`;
+      progress.max = item.duration_s;
+      quality.textContent = "";
+      progress.value = 0;
+      acceptedCurrentTrial = false;
+      currentAttempt = 0;
+      nextButton.disabled = true;
+      repeatButton.disabled = true;
+      updatePreviewReadiness();
+    }
+
+    function downloadCsv(filename, rows) {
+      const lines = ["timestamp_ms,audio_dbfs,lip_aperture,face_scale,face_count"];
+      for (const row of rows) {
+        lines.push([
+          row[0].toFixed(9), row[1].toFixed(9), row[2].toFixed(9),
+          row[3].toFixed(9), String(row[4]),
+        ].join(","));
+      }
+      const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+      const anchor = document.createElement("a");
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(anchor.href);
+    }
+
+    async function stopPreview() {
+      if (previewTimer !== null) window.clearInterval(previewTimer);
+      previewTimer = null;
+      if (stream) stream.getTracks().forEach(track => track.stop());
+      stream = null;
+      video.srcObject = null;
+      if (audioContext) await audioContext.close();
+      audioContext = null;
+      analyser = null;
+      audioBuffer = null;
+      overlayContext.clearRect(0, 0, overlay.width, overlay.height);
+      previewButton.disabled = faceLandmarker === null;
+      stopButton.disabled = true;
+      recordButton.disabled = true;
+      faceMetric.textContent = "not running";
+      inferenceMetric.textContent = "—";
+      status.textContent = "Camera and microphone stopped.";
+    }
+
+    initializeButton.addEventListener("click", async () => {
+      initializeButton.disabled = true;
+      status.textContent = "Loading locally installed, installer-verified runtime files…";
+      try {
+        const { FaceLandmarker, FilesetResolver } = await import(runtimeModuleUrl);
+        const vision = await FilesetResolver.forVisionTasks(wasmRoot);
+        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: modelUrl, delegate: manifest.instrument.delegate },
+          runningMode: "VIDEO",
+          numFaces: 2,
+          minFaceDetectionConfidence: 0.5,
+          minFacePresenceConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+          outputFaceBlendshapes: false,
+          outputFacialTransformationMatrixes: false,
+        });
+        previewButton.disabled = false;
+        status.textContent = "Pinned local model ready. No camera or microphone access yet.";
+      } catch (error) {
+        initializeButton.disabled = false;
+        status.textContent = `Model initialization failed: ${error.message}`;
+      }
+    });
+
+    previewButton.addEventListener("click", async () => {
+      previewButton.disabled = true;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: manifest.instrument.capture_width, max: manifest.instrument.capture_width },
+            height: { ideal: manifest.instrument.capture_height, max: manifest.instrument.capture_height },
+            facingMode: "user",
+          },
+          audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        });
+        video.srcObject = stream;
+        await video.play();
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaStreamSource(stream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+        audioBuffer = new Float32Array(analyser.fftSize);
+        stopButton.disabled = false;
+        startPreviewLoop();
+      } catch (error) {
+        previewButton.disabled = false;
+        status.textContent = `Media access failed: ${error.message}`;
+      }
+    });
+
+    stopButton.addEventListener("click", stopPreview);
+
+    async function runCapture() {
+      if (recording || !stream || scheduleIndex >= schedule.length) return;
+      recording = true;
+      currentAttempt += 1;
+      recordButton.disabled = true;
+      repeatButton.disabled = true;
+      nextButton.disabled = true;
+      quality.textContent = "";
+      const item = schedule[scheduleIndex];
+      const durationMs = item.duration_s * 1000;
+      const rows = [];
+      const started = performance.now();
+      let nextDeadline = started;
+      status.textContent = `Capturing numeric features for ${item.trial_id}…`;
+      await new Promise(resolve => {
+        const takeSample = () => {
+          const measured = sample();
+          const elapsed = measured[0] - started;
+          rows.push([elapsed, ...measured.slice(1)]);
+          progress.value = Math.min(item.duration_s, elapsed / 1000);
+          if (elapsed >= durationMs) resolve();
+          else {
+            nextDeadline += manifest.sample_period_ms;
+            window.setTimeout(takeSample, Math.max(0, nextDeadline - performance.now()));
+          }
+        };
+        takeSample();
+      });
+      const result = objectiveQuality(rows, item.condition_id);
+      recording = false;
+      if (result.passed) {
+        downloadCsv(`${item.trial_id}.csv`, rows);
+        acceptedCurrentTrial = true;
+        nextButton.disabled = false;
+        repeatButton.disabled = true;
+        quality.innerHTML = `<p class="good">Objective quality gates passed.</p><p>Single face ${(100 * result.singleFraction).toFixed(1)}%; audio SD ${result.audioStd.toFixed(2)} dB; lip SD ${result.lipStd.toFixed(4)}; median face scale ${result.faceScale.toFixed(3)}.</p>`;
+        status.textContent = "Canonical numeric CSV downloaded. Stop playback before continuing.";
+      } else {
+        const failedName = `${item.trial_id}-attempt-${String(currentAttempt).padStart(2, "0")}-quality-failed.csv`;
+        downloadCsv(failedName, rows);
+        repeatButton.disabled = false;
+        quality.innerHTML = `<p class="bad">Objective quality gate failed: ${result.failures.join(", ")}</p><p>The failed attempt was downloaded and must be retained. Correct only the stated quality issue, then repeat this same trial.</p>`;
+        status.textContent = "Do not advance. Stop playback and inspect the objective quality reason.";
+      }
+    }
+
+    recordButton.addEventListener("click", runCapture);
+    repeatButton.addEventListener("click", () => {
+      repeatButton.disabled = true;
+      previewRows = [];
+      previewInferenceMs = [];
+      quality.textContent = "Re-establishing face preflight before the repeat…";
+      updatePreviewReadiness();
+    });
+    nextButton.addEventListener("click", () => {
+      scheduleIndex += 1;
+      displayTrial();
+    });
+
+    try {
+      const response = await fetch(manifestUrl, { cache: "no-store" });
+      if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
+      manifest = await response.json();
+      if (manifest.schema !== "reachy-av-synchrony-off-robot-pilot-v2") throw new Error("unexpected manifest schema");
+      schedule = manifest.randomized_schedule;
+      fingerprint.textContent = manifest.fingerprint;
+      displayTrial();
+    } catch (error) {
+      trialTitle.textContent = "Frozen manifest unavailable";
+      status.textContent = `Cannot start: ${error.message}`;
+      initializeButton.disabled = true;
+    }
+  </script>
+</body>
+</html>

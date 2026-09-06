@@ -1,0 +1,52 @@
+name: evidence-and-tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen paper environment
+        run: |
+          python -m pip install -r requirements-test.lock
+          python -m pip install --no-deps -e .
+      - name: Verify frozen evidence
+        run: python scripts/verify_results.py
+      - name: Check generated public results
+        run: python scripts/regenerate_public_results.py --check
+      - name: Check exploratory Stage 3V trial-level robustness
+        run: python scripts/run_stage3v_robustness.py --check
+      - name: Check future audio-mouth synchrony protocol
+        run: python scripts/freeze_av_synchrony_protocol.py --check
+      - name: Rehearse audio-mouth synchrony faults offline
+        run: python scripts/run_av_synchrony_faults.py --check
+      - name: Check off-robot synchrony pilot protocol
+        run: python scripts/freeze_av_synchrony_pilot_protocol.py --check
+      - name: Rehearse off-robot synchrony pilot analysis
+        run: python scripts/run_av_synchrony_pilot_dry_run.py --check
+      - name: Check replacement face-landmark pilot protocol
+        run: python scripts/freeze_av_synchrony_pilot_v2_protocol.py --check
+      - name: Rehearse replacement pilot analysis
+        run: python scripts/run_av_synchrony_pilot_v2_dry_run.py --check
+      - name: Check candidate-bound AV-synchrony confirmation protocol
+        run: python scripts/freeze_av_synchrony_confirmation_protocol.py --check
+      - name: Check generated manuscript tables and figures
+        run: python scripts/build_paper_artifacts.py --check
+      - name: Rehearse temporary-daemon faults with local mocks
+        run: python scripts/run_offline_fault_rehearsal.py --check
+      - name: Check successor review manifest
+        run: python scripts/build_successor_review_manifest.py --check
+      - name: Run curated tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+      - name: Check one-command paper verification log
+        run: python scripts/verify_paper_artifacts.py --check

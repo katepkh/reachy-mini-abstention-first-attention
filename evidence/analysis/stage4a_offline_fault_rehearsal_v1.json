@@ -1,0 +1,110 @@
+{
+  "all_scenarios_fail_closed": true,
+  "limitations": [
+    "Only fixed local Python mock processes were started.",
+    "Mock exit and lease release do not prove that a real motor backend released hardware resources or disabled torque.",
+    "Forced termination applies only to the mock and is not a recommendation for Reachy.",
+    "No stock or temporary Reachy daemon was started or stopped.",
+    "External unit-specific recovery guidance remains required before hardware execution."
+  ],
+  "robot_commands_authorized": 0,
+  "robot_commands_sent": 0,
+  "robot_connections": 0,
+  "scenario_count": 4,
+  "scenarios": [
+    {
+      "duplicate_start_blocked": true,
+      "events": [
+        "MOCK_START_REJECTED"
+      ],
+      "forced_mock_termination": false,
+      "hardware_restoration_authorized": false,
+      "mock_exit_class": "EXIT_17",
+      "mock_process_exit_confirmed": true,
+      "mock_processes_started": 1,
+      "mock_restore_gate_open_after_exit_and_lease_release": true,
+      "mock_returncode": 17,
+      "mock_timed_out": false,
+      "restoration_blocked_while_mock_active_or_lease_held": true,
+      "result": "PASS",
+      "robot_commands_authorized": 0,
+      "robot_commands_sent": 0,
+      "robot_connections": 0,
+      "scenario": "START_FAILURE",
+      "stderr_empty": true,
+      "unit_specific_recovery_guidance_still_required": true
+    },
+    {
+      "duplicate_start_blocked": true,
+      "events": [
+        "MOCK_PROCESS_STARTED"
+      ],
+      "forced_mock_termination": true,
+      "hardware_restoration_authorized": false,
+      "mock_exit_class": "FORCED_BY_OFFLINE_HARNESS",
+      "mock_process_exit_confirmed": true,
+      "mock_processes_started": 1,
+      "mock_restore_gate_open_after_exit_and_lease_release": true,
+      "mock_returncode": null,
+      "mock_timed_out": true,
+      "restoration_blocked_while_mock_active_or_lease_held": true,
+      "result": "PASS",
+      "robot_commands_authorized": 0,
+      "robot_commands_sent": 0,
+      "robot_connections": 0,
+      "scenario": "HEALTH_TIMEOUT",
+      "stderr_empty": true,
+      "unit_specific_recovery_guidance_still_required": true
+    },
+    {
+      "duplicate_start_blocked": true,
+      "events": [
+        "MOCK_PROCESS_STARTED",
+        "MOCK_HEALTHY",
+        "MOCK_STATE_STREAM_DISCONNECTED"
+      ],
+      "forced_mock_termination": true,
+      "hardware_restoration_authorized": false,
+      "mock_exit_class": "FORCED_BY_OFFLINE_HARNESS",
+      "mock_process_exit_confirmed": true,
+      "mock_processes_started": 1,
+      "mock_restore_gate_open_after_exit_and_lease_release": true,
+      "mock_returncode": null,
+      "mock_timed_out": true,
+      "restoration_blocked_while_mock_active_or_lease_held": true,
+      "result": "PASS",
+      "robot_commands_authorized": 0,
+      "robot_commands_sent": 0,
+      "robot_connections": 0,
+      "scenario": "STATE_STREAM_DISCONNECT",
+      "stderr_empty": true,
+      "unit_specific_recovery_guidance_still_required": true
+    },
+    {
+      "duplicate_start_blocked": true,
+      "events": [
+        "MOCK_PROCESS_STARTED",
+        "MOCK_HEALTHY",
+        "MOCK_STOP_REQUEST_IGNORED"
+      ],
+      "forced_mock_termination": true,
+      "hardware_restoration_authorized": false,
+      "mock_exit_class": "FORCED_BY_OFFLINE_HARNESS",
+      "mock_process_exit_confirmed": true,
+      "mock_processes_started": 1,
+      "mock_restore_gate_open_after_exit_and_lease_release": true,
+      "mock_returncode": null,
+      "mock_timed_out": true,
+      "restoration_blocked_while_mock_active_or_lease_held": true,
+      "result": "PASS",
+      "robot_commands_authorized": 0,
+      "robot_commands_sent": 0,
+      "robot_connections": 0,
+      "scenario": "SHUTDOWN_HANG",
+      "stderr_empty": true,
+      "unit_specific_recovery_guidance_still_required": true
+    }
+  ],
+  "schema": "reachy-stage4a-offline-fault-rehearsal-v1",
+  "status": "PASS_OFFLINE_MOCK_ONLY"
+}

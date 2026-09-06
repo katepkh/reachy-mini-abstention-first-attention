@@ -1,0 +1,294 @@
+{
+  "canonical_trials": [
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-01"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-02"
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 1,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-03"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 1,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-04"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-05"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-06"
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 2,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-07"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 2,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-08"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-09"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-10"
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 3,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-11"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 3,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-12"
+    }
+  ],
+  "conditions": [
+    {
+      "id": "live_visible_continuous",
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "role": "matching_positive"
+    },
+    {
+      "id": "live_visible_interrupted",
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "role": "matching_positive"
+    },
+    {
+      "id": "silent_face_colocated_playback",
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "role": "hard_negative"
+    },
+    {
+      "id": "silent_mouthing_shifted_playback",
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "role": "hard_negative"
+    }
+  ],
+  "expected_files": [
+    "avsync-pilot-01.csv",
+    "avsync-pilot-02.csv",
+    "avsync-pilot-03.csv",
+    "avsync-pilot-04.csv",
+    "avsync-pilot-05.csv",
+    "avsync-pilot-06.csv",
+    "avsync-pilot-07.csv",
+    "avsync-pilot-08.csv",
+    "avsync-pilot-09.csv",
+    "avsync-pilot-10.csv",
+    "avsync-pilot-11.csv",
+    "avsync-pilot-12.csv"
+  ],
+  "experimental_unit": "one eight-second laptop-only trial",
+  "fingerprint": "ec547d6b350c844965e93858c1c43bc6a35c3f9a073da091148e58a4bba879af",
+  "privacy": {
+    "consent_required_for_playback_voice": true,
+    "numeric_csv_only": true,
+    "recorder_saves_raw_audio": false,
+    "recorder_saves_video_or_pixels": false,
+    "recorder_uploads_data": false
+  },
+  "purpose": "verify local numeric instrumentation and select candidate synchrony thresholds before a separate confirmation freeze",
+  "randomization_seed": 91207,
+  "randomized_schedule": [
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 1,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-03"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-06"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-09"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-05"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 2,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-08"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-10"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 3,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-12"
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 2,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-07"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and alternate about one second of speech with one second of silence.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-02"
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 8,
+      "instruction": "Remain silent and still while a consented speech recording plays from a fixed speaker beside your face.",
+      "repetition": 3,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-11"
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 8,
+      "instruction": "Mouth silently while a deliberately unrelated or time-shifted consented speech recording plays beside your face.",
+      "repetition": 1,
+      "role": "hard_negative",
+      "trial_id": "avsync-pilot-04"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 8,
+      "instruction": "Look toward the laptop camera and speak naturally throughout the capture.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "trial_id": "avsync-pilot-01"
+    }
+  ],
+  "required_columns": [
+    "timestamp_ms",
+    "audio_energy",
+    "mouth_motion"
+  ],
+  "sample_period_ms": 40,
+  "schema": "reachy-av-synchrony-off-robot-pilot-v1",
+  "scope": {
+    "actuation_commands": 0,
+    "reachy_power_required": false,
+    "result_may_be_called_confirmation": false,
+    "robot_connections": 0,
+    "selected_thresholds_are_automatically_frozen": false
+  },
+  "selection_rule": [
+    "require zero hard-negative trial candidates",
+    "require at least four of six matching-positive trial candidates",
+    "maximize matching-positive trial coverage",
+    "then prefer higher correlation threshold",
+    "then prefer narrower lag window",
+    "then prefer higher audio and mouth dynamic-range thresholds"
+  ],
+  "status": "DEVELOPMENT_ONLY_NO_CONFIRMATION_DATA_NO_ROBOT",
+  "threshold_grid": {
+    "max_abs_lag_ms": [
+      120.0,
+      240.0,
+      360.0
+    ],
+    "min_audio_std": [
+      0.005,
+      0.01,
+      0.02,
+      0.05
+    ],
+    "min_correlation": [
+      0.35,
+      0.45,
+      0.55,
+      0.65,
+      0.75
+    ],
+    "min_mouth_std": [
+      0.001,
+      0.0025,
+      0.005,
+      0.01
+    ]
+  }
+}

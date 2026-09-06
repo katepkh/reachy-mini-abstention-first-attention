@@ -1,0 +1,2824 @@
+{
+  "ablations": [
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "policy": "single_frame_audio_visual",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3026.66535,
+      "policy": "audio_visual_without_speech_gate",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 1.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.609665712,
+        1.0
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 6,
+      "hard_negative_would_move_rows": 6,
+      "maximum_positive_target_error_deg": 2.387661029,
+      "median_hard_negative_observed_abstention_ms": 270.5049,
+      "median_positive_first_proposal_latency_ms": 309.363099999,
+      "policy": "visual_only_temporal",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 18,
+      "selective_risk_given_proposal": 0.333333333,
+      "selective_risk_wilson95": [
+        0.162787748,
+        0.562505327
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.666666667,
+      "hard_negative_false_proposal_wilson95": [
+        0.299993315,
+        0.903228589
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 4,
+      "hard_negative_would_move_rows": 5,
+      "maximum_positive_target_error_deg": 37.040488193,
+      "median_hard_negative_observed_abstention_ms": 3824.5071,
+      "median_positive_first_proposal_latency_ms": 2286.577449999,
+      "policy": "audio_only_front_hypothesis",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 16,
+      "selective_risk_given_proposal": 0.25,
+      "selective_risk_wilson95": [
+        0.101820675,
+        0.494983165
+      ],
+      "wrong_sign_moves": 4
+    }
+  ],
+  "confidence_interval": "two-sided Wilson score, nominal 95%",
+  "experimental_unit": "accepted trial",
+  "frozen_policy": {
+    "clear_speech_latch_on_fault": true,
+    "disagreement_lockout_ms": 1500.0,
+    "face_heading_multiplier": -1.0,
+    "face_heading_offset_deg": -4.0,
+    "fingerprint": "34382c415d44cb595c1d03bb95f6fdbe4b4ea3a1b6372df012e79896473ec0d1",
+    "heading_tolerance_deg": 8.0,
+    "maximum_geometry_error_deg": 10.0,
+    "name": "Stage 3V V3 calibrated speech-latched three-hit visual-target consensus",
+    "required_hits": 3,
+    "speech_latch_ms": 800.0,
+    "target_source": "visual",
+    "window_ms": 600.0
+  },
+  "frozen_trial_outcomes": [
+    {
+      "condition": "matching-minus20deg",
+      "first_proposal_latency_ms": 7579.041400000278,
+      "maximum_target_error_deg": 0.47525061053426043,
+      "observed_abstention_ms": 7579.041400000278,
+      "proposed": true,
+      "repetition": 1,
+      "role": "matching_positive",
+      "rows": 61,
+      "step": 1,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-minus10deg",
+      "first_proposal_latency_ms": 2276.4932999998564,
+      "maximum_target_error_deg": 2.2285465967470373,
+      "observed_abstention_ms": 2276.4932999998564,
+      "proposed": true,
+      "repetition": 1,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 2,
+      "true_heading_deg": -10.0,
+      "would_move_rows": 2,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus10deg",
+      "first_proposal_latency_ms": 3479.3237000012596,
+      "maximum_target_error_deg": 1.0820223608229185,
+      "observed_abstention_ms": 3479.3237000012596,
+      "proposed": true,
+      "repetition": 1,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 3,
+      "true_heading_deg": 10.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus20deg",
+      "first_proposal_latency_ms": 2296.6615999976057,
+      "maximum_target_error_deg": 1.2371958319277212,
+      "observed_abstention_ms": 2296.6615999976057,
+      "proposed": true,
+      "repetition": 1,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 4,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-minus20deg",
+      "first_proposal_latency_ms": 7281.217700001434,
+      "maximum_target_error_deg": 1.454591493421674,
+      "observed_abstention_ms": 7281.217700001434,
+      "proposed": true,
+      "repetition": 2,
+      "role": "matching_positive",
+      "rows": 61,
+      "step": 5,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-minus10deg",
+      "first_proposal_latency_ms": 2397.5393999971857,
+      "maximum_target_error_deg": 0.5470779671915125,
+      "observed_abstention_ms": 2397.5393999971857,
+      "proposed": true,
+      "repetition": 2,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 6,
+      "true_heading_deg": -10.0,
+      "would_move_rows": 2,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus10deg",
+      "first_proposal_latency_ms": 10658.140200001071,
+      "maximum_target_error_deg": 1.6357345012624478,
+      "observed_abstention_ms": 10658.140200001071,
+      "proposed": true,
+      "repetition": 2,
+      "role": "matching_positive",
+      "rows": 58,
+      "step": 7,
+      "true_heading_deg": 10.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus20deg",
+      "first_proposal_latency_ms": 2785.1359999986016,
+      "maximum_target_error_deg": 2.647237290037083,
+      "observed_abstention_ms": 2785.1359999986016,
+      "proposed": true,
+      "repetition": 2,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 8,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 2,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-minus20deg",
+      "first_proposal_latency_ms": 2098.712799997884,
+      "maximum_target_error_deg": 1.3872109460920115,
+      "observed_abstention_ms": 2098.712799997884,
+      "proposed": true,
+      "repetition": 3,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 9,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 3,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-minus10deg",
+      "first_proposal_latency_ms": 3274.197300001164,
+      "maximum_target_error_deg": 0.04216605527943784,
+      "observed_abstention_ms": 3274.197300001164,
+      "proposed": true,
+      "repetition": 3,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 10,
+      "true_heading_deg": -10.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus10deg",
+      "first_proposal_latency_ms": 8289.030800002336,
+      "maximum_target_error_deg": 2.4912053147358506,
+      "observed_abstention_ms": 8289.030800002336,
+      "proposed": true,
+      "repetition": 3,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 11,
+      "true_heading_deg": 10.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "matching-plus20deg",
+      "first_proposal_latency_ms": 2589.386100000411,
+      "maximum_target_error_deg": 0.15186192863575343,
+      "observed_abstention_ms": 2589.386100000411,
+      "proposed": true,
+      "repetition": 3,
+      "role": "matching_positive",
+      "rows": 60,
+      "step": 12,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "silent-face-minus20deg",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11653.651799999294,
+      "proposed": false,
+      "repetition": 1,
+      "role": "hard_negative",
+      "rows": 60,
+      "step": 13,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "silent-face-plus20deg",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11784.597900001216,
+      "proposed": false,
+      "repetition": 1,
+      "role": "hard_negative",
+      "rows": 60,
+      "step": 14,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "mismatch-face-minus20-phone-plus20",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11660.556099999696,
+      "proposed": false,
+      "repetition": 1,
+      "role": "hard_negative",
+      "rows": 58,
+      "step": 15,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "mismatch-face-plus20-phone-minus20",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11525.898299998487,
+      "proposed": false,
+      "repetition": 1,
+      "role": "hard_negative",
+      "rows": 59,
+      "step": 16,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "mismatch-face-minus20-phone-plus20",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11639.314200001536,
+      "proposed": false,
+      "repetition": 2,
+      "role": "hard_negative",
+      "rows": 60,
+      "step": 17,
+      "true_heading_deg": -20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "condition": "mismatch-face-plus20-phone-minus20",
+      "first_proposal_latency_ms": null,
+      "maximum_target_error_deg": null,
+      "observed_abstention_ms": 11788.696799998404,
+      "proposed": false,
+      "repetition": 2,
+      "role": "hard_negative",
+      "rows": 60,
+      "step": 18,
+      "true_heading_deg": 20.0,
+      "would_move_rows": 0,
+      "wrong_sign_moves": 0
+    }
+  ],
+  "interpretation_limits": [
+    "Rows within a trial are correlated; intervals use trial counts only.",
+    "The original frozen V3 policy was held out, but all analyses in this file were chosen after seeing its results.",
+    "Ablations are diagnostic counterfactual replays, not randomized comparisons or causal evidence.",
+    "The audio-only front-hypothesis baseline encodes a front-hemisphere choice and is not a general DoA resolver.",
+    "Risk/coverage points are finite policy operating points on one small single-site dataset, not a calibrated population curve.",
+    "No result authorizes a robot command or establishes speaker identity, ownership, consent, or mechanical safety."
+  ],
+  "leave_one_trial_out": [
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 1,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 2,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 3,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 4,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 5,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 6,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 7,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.491205315,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 8,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 9,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 10,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2785.135999999,
+      "omitted_role": "matching_positive",
+      "omitted_step": 11,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3274.197300001,
+      "omitted_role": "matching_positive",
+      "omitted_step": 12,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.741167033,
+        1.0
+      ],
+      "positive_trials": 11,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11660.5561,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 13,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11653.651799999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 14,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11653.651799999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 15,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11660.5561,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 16,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11660.5561,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 17,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.434482465
+      ],
+      "hard_negative_trials": 5,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11653.651799999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "omitted_role": "hard_negative",
+      "omitted_step": 18,
+      "policy": "full_frozen_v3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    }
+  ],
+  "one_at_a_time_sensitivity": [
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 4.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "face_heading_offset_deg",
+      "policy": "face_heading_offset_deg=-6.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": -6.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 3.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "face_heading_offset_deg",
+      "policy": "face_heading_offset_deg=-5.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": -5.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "face_heading_offset_deg",
+      "policy": "face_heading_offset_deg=-4.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": -4.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 3.491205315,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "face_heading_offset_deg",
+      "policy": "face_heading_offset_deg=-3.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": -3.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 4.491205315,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "face_heading_offset_deg",
+      "policy": "face_heading_offset_deg=-2.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": -2.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2687.26105,
+      "parameter": "maximum_geometry_error_deg",
+      "policy": "maximum_geometry_error_deg=6.0",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "value": 6.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "maximum_geometry_error_deg",
+      "policy": "maximum_geometry_error_deg=8.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 8.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "maximum_geometry_error_deg",
+      "policy": "maximum_geometry_error_deg=10.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 10.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "maximum_geometry_error_deg",
+      "policy": "maximum_geometry_error_deg=12.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 12.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "maximum_geometry_error_deg",
+      "policy": "maximum_geometry_error_deg=14.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 14.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "parameter": "required_hits",
+      "policy": "required_hits=1",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "value": 1,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2399.152999998,
+      "parameter": "required_hits",
+      "policy": "required_hits=2",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 2,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "required_hits",
+      "policy": "required_hits=3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 3,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3334.743349998,
+      "parameter": "required_hits",
+      "policy": "required_hits=4",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "value": 4,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "parameter": "required_hits",
+      "policy": "required_hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "value": 5,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "window_ms",
+      "policy": "window_ms=400.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 400.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "window_ms",
+      "policy": "window_ms=600.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 600.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "window_ms",
+      "policy": "window_ms=800.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 800.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "window_ms",
+      "policy": "window_ms=1000.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 1000.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "heading_tolerance_deg",
+      "policy": "heading_tolerance_deg=4.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 4.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "heading_tolerance_deg",
+      "policy": "heading_tolerance_deg=6.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 6.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "heading_tolerance_deg",
+      "policy": "heading_tolerance_deg=8.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 8.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "heading_tolerance_deg",
+      "policy": "heading_tolerance_deg=10.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 10.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "heading_tolerance_deg",
+      "policy": "heading_tolerance_deg=12.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 12.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2835.309099999,
+      "parameter": "disagreement_lockout_ms",
+      "policy": "disagreement_lockout_ms=0.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 0.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2835.309099999,
+      "parameter": "disagreement_lockout_ms",
+      "policy": "disagreement_lockout_ms=750.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 750.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "disagreement_lockout_ms",
+      "policy": "disagreement_lockout_ms=1500.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 1500.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3132.22985,
+      "parameter": "disagreement_lockout_ms",
+      "policy": "disagreement_lockout_ms=2250.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 2250.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 1.146129337,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 4703.520199997,
+      "parameter": "speech_latch_ms",
+      "policy": "speech_latch_ms=0.0",
+      "positive_coverage": 0.25,
+      "positive_coverage_wilson95": [
+        0.088941668,
+        0.532305335
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 3,
+      "proposed_trials": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.561497032
+      ],
+      "value": 0.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3389.626,
+      "parameter": "speech_latch_ms",
+      "policy": "speech_latch_ms=400.0",
+      "positive_coverage": 0.916666667,
+      "positive_coverage_wilson95": [
+        0.646120089,
+        0.985134906
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 11,
+      "proposed_trials": 11,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.258832967
+      ],
+      "value": 400.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": true,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "parameter": "speech_latch_ms",
+      "policy": "speech_latch_ms=800.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 800.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3026.66535,
+      "parameter": "speech_latch_ms",
+      "policy": "speech_latch_ms=1200.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 1200.0,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "is_frozen_value": false,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3026.66535,
+      "parameter": "speech_latch_ms",
+      "policy": "speech_latch_ms=1600.0",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "value": 1600.0,
+      "wrong_sign_moves": 0
+    }
+  ],
+  "risk_coverage_operating_points": [
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_geometry_error_deg": 6.0,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 1989.643599998,
+      "policy": "geometry=6.0,hits=1",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 12,
+      "required_hits": 1,
+      "selective_risk_given_proposal": 0.166666667,
+      "selective_risk_wilson95": [
+        0.046965142,
+        0.448030862
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 6.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2200.432399999,
+      "policy": "geometry=6.0,hits=2",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 2,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 6.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2687.26105,
+      "policy": "geometry=6.0,hits=3",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 6.0,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3189.397299997,
+      "policy": "geometry=6.0,hits=4",
+      "positive_coverage": 0.583333333,
+      "positive_coverage_wilson95": [
+        0.319511313,
+        0.806739686
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 7,
+      "proposed_trials": 7,
+      "required_hits": 4,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.354330435
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 6.0,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "policy": "geometry=6.0,hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "required_hits": 5,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_geometry_error_deg": 8.0,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "policy": "geometry=8.0,hits=1",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "required_hits": 1,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 8.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2399.152999998,
+      "policy": "geometry=8.0,hits=2",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 2,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 8.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "policy": "geometry=8.0,hits=3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 8.0,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3334.743349998,
+      "policy": "geometry=8.0,hits=4",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 4,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 8.0,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "policy": "geometry=8.0,hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "required_hits": 5,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_geometry_error_deg": 10.0,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "policy": "geometry=10.0,hits=1",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "required_hits": 1,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 10.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2399.152999998,
+      "policy": "geometry=10.0,hits=2",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 2,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 10.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "policy": "geometry=10.0,hits=3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 10.0,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3334.743349998,
+      "policy": "geometry=10.0,hits=4",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 4,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 10.0,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "policy": "geometry=10.0,hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "required_hits": 5,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_geometry_error_deg": 12.0,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "policy": "geometry=12.0,hits=1",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "required_hits": 1,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 12.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2399.152999998,
+      "policy": "geometry=12.0,hits=2",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 2,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 12.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "policy": "geometry=12.0,hits=3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 12.0,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3334.743349998,
+      "policy": "geometry=12.0,hits=4",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 4,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 12.0,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "policy": "geometry=12.0,hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "required_hits": 5,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.333333333,
+      "hard_negative_false_proposal_wilson95": [
+        0.096771411,
+        0.700006685
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 2,
+      "hard_negative_would_move_rows": 2,
+      "maximum_geometry_error_deg": 14.0,
+      "maximum_positive_target_error_deg": 2.627957511,
+      "median_hard_negative_observed_abstention_ms": 11646.483,
+      "median_positive_first_proposal_latency_ms": 2236.367799998,
+      "policy": "geometry=14.0,hits=1",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 14,
+      "required_hits": 1,
+      "selective_risk_given_proposal": 0.142857143,
+      "selective_risk_wilson95": [
+        0.040093921,
+        0.399413795
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 14.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 2399.152999998,
+      "policy": "geometry=14.0,hits=2",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 2,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 14.0,
+      "maximum_positive_target_error_deg": 2.64723729,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3029.66665,
+      "policy": "geometry=14.0,hits=3",
+      "positive_coverage": 1.0,
+      "positive_coverage_wilson95": [
+        0.757505993,
+        1.0
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 12,
+      "proposed_trials": 12,
+      "required_hits": 3,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 14.0,
+      "maximum_positive_target_error_deg": 2.707732812,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": 3334.743349998,
+      "policy": "geometry=14.0,hits=4",
+      "positive_coverage": 0.833333333,
+      "positive_coverage_wilson95": [
+        0.551969138,
+        0.953034858
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 10,
+      "proposed_trials": 10,
+      "required_hits": 4,
+      "selective_risk_given_proposal": 0.0,
+      "selective_risk_wilson95": [
+        0.0,
+        0.2775328
+      ],
+      "wrong_sign_moves": 0
+    },
+    {
+      "hard_negative_false_proposal_rate": 0.0,
+      "hard_negative_false_proposal_wilson95": [
+        0.0,
+        0.390334288
+      ],
+      "hard_negative_trials": 6,
+      "hard_negative_trials_with_proposal": 0,
+      "hard_negative_would_move_rows": 0,
+      "maximum_geometry_error_deg": 14.0,
+      "maximum_positive_target_error_deg": null,
+      "median_hard_negative_observed_abstention_ms": 11657.103949999,
+      "median_positive_first_proposal_latency_ms": null,
+      "policy": "geometry=14.0,hits=5",
+      "positive_coverage": 0.0,
+      "positive_coverage_wilson95": [
+        0.0,
+        0.242494007
+      ],
+      "positive_trials": 12,
+      "positive_trials_with_proposal": 0,
+      "proposed_trials": 0,
+      "required_hits": 5,
+      "selective_risk_given_proposal": null,
+      "selective_risk_wilson95": null,
+      "wrong_sign_moves": 0
+    }
+  ],
+  "schema": "reachy-stage3v-exploratory-trial-robustness-v1",
+  "source_bundle_sha256": "bb44c7f4309e995f34177ba21824c9dedef95dabe34cbaf01d4029ddad4944ee",
+  "source_stage": "Stage 3V V3 fresh passive confirmation",
+  "sources": [
+    {
+      "file": "2026-08-27_stage3v-off-axis_01-of-18_matching-minus20deg_take01_20260827-220412.csv",
+      "sha256": "8227e32056524b1a2c3a80f71362d9bdb9a80a4fd7224a1e343cfc740ca03a23",
+      "step": 1
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_02-of-18_matching-minus10deg_take01_20260827-220446.csv",
+      "sha256": "346617680811644247b745174bc4778a49c8f13facf9722175a013639601e465",
+      "step": 2
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_03-of-18_matching-plus10deg_take01_20260827-220604.csv",
+      "sha256": "5d3d206bab69b75d7b291e5024ce6936d1918f8d969a0d6b6b529a915a434d15",
+      "step": 3
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_04-of-18_matching-plus20deg_take01_20260827-220642.csv",
+      "sha256": "ccd652a84004663b789f2bd0da74e4dea2a4c219f68bead6ad04f308d8715c36",
+      "step": 4
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_05-of-18_matching-minus20deg_take02_20260827-220719.csv",
+      "sha256": "297f52b7797c35c66cb10934100142e418dbe38962e883c20a1c8103f2d2c003",
+      "step": 5
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_06-of-18_matching-minus10deg_take02_20260827-220753.csv",
+      "sha256": "e1221b32736cc88aaec6f6f1a5ee75c9eba0391c18c2ed3444e78428ea767441",
+      "step": 6
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_07-of-18_matching-plus10deg_take02_20260827-220826.csv",
+      "sha256": "749ffbcf86a682ceaabc8cb2dd06d814ffa160e49f284ec485df9690cfd61c5c",
+      "step": 7
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_08-of-18_matching-plus20deg_take02_20260827-220904.csv",
+      "sha256": "ea1865ee8ff6f7e259d30a72edc94c360a4def7dfc508b2b0f853a40d90ffa7f",
+      "step": 8
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_09-of-18_matching-minus20deg_take03_20260827-220954.csv",
+      "sha256": "fca0971b30c7dd827663fcb1db257197f564f38516157ff6d342d806853020ba",
+      "step": 9
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_10-of-18_matching-minus10deg_take03_20260827-221028.csv",
+      "sha256": "44abf553854cbfb09e1c99d28b9cdc90a02f84200b1710078dd1c27860bbe197",
+      "step": 10
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_11-of-18_matching-plus10deg_take03_20260827-221101.csv",
+      "sha256": "8fb93b55649b3e1a360e6b91958c8ff6f748f6bf657236582ae97dd7d2671d9d",
+      "step": 11
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_12-of-18_matching-plus20deg_take03_20260827-221137.csv",
+      "sha256": "8b84c517320b2c1203c1ce906a538c28185f0c997013970304ce6056ecee218c",
+      "step": 12
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_13-of-18_silent-face-minus20deg_take01_20260827-221219.csv",
+      "sha256": "0e9f2be0f6ed2ddb0c07055d7746e1e59b342885a9371736bce9f269de6cc6ca",
+      "step": 13
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_14-of-18_silent-face-plus20deg_take01_20260827-221253.csv",
+      "sha256": "f6ce99523082ae013813aaff06891aeb2708d921eca09a73eff8c884226702c6",
+      "step": 14
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_15-of-18_mismatch-face-minus20-phone-plus20_take01_20260827-221406.csv",
+      "sha256": "54ab7c62ce641b9e77a24870bedf40d414260862a883adcc3832242d067d8727",
+      "step": 15
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_16-of-18_mismatch-face-plus20-phone-minus20_take01_20260827-221503.csv",
+      "sha256": "7a70a87af4d9babf278326eb48f91b3738a595fd6fb916ec2142c7999deb3023",
+      "step": 16
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_17-of-18_mismatch-face-minus20-phone-plus20_take02_20260827-221629.csv",
+      "sha256": "ca9bd9d78ed13b2ce2ab8406bf20325740e484aa5d7142a1bae15a6e616b5f0c",
+      "step": 17
+    },
+    {
+      "file": "2026-08-27_stage3v-off-axis_18-of-18_mismatch-face-plus20-phone-minus20_take02_20260827-221834.csv",
+      "sha256": "5a5c02d3e2625360cd88f4283761668312f120a867e7dcf8a7ac7c7976858fac",
+      "step": 18
+    }
+  ],
+  "status": "POST_HOC_EXPLORATORY_REPLAY_NOT_HARDWARE_AUTHORIZATION",
+  "trial_counts": {
+    "hard_negative": 6,
+    "matching_positive": 12,
+    "total": 18
+  }
+}

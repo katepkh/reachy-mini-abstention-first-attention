@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+# Frozen evidence hashes cover exact source bytes. Never rewrite line endings.
+evidence/** -text
+
+# Binary assets.
+*.onnx -text
+*.png -text
+
+# Unified-diff context blank lines consist of one required leading space.
+*.patch -whitespace

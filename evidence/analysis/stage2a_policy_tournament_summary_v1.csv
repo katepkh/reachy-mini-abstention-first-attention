@@ -1,0 +1,11 @@
+policy,split,trials,rows,tracking_rows,confirmed_rows,matching_rows,matching_tracking_rows,matching_confirmed_rows,matching_coverage_pct,matching_tracked_coverage_pct,matching_trials_with_confirmation,matching_trials,hard_negative_rows,hard_negative_tracking_rows,hard_negative_confirmed_rows,hard_negative_false_confirmation_pct,hard_negative_false_per_tracking_pct,hard_negative_trials_with_confirmation,boundary_rows,boundary_confirmed_rows,visible_silent_confirmed,no_visible_face_confirmed,mismatched_phone_confirmed,partial_edge_confirmed,confirmation_episodes
+Recorded Stage 2A,development,10,547,195,61,139,40,38,27.33812949640288,95.0,2,2,291,74,21,7.216494845360825,28.37837837837838,4,117,2,11,0,10,2,24
+Recorded Stage 2A,evaluation,5,268,94,29,62,31,24,38.70967741935484,77.41935483870968,1,1,156,37,5,3.2051282051282053,13.513513513513514,2,50,0,2,0,3,0,6
+Current speech only,development,10,547,195,23,139,40,12,8.633093525179856,30.0,2,2,291,74,9,3.0927835051546393,12.162162162162161,3,117,2,5,0,4,2,14
+Current speech only,evaluation,5,268,94,11,62,31,11,17.741935483870968,35.483870967741936,1,1,156,37,0,0.0,0.0,0,50,0,0,0,0,0,6
+Short hold 250 ms + disagreement reset,development,10,547,195,28,139,40,15,10.79136690647482,37.5,2,2,291,74,11,3.7800687285223367,14.864864864864865,3,117,2,7,0,4,2,13
+Short hold 250 ms + disagreement reset,evaluation,5,268,94,9,62,31,9,14.516129032258064,29.032258064516128,1,1,156,37,0,0.0,0.0,0,50,0,0,0,0,0,5
+2-hit consensus + reset,development,10,547,195,8,139,40,6,4.316546762589928,15.0,2,2,291,74,2,0.6872852233676976,2.7027027027027026,1,117,0,2,0,0,0,5
+2-hit consensus + reset,evaluation,5,268,94,4,62,31,4,6.451612903225806,12.903225806451612,1,1,156,37,0,0.0,0.0,0,50,0,0,0,0,0,2
+3-hit safety consensus,development,10,547,195,4,139,40,3,2.158273381294964,7.5,1,2,291,74,1,0.3436426116838488,1.3513513513513513,1,117,0,1,0,0,0,2
+3-hit safety consensus,evaluation,5,268,94,2,62,31,2,3.225806451612903,6.451612903225806,1,1,156,37,0,0.0,0.0,0,50,0,0,0,0,0,1

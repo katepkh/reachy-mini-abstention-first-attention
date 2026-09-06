@@ -1,0 +1,19 @@
+{
+  "schema": "reachy-stage4a-v3-post-failure-read-only-observation-v1",
+  "source": "GET /api/state/full plus passive WebSocket head-pose telemetry",
+  "robot_commands": 0,
+  "cloud_requests": 0,
+  "server_timestamp": "2026-08-31T18:49:28.095589Z",
+  "control_mode": "enabled",
+  "body_yaw_rad": -0.009203884727313927,
+  "head_pose": [
+    [0.9997997724561795, 0.019295954928139625, -0.02308658731958485, 0.000051217857157819686],
+    [-0.019638966715993952, 0.9997412576803518, -0.012240068805591269, -0.00005704422782102171],
+    [0.022842754330465495, 0.012431806969859807, 0.9999073250806128, -0.0012542776996077587],
+    [0.0, 0.0, 0.0, 1.0]
+  ],
+  "robust_rotation_from_original_preflight_baseline_deg": 1.6775864471869806,
+  "translation_from_original_preflight_baseline_mm": 0.600304715612132,
+  "robust_rotation_from_immediate_saved_return_deg": 0.0011966514086146592,
+  "interpretation": "The head remained at the immediate return sample rather than settling to the original baseline. The V3 trace-based rotation metric was invalid for slightly non-orthonormal FK matrices and reported 0.0 degrees."
+}

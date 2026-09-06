@@ -1,0 +1,110 @@
+{
+  "schema": "reachy-stage4a-supervised-motion-pilot-protocol-v3",
+  "status": "FROZEN_BEFORE_FIRST_ACTUATION",
+  "purpose": "Verify four physical direction mappings and exact-pose restoration before any live attention policy is connected.",
+  "source_evidence": {
+    "targeted_vertical_cue_freeze": "stage3p_association_gated_cue_confirmation_result_v1_freeze.json",
+    "targeted_vertical_cue_bundle_sha256": "033afdaf94117ca12c602b46bc28339ea45f8f3acfaa9508620bacaeb732e942",
+    "horizontal_v3_freeze": "stage3v_confirmation_result_v3_freeze.json",
+    "horizontal_v3_bundle_sha256": "d1bd3e7188761fc08cce93c56ecea09d168589d515f71b7e783d347f6f0b0fd8"
+  },
+  "supersedes": {
+    "manifest": "stage4a_supervised_motion_pilot_v2.json",
+    "fingerprint": "a88aa5aa2c55933eff6f61718c19ed9d54ea39e80b46094c107d86b6cfa5de2f",
+    "prior_v1_fingerprint": "3b334523f927c070ded6cfd582b5e675ce9f285897d80f449da902c6e7d909ea",
+    "reason": "The Reachy Mini 1.9.0 robot backend sets its internal ready event after successful telemetry but does not copy that event into the serialized RobotBackendStatus.ready field. V2 therefore failed closed on a permanently false field despite an enabled, error-free 49 Hz control loop.",
+    "read_only_preflight_attempts_before_supersession": 1,
+    "robot_connections_before_supersession": 1,
+    "actuation_commands_before_supersession": 0
+  },
+  "transport": {
+    "official_protocol_version": "1.9.0",
+    "matches_observed_daemon_version": true,
+    "route": "ws://<audited-private-ip>:8000/ws/sdk",
+    "task_type": "task/GotoTaskRequest",
+    "interpolation": "minjerk",
+    "implementation": "minimal audited protocol-compatible client on the already-trusted runtime",
+    "official_source_hashes": {
+      "reachy_mini/io/ws_client.py": "6cff59fe8c8bf8ff0706ade571906b24852eb85cfb44d8da268615827bc986b6",
+      "reachy_mini/io/protocol.py": "067ee2fe64b2445edaa48f6027a890e559c61d76f896eced0868d81df00011f7",
+      "reachy_mini/vision/look_at.py": "c1a59933b498324c7619217d0d16f3bd6fea1f65a946297947f680b29aad7cfa",
+      "reachy_mini/daemon/backend/robot/backend.py": "39031aaf2278d10a7c85079bd03e5a7e5a8c4b055383cae30d28373d2d71128a",
+      "reachy_mini/daemon/daemon.py": "24af8189b83eb07a56a1753a9a9f76e31061026a1bf691368498059a7896d156"
+    }
+  },
+  "motion_envelope": {
+    "head_only": true,
+    "absolute_angle_from_neutral_deg": 3.0,
+    "minimum_jerk_duration_s": 2.0,
+    "dwell_s": 0.75,
+    "restore_duration_s": 2.0,
+    "automatic_return_to_captured_pose": true,
+    "maximum_one_target_per_preflight_session": true
+  },
+  "prohibited": {
+    "continuous_control": true,
+    "automatic_tracking": true,
+    "body_yaw_command": true,
+    "antenna_command": true,
+    "torque_or_motor_mode_change": true,
+    "gravity_compensation_change": true,
+    "wobbling_or_head_tracking_change": true,
+    "camera_or_microphone_access": true,
+    "cloud_request": true,
+    "robot_install_or_update": true
+  },
+  "acceptance": {
+    "daemon_running": true,
+    "daemon_version_exactly_1_9_0": true,
+    "motor_control_mode_enabled": true,
+    "fresh_head_pose_and_status_max_age_s": 2.0,
+    "control_loop_frequency_hz_inclusive": [
+      40.0,
+      60.0
+    ],
+    "control_loop_max_interval_s": 0.1,
+    "control_loop_error_count": 0,
+    "serialized_backend_ready_excluded_due_to_frozen_1_9_0_defect": true,
+    "start_pose_near_neutral": true,
+    "target_pose_within_frozen_3_degree_envelope": true,
+    "measured_target_error_max_deg": 1.5,
+    "measured_restore_error_max_deg": 1.0,
+    "operator_observed_correct_direction": true,
+    "operator_observed_smooth_motion": true,
+    "operator_observed_no_abnormal_noise_or_heat": true,
+    "operator_observed_return_to_start": true
+  },
+  "steps": [
+    {
+      "index": 1,
+      "direction": "UP",
+      "title": "Head-only 3\u00b0 up and automatic return",
+      "instruction": "Stand clear and observe one slow upward movement followed by return to the captured start pose."
+    },
+    {
+      "index": 2,
+      "direction": "DOWN",
+      "title": "Head-only 3\u00b0 down and automatic return",
+      "instruction": "Stand clear and observe one slow downward movement followed by return to the captured start pose."
+    },
+    {
+      "index": 3,
+      "direction": "LEFT",
+      "title": "Head-only 3\u00b0 left and automatic return",
+      "instruction": "Stand clear and observe one slow leftward movement followed by return to the captured start pose."
+    },
+    {
+      "index": 4,
+      "direction": "RIGHT",
+      "title": "Head-only 3\u00b0 right and automatic return",
+      "instruction": "Stand clear and observe one slow rightward movement followed by return to the captured start pose."
+    }
+  ],
+  "scientific_boundary": {
+    "manual_mechanical_mapping_only": true,
+    "does_not_validate_autonomous_tracking": true,
+    "does_not_connect_live_policy_evidence_to_motors": true,
+    "later_live_pilot_requires_a_separate_frozen_protocol": true
+  },
+  "fingerprint": "0f9b1e8d076cf3ce6a3d4ca138aa8f07a691fae98543e9ad02db545c021f52af"
+}

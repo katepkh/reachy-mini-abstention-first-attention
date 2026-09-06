@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="720" viewBox="0 0 1500 720" role="img" aria-labelledby="title desc">
+<title id="title">Stage 2A passive safety-coverage frontier</title>
+<desc id="desc">Development and retrospective evaluation plots compare tracked matching coverage against tracked hard-negative false confirmation. Upper left is preferable. The development-selected three-hit policy is marked with a star.</desc>
+<rect width="1500" height="720" fill="#ffffff"/>
+<text x="70" y="65" font-family="Segoe UI,Arial,sans-serif" font-size="39" font-weight="700" fill="#102a43">Passive acoustic–visual policy frontier</text>
+<text x="70" y="105" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#486581">Upper-left is preferable. Coverage and false-confirmation percentages use correlated tracked rows and are descriptive.</text>
+<text x="95" y="165" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Development repetitions 1–2</text>
+<line x1="95" y1="565.0" x2="685" y2="565.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="571.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">0</text>
+<line x1="95" y1="493.0" x2="685" y2="493.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="499.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">20</text>
+<line x1="95" y1="421.0" x2="685" y2="421.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="427.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">40</text>
+<line x1="95" y1="349.0" x2="685" y2="349.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="355.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">60</text>
+<line x1="95" y1="277.0" x2="685" y2="277.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="283.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">80</text>
+<line x1="95" y1="205.0" x2="685" y2="205.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="83" y="211.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">100</text>
+<line x1="95.0" y1="205" x2="95.0" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="95.0" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">0</text>
+<line x1="279.4" y1="205" x2="279.4" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="279.4" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">10</text>
+<line x1="463.8" y1="205" x2="463.8" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="463.8" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">20</text>
+<line x1="648.1" y1="205" x2="648.1" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="648.1" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">30</text>
+<line x1="95" y1="205" x2="95" y2="565" stroke="#829ab1" stroke-width="2"/>
+<line x1="95" y1="565" x2="685" y2="565" stroke="#829ab1" stroke-width="2"/>
+<text x="95" y="190" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#486581">Tracked matching coverage (%)</text>
+<text x="390.0" y="628" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#486581">Tracked hard-negative false confirmation (%)</text>
+<circle cx="618.2" cy="223.0" r="8" fill="#d64545"/>
+<text x="606.2" y="213.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">Recorded</text>
+<circle cx="319.2" cy="457.0" r="8" fill="#2f6fed"/>
+<text x="331.2" y="447.0" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">Speech-now</text>
+<circle cx="369.1" cy="430.0" r="8" fill="#f59f00"/>
+<text x="381.1" y="420.0" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">250 ms hold</text>
+<circle cx="144.8" cy="511.0" r="8" fill="#7950b3"/>
+<text x="156.8" y="501.0" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">2-hit</text>
+<text x="119.9" y="547.0" text-anchor="middle" font-family="Segoe UI Symbol,Arial,sans-serif" font-size="31" fill="#0f9d8a">★</text>
+<text x="131.9" y="528.0" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">3-hit</text>
+<text x="795" y="165" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#102a43">Retrospective evaluation repetition 3</text>
+<line x1="795" y1="565.0" x2="1385" y2="565.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="571.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">0</text>
+<line x1="795" y1="493.0" x2="1385" y2="493.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="499.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">20</text>
+<line x1="795" y1="421.0" x2="1385" y2="421.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="427.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">40</text>
+<line x1="795" y1="349.0" x2="1385" y2="349.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="355.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">60</text>
+<line x1="795" y1="277.0" x2="1385" y2="277.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="283.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">80</text>
+<line x1="795" y1="205.0" x2="1385" y2="205.0" stroke="#d9e2ec" stroke-width="1"/>
+<text x="783" y="211.0" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">100</text>
+<line x1="795.0" y1="205" x2="795.0" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="795.0" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">0</text>
+<line x1="979.4" y1="205" x2="979.4" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="979.4" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">10</text>
+<line x1="1163.8" y1="205" x2="1163.8" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="1163.8" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">20</text>
+<line x1="1348.1" y1="205" x2="1348.1" y2="565" stroke="#d9e2ec" stroke-width="1"/>
+<text x="1348.1" y="593" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#627d98">30</text>
+<line x1="795" y1="205" x2="795" y2="565" stroke="#829ab1" stroke-width="2"/>
+<line x1="795" y1="565" x2="1385" y2="565" stroke="#829ab1" stroke-width="2"/>
+<text x="795" y="190" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#486581">Tracked matching coverage (%)</text>
+<text x="1090.0" y="628" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#486581">Tracked hard-negative false confirmation (%)</text>
+<circle cx="1044.2" cy="286.3" r="8" fill="#d64545"/>
+<text x="1056.2" y="276.3" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">Recorded</text>
+<circle cx="795.0" cy="437.3" r="8" fill="#2f6fed"/>
+<text x="807.0" y="427.3" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">Speech-now</text>
+<circle cx="795.0" cy="460.5" r="8" fill="#f59f00"/>
+<text x="807.0" y="450.5" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">250 ms hold</text>
+<circle cx="795.0" cy="518.5" r="8" fill="#7950b3"/>
+<text x="807.0" y="508.5" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">2-hit</text>
+<text x="795.0" y="550.8" text-anchor="middle" font-family="Segoe UI Symbol,Arial,sans-serif" font-size="31" fill="#0f9d8a">★</text>
+<text x="807.0" y="531.8" text-anchor="start" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#243b53">3-hit</text>
+<text x="70" y="680" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#486581">The evaluation repetition was frozen only after the full matrix had been inspected; it is not a pristine blind holdout.</text>
+</svg>

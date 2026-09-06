@@ -1,0 +1,91 @@
+{
+  "schema": "reachy-stage4a-v3-failed-mechanical-diagnostic-freeze-v1",
+  "status": "FROZEN_FAILED_RESULT_SUPERSEDED_WITHOUT_RELABEL_OR_DELETION",
+  "frozen_at_utc": "2026-08-31T18:55:00+00:00",
+  "protocol_fingerprint": "0f9b1e8d076cf3ce6a3d4ca138aa8f07a691fae98543e9ad02db545c021f52af",
+  "validated_state": {
+    "read_only_preflights": 4,
+    "consumed_preflights": 2,
+    "result_records": 2,
+    "physical_motion_trials": 1,
+    "zero_command_execution_blocks": 1,
+    "total_head_only_commands": 2,
+    "total_body_yaw_commands": 0,
+    "total_antenna_commands": 0,
+    "total_torque_or_motor_mode_commands": 0,
+    "commanded_trial_mechanical_gate_passed": false,
+    "legacy_saved_target_error_deg": 1.631112992093788,
+    "legacy_saved_return_error_deg": 0.0,
+    "robust_measured_motion_from_baseline_deg": 1.3498870639247806,
+    "robust_target_to_requested_target_error_deg": 2.0794591418416877,
+    "robust_return_to_baseline_error_deg": 1.6778474296274293,
+    "root_causes": [
+      "target pose sampled before the frozen settling dwell",
+      "return pose sampled with no settling dwell",
+      "trace angle applied directly to slightly non-orthonormal FK matrices",
+      "absolute-neutral target did not guarantee a 3 degree increment from the captured baseline"
+    ],
+    "thresholds_weakened_after_outcome": false,
+    "failed_attempt_deleted_or_relabelled": false
+  },
+  "file_count": 10,
+  "files": [
+    {
+      "path": "data/manifests/stage4a_supervised_motion_pilot_v3.json",
+      "bytes": 5165,
+      "sha256": "56282dd85382302ad65d0ad4349a4df74e20348e93d38d2876c6d88f4f6992ff"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/post_failure_live_pose_observation.json",
+      "bytes": 1113,
+      "sha256": "01ffac624a50975b911c9d239b0479190732e8bce4b2240a21df93ea968909c0"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/78eeb241de484bd0878b4bfe0990cca1.consumed",
+      "bytes": 27,
+      "sha256": "1d5893d4021b0b720d9442c2d2ec9a1cfc32ef39770183cd9c3e546bafc49684"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/78eeb241de484bd0878b4bfe0990cca1_preflight.json",
+      "bytes": 2284,
+      "sha256": "cf22f46d2383c656e25789246e62ddc66dcc78580ad21635b715c6c34a9c1f1b"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/78eeb241de484bd0878b4bfe0990cca1_result.json",
+      "bytes": 873,
+      "sha256": "e746c731500cae9735ad82987e95754a61ecc6746415f2be143f7f6f20217c0f"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/988d495bf6cf40dfbdafc05d65fa87a9_preflight.json",
+      "bytes": 2291,
+      "sha256": "22fe9e84b6540306dc063dafe49bc45fcf4caa7b3e64b372d6bfe149a08b87d6"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/a66a6559478b42ffb0b2076c62602ece_preflight.json",
+      "bytes": 2293,
+      "sha256": "c0b4addf12177fa283af1504433b862c138a1d33f22b6786c2d08b343e89369a"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/dec0f24fd3724a5384fa5f07badd0fd7.consumed",
+      "bytes": 27,
+      "sha256": "a4d523bb8c972b85cf8937697662dc041c38265f41e239c5263402a3873a5430"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/dec0f24fd3724a5384fa5f07badd0fd7_preflight.json",
+      "bytes": 2291,
+      "sha256": "f1c1113b4c6355c869dc803c1c9a6c40b926b9c4bab1f4708550a28ea76ae4f0"
+    },
+    {
+      "path": "data/stage4a_supervised_motion_pilot_v3/sessions/dec0f24fd3724a5384fa5f07badd0fd7_result.json",
+      "bytes": 1737,
+      "sha256": "c41827f2bcfe777acaf40496aef2a082534f15ab178938f0f1a58920fd93a05c"
+    }
+  ],
+  "bundle_sha256": "be9385727be410964907ac2104b472ebfe34a6574dea5dd0c7b1693c86866693",
+  "scientific_boundary": {
+    "v3_may_not_be_accepted": true,
+    "v3_may_not_be_retried_under_the_same_protocol": true,
+    "corrected_protocol_must_be_versioned_and_frozen": true,
+    "no_acceptance_threshold_may_be_weakened": true
+  }
+}

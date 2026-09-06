@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Off-robot audio–mouth synchrony pilot</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 980px; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; }
+    .warning { border-left: 5px solid #d97706; padding: .8rem 1rem; background: color-mix(in srgb, #d97706 12%, transparent); }
+    .layout { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(280px, .8fr); gap: 1.5rem; margin-top: 1.25rem; }
+    .camera { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #111; overflow: hidden; border-radius: 12px; }
+    video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+    .mouth-guide { position: absolute; left: 30%; top: 55%; width: 40%; height: 30%; border: 3px dashed #f59e0b; box-sizing: border-box; pointer-events: none; }
+    .panel { border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+    button { margin: .35rem .35rem .35rem 0; padding: .65rem .9rem; font-weight: 650; }
+    button:disabled { opacity: .45; }
+    code { overflow-wrap: anywhere; }
+    #status { min-height: 3rem; white-space: pre-line; }
+    progress { width: 100%; height: 1.2rem; }
+    canvas { display: none; }
+    @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Off-robot synchrony development pilot</h1>
+  <p class="warning"><strong>Development only.</strong> Keep Reachy powered off. This page records no media and uploads nothing; it downloads only three numeric columns. The fixed mouth box is a crude motion instrument and is vulnerable to head motion and lighting.</p>
+
+  <p>Serve the repository on localhost, then open this page. Grant camera and microphone access only when ready:</p>
+  <pre><code>python -m http.server 8000
+http://localhost:8000/tools/avsync_pilot_recorder.html</code></pre>
+
+  <div class="layout">
+    <div>
+      <div class="camera">
+        <video id="video" autoplay muted playsinline></video>
+        <div class="mouth-guide" aria-hidden="true"></div>
+      </div>
+      <canvas id="canvas" width="160" height="120"></canvas>
+      <p>Keep your whole face still and place your mouth inside the dashed box. Use stable lighting and do not move the laptop between trials.</p>
+    </div>
+
+    <section class="panel">
+      <div id="protocol">Loading frozen schedule…</div>
+      <h2 id="trial">No trial loaded</h2>
+      <p id="instruction"></p>
+      <p><strong>Before Start:</strong> prepare or stop the consented playback source exactly as instructed. The page does not control playback.</p>
+      <button id="preview" disabled>Enable local preview</button>
+      <button id="stop" disabled>Disable preview</button>
+      <button id="record" disabled>Start 8-second numeric capture</button>
+      <button id="next" disabled>Next scheduled trial</button>
+      <progress id="progress" max="8" value="0"></progress>
+      <p id="status" role="status"></p>
+    </section>
+  </div>
+
+  <h2>What the CSV contains</h2>
+  <p><code>timestamp_ms</code>, local microphone RMS <code>audio_energy</code>, and fixed-region frame-difference <code>mouth_motion</code>. No pixels, waveform, transcript, identity representation, network request, or robot field is written.</p>
+
+  <script>
+    "use strict";
+    const manifestUrl = "../evidence/manifests/av_synchrony_pilot_protocol_v1.json";
+    const video = document.querySelector("#video");
+    const canvas = document.querySelector("#canvas");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    const previewButton = document.querySelector("#preview");
+    const stopButton = document.querySelector("#stop");
+    const recordButton = document.querySelector("#record");
+    const nextButton = document.querySelector("#next");
+    const trialHeading = document.querySelector("#trial");
+    const instruction = document.querySelector("#instruction");
+    const status = document.querySelector("#status");
+    const progress = document.querySelector("#progress");
+    let schedule = [];
+    let scheduleIndex = 0;
+    let stream = null;
+    let audioContext = null;
+    let analyser = null;
+    let audioBuffer = null;
+    let previousMouth = null;
+    let recording = false;
+
+    function displayTrial() {
+      const item = schedule[scheduleIndex];
+      trialHeading.textContent = item ? `Trial ${scheduleIndex + 1}/12 — ${item.trial_id}` : "Pilot complete";
+      instruction.textContent = item ? item.instruction : "Keep the twelve downloaded CSV files together. Do not rename them.";
+      recordButton.disabled = !item || !stream || recording;
+      nextButton.disabled = true;
+    }
+
+    fetch(manifestUrl, { cache: "no-store" })
+      .then(response => {
+        if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(manifest => {
+        if (manifest.schema !== "reachy-av-synchrony-off-robot-pilot-v1") throw new Error("unexpected manifest schema");
+        schedule = manifest.randomized_schedule;
+        document.querySelector("#protocol").innerHTML = `Protocol <code>${manifest.fingerprint}</code>`;
+        previewButton.disabled = false;
+        displayTrial();
+      })
+      .catch(error => { status.textContent = `Could not load the frozen manifest: ${error.message}`; });
+
+    previewButton.addEventListener("click", async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
+          audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+        });
+        video.srcObject = stream;
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaStreamSource(stream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+        audioBuffer = new Float32Array(analyser.fftSize);
+        previewButton.disabled = true;
+        stopButton.disabled = false;
+        status.textContent = "Local preview active. No capture has started.";
+        displayTrial();
+      } catch (error) {
+        status.textContent = `Preview failed: ${error.message}`;
+      }
+    });
+
+    async function stopPreview() {
+      if (stream) stream.getTracks().forEach(track => track.stop());
+      stream = null;
+      video.srcObject = null;
+      if (audioContext) await audioContext.close();
+      audioContext = null;
+      analyser = null;
+      audioBuffer = null;
+      previousMouth = null;
+      previewButton.disabled = false;
+      stopButton.disabled = true;
+      recordButton.disabled = true;
+      status.textContent = "Camera and microphone preview disabled.";
+    }
+
+    stopButton.addEventListener("click", stopPreview);
+
+    function measureAudio() {
+      analyser.getFloatTimeDomainData(audioBuffer);
+      let sum = 0;
+      for (const value of audioBuffer) sum += value * value;
+      return Math.sqrt(sum / audioBuffer.length);
+    }
+
+    function measureMouth() {
+      context.save();
+      context.scale(-1, 1);
+      context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+      context.restore();
+      const x = Math.round(canvas.width * .30);
+      const y = Math.round(canvas.height * .55);
+      const width = Math.round(canvas.width * .40);
+      const height = Math.round(canvas.height * .30);
+      const pixels = context.getImageData(x, y, width, height).data;
+      const gray = new Float32Array(width * height);
+      for (let source = 0, target = 0; source < pixels.length; source += 4, target += 1) {
+        gray[target] = (pixels[source] + pixels[source + 1] + pixels[source + 2]) / (3 * 255);
+      }
+      if (!previousMouth) {
+        previousMouth = gray;
+        return 0;
+      }
+      let difference = 0;
+      for (let index = 0; index < gray.length; index += 1) difference += Math.abs(gray[index] - previousMouth[index]);
+      previousMouth = gray;
+      return difference / gray.length;
+    }
+
+    function downloadCsv(trialId, rows) {
+      const lines = ["timestamp_ms,audio_energy,mouth_motion"];
+      for (const row of rows) lines.push(row.map(value => Number(value).toFixed(9)).join(","));
+      const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+      const anchor = document.createElement("a");
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = `${trialId}.csv`;
+      anchor.click();
+      URL.revokeObjectURL(anchor.href);
+    }
+
+    recordButton.addEventListener("click", () => {
+      if (recording || !stream || !schedule[scheduleIndex]) return;
+      recording = true;
+      recordButton.disabled = true;
+      previousMouth = null;
+      const item = schedule[scheduleIndex];
+      const rows = [];
+      const started = performance.now();
+      progress.value = 0;
+      status.textContent = "CAPTURING NUMERIC SIGNALS — follow the condition now.";
+      const timer = setInterval(() => {
+        const elapsed = performance.now() - started;
+        rows.push([elapsed, measureAudio(), measureMouth()]);
+        progress.value = Math.min(8, elapsed / 1000);
+        if (elapsed >= 8000) {
+          clearInterval(timer);
+          downloadCsv(item.trial_id, rows);
+          recording = false;
+          nextButton.disabled = false;
+          status.textContent = `Downloaded ${item.trial_id}.csv with ${rows.length} numeric rows. Check the download before continuing.`;
+        }
+      }, 40);
+    });
+
+    nextButton.addEventListener("click", () => {
+      scheduleIndex += 1;
+      progress.value = 0;
+      status.textContent = scheduleIndex < schedule.length ? "Prepare the next condition before starting." : "All twelve scheduled captures are complete; closing camera and microphone.";
+      displayTrial();
+      if (scheduleIndex >= schedule.length) stopPreview();
+    });
+  </script>
+</body>
+</html>

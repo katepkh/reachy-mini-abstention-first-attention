@@ -1,0 +1,170 @@
+"""Integrity freeze for the selected passive Stage 3P V2 policy."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Iterable
+
+from reachy_stage2a.config import PROJECT_ROOT
+
+from .calibration_freeze import verify_calibration_result_freeze
+from .vad_freeze import verify_vad_result_freeze
+
+
+FREEZE_PATH = (
+    PROJECT_ROOT / "data/manifests/stage3p_selected_policy_v2_freeze.json"
+).resolve()
+POLICY_PATH = (PROJECT_ROOT / "data/manifests/stage3p_selected_policy_v2.json").resolve()
+TOURNAMENT_PATH = (
+    PROJECT_ROOT / "data/analysis/stage3p_candidate_v2_tournament.json"
+).resolve()
+SOURCE_FILES = (
+    POLICY_PATH,
+    TOURNAMENT_PATH,
+    (PROJECT_ROOT / "reachy_stage3p/policy_v2.py").resolve(),
+    (PROJECT_ROOT / "reachy_stage3p/analysis_v2.py").resolve(),
+    (PROJECT_ROOT / "data/manifests/stage3p_calibration_result_v1_freeze.json").resolve(),
+    (PROJECT_ROOT / "data/manifests/stage3p_vad_diagnostic_result_v1_freeze.json").resolve(),
+    (PROJECT_ROOT / "data/manifests/stage3v_confirmation_result_v3_freeze.json").resolve(),
+    (PROJECT_ROOT / "data/manifests/stage3v_revised_policy_v3.json").resolve(),
+)
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _relative(path: Path) -> str:
+    resolved = path.resolve()
+    if not resolved.is_relative_to(PROJECT_ROOT):
+        raise ValueError(f"Freeze path escaped the project: {resolved}")
+    return resolved.relative_to(PROJECT_ROOT).as_posix()
+
+
+def _bundle_hash(file_records: Iterable[dict[str, Any]]) -> str:
+    canonical = json.dumps(
+        list(file_records), sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _validate_selection() -> dict[str, Any]:
+    selected = json.loads(POLICY_PATH.read_text(encoding="utf-8"))
+    tournament = json.loads(TOURNAMENT_PATH.read_text(encoding="utf-8"))
+    fingerprint = str(selected.get("fingerprint") or "")
+    source_candidates = [
+        item.get("spec") or {}
+        for item in tournament.get("candidates") or []
+        if (item.get("spec") or {}).get("fingerprint") == fingerprint
+    ]
+    if len(source_candidates) != 1:
+        raise ValueError("Selected Stage 3P policy has no unique tournament source.")
+    source_spec = source_candidates[0]
+    source_core = {key: value for key, value in source_spec.items() if key != "fingerprint"}
+    observed = hashlib.sha256(
+        json.dumps(source_core, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    if observed != fingerprint:
+        raise ValueError("Selected Stage 3P tournament fingerprint does not verify.")
+    for key, value in source_spec.items():
+        if key not in {"status"} and selected.get(key) != value:
+            raise ValueError(f"Selected policy differs from tournament source at {key}.")
+    if tournament.get("selected_policy_fingerprint") != fingerprint:
+        raise ValueError("Tournament and selected policy fingerprints differ.")
+    evidence = selected.get("selection_evidence") or {}
+    gates = evidence.get("gates") or {}
+    if not gates or not all(gates.values()):
+        raise ValueError(f"Selected policy has failed selection gates: {gates}")
+    if evidence.get("vad_confirmed_rows") != 0 or evidence.get("vad_false_targets") != 0:
+        raise ValueError("Selected policy did not suppress the dedicated silent-VAD episode.")
+    if evidence.get("maintenance_development_status") != "UNEVALUABLE_NO_PRETRANSITION_ASSOCIATION":
+        raise ValueError("Development maintenance limitation was not preserved explicitly.")
+    if not selected.get("runtime_requires_eye_landmarks"):
+        raise ValueError("Selected runtime policy must require eye landmarks.")
+    calibration = verify_calibration_result_freeze()
+    vad = verify_vad_result_freeze()
+    return {
+        "policy_fingerprint": fingerprint,
+        "selection_gates": gates,
+        "development_vad_confirmed_rows": 0,
+        "development_vad_false_targets": 0,
+        "development_maintenance_status": evidence["maintenance_development_status"],
+        "fresh_held_out_stage3p_required": True,
+        "held_out_must_test_silent_maintenance": True,
+        "calibration_bundle_sha256": calibration["bundle_sha256"],
+        "vad_bundle_sha256": vad["bundle_sha256"],
+    }
+
+
+def build_policy_v2_freeze() -> dict[str, Any]:
+    validated = _validate_selection()
+    records = [
+        {"path": _relative(path), "bytes": path.stat().st_size, "sha256": _sha256(path)}
+        for path in SOURCE_FILES
+    ]
+    return {
+        "schema": "reachy-stage3p-selected-policy-v2-integrity-freeze-v1",
+        "status": "FROZEN_FOR_FRESH_HELD_OUT_PASSIVE_STAGE3P_NOT_AUTHORISED_FOR_ACTUATION",
+        "frozen_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "validated_selection": validated,
+        "file_count": len(records),
+        "files": records,
+        "bundle_sha256": _bundle_hash(records),
+        "scientific_boundary": {
+            "development_data_used_for_selection": True,
+            "held_out_data_used_for_selection": False,
+            "legacy_box_bridge_used_only_for_old_development_replay": True,
+            "runtime_and_held_out_require_eye_landmarks": True,
+            "maintenance_not_claimed_from_development_data": True,
+        },
+        "actuation_commands": 0,
+        "cloud_requests": 0,
+    }
+
+
+def write_policy_v2_freeze(path: Path = FREEZE_PATH) -> dict[str, Any]:
+    destination = path.resolve()
+    if destination.exists():
+        raise FileExistsError(f"Stage 3P V2 policy is already frozen: {destination}")
+    if destination.parent != (PROJECT_ROOT / "data/manifests").resolve():
+        raise ValueError("The policy freeze must remain in the manifest directory.")
+    payload = build_policy_v2_freeze()
+    destination.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return payload
+
+
+def verify_policy_v2_freeze(path: Path = FREEZE_PATH) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    failures: list[str] = []
+    current: list[dict[str, Any]] = []
+    for record in payload.get("files") or []:
+        artifact = (PROJECT_ROOT / str(record["path"])).resolve()
+        if not artifact.is_relative_to(PROJECT_ROOT) or not artifact.is_file():
+            failures.append(f"missing:{record['path']}")
+            continue
+        observed = {
+            "path": record["path"],
+            "bytes": artifact.stat().st_size,
+            "sha256": _sha256(artifact),
+        }
+        current.append(observed)
+        if observed != record:
+            failures.append(f"changed:{record['path']}")
+    if not failures and _bundle_hash(current) != payload.get("bundle_sha256"):
+        failures.append("bundle-hash-mismatch")
+    if failures:
+        raise ValueError("Stage 3P V2 policy freeze verification failed: " + ", ".join(failures))
+    return {
+        "verified": True,
+        "policy_fingerprint": payload["validated_selection"]["policy_fingerprint"],
+        "file_count": len(current),
+        "bundle_sha256": payload["bundle_sha256"],
+        "frozen_at_utc": payload["frozen_at_utc"],
+    }

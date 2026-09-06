@@ -1,0 +1,62 @@
+{
+  "schema": "reachy-stage3v-audit-index-v1",
+  "local_encrypted_media_only": true,
+  "cloud_transfer": false,
+  "clips": [],
+  "deletion_log": [
+    {
+      "clip_id": "e273b6294d3b44e4bfa79a8482f34171",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:07:42+01:00"
+    },
+    {
+      "clip_id": "b7456f951b1d4c5ea81d8caef5938962",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:09:46+01:00"
+    },
+    {
+      "clip_id": "61e75cab43ea45a4b2af7f44934aa212",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:12:12+01:00"
+    },
+    {
+      "clip_id": "c776fdaee0424e25b06de7b76b04326e",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:14:06+01:00"
+    },
+    {
+      "clip_id": "7af761d8af424c67ba386f448cd30e13",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:16:16+01:00"
+    },
+    {
+      "clip_id": "fc34c906cb62482090420c22623f6582",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:18:22+01:00"
+    },
+    {
+      "clip_id": "550a20f1b1384388be9b4af58b0973a5",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:40:46+01:00"
+    },
+    {
+      "clip_id": "c9102199679545f3ad7d8231dd2e4273",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T17:49:39+01:00"
+    },
+    {
+      "clip_id": "70dbc3dbc8d04e39abae13405a68c068",
+      "reason": "VERIFIED_AND_ACCEPTED",
+      "deleted": true,
+      "time_iso": "2026-08-31T18:01:04+01:00"
+    }
+  ]
+}

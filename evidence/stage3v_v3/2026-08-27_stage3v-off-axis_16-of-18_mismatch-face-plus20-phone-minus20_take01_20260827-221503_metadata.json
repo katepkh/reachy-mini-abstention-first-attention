@@ -1,0 +1,22 @@
+{
+  "schema": "reachy-stage3v-off-axis-trial-v1",
+  "protocol_fingerprint": "d2f1182dd1a4d2a3e6e2a6215277c94f07223abe36e619f6eedbaed15ed766d0",
+  "step_index": 16,
+  "condition_id": "mismatch-face-plus20-phone-minus20",
+  "role": "hard_negative",
+  "repetition": 1,
+  "true_heading_deg": 20.0,
+  "face_heading_deg": 20.0,
+  "sound_heading_deg": -20.0,
+  "row_count": 59,
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false,
+  "contains_identity_embedding": false,
+  "data_mode": "privacy_validation",
+  "separate_encrypted_audit_clip_id": null,
+  "audit_sidecar_contains_video_audio": false,
+  "audit_sidecar_cloud_transfer": false,
+  "actuation_commands": 0,
+  "cloud_requests": 0
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "reachy-stage3v-procedural-compliance-v1",
+  "protocol_fingerprint": "bb78a7a32c7b61f74e3b894c055e66f4515a361bdba7c9c0c232dcf79d92b158",
+  "step_index": 3,
+  "trial_file": "2026-08-31_stage3p-cue-confirmation_03-of-09_association-gated-centre-to-up10_take02_20260831-171057.csv",
+  "data_mode": "development_audit",
+  "position_instruction_followed": true,
+  "speech_or_playback_instruction_followed": true,
+  "audit_clip_id": "61e75cab43ea45a4b2af7f44934aa212",
+  "audit_verdict": "COMPLIANT",
+  "verdict": "COMPLIANT",
+  "reviewed_time_iso": "2026-08-31T17:12:12+01:00",
+  "contains_pixels": false,
+  "contains_audio": false,
+  "contains_transcript": false
+}

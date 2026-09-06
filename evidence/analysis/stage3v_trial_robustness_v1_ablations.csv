@@ -1,0 +1,6 @@
+policy,positive_trials,positive_trials_with_proposal,positive_coverage,positive_coverage_wilson95,hard_negative_trials,hard_negative_trials_with_proposal,hard_negative_false_proposal_rate,hard_negative_false_proposal_wilson95,proposed_trials,selective_risk_given_proposal,selective_risk_wilson95,hard_negative_would_move_rows,wrong_sign_moves,median_positive_first_proposal_latency_ms,median_hard_negative_observed_abstention_ms,maximum_positive_target_error_deg
+full_frozen_v3,12,12,1.0,"[0.757505993,1.0]",6,0,0.0,"[0.0,0.390334288]",12,0.0,"[0.0,0.242494007]",0,0,3029.66665,11657.103949999,2.64723729
+single_frame_audio_visual,12,12,1.0,"[0.757505993,1.0]",6,2,0.333333333,"[0.096771411,0.700006685]",14,0.142857143,"[0.040093921,0.399413795]",2,0,2236.367799998,11646.483,2.627957511
+audio_visual_without_speech_gate,12,12,1.0,"[0.757505993,1.0]",6,0,0.0,"[0.0,0.390334288]",12,0.0,"[0.0,0.242494007]",0,0,3026.66535,11657.103949999,2.64723729
+visual_only_temporal,12,12,1.0,"[0.757505993,1.0]",6,6,1.0,"[0.609665712,1.0]",18,0.333333333,"[0.162787748,0.562505327]",6,0,309.363099999,270.5049,2.387661029
+audio_only_front_hypothesis,12,12,1.0,"[0.757505993,1.0]",6,4,0.666666667,"[0.299993315,0.903228589]",16,0.25,"[0.101820675,0.494983165]",5,4,2286.577449999,3824.5071,37.040488193

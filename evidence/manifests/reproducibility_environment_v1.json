@@ -1,0 +1,59 @@
+{
+  "schema": "reachy-reproducibility-environment-v1",
+  "recorded_date": "2026-09-05",
+  "purpose": "Offline paper, evidence, and curated software verification environment",
+  "base_repository_commit": "a50f475fe019374f516a432af49c97da3996ed15",
+  "base_commit_note": "The paper package was prepared in an intentionally dirty working tree after this commit; final publication must record the eventual commit separately.",
+  "operating_system": {
+    "family": "Windows 11",
+    "build": "26200",
+    "architecture": "x64"
+  },
+  "processor": {
+    "privacy_minimized_identifier": "Intel64 Family 6 Model 158 Stepping 10",
+    "exact_computer_make_model_public": false
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.12.13",
+    "architecture": "64 bit"
+  },
+  "dependency_lock": {
+    "path": "requirements-test.lock",
+    "sha256": "cbe7f593d1ce029960a7b5ec3486dfff19a1710a3ceb9880df1b24d20c6c7998",
+    "package_count": 30
+  },
+  "project_metadata": {
+    "path": "pyproject.toml",
+    "sha256": "48f8a0cccc4ffb9d1305c1d78b9326066b710b607f88d62dafa8c178ead41ec5",
+    "declared_minimum_python": "3.11"
+  },
+  "browser_instrument_assets": {
+    "protocol_manifest": "evidence/manifests/av_synchrony_pilot_protocol_v2.json",
+    "protocol_manifest_sha256": "0fff2950e7edd478a06ad2964c8121f3585364de7944c327ede8822aa517d0b1",
+    "mediapipe_tasks_vision_version": "1.0.1",
+    "runtime_tarball_sha256": "ee318eaa3d42230aa10910d114faf2a488c577c4e4d33c7cb04126924aca505f",
+    "face_landmarker_model_sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+  },
+  "robot_record": {
+    "platform": "Reachy Mini Wireless",
+    "desktop_application": "0.9.34",
+    "daemon": "1.9.0",
+    "unit_count": 1,
+    "observational_patch_installed": false,
+    "confirmation_data_collected": false
+  },
+  "historical_acquisition_metadata_missing": [
+    "exact laptop make and model",
+    "exact V2 camera make and model",
+    "exact V2 microphone make and model and selected input",
+    "exact V2 browser version",
+    "complete Stage 2A attempt denominator"
+  ],
+  "verification_boundaries": {
+    "network_connections": 0,
+    "robot_connections": 0,
+    "camera_or_microphone_capture": 0,
+    "live_hardware_behavior_reproduced": false
+  }
+}

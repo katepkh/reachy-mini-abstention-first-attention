@@ -1,0 +1,151 @@
+{
+  "actuation_commands": 0,
+  "all_passed": true,
+  "cases": [
+    {
+      "decision": {
+        "aligned_samples": 60,
+        "correlation": 0.999118442699468,
+        "lag_ms": 0.0,
+        "overlap_ms": 2360.0,
+        "reason": "SYNCHRONY_CANDIDATE_NOT_IDENTITY",
+        "status": "CANDIDATE"
+      },
+      "expected_status": "CANDIDATE",
+      "name": "aligned_single_face",
+      "observed_status": "CANDIDATE",
+      "passed": true
+    },
+    {
+      "decision": {
+        "aligned_samples": 0,
+        "correlation": null,
+        "lag_ms": null,
+        "overlap_ms": 2360.0,
+        "reason": "AUDIO_DYNAMIC_RANGE_TOO_LOW",
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "silence",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "aligned_samples": 0,
+        "correlation": null,
+        "lag_ms": null,
+        "overlap_ms": 2360.0,
+        "reason": "MOUTH_DYNAMIC_RANGE_TOO_LOW",
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "static_mouth",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "aligned_samples": 56,
+        "correlation": 0.18170978210642963,
+        "lag_ms": 160.0,
+        "overlap_ms": 2360.0,
+        "reason": "CORRELATION_BELOW_EXPLORATORY_THRESHOLD",
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "unrelated_motion",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "aligned_samples": 0,
+        "correlation": null,
+        "lag_ms": null,
+        "overlap_ms": 0.0,
+        "reason": "MOUTH_SAMPLE_GAP_EXCESSIVE",
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "stale_frame_gap",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "aligned_samples": 0,
+        "correlation": null,
+        "lag_ms": null,
+        "overlap_ms": 0.0,
+        "reason": "CLOCK_DRIFT_EXCESSIVE",
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "clock_drift",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "candidate_face_id": null,
+        "correlation": 0.999118442699468,
+        "lag_ms": 0.0,
+        "reason": "SYNCHRONY_AMBIGUOUS[face_a,face_b]",
+        "stable_windows": 0,
+        "status": "CONFLICT"
+      },
+      "expected_status": "CONFLICT",
+      "name": "two_equally_synchronous_faces",
+      "observed_status": "CONFLICT",
+      "passed": true
+    },
+    {
+      "decision": {
+        "candidate_face_id": null,
+        "correlation": 0.746197624303852,
+        "lag_ms": 0.0,
+        "reason": "SYNCHRONY_AMBIGUOUS[face_b,face_a]",
+        "stable_windows": 0,
+        "status": "CONFLICT"
+      },
+      "expected_status": "CONFLICT",
+      "name": "overlapping_sources",
+      "observed_status": "CONFLICT",
+      "passed": true
+    },
+    {
+      "decision": {
+        "candidate_face_id": null,
+        "correlation": 0.9,
+        "lag_ms": 0.0,
+        "reason": "SYNCHRONY_CONSENSUS_PENDING",
+        "stable_windows": 1,
+        "status": "ABSTAIN"
+      },
+      "expected_status": "ABSTAIN",
+      "name": "rapid_face_switch",
+      "observed_status": "ABSTAIN",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "Synthetic behavior tests software branches; it does not validate real audiovisual association.",
+  "media_captures": 0,
+  "robot_connections": 0,
+  "schema": "reachy-av-synchrony-synthetic-fault-suite-v1",
+  "spec": {
+    "max_abs_lag_ms": 240.0,
+    "max_clock_drift_fraction": 0.03,
+    "max_consensus_gap_ms": 800.0,
+    "max_sample_gap_ms": 160.0,
+    "min_audio_std": 0.05,
+    "min_correlation": 0.55,
+    "min_face_margin": 0.08,
+    "min_mouth_std": 0.05,
+    "min_overlap_ms": 1200.0,
+    "min_samples": 30,
+    "required_stable_windows": 3,
+    "resample_period_ms": 40.0
+  },
+  "status": "OFFLINE_SYNTHETIC_ONLY_THRESHOLDS_UNCALIBRATED"
+}

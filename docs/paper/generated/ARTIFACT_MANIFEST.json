@@ -1,0 +1,98 @@
+{
+  "boundaries": {
+    "figures_are_svg": true,
+    "media_capture": 0,
+    "network_connections": 0,
+    "robot_connections": 0
+  },
+  "generator": "scripts/build_paper_artifacts.py",
+  "outputs": [
+    {
+      "bytes": 1213,
+      "path": "docs/paper/generated/TABLE_1_STAGE_RESULTS.md",
+      "sha256": "2be977df7630dbfd5560227f909efb4cc96070f000e291734d1295f87ca3be16"
+    },
+    {
+      "bytes": 550,
+      "path": "docs/paper/generated/TABLE_2_ATTEMPT_ACCOUNTING.md",
+      "sha256": "4e7e3aab509ef1a8f4e4cd4f797731c936879891aa262de75fdda6fcaeba0c23"
+    },
+    {
+      "bytes": 2580,
+      "path": "docs/paper/generated/TABLE_3_THREATS_TO_VALIDITY.md",
+      "sha256": "a518cf7cfa51c5ab7f298318fc5e947cd37f015ce14a6ab6d323c5d75c112e50"
+    },
+    {
+      "bytes": 1193,
+      "path": "docs/paper/generated/TABLE_4_CONFIRMATION_DESIGN.md",
+      "sha256": "9801493cba9def71ba6101113c5db11cb1727071709e69ce473b34048645bae6"
+    },
+    {
+      "bytes": 4193,
+      "path": "figures/architecture.svg",
+      "sha256": "17804d807ddf2527e1ef40ad722e0194a321be5aec00c2aac2fe540ad2fb57b3"
+    },
+    {
+      "bytes": 8405,
+      "path": "figures/safety-coverage-frontier.svg",
+      "sha256": "00a9f8057b3837a45d54251951f56927889882d563cbd8bb805e750cbbe4c0cd"
+    }
+  ],
+  "publication_files": [
+    {
+      "path": "docs/MANUSCRIPT.md",
+      "sha256": "3712723a15520b9ec7ea6e5175f2436a8fdea48bc9bdfee3f255f6fb239c5413"
+    },
+    {
+      "path": "docs/AV_SYNCHRONY_CONFIRMATION_PROTOCOL.md",
+      "sha256": "b072273c7b610c58c4457361a46d5420cb6f8d6ffdbe7e2c1f116660046b1cb6"
+    },
+    {
+      "path": "docs/HARDWARE_SOFTWARE_INVENTORY.md",
+      "sha256": "0c23a8e2a6aeeec6aab4852591f46d75d817dce2a1f36973577e5930d7cae3e7"
+    },
+    {
+      "path": "docs/REPRODUCIBILITY.md",
+      "sha256": "bcb34cd8e019b3c451fe520926a74e048d36bb0dc07921b3fa668af88c75c406"
+    },
+    {
+      "path": "requirements-test.lock",
+      "sha256": "cbe7f593d1ce029960a7b5ec3486dfff19a1710a3ceb9880df1b24d20c6c7998"
+    },
+    {
+      "path": "evidence/manifests/reproducibility_environment_v1.json",
+      "sha256": "aa184d96cccdd2ef4a655f8b15552e8629d659618ee840856a545f3740f47235"
+    }
+  ],
+  "schema": "reachy-paper-artifact-manifest-v1",
+  "sources": [
+    {
+      "path": "evidence/analysis/stage2a_policy_tournament_v1.json",
+      "sha256": "dba19adc3bcbf2a0e0563997a7afd5cf42da64b94f5e6cf9622b5e0d05f7c4da"
+    },
+    {
+      "path": "evidence/manifests/stage3v_confirmation_result_v3_freeze.json",
+      "sha256": "f51a6b6a39bb56aa999069ee68796d5cf131f92cce8ac47701f3c75148680952"
+    },
+    {
+      "path": "evidence/analysis/stage3v_trial_robustness_v1.json",
+      "sha256": "da58bfb161c3a92fe2a5134492ed7c6c360a58b74b11a308562f4f953d83d1a7"
+    },
+    {
+      "path": "evidence/manifests/stage3p_association_gated_cue_confirmation_result_v1_freeze.json",
+      "sha256": "52728ad2aa21fbe307e50d5077a868eca6f66bebbdd9b26fe2cf3989ed3bdb64"
+    },
+    {
+      "path": "evidence/manifests/stage4a_supervised_motion_pilot_v3_diagnostic_freeze.json",
+      "sha256": "e10d41c5e2876266b3ed6cfe025bc41915e72973b1b9a24050ac28918224c13a"
+    },
+    {
+      "path": "evidence/analysis/av_synchrony_pilot_v2_public_summary_v1.json",
+      "sha256": "09d00cbd1df4fb9eb9718cbdbccc59277b13f4ff9803a419842e4f827178791c"
+    },
+    {
+      "path": "evidence/manifests/av_synchrony_confirmation_protocol_v1.json",
+      "sha256": "596dc8de7d8be4d984921a02c40640fcd257df508a84b2063acd7531a8507116"
+    }
+  ]
+}

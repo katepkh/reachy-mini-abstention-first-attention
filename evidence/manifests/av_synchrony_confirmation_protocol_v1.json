@@ -1,0 +1,1298 @@
+{
+  "analysis": {
+    "interval": "two-sided Wilson score interval at nominal 95% over trials",
+    "no_adaptive_stopping": true,
+    "no_confirmation_retuning": true,
+    "paired_test": "two-sided exact McNemar test over paired hard-negative trials",
+    "primary_endpoints": [
+      "matching-positive trial coverage",
+      "hard-negative trial false-proposal rate",
+      "paired hard-negative proposal difference versus frozen Stage 3V spatial policy"
+    ],
+    "rows_are_independent": false,
+    "secondary_endpoints": [
+      "first-proposal latency",
+      "observed abstention duration",
+      "wrong-sign proposals",
+      "maximum target-heading error",
+      "abstention reason distribution"
+    ],
+    "stratification": "report every endpoint by room, condition, heading, and playback voice"
+  },
+  "canonical_trials": [
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-01",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-02",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-03",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-04",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-05",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-06",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-07",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-08",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-09",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-10",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-11",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-12",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-13",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-14",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-15",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-16",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-17",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_a",
+      "trial_id": "avsync-confirm-18",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-19",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-20",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-21",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-22",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-23",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-24",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-25",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-26",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-27",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-28",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-29",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-30",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-31",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-32",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-33",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-34",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-35",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_b",
+      "trial_id": "avsync-confirm-36",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-37",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-38",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-39",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-40",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-41",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-42",
+      "visible_heading_deg": -20
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-43",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-44",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-45",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 0,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-46",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-47",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-48",
+      "visible_heading_deg": 0
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-49",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "playback_heading_deg": null,
+      "playback_voice_id": null,
+      "role": "matching_positive",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-50",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_colocated_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-51",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_mouthing_shifted_playback",
+      "duration_s": 10,
+      "playback_heading_deg": 20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-52",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "silent_face_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_a",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-53",
+      "visible_heading_deg": 20
+    },
+    {
+      "condition_id": "live_speech_plus_opposite_playback",
+      "duration_s": 10,
+      "playback_heading_deg": -20,
+      "playback_voice_id": "voice_b",
+      "role": "hard_negative",
+      "room": "room_c",
+      "trial_id": "avsync-confirm-54",
+      "visible_heading_deg": 20
+    }
+  ],
+  "conditions": [
+    {
+      "description": "Visible operator speaks naturally from the marked heading.",
+      "id": "live_visible_continuous",
+      "playback": false,
+      "role": "matching_positive"
+    },
+    {
+      "description": "Visible operator alternates about one second of speech with one second of silence.",
+      "id": "live_visible_interrupted",
+      "playback": false,
+      "role": "matching_positive"
+    },
+    {
+      "description": "Visible operator remains silent while consented speech plays beside the face.",
+      "id": "silent_face_colocated_playback",
+      "playback": true,
+      "playback_geometry": "colocated",
+      "role": "hard_negative"
+    },
+    {
+      "description": "Visible operator mouths silently out of time while consented speech plays beside the face.",
+      "id": "silent_mouthing_shifted_playback",
+      "playback": true,
+      "playback_geometry": "colocated",
+      "role": "hard_negative"
+    },
+    {
+      "description": "Visible operator remains silent while consented speech plays from the opposite mark.",
+      "id": "silent_face_opposite_playback",
+      "playback": true,
+      "playback_geometry": "opposite",
+      "role": "hard_negative"
+    },
+    {
+      "description": "Visible operator speaks while an independent consented recording plays from the opposite mark.",
+      "id": "live_speech_plus_opposite_playback",
+      "playback": true,
+      "playback_geometry": "opposite",
+      "role": "hard_negative"
+    }
+  ],
+  "confirmation_rule": {
+    "all_conditions_required": true,
+    "comparative_requirement": "strictly fewer hard-negative trial proposals than the frozen spatial comparator",
+    "hard_negative_false_proposals": "0 of 36",
+    "matching_positive_coverage": "at least 15 of 18",
+    "maximum_target_error_deg": 8.0,
+    "wrong_sign_proposals": 0
+  },
+  "device_binding": {
+    "deadline": "before the first confirmation preview or capture",
+    "fixed_rule": "use the same fixed camera and microphone configuration in all rooms; a headset microphone must be mounted at a fixed mark and must not be worn",
+    "required_fields": [
+      "computer_os_and_build",
+      "browser_and_version",
+      "camera_make_model",
+      "microphone_make_model",
+      "audio_input_selected",
+      "media_device_settings",
+      "recorder_sha256",
+      "model_and_runtime_hashes"
+    ]
+  },
+  "exclusions": {
+    "all_attempts_retained": true,
+    "allowed": [
+      "capture did not complete the scheduled duration",
+      "required numeric stream is missing or nonfinite",
+      "timestamp order, span, sample-count, or sample-gap quality gate failed",
+      "single-face fraction, multiple-face, face-scale, or valid-face-gap quality gate failed",
+      "predeclared audio or lip dynamic-range quality gate failed",
+      "room, device, voice, heading, playback, or condition setup deviated from the frozen card",
+      "consent was withdrawn or equipment safety required stopping"
+    ],
+    "condition_removal": "PROHIBITED",
+    "decision_timing": "before any candidate or comparator outcome is computed",
+    "repeat_rule": "retain the failed attempt; correct only the recorded objective issue; repeat the same scheduled trial; never substitute another condition"
+  },
+  "experimental_unit": "one ten-second trial",
+  "fingerprint": "1e7f727d5fbf34bfd1be9464787151849b10e880eb8fcde758dce465f49b2bf8",
+  "frozen_candidate": {
+    "candidate_file_sha256": "b113d15f0384cb9e9cd3dd6b9a5a928978c1d221dba919fa6552b1b27f919590",
+    "candidate_fingerprint": "586882b1a72b6eff64baebc98556e988a047d2290f4f484178a0aeb07db52e46",
+    "max_abs_lag_ms": 120.0,
+    "max_consensus_gap_ms": 800.0,
+    "min_correlation": 0.25,
+    "moving_average_samples": 3,
+    "pilot_protocol_fingerprint": "afb6794ec5a94a6d6739142dd69e873c1aec2f6df307a8bf4b9b4cf6612e8754",
+    "required_stable_windows": 3,
+    "selection_or_retuning_during_confirmation": "PROHIBITED"
+  },
+  "headings_deg": [
+    -20,
+    0,
+    20
+  ],
+  "opening_gate": [
+    "three private room bindings complete and hashed",
+    "two consented voice-stimulus records complete and hashed",
+    "camera, microphone, browser, and recorder versions bound",
+    "frozen candidate and acquisition implementation hashes agree",
+    "empty confirmation output directory and complete attempt ledger initialized",
+    "operator confirms no pilot attempt will be reused"
+  ],
+  "predecessor_design_fingerprint": "c61ed6fa70029f5016c567bcb6c6952d6e8dc5f5e1742ad06a2aa731ae165572",
+  "quality_gates": {
+    "maximum_sample_gap_ms": 160.0,
+    "minimum_audio_dbfs_std": 0.5,
+    "minimum_lip_aperture_std_when_motion_required": 0.002,
+    "minimum_median_face_scale": 0.16,
+    "minimum_samples": 160,
+    "minimum_single_face_fraction": 0.95,
+    "minimum_span_ms": 7000.0,
+    "motion_required_conditions": [
+      "live_visible_continuous",
+      "live_visible_interrupted",
+      "silent_mouthing_shifted_playback"
+    ],
+    "multiple_face_rows_allowed": 0,
+    "provenance": "unchanged from the successful V2 pilot"
+  },
+  "randomization": {
+    "rule": "shuffle the 18 canonical trials within each room once using Python random.Random(seed + zero_based_room_index).shuffle; never reorder after preview, quality, or outcome data are visible",
+    "schedule": [
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-07",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-01",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-13",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-17",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-04",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-03",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-11",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-10",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-14",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-12",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-16",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-05",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-08",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-18",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-09",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-06",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-02",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_a",
+        "trial_id": "avsync-confirm-15",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-35",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-25",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-29",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-23",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-31",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-32",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-28",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-27",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-24",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-20",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-34",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-26",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-22",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-19",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-33",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-21",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-30",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_b",
+        "trial_id": "avsync-confirm-36",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-40",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-42",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-37",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-43",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-51",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_visible_continuous",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-49",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-47",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-45",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-41",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_face_colocated_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-39",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-44",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-38",
+        "visible_heading_deg": -20
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-52",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_b",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-54",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_visible_interrupted",
+        "duration_s": 10,
+        "playback_heading_deg": null,
+        "playback_voice_id": null,
+        "role": "matching_positive",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-50",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "silent_face_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": -20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-53",
+        "visible_heading_deg": 20
+      },
+      {
+        "condition_id": "live_speech_plus_opposite_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 20,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-48",
+        "visible_heading_deg": 0
+      },
+      {
+        "condition_id": "silent_mouthing_shifted_playback",
+        "duration_s": 10,
+        "playback_heading_deg": 0,
+        "playback_voice_id": "voice_a",
+        "role": "hard_negative",
+        "room": "room_c",
+        "trial_id": "avsync-confirm-46",
+        "visible_heading_deg": 0
+      }
+    ],
+    "seed": 730114
+  },
+  "research_question": "When spatial evidence agrees, can the frozen V2 audio-mouth synchrony candidate reduce false visible-speaker proposals without unacceptable loss of matching-trial coverage?",
+  "room_binding": {
+    "deadline": "before the first confirmation preview or capture",
+    "failure_rule": "do not collect until all three room records are complete and hashed",
+    "private_record_required": true,
+    "required_fields": [
+      "opaque_room_id",
+      "confirmation_not_v2_pilot_room",
+      "approximate_dimensions_m",
+      "dominant_surface_and_furnishing_description",
+      "background_audio_dbfs_10s",
+      "camera_mark",
+      "microphone_mark",
+      "visible_person_marks",
+      "playback_marks",
+      "room_record_sha256"
+    ]
+  },
+  "rooms": [
+    {
+      "eligibility": "distinct enclosed physical room not used for the V2 pilot",
+      "id": "room_a"
+    },
+    {
+      "eligibility": "distinct enclosed physical room not used for the V2 pilot or room_a",
+      "id": "room_b"
+    },
+    {
+      "eligibility": "distinct enclosed physical room not used for the V2 pilot, room_a, or room_b",
+      "id": "room_c"
+    }
+  ],
+  "schema": "reachy-av-synchrony-confirmation-protocol-v1",
+  "scope": {
+    "identity_intent_consent_or_authorization_claims": false,
+    "passive_sensing_only": true,
+    "physical_safety_claims": false,
+    "robot_motion_commands": 0,
+    "torque_calibration_or_motor_mode_commands": 0
+  },
+  "status": "FROZEN_BEFORE_CONFIRMATION_DATA_COLLECTION",
+  "trial_counts": {
+    "hard_negative": 36,
+    "matching_positive": 18,
+    "per_room": 18,
+    "per_room_heading": 6,
+    "total": 54
+  },
+  "voice_binding": {
+    "allocation": "18 hard-negative trials per voice; two trials per voice in every room-heading block",
+    "private_record_required": true,
+    "required_fields": [
+      "opaque_voice_id",
+      "consent_basis",
+      "recording_sha256",
+      "clip_duration_s",
+      "spoken_language",
+      "playback_device_make_model",
+      "fixed_volume_setting"
+    ],
+    "stimulus_boundary": "recorded voices are stimuli, not participants",
+    "voice_ids": [
+      "voice_a",
+      "voice_b"
+    ]
+  }
+}

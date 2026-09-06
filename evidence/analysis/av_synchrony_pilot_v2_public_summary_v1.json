@@ -1,0 +1,52 @@
+{
+  "schema": "reachy-av-synchrony-pilot-v2-public-summary-v1",
+  "status": "FROZEN_PILOT_CANDIDATE_NOT_CONFIRMATION",
+  "attempts": {
+    "total": 23,
+    "canonical_quality_passing": 12,
+    "quality_failed": 11,
+    "commissioning_insufficient_samples": 6,
+    "lip_dynamic_range_too_low": 5
+  },
+  "development": {
+    "candidate_settings": 45,
+    "eligible_settings": 8,
+    "matching_positive_candidates": 4,
+    "matching_positive_trials": 4,
+    "hard_negative_candidates": 0,
+    "hard_negative_trials": 4
+  },
+  "internal_validation": {
+    "matching_positive_candidates": 2,
+    "matching_positive_trials": 2,
+    "hard_negative_candidates": 0,
+    "hard_negative_trials": 2,
+    "passed": true
+  },
+  "selected_candidate": {
+    "minimum_correlation": 0.25,
+    "maximum_absolute_lag_ms": 120.0,
+    "moving_average_samples": 3,
+    "fingerprint": "586882b1a72b6eff64baebc98556e988a047d2290f4f484178a0aeb07db52e46",
+    "freeze_file_sha256": "b113d15f0384cb9e9cd3dd6b9a5a928978c1d221dba919fa6552b1b27f919590"
+  },
+  "integrity": {
+    "protocol_fingerprint": "afb6794ec5a94a6d6739142dd69e873c1aec2f6df307a8bf4b9b4cf6612e8754",
+    "canonical_source_bundle_sha256": "e389ff1e2643533ced7ca8e8a2cc54df7099808cc14a15d878fae7c3fc2dabe5",
+    "private_analysis_json_sha256": "3443076a8e98609b4642996555d2e554b8d4ca7d2b4cd268897f7f8f55b002e4",
+    "complete_attempt_audit_json_sha256": "f853fad82e1e6e363006edde80271ceca6c84402996e35fb47fd9735da969eac"
+  },
+  "scope": {
+    "robot_connections": 0,
+    "actuation_commands": 0,
+    "confirmation_data_collected": false,
+    "speaker_identity_or_authorization_validated": false
+  },
+  "privacy": {
+    "public_raw_audio": false,
+    "public_video_or_pixels": false,
+    "public_transcripts": false,
+    "public_numeric_attempt_files": false
+  },
+  "claim_boundary": "Single-person, single-setup instrument development; not confirmation, identity, authorization, multi-speaker, or robot evidence."
+}

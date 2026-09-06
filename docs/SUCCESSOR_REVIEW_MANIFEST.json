@@ -1,0 +1,253 @@
+{
+  "external_authorization_status": "OUTSIDE_REPOSITORY_NO_CORRESPONDENCE_RETAINED",
+  "file_count": 46,
+  "files": [
+    {
+      "bytes": 33322,
+      "path": "README.md",
+      "sha256": "aa65a1b20617fdd57e6fce14e330d3ac732477ecf96bb144462ee3ecd8629583"
+    },
+    {
+      "bytes": 1893,
+      "path": "SAFETY.md",
+      "sha256": "1111c9a3530ff6d004a05d025326c935150d576fc7a1318ef982df15da590a0b"
+    },
+    {
+      "bytes": 1508,
+      "path": "pyproject.toml",
+      "sha256": "48f8a0cccc4ffb9d1305c1d78b9326066b710b607f88d62dafa8c178ead41ec5"
+    },
+    {
+      "bytes": 41286,
+      "path": "docs/EXTERNAL_REVIEW.md",
+      "sha256": "019d5ea4e18778e9d49310d5e9c4ec568759a037c09fa03aca3dc27bd982a52d"
+    },
+    {
+      "bytes": 6762,
+      "path": "docs/FAILURE_LEDGER.md",
+      "sha256": "aad4c169a77f0c251e79f7777042e3c81d576e8b28df4d85c0ffb039f3808d4e"
+    },
+    {
+      "bytes": 6296,
+      "path": "docs/LIMITATIONS.md",
+      "sha256": "49f2b172589b334b3a03d34bd54166c3ffd407ba9aa732b39efb1958dca5b35e"
+    },
+    {
+      "bytes": 15240,
+      "path": "docs/THRESHOLD_PROVENANCE.md",
+      "sha256": "32f6de0b50a6289a44dd1153b46cb2e5f86088b1e44357d7da0f61f25b23caac"
+    },
+    {
+      "bytes": 13225,
+      "path": "docs/CENTERING_REVIEW.md",
+      "sha256": "a24b0a3e92c6aa5dfb4db27b444d7bb57024574b7bfe730fbe1bb1f18b663db9"
+    },
+    {
+      "bytes": 14286,
+      "path": "docs/MAINTENANCE_TRIAGE.md",
+      "sha256": "23eaa140adc021b5e53a1983c2a6791ec3edd95e447b4ca1055bb6d872a8c4e9"
+    },
+    {
+      "bytes": 8525,
+      "path": "docs/TARGET_STATE_OBSERVABILITY.md",
+      "sha256": "1f7d71bdcb9e64fa394b590f40132ba0b7201fbe4d142a6fd23b35d61025d4b5"
+    },
+    {
+      "bytes": 8630,
+      "path": "docs/STARTUP_CHARACTERIZATION.md",
+      "sha256": "2ed9a4a700e5b21734a87514fad82df56e68609875ad39bb73ef59ee04512445"
+    },
+    {
+      "bytes": 8542,
+      "path": "docs/BASELINE_RELATIVE_SUCCESSOR.md",
+      "sha256": "d643fe0f0fa7e211d80b06dff864e8363ae837f4514d49f35d29ba60d3cfc251"
+    },
+    {
+      "bytes": 3538,
+      "path": "docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md",
+      "sha256": "ca8b3ec9aab4c0962eed2e9163e049bddb755e6db18c538396e004518390fbb4"
+    },
+    {
+      "bytes": 5693,
+      "path": "docs/TEMPORARY_DAEMON_LIFECYCLE.md",
+      "sha256": "3c4c3b959942daf56fb76f2299a4aaedef7b5fe34432b66b6d4ba8516c4bcb8c"
+    },
+    {
+      "bytes": 1424,
+      "path": "docs/OFFLINE_FAILURE_REHEARSAL.md",
+      "sha256": "99b367ee4ea9a66410c57d62ce7b35e6a809c6191f9b4753ba10ce459f084eda"
+    },
+    {
+      "bytes": 4648,
+      "path": "docs/SUCCESSOR_TRAJECTORY_REVIEW.md",
+      "sha256": "6de8f61fd2fe7cf48c33b3344a2bcfed27fa8fe3516e6f4cf1933f78ecca8b7a"
+    },
+    {
+      "bytes": 3019,
+      "path": "docs/SPLIT_TARGET_RETURN_PROTOCOL.md",
+      "sha256": "acb7da4e57d1888adda9619922d82b27c7bce9aec7bf1099d00d759e1e2750c4"
+    },
+    {
+      "bytes": 9693,
+      "path": "docs/RETURN_TO_BORROWED_CONDITION.md",
+      "sha256": "1e77cdc529ccf4fc4a55f4a1f67ff85e9a822f96a5284924e39c502b3feaec45"
+    },
+    {
+      "bytes": 754,
+      "path": "patches/reachy-mini-v1.9.0-target-state-observability.patch",
+      "sha256": "7bfb6a83b46f6f0f6018a3a350dc705abb7efd663cd9fce213de37b35349252f"
+    },
+    {
+      "bytes": 6726,
+      "path": "patches/reachy-mini-v1.9.0-observation-lifecycle.patch",
+      "sha256": "96276f7c9c5f7933a4799ef94e45cc5eb94a31dd8758c02ffac669887fe8f42d"
+    },
+    {
+      "bytes": 4149,
+      "path": "reachy_stage4/daemon_lifecycle.py",
+      "sha256": "411f5b027ad471f6e05a9d1d6b0443c52426c8f6322d1ae44325353e20ad3a4d"
+    },
+    {
+      "bytes": 2309,
+      "path": "reachy_stage4/failure_response.py",
+      "sha256": "d25c4a7c18a8a87f4c93f045d42d1222ad65dcb06404a1ea826b2ca96651b82e"
+    },
+    {
+      "bytes": 2808,
+      "path": "reachy_stage4/rollback_inventory.py",
+      "sha256": "b2e9473f29577adfe5e5230815b96cd5c3be5178c77d1f1a5c30db19c8366d7c"
+    },
+    {
+      "bytes": 8243,
+      "path": "reachy_stage4/offline_fault_rehearsal.py",
+      "sha256": "f8b29268779f74e3d081601ef132f2b763048639da81dbcd17b96d2a33235e35"
+    },
+    {
+      "bytes": 9715,
+      "path": "reachy_stage4/successor_review.py",
+      "sha256": "3116be23e4cf340e54981acd305d655a7c6876bd4a26f36e6eb98cb249794b31"
+    },
+    {
+      "bytes": 7883,
+      "path": "reachy_stage4/successor_trace.py",
+      "sha256": "3051367365dbcdb07524071c0e1d57e6c6c8554f84c9bd4942a0cdea61a85d53"
+    },
+    {
+      "bytes": 7341,
+      "path": "reachy_stage4/trajectory_review.py",
+      "sha256": "39234db44b2bb00e4579cd8395d7aae0c90e637a22f4171eabdd1ed87a409696"
+    },
+    {
+      "bytes": 10114,
+      "path": "reachy_stage4/split_authorization.py",
+      "sha256": "4c8723cd928f1379d28e3d0600af2ec47848e6b05bed840a1c1c9ac4610da581"
+    },
+    {
+      "bytes": 4816,
+      "path": "reachy_stage4/external_records.py",
+      "sha256": "9af43ad93fcb6ed04171aff5323293ae8930d33457c48875dc85e00fb9697f65"
+    },
+    {
+      "bytes": 4597,
+      "path": "scripts/build_successor_review_manifest.py",
+      "sha256": "6e6e06039e3250bb8e7da8e58a7b8871b1231848c76a3fcb07647318086f2f32"
+    },
+    {
+      "bytes": 4987,
+      "path": "scripts/validate_daemon_lifecycle_patch.py",
+      "sha256": "abec0346bec94111881b435b6d2242c5b2388b45a79302f8790fb3bdd4732502"
+    },
+    {
+      "bytes": 1945,
+      "path": "scripts/run_offline_fault_rehearsal.py",
+      "sha256": "51bce7d8b05c036a714e714b90cfb3485d0b3b6b20e710a2370f8737f0d33313"
+    },
+    {
+      "bytes": 1634,
+      "path": "scripts/capture_successor_present_target_trace.py",
+      "sha256": "4e258affa9a928c4ed2892384719eb483ae773e73f1d064d084974649420d95a"
+    },
+    {
+      "bytes": 12723,
+      "path": "scripts/validate_successor_trajectory_v190.py",
+      "sha256": "ed9394b03e14afa63a6bf5064ac25aa9cecb5b05220b805a40291e5bbf43a4bc"
+    },
+    {
+      "bytes": 6747,
+      "path": "tests/test_stage4a_successor_review.py",
+      "sha256": "5f10b4f93b41877628684229e0d4206e65f963af5e854cba74b3a5456d58edd6"
+    },
+    {
+      "bytes": 5490,
+      "path": "tests/test_stage4a_successor_trace.py",
+      "sha256": "4edcd608ec638897db8f29382e938e8776b9f1325d1f323981fdb898939da493"
+    },
+    {
+      "bytes": 2714,
+      "path": "tests/test_stage4a_trajectory_review.py",
+      "sha256": "f30474adfb3f058aa856b5d14628dbbeec51a0431a448ee6d644722dc4ce44ba"
+    },
+    {
+      "bytes": 1366,
+      "path": "tests/test_stage4a_trajectory_validator.py",
+      "sha256": "3a443991a707473cd185388a388497725887f39b243725977c18fc46a4a3301e"
+    },
+    {
+      "bytes": 5644,
+      "path": "tests/test_stage4a_split_authorization.py",
+      "sha256": "c30db96fda71f8e20afe4630244c731da2eb8b59fb8bae94af0f76b9dff3065e"
+    },
+    {
+      "bytes": 5906,
+      "path": "tests/test_stage4a_external_records.py",
+      "sha256": "78187fd32a4d39697767f9964f4bddb70bbe908f3e32e87a480af0a89ff4eed9"
+    },
+    {
+      "bytes": 2017,
+      "path": "tests/test_stage4a_daemon_lifecycle.py",
+      "sha256": "01ef8d3d7c42183263c995c1821d594d270a11e4bcfd7d68e12b84af286e17b6"
+    },
+    {
+      "bytes": 2083,
+      "path": "tests/test_stage4a_failure_response.py",
+      "sha256": "93900fd108b57434b34d98a888059b44ae7f2d44ce222ed2d7d8e16a5f155804"
+    },
+    {
+      "bytes": 1400,
+      "path": "tests/test_stage4a_rollback_inventory.py",
+      "sha256": "2655599554eab0ebd5be60a73aee7a7fa46d2777da977133f4c3b1e55386268d"
+    },
+    {
+      "bytes": 3013,
+      "path": "tests/test_stage4a_offline_fault_rehearsal.py",
+      "sha256": "c92c80f768bd90a28e5147a072d16eb15b3b6734938d157abe288c8ecd75677e"
+    },
+    {
+      "bytes": 3929,
+      "path": "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json",
+      "sha256": "fe0d7b9e04541d4120a16f44d114f04de1c10c2687cb3615846b0351b99f2cdf"
+    },
+    {
+      "bytes": 106,
+      "path": "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json.sha256",
+      "sha256": "7be6064c8390b0b1c90ea1771c6e4097268929c93fee10e2e21e8e663184af3c"
+    }
+  ],
+  "known_blockers": [
+    "NO_OWNER_PHYSICAL_TARGET_OR_RETURN_SCOPE_RECORDED",
+    "NO_INDEPENDENT_HUMAN_ROBOTICS_VERDICT_RECORDED",
+    "TARGET_STATE_PATCH_NOT_INSTALLED",
+    "OBSERVATION_LIFECYCLE_PATCH_NOT_INSTALLED",
+    "NO_LIVE_PRESENT_TARGET_TRACE",
+    "NO_SUCCESSOR_EXECUTOR",
+    "NO_COLLISION_LOAD_TRACKING_OR_PHYSICAL_SAFETY_VALIDATION",
+    "NO_APPROVED_RETURN_TO_BORROWED_CONDITION_PROCEDURE",
+    "NO_VERIFIED_TORQUE_REMOVAL_AFTER_DAEMON_FAILURE",
+    "NO_UNIT_SPECIFIC_PHYSICAL_DEENERGIZATION_PROCEDURE"
+  ],
+  "robot_commands_authorized": 0,
+  "robot_commands_sent": 0,
+  "robot_connections": 0,
+  "schema": "reachy-stage4a-successor-review-manifest-v2",
+  "status": "DESIGN_ONLY_NO_COMMAND_AUTHORITY"
+}

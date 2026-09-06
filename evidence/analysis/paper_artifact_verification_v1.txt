@@ -1,0 +1,22 @@
+reachy-paper-artifact-verification-v1
+python=3.12.13
+network_connections=0
+robot_connections=0
+camera_or_microphone_capture=0
+PASS locked dependency environment (30 packages)
+PASS hardware/software reproducibility environment manifest
+PASS public frozen evidence
+PASS generated public result summary
+PASS Stage 3V trial-level robustness
+PASS AV-synchrony falsification design
+PASS AV-synchrony synthetic faults
+PASS AV-synchrony V1 pilot design
+PASS AV-synchrony V1 synthetic dry run
+PASS AV-synchrony V2 pilot design
+PASS AV-synchrony V2 synthetic dry run
+PASS AV-synchrony confirmation design
+PASS generated manuscript tables and figures
+PASS temporary-daemon offline fault rehearsal
+PASS Stage 4A successor review packet
+PASS curated software tests (265 tests)
+all_checks_passed=true
