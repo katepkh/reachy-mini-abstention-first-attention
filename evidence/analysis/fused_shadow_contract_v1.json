@@ -1,0 +1,184 @@
+{
+  "actuation_commands": 0,
+  "all_passed": true,
+  "cases": [
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": "visible-face-1",
+        "candidate_heading_deg": 12.0,
+        "motion_authorized": false,
+        "reason": "SPATIAL_AND_SYNCHRONY_SUPPORTED_WITHIN_VISIBLE_SCOPE",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "SELECT"
+      },
+      "expected_state": "SELECT",
+      "name": "supported_same_visible_face",
+      "observed_state": "SELECT",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SPATIAL_PENDING:TEMPORAL_CONSENSUS",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "HOLD"
+      },
+      "expected_state": "HOLD",
+      "name": "spatial_pending",
+      "observed_state": "HOLD",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SYNCHRONY_PENDING:STABLE_SYNCHRONY_CANDIDATE_NOT_IDENTITY",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "HOLD"
+      },
+      "expected_state": "HOLD",
+      "name": "synchrony_pending",
+      "observed_state": "HOLD",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SYNCHRONY_ABSTAIN:STABLE_SYNCHRONY_CANDIDATE_NOT_IDENTITY",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "phone_like_synchrony_abstain",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SPATIAL_CONFLICT:TEMPORAL_CONSENSUS",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "spatial_conflict",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "FACE_TRACK_MISMATCH",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "face_track_mismatch",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SPATIAL_STALE_EVIDENCE",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "stale_spatial_evidence",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SPATIAL_HEADING_INVALID",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "invalid_heading",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "HEALTH_BLOCK:STATE_STALE",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "unhealthy_runtime",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    },
+    {
+      "decision": {
+        "actuation_commands": 0,
+        "candidate_face_track_id": null,
+        "candidate_heading_deg": null,
+        "motion_authorized": false,
+        "reason": "SYNCHRONY_UNAVAILABLE:STABLE_SYNCHRONY_CANDIDATE_NOT_IDENTITY",
+        "response_authorized": false,
+        "response_commands": 0,
+        "state": "ABSTAIN"
+      },
+      "expected_state": "ABSTAIN",
+      "name": "synchrony_unavailable",
+      "observed_state": "ABSTAIN",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "Exercises deterministic fusion branches only. It does not establish liveness, speaker identity, conversational intent, eye contact, robot motion, audible response, phone-playback rejection, or end-to-end performance.",
+  "media_captures": 0,
+  "response_commands": 0,
+  "robot_connections": 0,
+  "schema": "reachy-m5-fused-shadow-contract-v1",
+  "spec": {
+    "fingerprint": "006ef7d2ea9df4ea62fd81bb676de6b03605a65000449b885625dfea0f2cdbba",
+    "max_abs_heading_deg": 90.0,
+    "max_evidence_skew_ms": 250.0,
+    "max_future_skew_ms": 50.0,
+    "max_input_age_ms": 800.0,
+    "motion_authority": false,
+    "name": "M5 visible-candidate fused shadow interface v1",
+    "require_same_face_track": true,
+    "response_authority": false,
+    "visible_speaker_only": true
+  },
+  "status": "SYNTHETIC_SOFTWARE_CONTRACT_ONLY"
+}

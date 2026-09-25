@@ -8,7 +8,7 @@
 
 Build a real Reachy Mini interaction in which a live visible speaker causes one bounded orientation, face-directed attention, and an audible response, while a silent visible person beside phone playback causes no socially directed movement and no conversational response.
 
-**That behaviour does not yet exist end to end.** The repository contains valuable passive perception results, a promising but unconfirmed live-speech/playback instrument, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain a single integrated controller, validated attention hold, gated response path, or successful end-to-end robot study.
+**That behaviour does not yet exist end to end.** The repository now contains one deterministic fused-shadow decision interface, but it has only a synthetic software contract and no joint real spatial/synchrony input. It also contains valuable passive perception results, a promising but unconfirmed live-speech/playback instrument, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain an integrated candidate-to-command controller, validated attention hold, gated response path, or successful end-to-end robot study.
 
 The governing records are the [`project charter`](docs/PROJECT_CHARTER.md), [`milestone matrix`](docs/MILESTONE_MATRIX.md), [`decision log`](docs/DECISION_LOG.md), [`novelty and claims ledger`](docs/NOVELTY_CLAIMS_LEDGER.md), and [`strategy gate`](docs/STRATEGY_GATE.md). Read them before interpreting an intermediate artifact as the project objective.
 
@@ -40,6 +40,7 @@ Passive validation passed only for the frozen single-site conditions below. It d
 | Audit which decisions govern current work | [`docs/DECISION_LOG.md`](docs/DECISION_LOG.md) |
 | Check what may and may not be claimed as novel | [`docs/NOVELTY_CLAIMS_LEDGER.md`](docs/NOVELTY_CLAIMS_LEDGER.md) |
 | Gate the next substantial task | [`docs/STRATEGY_GATE.md`](docs/STRATEGY_GATE.md) |
+| Inspect the M5 fused shadow interface and its exact claim boundary | [`docs/FUSED_SHADOW_CONTROLLER.md`](docs/FUSED_SHADOW_CONTROLLER.md) |
 | Read the working evidence manuscript | [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md) |
 | Review the whole project critically | [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md) |
 | Reuse a rigorous review prompt | [`docs/REVIEW_PROMPTS.md`](docs/REVIEW_PROMPTS.md) |
@@ -102,6 +103,7 @@ Stage 3P does not recognize the spoken test phrase: it receives no transcript an
 | 3P — association-gated visual cue | Does stable centred compatibility trigger one visual instruction while no-cue controls time out? | 9 accepted trials from 18 attempts; seven gates passed; 6 vertical transitions and 3 fail-closed controls; 0 robot, actuation, or cloud requests. |
 | AV synchrony development pilot | Can local microphone energy and fixed-box mouth-region pixel change separate matched live speech from playback hard negatives? | **Instrument rejected.** Twelve laptop-only trials from 13 captures; 0/240 frozen settings met the selection rule. No robot connection or command. |
 | AV synchrony V2 pilot | Can tracked, face-normalized lip aperture separate matching speech from colocated-playback hard negatives in one setup? | **Pilot candidate frozen; not confirmation.** Twelve canonical trials from 23 attempts passed every quality gate. The selected setting produced candidates for 4/4 development and 2/2 internal-validation positives, and 0/4 plus 0/2 hard negatives. Zero robot connections or commands. |
+| M5 fused shadow contract | Does one deterministic interface fail closed across supported, pending, conflicting, stale, mismatched, unavailable, and unhealthy synthetic evidence? | **Software prototype only.** Ten deterministic cases pass with `SELECT`, `HOLD`, or `ABSTAIN`; zero motion/response authority or commands. No joint real input has been tested. |
 | 4A V3 — supervised mechanical pilot | Does one bounded 3° head-only command execute and return inside tolerance? | **Failed.** One physical trial and two head-only commands; measured motion 1.350°, target error 2.079°, return error 1.678°. |
 | 4A V4 — corrected mechanical path | Can the diagnosed V3 defects be corrected without retroactively changing its thresholds? | No V4 physical trial has run. A controlled three-start, zero-command series found a repeatable 2.529–2.752° mean start offset; all traces failed the unchanged 1° project gate. A later 193-frame observation found the retained target coherently `UNSET`, but did not validate motion or return. Custom centring remains rejected. |
 
@@ -129,19 +131,20 @@ This falsified assumption is more important than the positive coverage number. I
 | Hard negatives can reveal false associations hidden by positive demos. | A multi-person participant study or socially valid eye-contact behavior. |
 | Passive policy success does not silently authorize hardware. | Certified functional safety or formal verification. |
 | The failed motion result was preserved without relaxed thresholds. | Successful physical speaker following or autonomous actuation. |
+| The M5 software contract deterministically fuses same-clock spatial and synchrony evidence with no side-effect authority. | Real phone-playback rejection, liveness, speaker identity, motion, or response. |
 
 The strongest current artifacts are the **permission architecture, preserved hard-negative evidence, and failure-preservation process**. They support the primary objective but do not substitute for the absent integrated robot behaviour.
 
 ## Code and evidence map
 
-The working repository contains 141 package modules (24,628 lines), 57 test modules, public verification/diagnostic scripts, and frozen numeric artifacts. Counts describe implementation volume, not research success. Versioned files preserve rejected and superseded protocol generations rather than presenting every generation as an active alternative.
+The working repository contains 142 package modules (24,848 lines), 58 test modules, public verification/diagnostic scripts, and frozen numeric artifacts. Counts describe implementation volume, not research success. Versioned files preserve rejected and superseded protocol generations rather than presenting every generation as an active alternative.
 
 | Path | Responsibility | Review note |
 |---|---|---|
 | [`reachy_doa/`](reachy_doa) | Read-only DoA client, angle handling, confidence windows, offline policies, manifests, replay, and source-validity analysis. | The network client exposes GET-only access to an allowlisted private IPv4 endpoint. |
 | [`reachy_stage2a/`](reachy_stage2a) | Local face detection, camera lifecycle, audio/visual fusion, trial protocol, recording, and policy tournament. | Face geometry is an availability signal, not identity or active-speaker proof. |
 | [`reachy_stage3a/`](reachy_stage3a) | Passive motion-shadow controller and evaluation. | It computes counterfactual targets and has no hardware authority. |
-| [`reachy_stage3v/`](reachy_stage3v) | Fresh horizontal off-axis passive validation, audit/compliance checks, sampling, and frozen V3 policy. | Versioned modules expose the development trail but make navigation harder. |
+| [`reachy_stage3v/`](reachy_stage3v) | Fresh horizontal off-axis passive validation plus the M5 fused shadow interface. | The fused interface has a synthetic contract and zero side-effect authority; no joint real spatial/synchrony trial exists yet. |
 | [`reachy_stage3p/`](reachy_stage3p) | Passive vertical targeting history plus association-gated visual-cue logic and result freezes. | The cue gate reads no transcript and has no command capability; V1–V7 are an audit trail, not a minimal reusable package. |
 | [`reachy_stage4/`](reachy_stage4) | Frozen V4 history plus a receive-only trace client, exact offline trajectory review, exact-v1.9.0 health gate, offline-only lifecycle rehearsal, and split target/return design. | The only new executor accepts mock adapters and explicitly denies hardware authority; V4's automatic return remains frozen history. |
 | [`reachy_avsync/`](reachy_avsync) | Command-free numeric audio–mouth synchrony prototypes, frozen pilot designs, offline analysis, complete-attempt audit, and candidate freeze. | V1 remains rejected. V2 nominated one content-frozen single-setup pilot candidate; confirmation remains absent. |
@@ -159,7 +162,7 @@ The working repository contains 141 package modules (24,628 lines), 57 test modu
 | [`scripts/freeze_av_synchrony_protocol.py`](scripts/freeze_av_synchrony_protocol.py) and [`scripts/run_av_synchrony_faults.py`](scripts/run_av_synchrony_faults.py) | Check the frozen future study design and deterministic synthetic fault artifact. | Neither script captures media, contacts Reachy, or validates real audiovisual association. |
 | [`tools/avsync_pilot_recorder.html`](tools/avsync_pilot_recorder.html) and [`scripts/analyze_av_synchrony_pilot.py`](scripts/analyze_av_synchrony_pilot.py) | Collect three local numeric columns in a browser and search the frozen 240-candidate development grid. | The fixed mouth box is confounded by head/lighting changes; selected pilot settings are not confirmation results. |
 | [`tools/avsync_pilot_recorder_v2.html`](tools/avsync_pilot_recorder_v2.html), [`scripts/analyze_av_synchrony_pilot_v2.py`](scripts/analyze_av_synchrony_pilot_v2.py), and [`scripts/freeze_av_synchrony_pilot_v2_candidate.py`](scripts/freeze_av_synchrony_pilot_v2_candidate.py) | Record only local numeric audio level and tracked face features, search 45 settings on development, evaluate internal validation, and bind a passing candidate to exact code/assets/input hashes. | The V2 pilot passed and is frozen locally, but does not validate speaker ownership or the 54-trial confirmation study. |
-| [`tests/`](tests) | Self-contained component and protocol tests. | 298 software tests are not 298 robot trials and do not validate hardware. |
+| [`tests/`](tests) | Self-contained component and protocol tests. | 308 software tests are not 308 robot trials and do not validate hardware. |
 | [`evidence/`](evidence) | Derived CSV/JSON evidence, analyses, compliance records, and freeze manifests. | No raw audio, camera pixels, transcripts, or identity labels are included. |
 
 ### Current reference path versus preserved history
@@ -169,13 +172,14 @@ The version suffixes document how the protocol changed; they do not mean that ev
 | Status | Reference files | Meaning |
 |---|---|---|
 | Current passive evidence | [`reachy_stage3v/revised_policy_v3.py`](reachy_stage3v/revised_policy_v3.py), [`reachy_stage3v/confirmation_analysis_v3.py`](reachy_stage3v/confirmation_analysis_v3.py), and the Stage 3V manifests under [`evidence/manifests/`](evidence/manifests) | Frozen horizontal off-axis policy and its fresh held-out evaluation. |
+| Current fused shadow interface | [`reachy_stage3v/fused_shadow.py`](reachy_stage3v/fused_shadow.py), [`scripts/run_fused_shadow_contract.py`](scripts/run_fused_shadow_contract.py), and [`docs/FUSED_SHADOW_CONTROLLER.md`](docs/FUSED_SHADOW_CONTROLLER.md) | Deterministic `SELECT`/`HOLD`/`ABSTAIN` software boundary; synthetic only, visible-speaker-only, and no motion/response authority. |
 | Current cue-boundary evidence | [`reachy_stage3p/association_gated_cue.py`](reachy_stage3p/association_gated_cue.py), [`reachy_stage3p/cue_confirmation.py`](reachy_stage3p/cue_confirmation.py), [`reachy_stage3p/cue_confirmation_protocol.py`](reachy_stage3p/cue_confirmation_protocol.py), and the Stage 3P manifests | Passive visual-instruction experiment; no transcript or robot command path. |
 | Frozen command-capable candidate | [`reachy_stage4/protocol.py`](reachy_stage4/protocol.py), [`reachy_stage4/runtime.py`](reachy_stage4/runtime.py), [`reachy_stage4/pilot.py`](reachy_stage4/pilot.py), and [`reachy_stage4/safety.py`](reachy_stage4/safety.py) | Prepared but unvalidated V4 path; blocked pending independent gate/target/maintenance review. The custom centring proposal was rejected for hardware execution. |
 | Design-only future successor | [`successor_review.py`](reachy_stage4/successor_review.py), [`successor_trace.py`](reachy_stage4/successor_trace.py), [`trajectory_review.py`](reachy_stage4/trajectory_review.py), [`split_authorization.py`](reachy_stage4/split_authorization.py), and [`docs/BASELINE_RELATIVE_SUCCESSOR.md`](docs/BASELINE_RELATIVE_SUCCESSOR.md) | Separately versioned post-V4 proposal. Offline trajectory reconstruction is complete; live target tracing and the external authorization gates remain outside the evidence package. It authorizes zero commands. |
 | Future scientific study | [`reachy_avsync/confirmation_protocol.py`](reachy_avsync/confirmation_protocol.py), [`docs/AV_SYNCHRONY_CONFIRMATION_PROTOCOL.md`](docs/AV_SYNCHRONY_CONFIRMATION_PROTOCOL.md), and [`docs/AV_SYNCHRONY_PILOT_V2_RESULT.md`](docs/AV_SYNCHRONY_PILOT_V2_RESULT.md) | Candidate-bound 54-trial confirmation design attacking spatially matched playback. V2 nominated and froze the instrument in one setup; rooms, consented voices, devices, and fixed playback marks must be privately bound before collection. No confirmation result exists. |
 | Preserved development history | Earlier Stage 3/4 versioned modules and their freeze artifacts | Audit trail of rejected, superseded, or failed designs. Do not treat these as the recommended API. |
 
-There is currently no single production entry point: the three reference paths above remain deliberately separate until end-to-end integration is designed and tested.
+There is now one fused candidate-decision interface, but no production candidate-to-motion/attention/response entry point. The sensing, physical action, hold, and response paths remain separate until end-to-end integration is designed and tested.
 
 ### What one command now rebuilds—and what it does not
 
@@ -228,7 +232,7 @@ To run V2 locally, install and verify its pinned browser assets once with `pytho
 
 CI runs the integrity, stale-artifact, protocol, and synthetic-fault checks before the software tests.
 
-Install the curated package and run 298 self-contained software tests:
+Install the curated package and run 308 self-contained software tests:
 
 ```bash
 python -m venv .venv
@@ -266,7 +270,7 @@ See the full [`external review packet`](docs/EXTERNAL_REVIEW.md) and [`role-spec
 4. Keep successor motion blocked. A later protocol would need movement-specific abort thresholds, clearance/load evidence, and separately reviewed target and return legs. Do not revive or relabel V4.
 5. Keep the successful V2 pilot candidate fixed, but pause the 54-trial collection before Trial 1. The current five-column recorder cannot identify the frozen Stage 3V spatial comparator or independent heading-error endpoints.
 6. Resume confirmation only after either adding and validating acoustic-direction capture and refreezing the execution contract, or explicitly narrowing the study to synchrony-only exploratory claims.
-7. Prioritize the critical path in [`docs/MILESTONE_MATRIX.md`](docs/MILESTONE_MATRIX.md): fused shadow decision, phone-playback rejection, bounded physical orientation, face-directed hold, gated response, and end-to-end validation. Manuscript polishing and repository release remain downstream supporting work.
+7. Prioritize the critical path in [`docs/MILESTONE_MATRIX.md`](docs/MILESTONE_MATRIX.md): joint-input shadow instrumentation, phone-playback rejection, bounded physical orientation, face-directed hold, gated response, and end-to-end validation. Manuscript polishing and repository release remain downstream supporting work.
 
 Detailed dependencies and realistic effort ranges are in [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md#realistic-roadmap-and-timeline).
 

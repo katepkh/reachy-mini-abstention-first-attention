@@ -9,6 +9,7 @@ The public evidence bundle contains derived numeric CSV/JSON rows, trial metadat
 - all public raw files listed for the Stage 3P targeted vertical visual-cue experiment;
 - the Stage 4A V3 preflight, command-result, and post-failure diagnostic records.
 - a privacy-minimized V2 pilot aggregate and candidate fingerprint, but not its private numeric attempts;
+- a deterministic M5 fused-shadow synthetic contract artifact containing no live observation;
 - the frozen 54-trial AV-synchrony confirmation design, which contains no confirmation outcomes; and
 - generated-paper source/output hashes.
 
@@ -40,6 +41,15 @@ The public evidence bundle contains derived numeric CSV/JSON rows, trial metadat
 ## Residual privacy and bias risk
 
 Data minimization is not anonymization. Filenames and metadata include dates, controlled condition labels, headings, timing, and robot state. The collection represents one site and primary operator and therefore embeds narrow environmental and behavioral assumptions.
+
+The current laptop AV instruments consume camera frames and microphone samples
+transiently inside the local browser/runtime to derive numeric audio level,
+face geometry, and lip aperture. The recorder saves and uploads no pixels or
+waveforms. The M5 fusion contract itself receives only timestamps, an ephemeral
+face-track label, heading, status/reason codes, correlation, and lag. A future
+robot-integrated instrument must separately inventory transient processing on
+Reachy, derived fields sent to the laptop, retention, and deletion; the present
+record does not establish that future boundary.
 
 The public V2 result exposes only aggregate trial outcomes and content hashes. Its 23 raw numeric attempt files are not public by default even though they contain no saved pixels, waveform, transcript, embedding, or name.
 

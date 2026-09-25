@@ -11,6 +11,9 @@
 
 - **No historical priority:** this repository does not claim to be the first system combining DoA, vision, selective prediction, passive cueing, operator arming, or runtime motion gating.
 - **No speaker identity:** face geometry and DoA do not identify a person or prove source ownership.
+- **No general liveness detection:** audio–lip synchrony may reject some unsynchronised playback conditions, but synchronized talking-face video, deliberate lip-sync, or coordinated replay can satisfy the cue. Claims must name the tested playback conditions.
+- **Visible-speaker-only first scope:** the M5 prototype abstains when no usable face is already in view. It does not search for an out-of-view speaker.
+- **No proof of being addressed:** live speaking and audiovisual association do not establish that the person intended to address Reachy.
 - **No intent inference:** speaking, looking, or issuing the test phrase does not establish intent outside the frozen operator protocol.
 - **No phrase recognition:** Stage 3P uses speech activity but receives no transcript and does not know which words were spoken.
 - **No end-to-end validation:** the passive candidate, visual operator instruction, and Stage 4 command boundary were tested separately and have not been validated as one integrated path.
@@ -25,6 +28,7 @@
 - **No hardware-recovery result from mock failures:** four offline fault scenarios validate only local process and lease logic. They do not prove serial-bus release, torque removal, safe shutdown, or safe restart on Reachy.
 - **External authorization is not research evidence:** this repository contains no correspondence, replies, or external authorization records. It therefore makes no claim that temporary-daemon or physical-motion work is authorized.
 - **No confirmed audio–mouth synchrony instrument:** V1's real 12-trial pilot rejected its fixed mouth box at 0/240 eligible settings. V2's tracked, face-normalized single-person pilot nominated and froze one candidate after passing its development and small internal-validation rules, but confirmation across new rooms, voices, and harder conditions has not occurred. Synchrony remains candidate-association evidence rather than identity or authorization.
+- **No joint fusion dataset:** Stage 3V stores spatial inputs without lip evidence, while V2 stores audio level and lip aperture without DoA/face heading. The M5 synthetic contract therefore tests software logic only; cross-study rows must not be paired as if jointly observed.
 
 ## Evaluation risks
 
@@ -35,6 +39,7 @@ The manuscript's generated [`threats-to-validity table`](paper/generated/TABLE_3
 - Trial acceptance and protocol compliance involved the same research process that developed the system.
 - Face detection performance may change with illumination, appearance, distance, and model version.
 - DoA behavior is room- and acoustics-dependent, especially under reflection and playback.
+- A playback condition that is harder to acquire than live speech can make abstention look artificially strong. Final comparisons must match face visibility, distance, duration, and signal-quality eligibility and report unavailable acquisition plus latency.
 - Stage 3P's visual `MOVE` instruction is a passive experimental transition, not human authorization. Stage 4's typed arm is local operator confirmation, not identity, consent, or conversational permission.
 - Stage 3P accepted 9 of 18 attempts; its public records do not preserve a specific reason for every superseded attempt.
 

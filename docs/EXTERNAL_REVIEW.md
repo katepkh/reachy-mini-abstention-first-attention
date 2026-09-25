@@ -185,7 +185,7 @@ At the time of this audit the repository contains:
 - 57 Python test modules;
 - versioned source modules preserving rejected and superseded policy/protocol history;
 - 27 public verification/diagnostic scripts, including the evidence verifier, deterministic paper-artifact generator, exact 1.9.0 trajectory validator, authorization-gated receive-only recorder, synchrony pilot and confirmation checks, complete-attempt audit, candidate freeze, and successor packet manifest checker;
-- 298 passing self-contained software tests.
+- 308 passing self-contained software tests.
 
 The test count must not be mistaken for an experimental sample size.
 
@@ -272,7 +272,7 @@ Review focus: whether the custom transport matches official semantics, atomic on
 - [`scripts/capture_successor_present_target_trace.py`](../scripts/capture_successor_present_target_trace.py): authorization-record-gated receive-only capture entry point; a valid 193-frame live trace retained coherent `UNSET` target state with zero client application messages or robot commands.
 - [`scripts/build_successor_review_manifest.py`](../scripts/build_successor_review_manifest.py): deterministic content manifest for the full successor review packet; CI rejects stale hashes.
 - [`tools/avsync_pilot_recorder_v2.html`](../tools/avsync_pilot_recorder_v2.html), [`scripts/analyze_av_synchrony_pilot_v2.py`](../scripts/analyze_av_synchrony_pilot_v2.py), and [`scripts/freeze_av_synchrony_pilot_v2_candidate.py`](../scripts/freeze_av_synchrony_pilot_v2_candidate.py): localhost-only replacement instrument, predeclared development/validation analysis, and content-addressed freeze. Its single-setup pilot passed; confirmation does not yet exist.
-- [`tests/`](../tests): 298 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, Stage 4 protocol/transport safety, target-state validators, offline lifecycle rollback, trial-level robustness, synthetic audio–mouth synchrony faults, V1/V2 pilot analysis, the frozen confirmation schedule and execution contract, and private-workspace initialization safeguards.
+- [`tests/`](../tests): 308 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, Stage 4 protocol/transport safety, target-state validators, offline lifecycle rollback, trial-level robustness, synthetic audio–mouth synchrony faults, the M5 fused-shadow contract, V1/V2 pilot analysis, the frozen confirmation schedule and execution contract, and private-workspace initialization safeguards.
 - [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the pinned paper environment, runs evidence and artifact verification, rejects stale generated results and protocols, and runs the unit suite on Python 3.12.
 
 Review focus: absent coverage measurement, absent static type/lint checks, dependency reproducibility, missing property/fuzz tests at safety boundaries, and the distinction between unit verification and robot validation.
@@ -319,11 +319,11 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 2. **The repository is an audit snapshot more than a library.** Forty version-suffixed source files are historically valuable but difficult to navigate, compare, or maintain.
 3. **There is no stable command-line interface.** Reviewers must infer entry points from modules and documents.
 4. **The supported runtime ranges are not a universal lock.** `pyproject.toml` intentionally supports ranges, while `requirements-test.lock` freezes the exact tested paper-reproduction environment. Other supported resolutions may still behave differently.
-5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 298 tests says nothing about unexecuted branches.
+5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 308 tests says nothing about unexecuted branches.
 6. **Hardware and media transport are mock-tested, not publicly integration-tested.** The public suite intentionally has no robot, camera, microphone, or private launcher.
 7. **No environment or hardware bill of materials is complete enough for exact independent replication.** Robot/daemon version is fixed, but room geometry, audio firmware/configuration, camera parameters, operating-system details, and timing conditions need a formal reproducibility appendix.
 8. **The initial GitHub CI failed because `aiortc` was missing from test dependencies.** This was corrected, and the subsequent workflow passed, but it shows release verification did not initially match CI installation.
-9. **Dependency drift remains a compatibility risk.** A clean local Python 3.12 environment passes the current 298 tests and is recorded in `requirements-test.lock`, but the supported ranges in `pyproject.toml` can still resolve differently on another date or platform. The lock narrows paper reproduction; it does not prove compatibility with every supported resolution.
+9. **Dependency drift remains a compatibility risk.** A clean local Python 3.12 environment passes the current 308 tests and is recorded in `requirements-test.lock`, but the supported ranges in `pyproject.toml` can still resolve differently on another date or platform. The lock narrows paper reproduction; it does not prove compatibility with every supported resolution.
 
 ### GitHub presentation
 

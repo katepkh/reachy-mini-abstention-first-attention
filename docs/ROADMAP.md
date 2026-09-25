@@ -4,8 +4,9 @@ The authoritative objective and status are maintained in [`PROJECT_CHARTER.md`](
 
 ## Immediate: integrated real-world behaviour
 
-- [ ] implement one deterministic shadow-only orchestrator that emits `SELECT`, `ABSTAIN`, or `HOLD` with reason codes from existing acoustic, face, and synchrony inputs;
-- [ ] replay saved live-speech and phone-playback hard negatives through that same interface;
+- [x] implement one deterministic shadow-only orchestrator that emits `SELECT`, `ABSTAIN`, or `HOLD` with reason codes from same-clock spatial, face-track, and synchrony inputs; synthetic contract only, with zero command authority;
+- [ ] build a command-free joint numeric instrument because the saved spatial and synchrony studies do not share the required inputs or trial clock;
+- [ ] run matched live-visible-speech and silent-visible-person plus phone-playback trials through that same interface;
 - [ ] freeze and run a small no-motion live-versus-phone shadow test before adding robot authority;
 - [ ] define a new baseline-relative, one-leg physical orientation protocol with numeric abort limits and no automatic return after failure;
 - [ ] define and test bounded face-directed hold metrics in replay/simulation;
