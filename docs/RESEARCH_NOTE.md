@@ -1,6 +1,6 @@
 # Movement as a permission decision
 
-> This compact research note is retained as a public summary. The submission-ready, venue-neutral manuscript is [`MANUSCRIPT.md`](MANUSCRIPT.md); its tables and figures are generated from frozen evidence.
+> This compact research note summarizes component evidence. [`MANUSCRIPT.md`](MANUSCRIPT.md) is a working evidence synthesis, not a submission-ready or end-to-end completion claim. The authoritative objective is [`PROJECT_CHARTER.md`](PROJECT_CHARTER.md).
 
 ## Abstract
 
@@ -63,7 +63,7 @@ This approach is relevant to any embodied system in which an uncertain perceptio
 
 The passive candidate, visual cue, and physical command boundary remain separately tested components. No end-to-end speaker-to-motion system has been validated. A controlled three-start, command-free series found repeatable 2.529–2.752° mean post-wake offsets, all outside the unchanged 1° project gate, with enabled motors and zero reported loop errors. A source-backed review rejected a custom corrective-centring proposal pending independent review of gate validity, observable present-versus-target state, and open maintenance hypotheses; the gate failure is not presented as proof of hardware fault.
 
-A design-only successor now adds a receive-only simultaneous present/target recorder, exact offline daemon 1.9.0 trajectory and analytical-IK reconstruction, and separate target/return authorization states. The offline path matched official `GotoMove` at 201 ideal samples per leg and stayed at least 42.706° inside the supplied configured joint bounds. This is not collision, load, tracking, cable, timing, or physical-safety validation. The recorder has not been run, its required target-state schema patch is uninstalled, and no executor exists. External authorization and review are outside this repository; no correspondence is retained as research evidence.
+A successor adds a receive-only simultaneous present/target trace client, exact offline daemon 1.9.0 trajectory and analytical-IK reconstruction, separate target/return authorization states, an exact-version health gate, and a mock-only lifecycle executor. The offline path matched official `GotoMove` at 201 ideal samples per leg and stayed at least 42.706° inside the supplied configured joint bounds. This is not collision, load, tracking, cable, timing, or physical-safety validation. After two contained fail-closed rehearsals exposed a patch-staging error and a client deadline-handling error, a bounded live observation retained 193 frames over 10 seconds. Every frame reported the coherent target state `UNSET`; the trace client sent zero application messages and zero robot commands. The temporary process released its resources and stock v1.9.0 was restored healthy with motors disabled. This closes the receive-only trace gate, but no defined target, target transition, motion result, or hardware executor exists. External authorization and review are outside this repository; no correspondence is retained as research evidence.
 
 ## Status
 

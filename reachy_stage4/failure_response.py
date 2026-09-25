@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 
-SCHEMA_VERSION = "reachy-stage4a-failure-response-matrix-v1"
+SCHEMA_VERSION = "reachy-stage4a-failure-response-matrix-v2"
 FAILURE_KINDS = {
     "HEALTH_FAILURE",
     "TIMEOUT",
@@ -22,7 +22,7 @@ def classify_failure(
     *,
     daemon_responsive: bool,
     telemetry_fresh: bool,
-    torque_expected_disabled: bool,
+    motor_mode_confirmed_disabled: bool,
 ) -> dict[str, Any]:
     """Select a review response; never invoke the selected action."""
 
@@ -33,18 +33,33 @@ def classify_failure(
     if failure_kind not in FAILURE_KINDS:
         raise ValueError(f"Unknown failure kind: {failure_kind}")
 
-    if phase == "OBSERVATION_ONLY" and torque_expected_disabled:
-        response = "STOP_TEMPORARY_DAEMON_PRESERVE_EVIDENCE_REVIEW_ROLLBACK"
-        rationale = "The phase authorizes no motion and depends on torque remaining disabled."
-    elif daemon_responsive and telemetry_fresh:
-        response = "PREAPPROVED_SUPPORTED_STOP_OR_DISABLE_NO_RETURN"
-        rationale = "Known fresh state permits only the separately reviewed stop/disable path."
-    elif not daemon_responsive:
-        response = "STAY_CLEAR_OWNER_APPROVED_PHYSICAL_DEENERGIZATION_NO_SOFTWARE_RETURN"
-        rationale = "An unresponsive daemon cannot be trusted to execute a return trajectory."
+    if not daemon_responsive or not telemetry_fresh:
+        response = (
+            "STAY_CLEAR_USE_PREAPPROVED_PHYSICAL_POWER_OFF_"
+            "EXPECT_PASSIVE_PLATFORM_DROP_NO_SOFTWARE_RETURN"
+        )
+        rationale = (
+            "Unresponsive or stale control state cannot justify a software disable, "
+            "replacement daemon, or return trajectory."
+        )
+        safety_disable_actions_planned = 0
+        physical_power_off_planned = True
+    elif motor_mode_confirmed_disabled:
+        response = "STOP_TEMPORARY_DAEMON_VERIFY_EXIT_AND_SERIAL_RELEASE_NO_RETURN"
+        rationale = (
+            "Fresh telemetry confirms disabled motor control; stopping still requires "
+            "process-exit and serial-release evidence."
+        )
+        safety_disable_actions_planned = 0
+        physical_power_off_planned = False
     else:
-        response = "STAY_CLEAR_NO_COMMAND_PRESERVE_EVIDENCE_ESCALATE"
-        rationale = "Stale or ambiguous state cannot justify another software trajectory."
+        response = "ISSUE_ONE_SAFETY_DISABLE_VERIFY_DISABLED_THEN_STOP_NO_RETURN"
+        rationale = (
+            "Fresh responsive state permits only the predeclared safety-disable action, "
+            "never an experimental trajectory."
+        )
+        safety_disable_actions_planned = 1
+        physical_power_off_planned = False
 
     return {
         "schema": SCHEMA_VERSION,
@@ -54,6 +69,12 @@ def classify_failure(
         "response": response,
         "rationale": rationale,
         "automatic_return": False,
+        "replacement_daemon_before_terminal_verification": False,
+        "motor_mode_confirmed_disabled": bool(motor_mode_confirmed_disabled),
+        "safety_disable_actions_planned": safety_disable_actions_planned,
+        "physical_power_off_planned": physical_power_off_planned,
+        "platform_drop_zone_required": physical_power_off_planned,
+        "experimental_commands_planned": 0,
         "normal_daemon_shutdown_assumed_safe": False,
         "hard_power_removal_assumed_safe": False,
         "requires_preapproved_unit_specific_procedure": True,

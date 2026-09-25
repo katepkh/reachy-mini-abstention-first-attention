@@ -24,6 +24,9 @@ class TargetSchemaEndpointValidatorTests(unittest.TestCase):
         self.assertIn("/state/ws/full", source)
         self.assertIn("released_negative_control", source)
         self.assertIn("patched_positive_control", source)
+        self.assertIn("explicit_null_target", source)
+        self.assertIn("Released negative control unexpectedly accepted null target", source)
+        self.assertIn("Patched source did not preserve a coherent null target", source)
         self.assertIn('"robot_commands_authorized": 0', source)
 
 

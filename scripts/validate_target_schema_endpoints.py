@@ -29,7 +29,7 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PATCH = PROJECT_ROOT / "patches/reachy-mini-v1.9.0-target-state-observability.patch"
 DEFAULT_OUTPUT = PROJECT_ROOT / "data/private/stage4a_target_schema_integration_v1/report.json"
-SCHEMA_VERSION = "reachy-stage4-target-schema-endpoint-integration-v1"
+SCHEMA_VERSION = "reachy-stage4-target-schema-endpoint-integration-v2"
 TARGET_FIELDS = {
     "target_head_pose",
     "target_head_joints",
@@ -141,7 +141,7 @@ def _probe_extracted_source(source_root: Path) -> dict[str, Any]:
 
     app = FastAPI()
     app.include_router(state.router)
-    client = TestClient(app)
+    client = TestClient(app, raise_server_exceptions=False)
 
     query = {
         "with_target_head_pose": "true",
@@ -174,12 +174,32 @@ def _probe_extracted_source(source_root: Path) -> dict[str, Any]:
     with client.websocket_connect(f"/state/ws/full?{ws_query}") as websocket:
         websocket_payload = websocket.receive_json()
 
+    null_backend = StubBackend()
+    null_backend.target_head_pose = None
+    null_backend.target_head_joint_positions = None
+    null_backend.target_body_yaw = None
+    null_backend.target_antenna_joint_positions = None
+    app.dependency_overrides[dependencies.get_backend] = lambda: null_backend
+    null_response = client.get(
+        "/state/full", params={**query, "use_pose_matrix": "true"}
+    )
+    null_payload = null_response.json() if null_response.status_code == 200 else None
+
     return {
         "full_state_model_module": str(Path(models.__file__).resolve()),
         "rest": rest_results,
         "websocket": {
             "target_fields_present": target_keys(websocket_payload),
             "target_head_pose": websocket_payload.get("target_head_pose"),
+        },
+        "explicit_null_target": {
+            "status_code": null_response.status_code,
+            "target_fields_present": []
+            if null_payload is None
+            else target_keys(null_payload),
+            "all_target_values_null": False
+            if null_payload is None
+            else all(null_payload.get(field) is None for field in TARGET_FIELDS),
         },
         "robot_commands_sent": 0,
     }
@@ -277,6 +297,14 @@ def validate(wheel: Path, patch: Path, output: Path) -> tuple[dict[str, Any], st
         raise AssertionError("Negative control unexpectedly retained target fields.")
     if any(fields != expected for fields in _all_target_surfaces(patched_result)):
         raise AssertionError("Patched source did not retain all target fields.")
+    if released_result["explicit_null_target"]["status_code"] != 500:
+        raise AssertionError("Released negative control unexpectedly accepted null target.")
+    if patched_result["explicit_null_target"] != {
+        "status_code": 200,
+        "target_fields_present": expected,
+        "all_target_values_null": True,
+    }:
+        raise AssertionError("Patched source did not preserve a coherent null target.")
 
     report = {
         "schema": SCHEMA_VERSION,
@@ -287,7 +315,9 @@ def validate(wheel: Path, patch: Path, output: Path) -> tuple[dict[str, Any], st
         "surfaces_tested": ["REST matrix", "REST xyz/RPY", "WebSocket matrix"],
         "released_negative_control": released_result,
         "patched_positive_control": patched_result,
-        "diagnostic_status": "TARGET_FIELDS_DROPPED_RELEASED_AND_PRESERVED_PATCHED",
+        "diagnostic_status": (
+            "TARGET_FIELDS_AND_EXPLICIT_NULL_STATE_PRESERVED_ONLY_BY_PATCHED_SOURCE"
+        ),
         "claim_boundary": (
             "This validates endpoint serialization against extracted 1.9.0 source with "
             "a non-hardware stub backend. It is not a daemon-on-robot test, deployment, "

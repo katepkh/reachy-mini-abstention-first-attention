@@ -20,6 +20,8 @@ jobs:
         run: |
           python -m pip install -r requirements-test.lock
           python -m pip install --no-deps -e .
+      - name: Check project alignment records
+        run: python scripts/check_project_alignment.py
       - name: Verify frozen evidence
         run: python scripts/verify_results.py
       - name: Check generated public results
@@ -40,6 +42,8 @@ jobs:
         run: python scripts/run_av_synchrony_pilot_v2_dry_run.py --check
       - name: Check candidate-bound AV-synchrony confirmation protocol
         run: python scripts/freeze_av_synchrony_confirmation_protocol.py --check
+      - name: Check candidate-bound AV-synchrony confirmation execution
+        run: python scripts/freeze_av_synchrony_confirmation_execution.py --check
       - name: Check generated manuscript tables and figures
         run: python scripts/build_paper_artifacts.py --check
       - name: Rehearse temporary-daemon faults with local mocks

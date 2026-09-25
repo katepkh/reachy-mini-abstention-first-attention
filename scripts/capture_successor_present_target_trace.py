@@ -17,7 +17,7 @@ from reachy_stage4.external_records import (
     require_independent_protocol_approval,
     require_owner_observability_scope,
 )
-from reachy_stage4.successor_trace import capture_receive_only_trace
+from reachy_stage4.successor_trace import TARGET_REQUIREMENTS, capture_receive_only_trace
 
 
 def main() -> int:
@@ -27,6 +27,15 @@ def main() -> int:
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--duration-s", type=float, default=10.0)
     parser.add_argument("--frequency-hz", type=float, default=20.0)
+    parser.add_argument(
+        "--target-requirement",
+        choices=sorted(TARGET_REQUIREMENTS),
+        default="ALLOW_UNSET",
+        help=(
+            "ALLOW_UNSET records an explicit all-null target without inference; "
+            "later motion studies should use UNSET_TO_DEFINED."
+        ),
+    )
     args = parser.parse_args()
     require_owner_observability_scope(args.owner_scope_record)
     require_independent_protocol_approval(
@@ -37,6 +46,7 @@ def main() -> int:
         REACHY_HOST,
         duration_s=args.duration_s,
         frequency_hz=args.frequency_hz,
+        target_requirement=args.target_requirement,
         output=args.output,
     )
     print(f"Captured {report['frame_count']} receive-only frames; SHA-256 {digest}")

@@ -12,7 +12,7 @@ Status: public, privacy-minimized inventory for the present research preview. Un
 | Motor discovery | 9/9 motors found during maintenance triage | Discovery does not validate calibration, geometry, torque state, or safe recovery. |
 | Low-level controller source reviewed | `reachy-mini-motor-controller` v1.5.5 | Source-review reference; not asserted as a readback of installed firmware. |
 | Analytical kinematics source | Reachy Mini v1.9.0 plus Rust kinematics 1.0.3 for offline review | Offline calculation only. |
-| Observational patch | Not installed | No receive-only present/target hardware trace has run. |
+| Observational patch | Not persistently installed | A bounded temporary run retained 193 valid simultaneous present/target frames, all coherently `UNSET`; stock v1.9.0 was restored healthy with motors disabled. |
 
 ## Acquisition-computer record
 

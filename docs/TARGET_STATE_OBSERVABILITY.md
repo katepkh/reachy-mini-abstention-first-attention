@@ -41,10 +41,11 @@ distinguish:
 - a later application/controller target;
 - or initialization/mechanical variability.
 
-## Minimal upstream repair prototype—not installed
+## Minimal upstream repair prototype—not persistently installed
 
-The smallest read-only repair appears to be adding optional target members to
-`FullState` matching the keys the route already produces:
+The repair requires two coordinated changes: adding optional target members to
+`FullState` matching the keys the route already produces, and preserving an
+explicitly unset target pose instead of passing `None` to pose conversion:
 
 ```python
 target_head_pose: AnyPose | None = None
@@ -53,20 +54,22 @@ target_body_yaw: float | None = None
 target_antennas_position: list[float] | None = None
 ```
 
-An upstream-quality change should also add REST and WebSocket tests that request
+The route must return `None` when the backend target pose is `None`; it must not
+substitute the present pose or synthesize any other target. An upstream-quality
+change should also add REST and WebSocket tests that request
 each flag individually and together, exercise matrix and xyz/RPY modes, and
 verify omitted flags remain `None` or excluded according to the intended API
 contract.
 
-This proposal has **not** been installed on Reachy. Modifying the robot's daemon
-during an unresolved mechanical study would change the experimental software
-state. It should first be tested in an isolated environment and reviewed as a
-separate upstream fix.
+This proposal was not installed into the stock service or persistent runtime.
+After isolated validation, it was used from a bounded temporary checkout for a
+single live observation and then removed from the robot. The unchanged stock
+v1.9.0 service was restored afterward.
 
 The repository now includes the version-pinned
 [`reachy-mini-v1.9.0-target-state-observability.patch`](../patches/reachy-mini-v1.9.0-target-state-observability.patch).
-It adds exactly those four optional members and applies cleanly to
-`models.py` extracted from the released 1.9.0 wheel.
+It adds exactly those four optional members and the null-preserving route
+branch. It applies cleanly to the reviewed exact v1.9.0 source.
 
 An isolated Pydantic reproduction in
 [`target_schema_probe.py`](../reachy_stage4/target_schema_probe.py) verifies
@@ -104,9 +107,10 @@ and the patch hash is
 `7b5c07f1cfef9d56406398d2d288080dafed8e12a8894be05406c38da5cf2cbd`.
 Robot connections, commands sent, and commands authorized were all zero.
 
-This closes the REST/WebSocket serialization question for the extracted 1.9.0
-routes. It does not prove the runtime target on this unit, validate concurrent
-target updates, or authorize changing the robot.
+This historical result closed serialization for defined targets in the first
+patch version. It did **not** exercise an explicitly null target. The current
+patch supersedes those bytes, so the historical report and hash do not validate
+the revised patch.
 
 ### Complete isolated daemon-process result
 
@@ -138,17 +142,53 @@ it records wheel SHA-256
 and patch SHA-256
 `7b5c07f1cfef9d56406398d2d288080dafed8e12a8894be05406c38da5cf2cbd`.
 
-This closes the complete-process serialization question under mockup isolation.
-It is still not an on-robot deployment, a physical target measurement, unit
-confirmation, calibration repair, concurrent-update stress test, or motion
-authorization.
+This historical result closed complete-process serialization for defined
+targets under mockup isolation. It did not cover the null-target startup state,
+and its patch hash belongs to the superseded patch. It is still not an on-robot
+deployment, a physical target measurement, unit confirmation, calibration
+repair, concurrent-update stress test, or motion authorization.
+
+### Powered observation finding and revised semantic contract
+
+An initial bounded 2026-09-18 observation attempt reached a healthy temporary
+control loop with motors disabled, then failed closed at the target route
+because all three requested target values were null. A revised route preserved
+that coherent null state instead of trying to convert it to a pose. A later
+bounded live capture retained 193 frames over 10 seconds; all 193 reported
+`target_state=UNSET`, with zero target-state transitions, zero trace-client
+application messages, and zero robot commands. No movement stage followed, and
+the stock service was restored healthy with motors disabled.
+
+The revised trace contract therefore distinguishes:
+
+- **absent keys**: the schema repair is unavailable, so fail closed;
+- **all target values null**: preserve a coherent `UNSET` target state;
+- **all target values defined**: validate and preserve a `DEFINED` state; and
+- **partially null values**: fail as inconsistent.
+
+Present state is never copied into target state. The observation-only protocol
+may explicitly accept `UNSET`; a later motion-specific protocol must require an
+observed `UNSET -> DEFINED` transition or another predeclared defined-target
+criterion. The revised endpoint validator adds released-source and patched
+null-target controls. A complete official-v1.9.0 mock-daemon follow-up also
+passed: both processes exited cleanly, the patched process returned HTTP 200
+with all target keys and an explicit null target pose, and the loopback guard
+observed no non-loopback attempt. The mock control loop repopulated some other
+targets concurrently, so the extracted-route test—not the full-process
+result—is the atomic all-null assertion. The immutable private full-process
+report has SHA-256
+`ab2726275ccd74a708da98edff6821c5e86c37ae6fd8bfd6a755ff5816763f7d`.
+Both validators record zero robot connections and zero commands. Together with
+the bounded live result, this closes the null-route and observation-trace gates.
+It does not establish a defined target or close any motion-specific gate.
 
 ## Present project decision
 
-The current diagnostic records configured/running app context and present
-pose/joints only. It does not infer target state. The isolated patch remains
-uninstalled; V4 and the rejected custom centring proposal remain blocked, and
-this document authorizes zero robot commands.
+The bounded live diagnostic recorded present and target state in the same
+frames without inference. The observed target remained coherently `UNSET`
+throughout, so the result cannot validate target tracking or a return path. The
+patch is not persistently installed; V4 and the rejected custom centring
+proposal remain blocked, and this document authorizes zero robot commands.
 
 To reproduce the endpoint test in an isolated environment:
 

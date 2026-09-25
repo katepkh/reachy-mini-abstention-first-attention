@@ -104,9 +104,15 @@ This phase remains prohibited until the two approvals above exist.
    conditional motor reboot, unexpected write, motion, version drift, or startup
    output terminates the procedure.
 6. Run one bounded state-only capture. It may receive present/target state but
-   must send no application command or start any robot app.
-7. Stop the temporary daemon. Do not combine this phase with a target or return
-   motion.
+   must send no experimental application command or start any robot app. The
+   only contingent write in this phase is the separately predeclared
+   motor-disable safety action if fresh responsive terminal telemetry reports
+   `Enabled`.
+7. End through the frozen terminal matrix: stop and verify release from fresh
+   `Disabled`; issue one safety-disable, reverify, then stop from fresh
+   `Enabled`; or, for unresponsive/stale/unknown state, start no new daemon and
+   use the preaccepted physical-power-off procedure with the platform drop zone
+   clear. Do not combine this phase with a target or return motion.
 
 No deletion or rollback command should be assembled dynamically. All paths and
 services must be resolved and recorded before the procedure is approved.
@@ -115,9 +121,12 @@ services must be resolved and recorded before the procedure is approved.
 
 1. Preserve the experiment and daemon logs; never erase evidence to make the
    robot appear unchanged.
-2. Stop the temporary daemon and confirm that no temporary process remains.
+2. Confirm the temporary process has exited and released the serial resource;
+   if physical power-off was used, confirm power is off and the mechanism is
+   stable before inspection or power restoration.
 3. Restart the exact original system daemon/service using its original launch
-   configuration.
+   configuration only after those terminal checks pass. Do not treat restart as
+   authorization to wake or move.
 4. Remove only the enumerated temporary checkout/environment if the owner has
    approved that cleanup. Do not remove caches, logs, or unrelated files.
 5. Repeat the complete baseline inventory and hash comparison.

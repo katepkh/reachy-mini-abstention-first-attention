@@ -44,11 +44,13 @@ it no longer assumes that either normal daemon shutdown or hard power removal
 is automatically safe.
 
 The pure [`failure-response matrix`](../reachy_stage4/failure_response.py)
-distinguishes a torque-disabled observation failure, a responsive daemon with
-fresh telemetry, daemon loss, and ambiguous/stale state. It authorizes no
-response. Every branch preserves evidence, forbids automatic return, and points
-to a separately reviewed unit-specific procedure. This is a deliberate change
-from the frozen V4 pilot and the previous `ABORT_POWER_DOWN` design.
+distinguishes fresh confirmed-disabled state, fresh responsive enabled state,
+and unresponsive or stale state. It authorizes no execution: the design either
+stops and verifies serial release, plans exactly one safety-disable before
+stopping, or selects the preaccepted physical-power-off branch with a clear
+platform drop zone. Every branch preserves evidence and forbids automatic
+return. This is a deliberate change from the frozen V4 pilot and the previous
+undifferentiated `ABORT_POWER_DOWN` design.
 
 ## Still missing before implementation
 
@@ -57,7 +59,8 @@ from the frozen V4 pilot and the previous `ABORT_POWER_DOWN` design.
 - live present/target observability;
 - validated continuous health thresholds and trace freshness rules;
 - a reviewed executor boundary with explicit command accounting; and
-- a Reachy-specific stop/de-energization procedure for daemon failure; and
+- movement-specific abort thresholds and clearance/load evidence beyond the
+  observation-stage terminal lifecycle; and
 - evidence from a nonmoving mock/simulation integration test before any
   physical run.
 

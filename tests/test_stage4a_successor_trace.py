@@ -28,6 +28,14 @@ def valid_frame() -> dict:
     }
 
 
+def unset_target_frame() -> dict:
+    frame = valid_frame()
+    frame["target_head_pose"] = None
+    frame["target_head_joints"] = None
+    frame["target_body_yaw"] = None
+    return frame
+
+
 class FakeSocket:
     def __init__(self, messages):
         self.messages = iter(messages)
@@ -52,6 +60,23 @@ class FakeClock:
         return self.value
 
 
+class SequenceClock:
+    def __init__(self, values):
+        self.values = iter(values)
+
+    def __call__(self):
+        return next(self.values)
+
+
+class DeadlineSocket(FakeSocket):
+    def recv(self, *, timeout):
+        self.last_timeout = timeout
+        try:
+            return json.dumps(next(self.messages))
+        except StopIteration as exc:
+            raise TimeoutError("capture deadline elapsed") from exc
+
+
 class SuccessorTraceTests(unittest.TestCase):
     def test_url_requests_present_and_target_fields_without_command_route(self):
         url = build_receive_only_url("192.168.1.251", 20.0)
@@ -64,7 +89,7 @@ class SuccessorTraceTests(unittest.TestCase):
     def test_released_schema_without_targets_fails_closed(self):
         frame = valid_frame()
         frame.pop("target_head_pose")
-        with self.assertRaisesRegex(ValueError, "TARGET_STATE_UNAVAILABLE"):
+        with self.assertRaisesRegex(ValueError, "TARGET_FIELDS_ABSENT"):
             parse_full_state_frame(
                 frame,
                 received_monotonic_s=1.0,
@@ -80,6 +105,28 @@ class SuccessorTraceTests(unittest.TestCase):
         self.assertEqual(len(parsed["present_head_joints_rad"]), 7)
         self.assertEqual(len(parsed["target_head_joints_rad"]), 7)
         self.assertEqual(parsed["target_head_joints_rad"], [0.1] * 7)
+        self.assertEqual(parsed["target_state"], "DEFINED")
+
+    def test_explicit_all_null_target_is_retained_without_inference(self):
+        parsed = parse_full_state_frame(
+            unset_target_frame(),
+            received_monotonic_s=1.0,
+            received_at_utc="2026-09-02T12:00:00Z",
+        )
+        self.assertEqual(parsed["target_state"], "UNSET")
+        self.assertIsNone(parsed["target_head_pose"])
+        self.assertIsNone(parsed["target_head_joints_rad"])
+        self.assertIsNone(parsed["target_body_yaw_rad"])
+
+    def test_partially_null_target_fails_closed(self):
+        frame = valid_frame()
+        frame["target_head_pose"] = None
+        with self.assertRaisesRegex(ValueError, "INCONSISTENT_TARGET_STATE"):
+            parse_full_state_frame(
+                frame,
+                received_monotonic_s=1.0,
+                received_at_utc="2026-09-02T12:00:00Z",
+            )
 
     def test_malformed_pose_fails_with_stable_validation_error(self):
         frame = valid_frame()
@@ -107,8 +154,88 @@ class SuccessorTraceTests(unittest.TestCase):
             self.assertGreaterEqual(report["frame_count"], 2)
             self.assertEqual(report["transport"]["client_application_messages_sent"], 0)
             self.assertEqual(report["transport"]["robot_commands_sent"], 0)
+            self.assertEqual(report["target_state_counts"]["DEFINED"], report["frame_count"])
+            self.assertFalse(report["target_inference_performed"])
             self.assertTrue(output.is_file())
             self.assertIn(digest, output.with_suffix(".json.sha256").read_text())
+
+    def test_deadline_timeout_after_frames_completes_normally(self):
+        clock = SequenceClock([0.0, 0.0, 0.2, 0.2, 0.9, 0.95, 1.01])
+        socket = DeadlineSocket([valid_frame(), valid_frame()])
+        with tempfile.TemporaryDirectory() as directory:
+            report, _digest = capture_receive_only_trace(
+                "192.168.1.251",
+                duration_s=1.0,
+                frequency_hz=10.0,
+                output=Path(directory) / "trace.json",
+                connector=lambda *_args, **_kwargs: socket,
+                monotonic=clock,
+            )
+        self.assertEqual(report["frame_count"], 2)
+
+    def test_timeout_before_deadline_remains_an_error(self):
+        clock = SequenceClock([0.0, 0.0, 0.1])
+        socket = DeadlineSocket([])
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(TimeoutError, "capture deadline elapsed"):
+                capture_receive_only_trace(
+                    "192.168.1.251",
+                    duration_s=1.0,
+                    frequency_hz=10.0,
+                    output=Path(directory) / "trace.json",
+                    connector=lambda *_args, **_kwargs: socket,
+                    monotonic=clock,
+                )
+
+    def test_unset_only_capture_is_valid_when_explicitly_allowed(self):
+        clock = FakeClock()
+        socket = FakeSocket([unset_target_frame()] * 10)
+        with tempfile.TemporaryDirectory() as directory:
+            report, _digest = capture_receive_only_trace(
+                "192.168.1.251",
+                duration_s=1.0,
+                frequency_hz=10.0,
+                target_requirement="ALLOW_UNSET",
+                output=Path(directory) / "trace.json",
+                connector=lambda *_args, **_kwargs: socket,
+                monotonic=clock,
+            )
+        self.assertEqual(report["target_state_counts"]["UNSET"], report["frame_count"])
+        self.assertEqual(report["target_state_transitions"], [])
+
+    def test_defined_requirement_rejects_unset_only_capture(self):
+        clock = FakeClock()
+        socket = FakeSocket([unset_target_frame()] * 10)
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(RuntimeError, "DEFINED_TARGET_NOT_OBSERVED"):
+                capture_receive_only_trace(
+                    "192.168.1.251",
+                    duration_s=1.0,
+                    frequency_hz=10.0,
+                    target_requirement="DEFINED_AT_LEAST_ONCE",
+                    output=Path(directory) / "trace.json",
+                    connector=lambda *_args, **_kwargs: socket,
+                    monotonic=clock,
+                )
+
+    def test_unset_to_defined_transition_is_recorded(self):
+        clock = FakeClock()
+        messages = [unset_target_frame()] + [valid_frame()] * 9
+        socket = FakeSocket(messages)
+        with tempfile.TemporaryDirectory() as directory:
+            report, _digest = capture_receive_only_trace(
+                "192.168.1.251",
+                duration_s=1.0,
+                frequency_hz=10.0,
+                target_requirement="UNSET_TO_DEFINED",
+                output=Path(directory) / "trace.json",
+                connector=lambda *_args, **_kwargs: socket,
+                monotonic=clock,
+            )
+        self.assertEqual(
+            report["target_state_transitions"],
+            [{"frame_index": 1, "from": "UNSET", "to": "DEFINED"}],
+        )
 
     def test_module_has_no_application_send_or_command_surface(self):
         tree = ast.parse(Path(successor_trace.__file__).read_text(encoding="utf-8"))

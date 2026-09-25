@@ -25,9 +25,14 @@ from .config import REACHY_PORT
 from .safety import rigid_pose, validate_host
 
 
-SCHEMA_VERSION = "reachy-stage4a-receive-only-present-target-trace-v1"
+SCHEMA_VERSION = "reachy-stage4a-receive-only-present-target-trace-v2"
 MAX_CAPTURE_DURATION_S = 30.0
 MAX_REQUESTED_FREQUENCY_HZ = 50.0
+TARGET_REQUIREMENTS = {
+    "ALLOW_UNSET",
+    "DEFINED_AT_LEAST_ONCE",
+    "UNSET_TO_DEFINED",
+}
 TARGET_FIELDS = (
     "target_head_pose",
     "target_head_joints",
@@ -68,6 +73,20 @@ def _joint_vector(value: object, field: str) -> list[float]:
     return array.tolist()
 
 
+def _target_state(payload: Mapping[str, Any]) -> str:
+    """Classify explicit target absence without inferring a replacement target."""
+
+    missing = [field for field in TARGET_FIELDS if field not in payload]
+    if missing:
+        raise ValueError("TARGET_FIELDS_ABSENT:" + ",".join(missing))
+    null_fields = [field for field in TARGET_FIELDS if payload[field] is None]
+    if len(null_fields) == len(TARGET_FIELDS):
+        return "UNSET"
+    if null_fields:
+        raise ValueError("INCONSISTENT_TARGET_STATE:" + ",".join(null_fields))
+    return "DEFINED"
+
+
 def parse_full_state_frame(
     raw: str | bytes | Mapping[str, Any],
     *,
@@ -88,35 +107,66 @@ def parse_full_state_frame(
     else:
         raise ValueError("INVALID_FULL_STATE_PAYLOAD")
 
-    missing_targets = [field for field in TARGET_FIELDS if payload.get(field) is None]
-    if missing_targets:
-        raise ValueError("TARGET_STATE_UNAVAILABLE:" + ",".join(missing_targets))
+    target_state = _target_state(payload)
     for field in ("head_pose", "head_joints", "body_yaw", "control_mode", "timestamp"):
         if payload.get(field) is None:
             raise ValueError(f"PRESENT_STATE_UNAVAILABLE:{field}")
 
     try:
         body_yaw = float(payload["body_yaw"])
-        target_body_yaw = float(payload["target_body_yaw"])
     except (TypeError, ValueError) as exc:
         raise ValueError("INVALID_BODY_YAW") from exc
-    if not np.isfinite([body_yaw, target_body_yaw]).all():
+    if not np.isfinite(body_yaw):
         raise ValueError("INVALID_BODY_YAW")
+
+    target_head_pose: list[list[float]] | None = None
+    target_head_joints: list[float] | None = None
+    target_body_yaw: float | None = None
+    if target_state == "DEFINED":
+        try:
+            target_body_yaw = float(payload["target_body_yaw"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError("INVALID_TARGET_BODY_YAW") from exc
+        if not np.isfinite(target_body_yaw):
+            raise ValueError("INVALID_TARGET_BODY_YAW")
+        target_head_pose = _matrix_pose(
+            payload["target_head_pose"], "target_head_pose"
+        )
+        target_head_joints = _joint_vector(
+            payload["target_head_joints"], "target_head_joints"
+        )
 
     return {
         "received_monotonic_s": float(received_monotonic_s),
         "received_at_utc": str(received_at_utc),
         "daemon_timestamp": str(payload["timestamp"]),
         "control_mode": str(payload["control_mode"]),
+        "target_state": target_state,
         "present_head_pose": _matrix_pose(payload["head_pose"], "head_pose"),
-        "target_head_pose": _matrix_pose(payload["target_head_pose"], "target_head_pose"),
+        "target_head_pose": target_head_pose,
         "present_head_joints_rad": _joint_vector(payload["head_joints"], "head_joints"),
-        "target_head_joints_rad": _joint_vector(
-            payload["target_head_joints"], "target_head_joints"
-        ),
+        "target_head_joints_rad": target_head_joints,
         "present_body_yaw_rad": body_yaw,
         "target_body_yaw_rad": target_body_yaw,
     }
+
+
+def _validate_target_requirement(frames: list[dict[str, Any]], requirement: str) -> None:
+    requirement = str(requirement).strip().upper()
+    if requirement not in TARGET_REQUIREMENTS:
+        raise ValueError(f"Unknown target requirement: {requirement}")
+    states = [str(frame["target_state"]) for frame in frames]
+    if requirement == "DEFINED_AT_LEAST_ONCE" and "DEFINED" not in states:
+        raise RuntimeError("DEFINED_TARGET_NOT_OBSERVED")
+    if requirement == "UNSET_TO_DEFINED":
+        if not states or states[0] != "UNSET":
+            raise RuntimeError("TRACE_DID_NOT_START_WITH_UNSET_TARGET")
+        first_defined = next(
+            (index for index, state in enumerate(states) if state == "DEFINED"),
+            None,
+        )
+        if first_defined is None or "UNSET" not in states[:first_defined]:
+            raise RuntimeError("UNSET_TO_DEFINED_TRANSITION_NOT_OBSERVED")
 
 
 def build_receive_only_url(host: str, frequency_hz: float) -> str:
@@ -169,6 +219,7 @@ def capture_receive_only_trace(
     duration_s: float,
     frequency_hz: float,
     output: Path,
+    target_requirement: str = "ALLOW_UNSET",
     connector: Callable[..., Any] = connect,
     monotonic: Callable[[], float] = time.monotonic,
 ) -> tuple[dict[str, Any], str]:
@@ -182,9 +233,21 @@ def capture_receive_only_trace(
     deadline = started_monotonic + duration
     frames: list[dict[str, Any]] = []
     with connector(url, open_timeout=5.0, close_timeout=2.0) as websocket:
-        while monotonic() < deadline:
-            remaining = deadline - monotonic()
-            raw = websocket.recv(timeout=max(0.001, min(1.0, remaining)))
+        while True:
+            now = monotonic()
+            if now >= deadline:
+                break
+            remaining = deadline - now
+            try:
+                raw = websocket.recv(timeout=max(0.001, min(1.0, remaining)))
+            except TimeoutError:
+                # The last receive is deliberately bounded by the capture
+                # deadline.  If that deadline elapsed while waiting for the
+                # next frame, completion is normal; an earlier timeout remains
+                # a transport failure and must still fail closed.
+                if monotonic() >= deadline:
+                    break
+                raise
             frames.append(
                 parse_full_state_frame(
                     raw,
@@ -200,6 +263,24 @@ def capture_receive_only_trace(
     ):
         raise RuntimeError("NON_MONOTONIC_RECEIVE_CLOCK")
 
+    requirement = str(target_requirement).strip().upper()
+    _validate_target_requirement(frames, requirement)
+    target_states = [str(frame["target_state"]) for frame in frames]
+    target_state_counts = {
+        state: target_states.count(state) for state in ("UNSET", "DEFINED")
+    }
+    target_transitions = [
+        {
+            "frame_index": index,
+            "from": previous,
+            "to": current,
+        }
+        for index, (previous, current) in enumerate(
+            zip(target_states, target_states[1:]), start=1
+        )
+        if previous != current
+    ]
+
     report = {
         "schema": SCHEMA_VERSION,
         "status": "RECEIVE_ONLY_CAPTURE",
@@ -208,6 +289,10 @@ def capture_receive_only_trace(
         "requested_duration_s": duration,
         "requested_frequency_hz": float(frequency_hz),
         "frame_count": len(frames),
+        "target_requirement": requirement,
+        "target_state_counts": target_state_counts,
+        "target_state_transitions": target_transitions,
+        "target_inference_performed": False,
         "endpoint": url,
         "frames": frames,
         "transport": {

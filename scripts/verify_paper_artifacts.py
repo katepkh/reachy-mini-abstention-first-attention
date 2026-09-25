@@ -25,6 +25,7 @@ ENVIRONMENT = ROOT / "evidence" / "manifests" / "reproducibility_environment_v1.
 ENVIRONMENT_SIDECAR = ENVIRONMENT.with_suffix(ENVIRONMENT.suffix + ".sha256")
 
 CHECKS = (
+    ("canonical project alignment", ("scripts/check_project_alignment.py",)),
     ("public frozen evidence", ("scripts/verify_results.py",)),
     ("generated public result summary", ("scripts/regenerate_public_results.py", "--check")),
     ("Stage 3V trial-level robustness", ("scripts/run_stage3v_robustness.py", "--check")),

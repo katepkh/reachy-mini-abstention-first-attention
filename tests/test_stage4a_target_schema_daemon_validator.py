@@ -35,6 +35,12 @@ class TargetSchemaDaemonValidatorTests(unittest.TestCase):
         self.assertIn("/api/state/ws/full", source)
         self.assertIn('("matrix", True)', source)
         self.assertIn('("xyz_rpy", False)', source)
+        self.assertIn("/__isolation__/unset-targets", source)
+        self.assertIn("explicit_null_target", source)
+        self.assertIn(
+            "Patched full daemon did not preserve a coherent explicit null target",
+            source,
+        )
 
     def test_harness_binds_sources_to_wheel_and_patch(self):
         source = inspect.getsource(validate_target_schema_daemon)

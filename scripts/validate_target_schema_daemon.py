@@ -36,9 +36,9 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = (
     PROJECT_ROOT
-    / "data/private/stage4a_target_schema_daemon_v2/daemon_process_report.json"
+    / "data/private/stage4a_target_schema_daemon_v3/daemon_process_report.json"
 )
-SCHEMA_VERSION = "reachy-stage4-target-schema-daemon-process-v2"
+SCHEMA_VERSION = "reachy-stage4-target-schema-daemon-process-v3"
 TARGET_FIELDS = {
     "target_head_pose",
     "target_head_joints",
@@ -134,6 +134,25 @@ def _serve(source_root: Path, port: int) -> int:
 
     daemon_main.MdnsServiceRegistration = DisabledMdns
     daemon_main.startup_app_config.get_startup_app = lambda: None
+    original_create_app = daemon_main.create_app
+
+    def create_app_with_null_target_probe(*args: object, **kwargs: object) -> Any:
+        app = original_create_app(*args, **kwargs)
+
+        @app.post("/__isolation__/unset-targets")
+        async def unset_targets() -> dict[str, bool]:
+            backend = app.state.daemon.backend
+            if backend is None:
+                raise RuntimeError("Mock backend is unavailable.")
+            backend.target_head_pose = None
+            backend.target_head_joint_positions = None
+            backend.target_body_yaw = None
+            backend.target_antenna_joint_positions = None
+            return {"mock_targets_unset": True}
+
+        return app
+
+    daemon_main.create_app = create_app_with_null_target_probe
 
     sys.stderr.write(
         "ISOLATION_GUARD active: loopback-only sockets; mDNS/startup-app disabled\n"
@@ -152,7 +171,7 @@ def _serve(source_root: Path, port: int) -> int:
         "--no-preload-datasets",
         "--no-goto-sleep-on-stop",
         "--timeout-health-check",
-        "4",
+        "15",
         "--robot-name",
         "isolated_target_schema_probe",
     ]
@@ -168,8 +187,24 @@ def _request_json(url: str, *, method: str = "GET", timeout: float = 5.0) -> Any
         return json.loads(response.read().decode("utf-8"))
 
 
+def _request_status_and_json(
+    url: str, *, method: str = "GET", timeout: float = 5.0
+) -> tuple[int, Any]:
+    request = urllib.request.Request(url, method=method)
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return response.status, json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        # The released route raises while streaming the 500 response and may
+        # leave its body incomplete.  The status code is the negative-control
+        # evidence; do not block waiting for an error body.
+        status = exc.code
+        exc.close()
+        return status, None
+
+
 def _wait_until_ready(process: subprocess.Popen[str], port: int) -> dict[str, Any]:
-    deadline = time.monotonic() + 40.0
+    deadline = time.monotonic() + 60.0
     status_url = f"http://127.0.0.1:{port}/api/daemon/status"
     last_error: Exception | None = None
     while time.monotonic() < deadline:
@@ -205,7 +240,9 @@ def _probe_websocket(port: int, query: dict[str, str]) -> dict[str, Any]:
     }
 
 
-def _run_one(source_root: Path, port: int) -> dict[str, Any]:
+def _run_one(
+    source_root: Path, port: int, *, probe_explicit_null_target: bool
+) -> dict[str, Any]:
     command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -254,8 +291,45 @@ def _run_one(source_root: Path, port: int) -> dict[str, Any]:
             }
         websocket = _probe_websocket(port, {**query, "use_pose_matrix": "true"})
 
+        if probe_explicit_null_target:
+            unset_result = _request_json(
+                f"http://127.0.0.1:{port}/__isolation__/unset-targets",
+                method="POST",
+            )
+            if unset_result != {"mock_targets_unset": True}:
+                raise AssertionError(f"Null-target probe did not activate: {unset_result}")
+            null_query = {**query, "use_pose_matrix": "true"}
+            null_status, null_payload = _request_status_and_json(
+                f"http://127.0.0.1:{port}/api/state/full?"
+                f"{urllib.parse.urlencode(null_query)}"
+            )
+            explicit_null_target: dict[str, Any] = {
+                "status": "PROBED",
+                "status_code": null_status,
+                "target_fields_present": (
+                    _target_keys(null_payload) if isinstance(null_payload, dict) else []
+                ),
+                "all_target_values_null": (
+                    isinstance(null_payload, dict)
+                    and all(null_payload.get(field) is None for field in TARGET_FIELDS)
+                ),
+                "target_head_pose_is_null": (
+                    isinstance(null_payload, dict)
+                    and null_payload.get("target_head_pose") is None
+                ),
+            }
+        else:
+            explicit_null_target = {
+                "status": "NOT_PROBED_IN_RELEASED_FULL_PROCESS",
+                "reason": (
+                    "The extracted-route negative control already proves HTTP 500; "
+                    "repeating that streaming error prevents deterministic graceful "
+                    "shutdown in this full-process harness."
+                ),
+            }
+
         try:
-            stdout, stderr = process.communicate(timeout=8.0)
+            stdout, stderr = process.communicate(timeout=20.0)
         except subprocess.TimeoutExpired:
             process.terminate()
             stdout, stderr = process.communicate(timeout=5.0)
@@ -274,6 +348,7 @@ def _run_one(source_root: Path, port: int) -> dict[str, Any]:
             "daemon_status": status,
             "rest": rest,
             "websocket": websocket,
+            "explicit_null_target": explicit_null_target,
             "isolation": {
                 "bind_host": "127.0.0.1",
                 "mockup_sim": True,
@@ -394,13 +469,27 @@ def validate(
                 raise FileNotFoundError(source / relative)
 
     provenance = _verify_provenance(wheel, patch, released_source, patched_source)
-    released = _run_one(released_source, base_port)
-    patched = _run_one(patched_source, base_port + 1)
+    released = _run_one(
+        released_source, base_port, probe_explicit_null_target=False
+    )
+    patched = _run_one(
+        patched_source, base_port + 1, probe_explicit_null_target=True
+    )
     expected = sorted(TARGET_FIELDS)
     if any(fields for fields in _all_surfaces(released)):
         raise AssertionError("Released negative control unexpectedly retained target fields.")
     if any(fields != expected for fields in _all_surfaces(patched)):
         raise AssertionError("Patched daemon did not retain all target fields.")
+    if patched["explicit_null_target"] != {
+        "status": "PROBED",
+        "status_code": 200,
+        "target_fields_present": expected,
+        "all_target_values_null": False,
+        "target_head_pose_is_null": True,
+    }:
+        raise AssertionError(
+            "Patched full daemon did not preserve a coherent explicit null target."
+        )
 
     report = {
         "schema": SCHEMA_VERSION,
@@ -419,7 +508,7 @@ def validate(
         "released_negative_control": released,
         "patched_positive_control": patched,
         "diagnostic_status": (
-            "TARGET_FIELDS_DROPPED_BY_RELEASED_FULL_DAEMON_AND_PRESERVED_BY_PATCHED_FULL_DAEMON"
+            "TARGET_FIELDS_AND_EXPLICIT_NULL_POSE_PRESERVED_BY_PATCHED_FULL_DAEMON"
         ),
         "claim_boundary": (
             "This validates complete daemon application processes with the official "

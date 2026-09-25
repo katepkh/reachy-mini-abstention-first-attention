@@ -41,15 +41,15 @@
   "publication_files": [
     {
       "path": "docs/MANUSCRIPT.md",
-      "sha256": "3712723a15520b9ec7ea6e5175f2436a8fdea48bc9bdfee3f255f6fb239c5413"
+      "sha256": "9d62d83e744e9a55a2c9c7a6bb5397606f6697a132403ff4795d5a299fc36ee4"
     },
     {
       "path": "docs/AV_SYNCHRONY_CONFIRMATION_PROTOCOL.md",
-      "sha256": "b072273c7b610c58c4457361a46d5420cb6f8d6ffdbe7e2c1f116660046b1cb6"
+      "sha256": "d469334afe31f6a0102e23af3ad6b3e61480e5c4a26e4ac401b158e997533b2d"
     },
     {
       "path": "docs/HARDWARE_SOFTWARE_INVENTORY.md",
-      "sha256": "0c23a8e2a6aeeec6aab4852591f46d75d817dce2a1f36973577e5930d7cae3e7"
+      "sha256": "3dfdc441f66f264395c4579a34de8b2c0556389b963643ad24505f38bd31e145"
     },
     {
       "path": "docs/REPRODUCIBILITY.md",

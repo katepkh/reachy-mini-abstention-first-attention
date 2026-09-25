@@ -91,13 +91,14 @@ It does not import V4's movement constant or executable pilot.
 
 | Requirement | Status | Evidence / remaining boundary |
 |---|---|---|
-| Observe present and retained target pose/joints together | **Instrument complete; live evidence blocked** | The [`receive-only recorder`](RECEIVE_ONLY_SUCCESSOR_TRACE.md) fails closed on released 1.9.0 because its response schema drops target fields. The tested observational patch is uninstalled. |
+| Observe present and retained target pose/joints together | **Observation trace complete; target remained unset** | A valid bounded live trace retained 193 simultaneous present/target frames over 10 seconds. All targets were coherently `UNSET`; there were zero target transitions, zero trace-client application messages, and zero robot commands. Stock was restored healthy with motors disabled. This does not validate defined-target tracking or motion. |
 | Reconstruct the exact 1.9.0 target and return interpolation | **Offline complete** | [`SUCCESSOR_TRAJECTORY_REVIEW.md`](SUCCESSOR_TRAJECTORY_REVIEW.md) cross-checks 201 samples per leg against official `GotoMove` to `4.44e-16`. Actual live write times remain scheduler-dependent. |
 | Run exact 1.9.0 IK and compare configured joint limits | **Offline complete, safety incomplete** | The minimum supplied configured-limit margin was 42.706°. No acceptable-margin threshold, collision, conditioning, load, cable, or enclosure check has been approved. |
-| Add a receive-only continuous recorder | **Code complete; not run** | It sends zero client application messages and writes immutable traces, but requires authorization outside this repository before any patch/restart. |
-| Split target and return authorization | **Design state machine complete; no executor** | [`SPLIT_TARGET_RETURN_PROTOCOL.md`](SPLIT_TARGET_RETURN_PROTOCOL.md) requires a new return trace, phrase, and identifier. Failure leads to supervised power-down, not an automatic second command. |
+| Add a receive-only continuous recorder | **Code and bounded capture complete** | It retained 193 frames over 10 seconds, sent zero client application messages and zero robot commands, and distinguished coherent `UNSET` from absent/inconsistent targets. The enclosing backend lifecycle writes PID gains and is not itself command-free. |
+| Rehearse observation lifecycle and rollback | **Offline mock complete; hardware executor absent** | The exact-v1.9.0 health gate and offline-only executor cover release, trace failure, safety-disable, ambiguous state, and restoration. They ship no hardware adapter and authorize no powered action. |
+| Split target and return authorization | **Design state machine complete; no hardware executor** | [`SPLIT_TARGET_RETURN_PROTOCOL.md`](SPLIT_TARGET_RETURN_PROTOCOL.md) requires a new return trace, phrase, and identifier. Failure never triggers return; the separate terminal matrix chooses verified stop, one safety-disable, or physical power-off from the last trustworthy state. |
 | External authorization and independent technical review | **Outside repository; no correspondence retained** | These are required operational gates, but they are not research evidence and no message, reply, identity, or response hash is included here. |
-| Freeze a command-capable successor | **Not started** | It cannot begin until the external gates and command-free live trace pass. |
+| Freeze a command-capable successor | **Not started** | The receive-only live trace is complete, but movement-specific abort thresholds, clearance/load evidence, a reviewed direction, split-leg review, and a hardware-capable fail-closed executor remain absent. |
 
 The current V4 executor attempts return in `finally` after any target attempt
 and retains only the latest pose. It does not satisfy the successor design and
@@ -107,15 +108,16 @@ must not be reused as V5.
 
 Power-on becomes useful only after the external authorization and technical
 review gates are satisfied outside this repository. The first powered step
-should still be command-free:
+should still be receive-only at the trace-client boundary:
 
 1. normal startup with the exterior fully reassembled;
 2. no controller or app interaction;
 3. one checksum-preserved stability capture including motor mode, errors,
    present state, and reviewed target-state telemetry;
 4. stop if the state differs materially from the reviewed envelope;
-5. power down and review that capture before separately deciding whether one
-   `UP` trial is justified.
+5. end through the reviewed terminal-state branch, restore stock state, and
+   review that capture before separately deciding whether one `UP` trial is
+   justified.
 
 ## Official sources
 

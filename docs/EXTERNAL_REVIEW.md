@@ -137,11 +137,11 @@ No V4 physical result is published. Initial 2026-09-01 command-free captures res
 
 ### Stage 4A successor: offline progress, still zero authority
 
-A separately versioned successor now contains a receive-only simultaneous present/target recorder, an exact offline 1.9.0 trajectory/IK validator, authorization-record validation code, and a pure split target/return state machine. The offline validator byte-verified the official 1.9.0 wheel and installed source, pinned Rust kinematics 1.0.3, matched official `GotoMove` at every one of 201 ideal samples per leg to a maximum matrix-element difference of `4.44e-16`, and found a 42.706° minimum supplied configured-limit margin across the four 3° outward and nominal-return paths.
+A separately versioned successor now contains a receive-only simultaneous present/target trace client, an exact offline 1.9.0 trajectory/IK validator, an exact-version health gate, a mock-only lifecycle executor, authorization-record validation code, and a pure split target/return state machine. The offline validator byte-verified the official 1.9.0 wheel and installed source, pinned Rust kinematics 1.0.3, matched official `GotoMove` at every one of 201 ideal samples per leg to a maximum matrix-element difference of `4.44e-16`, and found a 42.706° minimum supplied configured-limit margin across the four 3° outward and nominal-return paths.
 
-A deterministic offline failure rehearsal also exercised four fixed local mock-process cases: start failure, health timeout, state-stream disconnect while the process remained alive, and shutdown hang. All four refused a duplicate lease and kept the mock restoration gate closed until process exit and lease release. This is process-orchestration evidence only; it says nothing about real serial-bus release, torque state, safe physical de-energization, or whether a stock daemon restart is appropriate.
+A deterministic offline failure rehearsal also exercised four fixed local mock-process cases: start failure, health timeout, state-stream disconnect while the process remained alive, and shutdown hang. All four refused a duplicate lease and kept the mock restoration gate closed until process exit and lease release. A later pure terminal planner distinguishes fresh-disabled stop, one safety-only disable for fresh responsive enabled state, and physical power-off for unresponsive/stale/unknown state. This is still process/design evidence only; it says nothing about real serial-bus release, torque state, gravity drop, or successful stock-daemon restoration.
 
-This does not clear physical motion. Analytical collision checking is absent; actual loop timestamps, endpoint writes, tracking, load/current, cables, and the return from a measured post-target pose remain untested. The recorder cannot obtain target fields from the unmodified daemon, and its observational patch is not installed. External authorization and technical review are outside this repository, which contains no correspondence or response record. The successor has no executor and authorizes zero commands. Unlike frozen V4, its design does not automatically return: target success leads to a new return preflight and a different authorization; target failure enters a conditional no-automatic-return response matrix whose unit-specific physical actions remain unapproved.
+This does not clear physical motion. Analytical collision checking is absent; actual endpoint writes, tracking, load/current, cables, and the return from a measured post-target pose remain untested. After two contained fail-closed rehearsals, one bounded live observation retained 193 simultaneous present/target frames over 10 seconds with motors disabled and fresh approximately 50 Hz telemetry. All targets were coherently `UNSET`; the trace client sent zero application messages and zero robot commands, and stock was restored healthy. The work also showed that controller construction writes PID gains, so only the trace client is receive-only. External authorization and technical review are outside this repository, which contains no correspondence or response record. The only new executor is mock-only, has no hardware adapter, and authorizes zero commands. Unlike frozen V4, the successor design does not automatically return: target success leads to a new return preflight and a different authorization; any failure forbids return and follows the zero-authority terminal matrix.
 
 ## Public artifacts produced
 
@@ -173,7 +173,7 @@ This does not clear physical motion. Analytical collision checking is absent; ac
 
 ### Evidence
 
-The `evidence/` tree contains 187 tracked files. The public verifier checks 171 manifest-listed source files plus frozen headline assertions. It includes derived CSV/JSON rows, trial metadata, compliance records, aggregate reports, protocol/policy manifests, rejected or superseded attempts where retained, and Stage 4 diagnostic records.
+The release candidate's `evidence/` tree contains 221 public files. The public verifier checks 171 manifest-listed source files plus frozen headline assertions. It includes derived CSV/JSON rows, trial metadata, compliance records, aggregate reports, protocol/policy manifests, rejected or superseded attempts where retained, and Stage 4 diagnostic records.
 
 It deliberately excludes raw audio, camera pixels, transcripts, face embeddings, identity labels, temporary encrypted audit clips and keys, credentials, and private laboratory paths.
 
@@ -181,11 +181,11 @@ It deliberately excludes raw audio, camera pixels, transcripts, face embeddings,
 
 At the time of this audit the repository contains:
 
-- 134 source Python modules and 22,885 source lines;
-- 49 Python test modules;
-- 40 explicitly versioned source modules preserving policy/protocol history;
-- 21 public verification/diagnostic scripts, including the evidence verifier, deterministic public-summary generator, exact 1.9.0 trajectory validator, authorization-gated receive-only recorder, synchrony pilot checks, complete-attempt audit, candidate freeze, and successor packet manifest checker;
-- 265 passing self-contained software tests.
+- 141 package Python modules and 24,628 package source lines;
+- 57 Python test modules;
+- versioned source modules preserving rejected and superseded policy/protocol history;
+- 27 public verification/diagnostic scripts, including the evidence verifier, deterministic paper-artifact generator, exact 1.9.0 trajectory validator, authorization-gated receive-only recorder, synchrony pilot and confirmation checks, complete-attempt audit, candidate freeze, and successor packet manifest checker;
+- 298 passing self-contained software tests.
 
 The test count must not be mistaken for an experimental sample size.
 
@@ -269,11 +269,11 @@ Review focus: whether the custom transport matches official semantics, atomic on
 - [`scripts/verify_results.py`](../scripts/verify_results.py): maps original manifest paths into the public `evidence/` layout, verifies hashes, and checks headline frozen assertions.
 - [`scripts/regenerate_public_results.py`](../scripts/regenerate_public_results.py): verifies those sources and reconstructs the committed headline table from frozen machine-readable artifacts.
 - [`scripts/validate_successor_trajectory_v190.py`](../scripts/validate_successor_trajectory_v190.py): exact-wheel/source cross-check and offline analytical-IK/configured-margin report; imports no networking stack or command method.
-- [`scripts/capture_successor_present_target_trace.py`](../scripts/capture_successor_present_target_trace.py): authorization-record-gated receive-only capture entry point; not run on the robot.
+- [`scripts/capture_successor_present_target_trace.py`](../scripts/capture_successor_present_target_trace.py): authorization-record-gated receive-only capture entry point; a valid 193-frame live trace retained coherent `UNSET` target state with zero client application messages or robot commands.
 - [`scripts/build_successor_review_manifest.py`](../scripts/build_successor_review_manifest.py): deterministic content manifest for the full successor review packet; CI rejects stale hashes.
 - [`tools/avsync_pilot_recorder_v2.html`](../tools/avsync_pilot_recorder_v2.html), [`scripts/analyze_av_synchrony_pilot_v2.py`](../scripts/analyze_av_synchrony_pilot_v2.py), and [`scripts/freeze_av_synchrony_pilot_v2_candidate.py`](../scripts/freeze_av_synchrony_pilot_v2_candidate.py): localhost-only replacement instrument, predeclared development/validation analysis, and content-addressed freeze. Its single-setup pilot passed; confirmation does not yet exist.
-- [`tests/`](../tests): 265 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, Stage 4 protocol/transport safety, trial-level robustness, synthetic audio–mouth synchrony faults, V1/V2 pilot analysis, the frozen confirmation schedule, and private-workspace initialization safeguards.
-- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the test extra, runs evidence verification, rejects a stale generated result table, and runs the unit suite on Python 3.11.
+- [`tests/`](../tests): 298 self-contained unit tests covering numeric logic, policy state, transport mocks, camera lifecycle, recorders, audits, progress state, Stage 4 protocol/transport safety, target-state validators, offline lifecycle rollback, trial-level robustness, synthetic audio–mouth synchrony faults, V1/V2 pilot analysis, the frozen confirmation schedule and execution contract, and private-workspace initialization safeguards.
+- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml): installs the pinned paper environment, runs evidence and artifact verification, rejects stale generated results and protocols, and runs the unit suite on Python 3.12.
 
 Review focus: absent coverage measurement, absent static type/lint checks, dependency reproducibility, missing property/fuzz tests at safety boundaries, and the distinction between unit verification and robot validation.
 
@@ -319,11 +319,11 @@ Review focus: absent coverage measurement, absent static type/lint checks, depen
 2. **The repository is an audit snapshot more than a library.** Forty version-suffixed source files are historically valuable but difficult to navigate, compare, or maintain.
 3. **There is no stable command-line interface.** Reviewers must infer entry points from modules and documents.
 4. **The supported runtime ranges are not a universal lock.** `pyproject.toml` intentionally supports ranges, while `requirements-test.lock` freezes the exact tested paper-reproduction environment. Other supported resolutions may still behave differently.
-5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 265 tests says nothing about unexecuted branches.
+5. **CI lacks coverage, type checking, linting, and security scanning.** Passing 298 tests says nothing about unexecuted branches.
 6. **Hardware and media transport are mock-tested, not publicly integration-tested.** The public suite intentionally has no robot, camera, microphone, or private launcher.
 7. **No environment or hardware bill of materials is complete enough for exact independent replication.** Robot/daemon version is fixed, but room geometry, audio firmware/configuration, camera parameters, operating-system details, and timing conditions need a formal reproducibility appendix.
 8. **The initial GitHub CI failed because `aiortc` was missing from test dependencies.** This was corrected, and the subsequent workflow passed, but it shows release verification did not initially match CI installation.
-9. **Dependency drift remains a compatibility risk.** A clean local Python 3.12 environment passes the current 265 tests and is now recorded in `requirements-test.lock`, but the supported ranges in `pyproject.toml` can still resolve differently on another date or platform. The lock narrows paper reproduction; it does not prove compatibility with every supported resolution.
+9. **Dependency drift remains a compatibility risk.** A clean local Python 3.12 environment passes the current 298 tests and is recorded in `requirements-test.lock`, but the supported ranges in `pyproject.toml` can still resolve differently on another date or platform. The lock narrows paper reproduction; it does not prove compatibility with every supported resolution.
 
 ### GitHub presentation
 
@@ -374,7 +374,7 @@ The work is dependency-gated, so calendar promises would currently be misleading
 | Read-only neutral diagnosis | Complete | Matrix, Euler, stream, joint state, desktop data flow, and daemon readiness reporting inspected without commands. | **Completed 2026-09-01.** |
 | Exact nominal trajectory and configured-limit review | Exact 1.9.0 environment and controlled baseline capture | Official path cross-check and per-sample analytical IK/configured margins for four target/return pairs. | **Offline component complete 2026-09-02; not a physical-safety pass.** |
 | External authorization and technical review | Required operational decisions occur outside the repository | Unit-specific authorization and review are not represented as research evidence. | No correspondence, identity, response, or response hash is retained here. |
-| Live present/target trace | Owner/reviewer approve observational patch and restart | Bounded command-free trace preserves simultaneous present/target pose, joints, body yaw, status, and timing. | No; recorder code exists but patch is uninstalled. |
+| Live present/target trace | **Complete for observation-only scope** | A bounded trace retained 193 simultaneous present/target frames over 10 seconds; coherent null remained `UNSET`, missing/inconsistent fields still fail closed, and stock was restored healthy. | No `DEFINED` target or transition was observed; this supplies no motion or return validation. |
 | Gate, target, and maintenance review | Controlled command-free starts, static visual inspection, and offline nominal path are complete | Reviewer accepts either the frozen 1° V4 criterion or a separately versioned successor; target state is observable; physical/collision/fault assumptions are resolved; invasive inspection is symptom-led and owner-approved. | Partly; external review and any hardware resolution time are unknown. |
 | V4 four-direction mechanical pilot | Neutral issue resolved | Four separately armed directions pass unchanged target/return gates, or failures are frozen. | No. |
 | Passive-to-live integration prototype | Mechanical pilot passes and a new protocol is frozen | A bounded passive candidate reaches a separately armed governor under an end-to-end test. | No. |
@@ -386,11 +386,12 @@ A credible live multi-person eye-contact claim cannot be scheduled under the pre
 ## What should happen next
 
 1. Keep external authorization and review outside the public research package; retain no correspondence or response artifacts here.
-2. Extend the now-reproducible headline table into full public policy-search and figure replay before collecting more data.
-3. Freeze a preregistered recorded-voice, multi-room protocol with room- and voice-level holdouts.
-4. Only if the external gates are satisfied independently, collect one command-free present/target trace, power down, and review it before designing any executor.
-7. Keep the custom centring proposal rejected and V4 frozen. Only a newly frozen successor may later run one separately authorized direction; target and return must remain different decisions.
-8. Treat live speaker following and eye contact as later studies requiring additional people, not as a final feature toggle.
+2. Reconcile public status, counts, dates, and roadmap statements; rerun the pinned verifier; then publish a reviewed research-preview release and submission artifact.
+3. Pause the 54-trial collection before Trial 1. The present recorder cannot identify the frozen spatial comparator or heading-error endpoints.
+4. Resume that study only after validated acoustic-direction capture and a refrozen execution contract, or after explicitly narrowing and refreezing it as synchrony-only exploratory work.
+5. Treat the completed bounded observation as the end of the current observation-only stage. Do not repeat it merely to seek a defined target.
+6. Keep the custom centring proposal rejected and successor motion blocked. Only a newly frozen protocol that closes the movement-specific abort, clearance/load, and split-return gates may later run one separately authorized direction.
+7. Treat live speaker following and eye contact as later studies requiring additional people, not as a final feature toggle.
 
 ## Suggested review sequence
 

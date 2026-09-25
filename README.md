@@ -4,9 +4,15 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 
-**When should a social robot refuse to look?**
+## Primary objective and current status
 
-This research preview studies selective attention proposals for Reachy Mini under an asymmetric cost: a false social or physical movement is treated as more costly than abstention. Local direction of arrival (DoA), ephemeral face geometry, temporal agreement, a passive visual cue, operator arming, and mechanical readiness are treated as different boundaries. Missing, stale, ambiguous, or conflicting evidence produces `ABSTAIN` or `HOLD`, not a guessed target.
+Build a real Reachy Mini interaction in which a live visible speaker causes one bounded orientation, face-directed attention, and an audible response, while a silent visible person beside phone playback causes no socially directed movement and no conversational response.
+
+**That behaviour does not yet exist end to end.** The repository contains valuable passive perception results, a promising but unconfirmed live-speech/playback instrument, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain a single integrated controller, validated attention hold, gated response path, or successful end-to-end robot study.
+
+The governing records are the [`project charter`](docs/PROJECT_CHARTER.md), [`milestone matrix`](docs/MILESTONE_MATRIX.md), [`decision log`](docs/DECISION_LOG.md), [`novelty and claims ledger`](docs/NOVELTY_CLAIMS_LEDGER.md), and [`strategy gate`](docs/STRATEGY_GATE.md). Read them before interpreting an intermediate artifact as the project objective.
+
+The supporting research question remains: **when should a social robot refuse to look?** The system treats a false social or physical movement as more costly than abstention. Local direction of arrival (DoA), ephemeral face geometry, temporal agreement, operator interaction, and mechanical readiness remain separately inspectable until they can be deliberately integrated. Missing, stale, ambiguous, or conflicting evidence produces `ABSTAIN` or `HOLD`, not a guessed target.
 
 ## Current physical-motion protocol blocker
 
@@ -16,7 +22,7 @@ This research preview studies selective attention proposals for Reachy Mini unde
 - **Decision:** do not retroactively weaken or bypass the 1° neutral preflight gate. Diagnose the measured start pose and review whether a future protocol needs a different preregistered readiness criterion; 1° is a conservative project choice, not a vendor tolerance.
 - **Diagnostic finding:** an initial pair of uncontrolled command-free observations found 4.159–4.221° and 1.333–1.459° from identity. A subsequent controlled three-power-cycle series measured means of 2.529°, 2.752°, and 2.746° (between-start range 0.223°); every complete trace remained outside 1°. All three captures reported motor control `enabled` before and after sampling, zero control-loop errors, and no daemon/backend error. Daemon 1.9.0 source confirms that identity is the intended final wake pose, while the controlled joint states show a repeatable residual dominated by Stewart 5 (−4.071° mean from rounded identity IK) and Stewart 6 (+3.078°). This establishes a repeatable non-identity start state for this unit under the narrow protocol, not its cause. Matrix REST, Euler REST, and the matrix state stream agreed within sampling drift. Desktop app v0.9.34 streams a matrix pose but its controller-sync hook reads object fields and substitutes zeros, so the widget's `0.000` values are a presentation defect rather than measured-pose evidence; see the [`read-only neutral-frame diagnostic`](docs/NEUTRAL_FRAME_DIAGNOSTIC.md), [`controlled startup characterization`](docs/STARTUP_CHARACTERIZATION.md), [`post-wake reference audit`](docs/POST_WAKE_REFERENCE_AUDIT.md), and [`maintenance triage`](docs/MAINTENANCE_TRIAGE.md).
 - **Review verdict:** reject the custom centring proposal for hardware execution. Motor scan/configuration does not establish geometric calibration; daemon 1.9.0 drops requested target-state fields from its REST response; default analytical IK has no collision check; and the proposed bounds, path monitoring, and failure response are unvalidated. A four-field schema repair now applies cleanly to the released source and passes negative-control/positive-control tests through both extracted routes and complete isolated daemon application processes. The daemon-process result used the official 1.9.0 mockup backend, loopback-only socket enforcement, no media, no mDNS, and zero robot connections or commands. The patch remains uninstalled on the robot and does not establish the cause. The counterfactual planner and schema tests authorize zero commands; see the [`source-backed centring review`](docs/CENTERING_REVIEW.md) and [`target-state observability analysis`](docs/TARGET_STATE_OBSERVABILITY.md).
-- **Successor work:** a receive-only simultaneous present/target recorder now fails closed when target fields are absent. An offline validator reproduced the exact 1.9.0 `GotoMove` law and analytical IK for all four proposed 3° outward and nominal return paths; the smallest configured-limit margin was 42.706°, but this is not collision, load, tracking, or safety validation. Exact source review then found that Wireless startup may modify system surfaces, daemon startup offers no public reflash opt-out, controller construction may conditionally reboot a faulty motor, and graceful close does not itself disable torque. A separate lifecycle patch and non-executing loopback-only invocation plan now address the avoidable startup side effects. Four local mock-process fault scenarios pass duplicate-start and restoration-interlock checks, but do not prove real torque or serial-bus behavior. Failure no longer maps blindly to “power down”: it enters a conditional, design-only matrix with no automatic return. External authorization is outside this repository and no such record is included. No successor command has been sent; see the [`trace status`](docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md), [`temporary-daemon lifecycle review`](docs/TEMPORARY_DAEMON_LIFECYCLE.md), [`offline failure rehearsal`](docs/OFFLINE_FAILURE_REHEARSAL.md), [`trajectory review`](docs/SUCCESSOR_TRAJECTORY_REVIEW.md), and [`split authorization design`](docs/SPLIT_TARGET_RETURN_PROTOCOL.md).
+- **Successor work:** after two contained fail-closed rehearsals exposed a patch-staging error and a client deadline-handling error, a bounded powered observation on 2026-09-18 retained 193 simultaneous present/target frames over 10 seconds. Every target state was coherently `UNSET`; the trace client sent zero application messages and zero robot commands. The temporary process released its listener and serial resource, and exact stock v1.9.0 was restored healthy with motors disabled. Startup also proved to write configured PID gains, so only the trace client—not the controller lifecycle—is receive-only. A pure exact-v1.9.0 health gate and an offline-only lifecycle executor rehearse resource release, terminal branching, and rollback with no hardware adapter or command authority. Offline trajectory review still shows a 42.706° supplied configured-limit margin, but no defined-target transition, collision, load, tracking, or safety validation. External authorization remains outside this repository with no correspondence retained. No successor motion command has been sent, and the 3° executor remains blocked; see the [`trace status`](docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md), [`temporary-daemon lifecycle review`](docs/TEMPORARY_DAEMON_LIFECYCLE.md), [`offline failure rehearsal`](docs/OFFLINE_FAILURE_REHEARSAL.md), [`trajectory review`](docs/SUCCESSOR_TRAJECTORY_REVIEW.md), and [`split authorization design`](docs/SPLIT_TARGET_RETURN_PROTOCOL.md).
 - **Forecast:** unknown. There is no defensible completion date until the reference-frame mismatch is understood.
 
 Passive validation passed only for the frozen single-site conditions below. It does not validate physical motion or erase the failed Stage 4 result.
@@ -29,7 +35,12 @@ Passive validation passed only for the frozen single-site conditions below. It d
 
 | If you want to... | Read... |
 |---|---|
-| Read the venue-neutral submission draft | [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md) |
+| Recover the authoritative objective | [`docs/PROJECT_CHARTER.md`](docs/PROJECT_CHARTER.md) |
+| See every capability gap and next experiment | [`docs/MILESTONE_MATRIX.md`](docs/MILESTONE_MATRIX.md) |
+| Audit which decisions govern current work | [`docs/DECISION_LOG.md`](docs/DECISION_LOG.md) |
+| Check what may and may not be claimed as novel | [`docs/NOVELTY_CLAIMS_LEDGER.md`](docs/NOVELTY_CLAIMS_LEDGER.md) |
+| Gate the next substantial task | [`docs/STRATEGY_GATE.md`](docs/STRATEGY_GATE.md) |
+| Read the working evidence manuscript | [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md) |
 | Review the whole project critically | [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md) |
 | Reuse a rigorous review prompt | [`docs/REVIEW_PROMPTS.md`](docs/REVIEW_PROMPTS.md) |
 | Read the compact paper-style account | [`docs/RESEARCH_NOTE.md`](docs/RESEARCH_NOTE.md) |
@@ -64,7 +75,7 @@ Passive validation passed only for the frozen single-site conditions below. It d
 | Audit the rejected counterfactual centring proposal | [`docs/CENTERING_PROTOCOL_DRAFT.md`](docs/CENTERING_PROTOCOL_DRAFT.md) |
 | Check claim boundaries and data contents | [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) and [`docs/DATA_CARD.md`](docs/DATA_CARD.md) |
 
-## The research question
+## Supporting research question
 
 The official Reachy Mini ecosystem already demonstrates how to read DoA and command the robot to look toward sound in its [`sound_doa.py`](https://github.com/pollen-robotics/reachy_mini/blob/main/examples/sound_doa.py) example. This project begins at the unresolved permission boundary:
 
@@ -92,7 +103,7 @@ Stage 3P does not recognize the spoken test phrase: it receives no transcript an
 | AV synchrony development pilot | Can local microphone energy and fixed-box mouth-region pixel change separate matched live speech from playback hard negatives? | **Instrument rejected.** Twelve laptop-only trials from 13 captures; 0/240 frozen settings met the selection rule. No robot connection or command. |
 | AV synchrony V2 pilot | Can tracked, face-normalized lip aperture separate matching speech from colocated-playback hard negatives in one setup? | **Pilot candidate frozen; not confirmation.** Twelve canonical trials from 23 attempts passed every quality gate. The selected setting produced candidates for 4/4 development and 2/2 internal-validation positives, and 0/4 plus 0/2 hard negatives. Zero robot connections or commands. |
 | 4A V3 — supervised mechanical pilot | Does one bounded 3° head-only command execute and return inside tolerance? | **Failed.** One physical trial and two head-only commands; measured motion 1.350°, target error 2.079°, return error 1.678°. |
-| 4A V4 — corrected mechanical path | Can the diagnosed V3 defects be corrected without retroactively changing its thresholds? | Protocol code is prepared, but no V4 physical trial has run. A controlled three-start, zero-command series found a repeatable 2.529–2.752° mean start offset; all traces failed the unchanged 1° project gate. Custom centring is rejected pending cause/gate review and better target-state observability. |
+| 4A V4 — corrected mechanical path | Can the diagnosed V3 defects be corrected without retroactively changing its thresholds? | No V4 physical trial has run. A controlled three-start, zero-command series found a repeatable 2.529–2.752° mean start offset; all traces failed the unchanged 1° project gate. A later 193-frame observation found the retained target coherently `UNSET`, but did not validate motion or return. Custom centring remains rejected. |
 
 These are small, correlated, single-site experiments: 42 accepted robot-side passive trials across Stages 2A, 3V, and 3P; one rejected and one candidate-nominating 12-trial laptop-only development instrument; and one failed physical trial. Observation-row denominators are telemetry summaries, not participant counts or independent samples. Zero events in six Stage 3V hard-negative trials or three Stage 3P controls do not establish a near-zero population error rate; see [`ATTEMPT_ACCOUNTING.md`](docs/ATTEMPT_ACCOUNTING.md).
 
@@ -119,11 +130,11 @@ This falsified assumption is more important than the positive coverage number. I
 | Passive policy success does not silently authorize hardware. | Certified functional safety or formal verification. |
 | The failed motion result was preserved without relaxed thresholds. | Successful physical speaker following or autonomous actuation. |
 
-The strongest current artifact is the **permission architecture and failure-preservation process**. The empirical study is still a research preview.
+The strongest current artifacts are the **permission architecture, preserved hard-negative evidence, and failure-preservation process**. They support the primary objective but do not substitute for the absent integrated robot behaviour.
 
 ## Code and evidence map
 
-The repository contains 136 package modules (23,098 lines), 51 test modules, 21 public verification/diagnostic scripts, and the frozen numeric artifacts. Forty package files retain explicit version tags because rejected and superseded protocol generations were preserved.
+The working repository contains 141 package modules (24,628 lines), 57 test modules, public verification/diagnostic scripts, and frozen numeric artifacts. Counts describe implementation volume, not research success. Versioned files preserve rejected and superseded protocol generations rather than presenting every generation as an active alternative.
 
 | Path | Responsibility | Review note |
 |---|---|---|
@@ -132,7 +143,7 @@ The repository contains 136 package modules (23,098 lines), 51 test modules, 21 
 | [`reachy_stage3a/`](reachy_stage3a) | Passive motion-shadow controller and evaluation. | It computes counterfactual targets and has no hardware authority. |
 | [`reachy_stage3v/`](reachy_stage3v) | Fresh horizontal off-axis passive validation, audit/compliance checks, sampling, and frozen V3 policy. | Versioned modules expose the development trail but make navigation harder. |
 | [`reachy_stage3p/`](reachy_stage3p) | Passive vertical targeting history plus association-gated visual-cue logic and result freezes. | The cue gate reads no transcript and has no command capability; V1–V7 are an audit trail, not a minimal reusable package. |
-| [`reachy_stage4/`](reachy_stage4) | Frozen V4 preflight/actuation history plus a receive-only successor trace, exact offline trajectory review, authorization-record validation, and split target/return design. | V4's automatic return remains frozen history. The successor pieces authorize zero commands and are not an executor. |
+| [`reachy_stage4/`](reachy_stage4) | Frozen V4 history plus a receive-only trace client, exact offline trajectory review, exact-v1.9.0 health gate, offline-only lifecycle rehearsal, and split target/return design. | The only new executor accepts mock adapters and explicitly denies hardware authority; V4's automatic return remains frozen history. |
 | [`reachy_avsync/`](reachy_avsync) | Command-free numeric audio–mouth synchrony prototypes, frozen pilot designs, offline analysis, complete-attempt audit, and candidate freeze. | V1 remains rejected. V2 nominated one content-frozen single-setup pilot candidate; confirmation remains absent. |
 | [`scripts/verify_results.py`](scripts/verify_results.py) | Standard-library verifier for public hashes and headline frozen claims. | This is the public evidence entry point. |
 | [`scripts/regenerate_public_results.py`](scripts/regenerate_public_results.py) | Deterministically renders the public headline table from frozen JSON after evidence verification. | It regenerates the committed summary, not the original acquisition or every historical policy search. |
@@ -141,14 +152,14 @@ The repository contains 136 package modules (23,098 lines), 51 test modules, 21 
 | [`scripts/validate_target_schema_endpoints.py`](scripts/validate_target_schema_endpoints.py) | Negative/positive integration test of the real 1.9.0 state routes extracted from the official wheel. | Uses a stub backend and sends no robot or network request. |
 | [`scripts/validate_target_schema_daemon.py`](scripts/validate_target_schema_daemon.py) | Negative/positive complete-daemon test with the official 1.9.0 mockup backend. | Enforces loopback-only sockets and disables media, mDNS, startup apps, and dataset downloads; it is not an on-robot test. |
 | [`scripts/validate_successor_trajectory_v190.py`](scripts/validate_successor_trajectory_v190.py) | Byte-verifies the exact 1.9.0 wheel/install, cross-checks the continuous `GotoMove` law, runs exact IK, and reports configured-limit margins. | Offline geometric review only; zero transport or commands. |
-| [`scripts/capture_successor_present_target_trace.py`](scripts/capture_successor_present_target_trace.py) | Bounded receive-only present/target trace, gated by authorization artifacts supplied outside this repository. | Not yet run; released 1.9.0 lacks the required serialized target fields. |
+| [`scripts/capture_successor_present_target_trace.py`](scripts/capture_successor_present_target_trace.py) | Bounded receive-only present/target trace, gated by authorization artifacts supplied outside this repository. | A valid 193-frame live trace observed coherent `UNSET` targets throughout, with zero client application messages or robot commands; no defined-target or movement claim follows. |
 | [`scripts/build_successor_review_manifest.py`](scripts/build_successor_review_manifest.py) | Builds/checks hashes for the complete proposed successor review packet. | Content addressability does not make the proposal approved. |
 | [`scripts/run_offline_fault_rehearsal.py`](scripts/run_offline_fault_rehearsal.py) | Replays four fixed failure classes through isolated local Python mock processes. | Validates mock mutual exclusion and restoration gating, not real daemon, serial-bus, torque, or shutdown behavior. |
 | [`scripts/run_stage3v_robustness.py`](scripts/run_stage3v_robustness.py) | Replays trial-level uncertainty, ablations, threshold sensitivity, and finite risk/coverage operating points. | Post-hoc diagnostic analysis; trial denominators remain small. |
 | [`scripts/freeze_av_synchrony_protocol.py`](scripts/freeze_av_synchrony_protocol.py) and [`scripts/run_av_synchrony_faults.py`](scripts/run_av_synchrony_faults.py) | Check the frozen future study design and deterministic synthetic fault artifact. | Neither script captures media, contacts Reachy, or validates real audiovisual association. |
 | [`tools/avsync_pilot_recorder.html`](tools/avsync_pilot_recorder.html) and [`scripts/analyze_av_synchrony_pilot.py`](scripts/analyze_av_synchrony_pilot.py) | Collect three local numeric columns in a browser and search the frozen 240-candidate development grid. | The fixed mouth box is confounded by head/lighting changes; selected pilot settings are not confirmation results. |
 | [`tools/avsync_pilot_recorder_v2.html`](tools/avsync_pilot_recorder_v2.html), [`scripts/analyze_av_synchrony_pilot_v2.py`](scripts/analyze_av_synchrony_pilot_v2.py), and [`scripts/freeze_av_synchrony_pilot_v2_candidate.py`](scripts/freeze_av_synchrony_pilot_v2_candidate.py) | Record only local numeric audio level and tracked face features, search 45 settings on development, evaluate internal validation, and bind a passing candidate to exact code/assets/input hashes. | The V2 pilot passed and is frozen locally, but does not validate speaker ownership or the 54-trial confirmation study. |
-| [`tests/`](tests) | Self-contained component and protocol tests. | 265 software tests are not 265 robot trials and do not validate hardware. |
+| [`tests/`](tests) | Self-contained component and protocol tests. | 298 software tests are not 298 robot trials and do not validate hardware. |
 | [`evidence/`](evidence) | Derived CSV/JSON evidence, analyses, compliance records, and freeze manifests. | No raw audio, camera pixels, transcripts, or identity labels are included. |
 
 ### Current reference path versus preserved history
@@ -217,7 +228,7 @@ To run V2 locally, install and verify its pinned browser assets once with `pytho
 
 CI runs the integrity, stale-artifact, protocol, and synthetic-fault checks before the software tests.
 
-Install the curated package and run 265 self-contained software tests:
+Install the curated package and run 298 self-contained software tests:
 
 ```bash
 python -m venv .venv
@@ -250,11 +261,12 @@ See the full [`external review packet`](docs/EXTERNAL_REVIEW.md) and [`role-spec
 ## Roadmap
 
 1. Keep all external authorization and review outside this repository. No correspondence or response artifact is part of the research package.
-2. If—and only if—the required external gates are satisfied independently, apply both reviewed patches in an isolated checkout and collect one bounded receive-only present/target trace using the loopback-only lifecycle plan. Do not combine that capture with motion; motor control must remain disabled.
-3. Use the measured target state to finish the successor thresholds and separately review target and return. The exact nominal 1.9.0 trajectory/configured-limit calculation is complete, but collision, load, tracking, timing, and actual-return evidence remain absent.
-4. Only after those dependencies pass, freeze a new successor protocol and consider one separately authorized direction. Do not revive or relabel V4.
-5. Keep the successful V2 pilot candidate fixed. Before collecting the separate 54-trial confirmation, bind the existing multi-room design to that candidate, rehearse complete attempt accounting offline, and do not reuse any pilot trial as confirmation evidence.
-6. Recruit additional consenting people before claiming live multi-speaker behavior or socially meaningful eye contact.
+2. Treat the revised patch's extracted-route and complete mock-daemon validation plus the offline lifecycle rehearsal as software evidence only. Review the fact that backend construction writes PID gains; do not describe the controller lifecycle as command-free.
+3. Treat the completed bounded observation as the end of the current observation-only stage. It established a coherent `UNSET` target and healthy restoration, not a defined target, movement, or return.
+4. Keep successor motion blocked. A later protocol would need movement-specific abort thresholds, clearance/load evidence, and separately reviewed target and return legs. Do not revive or relabel V4.
+5. Keep the successful V2 pilot candidate fixed, but pause the 54-trial collection before Trial 1. The current five-column recorder cannot identify the frozen Stage 3V spatial comparator or independent heading-error endpoints.
+6. Resume confirmation only after either adding and validating acoustic-direction capture and refreezing the execution contract, or explicitly narrowing the study to synchrony-only exploratory claims.
+7. Prioritize the critical path in [`docs/MILESTONE_MATRIX.md`](docs/MILESTONE_MATRIX.md): fused shadow decision, phone-playback rejection, bounded physical orientation, face-directed hold, gated response, and end-to-end validation. Manuscript polishing and repository release remain downstream supporting work.
 
 Detailed dependencies and realistic effort ranges are in [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md#realistic-roadmap-and-timeline).
 

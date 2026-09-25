@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AV-synchrony 54-trial confirmation recorder</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 1180px; margin: 1.5rem auto; padding: 0 1rem; line-height: 1.4; }
+    .grid { display: grid; grid-template-columns: minmax(440px, 1.2fr) minmax(390px, .8fr); gap: 1.25rem; }
+    .camera { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #111; overflow: hidden; border-radius: 12px; }
+    video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; transform: scaleX(-1); pointer-events: none; }
+    .panel { border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+    button, input { margin: .3rem .3rem .3rem 0; padding: .65rem .9rem; font-weight: 650; }
+    button:disabled, input:disabled { opacity: .45; }
+    progress { width: 100%; }
+    .warning { border-left: 5px solid #d97706; padding: .7rem 1rem; background: #d9770618; }
+    .good { color: #15803d; font-weight: 700; }
+    .bad { color: #b91c1c; font-weight: 700; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; margin: .8rem 0; }
+    .card { background: #64748b18; border-radius: 8px; padding: .7rem .9rem; }
+    code { overflow-wrap: anywhere; }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>AV-synchrony confirmation recorder</h1>
+  <p class="warning"><strong>Passive laptop study only.</strong> Keep Reachy powered off. This page loads only local files, uploads nothing, and downloads numeric features only. Camera and microphone access stays disabled until the private binding manifest has been sealed and verified.</p>
+
+  <div class="grid">
+    <section>
+      <div class="camera">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="overlay" width="640" height="480"></canvas>
+      </div>
+      <div class="metrics">
+        <span>Face lock: <strong id="faceMetric">not running</strong></span>
+        <span>Face scale: <strong id="scaleMetric">—</strong></span>
+        <span>Audio: <strong id="audioMetric">—</strong></span>
+        <span>Lip aperture: <strong id="lipMetric">—</strong></span>
+        <span>Landmark inference: <strong id="inferenceMetric">—</strong></span>
+        <span>Selected camera: <strong id="cameraMetric">—</strong></span>
+        <span>Selected microphone: <strong id="microphoneMetric">—</strong></span>
+      </div>
+      <p>Keep one face visible, look forward, avoid head motion except the instructed silent mouthing, and keep the camera, microphone, lighting, playback mark, clip, and volume fixed.</p>
+    </section>
+
+    <section class="panel">
+      <p>Protocol: <code id="fingerprint">loading…</code></p>
+      <label for="resumeIndex">Schedule index (resume only from the next unfinished ledger row):</label>
+      <input id="resumeIndex" type="number" min="1" max="54" value="1">
+      <button id="resumeButton" disabled>Load schedule index</button>
+      <h2 id="trialTitle">Loading frozen execution contract…</h2>
+      <div id="setupCard" class="card"></div>
+      <p id="trialInstruction"></p>
+      <p><strong>Before Start:</strong> arrange the visible-person and playback marks exactly as shown. This page does not control playback.</p>
+      <button id="initializeButton" disabled>Initialize pinned local model</button>
+      <button id="previewButton" disabled>Enable bound camera and microphone</button>
+      <button id="stopButton" disabled>Stop preview</button>
+      <button id="recordButton" disabled>Start numeric capture</button>
+      <button id="repeatButton" disabled>Repeat current trial</button>
+      <button id="nextButton" disabled>Next scheduled trial</button>
+      <progress id="progress" max="10" value="0"></progress>
+      <p id="status">No model or media access has started.</p>
+      <div id="quality"></div>
+    </section>
+  </div>
+
+  <h2>What is saved</h2>
+  <p><code>timestamp_ms</code>, microphone <code>audio_dbfs</code>, face-normalized <code>lip_aperture</code>, <code>face_scale</code>, and <code>face_count</code>. No image, pixel array, waveform, transcript, face embedding, name, network upload, or robot field is written.</p>
+
+  <script type="module">
+    "use strict";
+
+    const executionUrl = "../evidence/manifests/av_synchrony_confirmation_execution_v1.json";
+    const bindingManifestUrl = "../data/private/avsync_confirmation_v1/binding_manifest.json";
+    const deviceBindingUrl = "../data/private/avsync_confirmation_v1/bindings/device.json";
+    const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
+    const wasmRoot = "../models/avsync_v2/runtime/wasm";
+    const modelUrl = "../models/avsync_v2/face_landmarker.task";
+    const video = document.getElementById("video");
+    const overlay = document.getElementById("overlay");
+    const overlayContext = overlay.getContext("2d");
+    const initializeButton = document.getElementById("initializeButton");
+    const previewButton = document.getElementById("previewButton");
+    const stopButton = document.getElementById("stopButton");
+    const recordButton = document.getElementById("recordButton");
+    const repeatButton = document.getElementById("repeatButton");
+    const nextButton = document.getElementById("nextButton");
+    const resumeIndex = document.getElementById("resumeIndex");
+    const resumeButton = document.getElementById("resumeButton");
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+    const quality = document.getElementById("quality");
+    const fingerprint = document.getElementById("fingerprint");
+    const trialTitle = document.getElementById("trialTitle");
+    const trialInstruction = document.getElementById("trialInstruction");
+    const setupCard = document.getElementById("setupCard");
+    const faceMetric = document.getElementById("faceMetric");
+    const scaleMetric = document.getElementById("scaleMetric");
+    const audioMetric = document.getElementById("audioMetric");
+    const lipMetric = document.getElementById("lipMetric");
+    const inferenceMetric = document.getElementById("inferenceMetric");
+    const cameraMetric = document.getElementById("cameraMetric");
+    const microphoneMetric = document.getElementById("microphoneMetric");
+
+    let manifest = null;
+    let deviceBinding = null;
+    let schedule = [];
+    let scheduleIndex = 0;
+    let faceLandmarker = null;
+    let stream = null;
+    let audioContext = null;
+    let analyser = null;
+    let audioBuffer = null;
+    let previewTimer = null;
+    let previewRows = [];
+    let previewInferenceMs = [];
+    let lastInferenceMs = Infinity;
+    let recording = false;
+    let currentAttempt = 0;
+    let acceptedCurrentTrial = false;
+
+    const instructions = {
+      live_visible_continuous: "Look toward the camera and speak naturally throughout the capture. Keep all playback stopped.",
+      live_visible_interrupted: "Look toward the camera and alternate about one second of speech with one second of silence. Keep all playback stopped.",
+      silent_face_colocated_playback: "Remain silent and still while the assigned consented recording plays from the playback mark beside your face.",
+      silent_mouthing_shifted_playback: "Mouth silently, deliberately out of time with the assigned recording, while it plays from the mark beside your face.",
+      silent_face_opposite_playback: "Remain silent and still while the assigned consented recording plays from the listed opposite mark.",
+      live_speech_plus_opposite_playback: "Speak naturally while the assigned independent consented recording plays from the listed opposite mark. Do not synchronize your speech to it.",
+    };
+
+    function mean(values) {
+      return values.reduce((total, value) => total + value, 0) / Math.max(values.length, 1);
+    }
+
+    function standardDeviation(values) {
+      if (!values.length) return 0;
+      const average = mean(values);
+      return Math.sqrt(mean(values.map(value => (value - average) ** 2)));
+    }
+
+    function median(values) {
+      if (!values.length) return 0;
+      const sorted = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+    }
+
+    function distance(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    async function sha256Hex(buffer) {
+      const hash = await crypto.subtle.digest("SHA-256", buffer);
+      return [...new Uint8Array(hash)].map(value => value.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function fetchBytes(url) {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`${url} HTTP ${response.status}`);
+      return response.arrayBuffer();
+    }
+
+    async function fetchJson(url) {
+      return JSON.parse(new TextDecoder().decode(await fetchBytes(url)));
+    }
+
+    function normalizedLabel(value) {
+      return String(value || "").replace(/\s*\[(started|disconnected at inventory)\]\s*$/i, "").trim();
+    }
+
+    async function verifyBindingGate() {
+      const bindingManifest = await fetchJson(bindingManifestUrl);
+      if (bindingManifest.status !== "SEALED_BEFORE_FIRST_PREVIEW_OR_CAPTURE") {
+        throw new Error("private binding manifest is not sealed");
+      }
+      if (bindingManifest.protocol_fingerprint !== manifest.protocol_fingerprint) {
+        throw new Error("binding manifest protocol fingerprint mismatch");
+      }
+      for (const item of bindingManifest.files) {
+        const bytes = await fetchBytes(`../data/private/avsync_confirmation_v1/${item.path}`);
+        if (await sha256Hex(bytes) !== item.sha256) throw new Error(`binding hash mismatch: ${item.path}`);
+      }
+      deviceBinding = await fetchJson(deviceBindingUrl);
+      if (deviceBinding.status !== "COMPLETE_BEFORE_FIRST_PREVIEW_OR_CAPTURE") {
+        throw new Error("device binding is not complete");
+      }
+      const ownUrl = new URL(window.location.href);
+      ownUrl.search = "";
+      ownUrl.hash = "";
+      if (await sha256Hex(await fetchBytes(ownUrl.href)) !== deviceBinding.recorder_sha256) {
+        throw new Error("recorder hash does not match the sealed device binding");
+      }
+    }
+
+    function measureAudio() {
+      analyser.getFloatTimeDomainData(audioBuffer);
+      let sum = 0;
+      for (const value of audioBuffer) sum += value * value;
+      const rms = Math.sqrt(sum / audioBuffer.length);
+      return 20 * Math.log10(Math.max(rms, 1e-6));
+    }
+
+    function measureFace(timestamp) {
+      const inferenceStarted = performance.now();
+      const result = faceLandmarker.detectForVideo(video, timestamp);
+      lastInferenceMs = performance.now() - inferenceStarted;
+      inferenceMetric.textContent = `${lastInferenceMs.toFixed(1)} ms`;
+      const faces = result.faceLandmarks || [];
+      overlayContext.clearRect(0, 0, overlay.width, overlay.height);
+      if (faces.length !== 1) return { lip: 0, scale: 0, count: Math.min(faces.length, 2) };
+      const points = faces[0];
+      const scale = distance(points[33], points[263]);
+      const lip = scale > 0 ? distance(points[13], points[14]) / scale : 0;
+      overlayContext.fillStyle = "#22c55e";
+      for (const index of [13, 14, 33, 263]) {
+        overlayContext.beginPath();
+        overlayContext.arc(points[index].x * overlay.width, points[index].y * overlay.height, 4, 0, Math.PI * 2);
+        overlayContext.fill();
+      }
+      return { lip: Math.max(0, Math.min(1, lip)), scale: Math.max(0, Math.min(1, scale)), count: 1 };
+    }
+
+    function sample() {
+      const now = performance.now();
+      const audio = measureAudio();
+      const face = measureFace(now);
+      faceMetric.textContent = face.count === 1 ? "one face" : `${face.count} faces`;
+      faceMetric.className = face.count === 1 ? "good" : "bad";
+      scaleMetric.textContent = face.scale.toFixed(3);
+      audioMetric.textContent = `${audio.toFixed(1)} dBFS`;
+      lipMetric.textContent = face.count === 1 ? face.lip.toFixed(4) : "—";
+      return [now, audio, face.lip, face.scale, face.count];
+    }
+
+    function objectiveQuality(rows, conditionId) {
+      const gates = manifest.quality_gates;
+      const timestamps = rows.map(row => row[0]);
+      const audio = rows.map(row => row[1]);
+      const valid = rows.filter(row => row[4] === 1);
+      const failures = [];
+      const gaps = timestamps.slice(1).map((value, index) => value - timestamps[index]);
+      const validTimes = valid.map(row => row[0]);
+      const validGaps = validTimes.slice(1).map((value, index) => value - validTimes[index]);
+      const span = timestamps.length > 1 ? timestamps.at(-1) - timestamps[0] : 0;
+      const singleFraction = valid.length / Math.max(rows.length, 1);
+      const multipleRows = rows.filter(row => row[4] > 1).length;
+      const faceScale = median(valid.map(row => row[3]));
+      const audioStd = standardDeviation(audio);
+      const lipStd = standardDeviation(valid.map(row => row[2]));
+      if (rows.length < gates.minimum_samples) failures.push("INSUFFICIENT_SAMPLES");
+      if (timestamps.length < 2 || gaps.some(value => value <= 0)) failures.push("TIMESTAMPS_NOT_STRICTLY_INCREASING");
+      if (span < gates.minimum_span_ms) failures.push("OBSERVATION_SPAN_TOO_SHORT");
+      if (gaps.length && Math.max(...gaps) > gates.maximum_sample_gap_ms) failures.push("SAMPLE_GAP_EXCESSIVE");
+      if (singleFraction < gates.minimum_single_face_fraction) failures.push("SINGLE_FACE_FRACTION_TOO_LOW");
+      if (multipleRows > gates.multiple_face_rows_allowed) failures.push("MULTIPLE_FACES_OBSERVED");
+      if (faceScale < gates.minimum_median_face_scale) failures.push("FACE_SCALE_TOO_SMALL");
+      if (audioStd < gates.minimum_audio_dbfs_std) failures.push("AUDIO_DYNAMIC_RANGE_TOO_LOW");
+      if (gates.motion_required_conditions.includes(conditionId) && lipStd < gates.minimum_lip_aperture_std_when_motion_required) failures.push("LIP_DYNAMIC_RANGE_TOO_LOW");
+      if (validGaps.length && Math.max(...validGaps) > gates.maximum_sample_gap_ms) failures.push("VALID_FACE_GAP_EXCESSIVE");
+      return { passed: failures.length === 0, failures, span, singleFraction, faceScale, audioStd, lipStd };
+    }
+
+    function updatePreviewReadiness() {
+      if (recording || previewRows.length < 25 || acceptedCurrentTrial || !repeatButton.disabled) {
+        recordButton.disabled = true;
+        return;
+      }
+      const recent = previewRows.slice(-25);
+      const singleFraction = recent.filter(row => row[4] === 1).length / recent.length;
+      const multiple = recent.some(row => row[4] > 1);
+      const scale = median(recent.filter(row => row[4] === 1).map(row => row[3]));
+      const inferenceMs = median(previewInferenceMs.slice(-25));
+      const performanceReady = previewInferenceMs.length >= manifest.instrument_preflight.preview_measurements && inferenceMs <= manifest.instrument_preflight.maximum_median_landmark_inference_ms;
+      const ready = singleFraction >= 0.95 && !multiple && scale >= 0.16 && performanceReady;
+      recordButton.disabled = !ready;
+      status.textContent = ready
+        ? "Face and recorder-performance preflight ready. Prepare the exact card, then press Start."
+        : (!performanceReady
+          ? `Recorder performance preflight: median inference ${inferenceMs.toFixed(1)} ms; maximum ${manifest.instrument_preflight.maximum_median_landmark_inference_ms.toFixed(1)} ms.`
+          : "Face preflight not ready: show exactly one sufficiently large, stable face.");
+    }
+
+    function startPreviewLoop() {
+      previewRows = [];
+      previewInferenceMs = [];
+      previewTimer = window.setInterval(() => {
+        if (recording || !stream) return;
+        previewRows.push(sample());
+        previewInferenceMs.push(lastInferenceMs);
+        if (previewRows.length > 75) previewRows.shift();
+        if (previewInferenceMs.length > 75) previewInferenceMs.shift();
+        updatePreviewReadiness();
+      }, 80);
+    }
+
+    function displayTrial() {
+      if (scheduleIndex >= schedule.length) {
+        trialTitle.textContent = "Confirmation acquisition complete";
+        trialInstruction.textContent = "Retain all canonical and failed-attempt CSVs. Do not inspect candidate outcomes until all files and the ledger are complete.";
+        setupCard.textContent = "Move the files into the private captures directory, complete the ledger, and run the frozen analysis once.";
+        recordButton.disabled = true;
+        nextButton.disabled = true;
+        repeatButton.disabled = true;
+        stopPreview();
+        return;
+      }
+      const item = schedule[scheduleIndex];
+      trialTitle.textContent = `Trial ${scheduleIndex + 1}/${schedule.length} — ${item.trial_id}`;
+      trialInstruction.textContent = instructions[item.condition_id];
+      setupCard.innerHTML = `<strong>${item.room}</strong><br>Visible-person mark: ${item.visible_heading_deg}°<br>Playback voice: ${item.playback_voice_id || "none — playback stopped"}<br>Playback mark: ${item.playback_heading_deg === null ? "none — playback stopped" : `${item.playback_heading_deg}°`}<br>Condition: <code>${item.condition_id}</code>`;
+      recordButton.textContent = `Start ${item.duration_s}-second numeric capture`;
+      progress.max = item.duration_s;
+      progress.value = 0;
+      quality.textContent = "";
+      acceptedCurrentTrial = false;
+      currentAttempt = 0;
+      nextButton.disabled = true;
+      repeatButton.disabled = true;
+      updatePreviewReadiness();
+    }
+
+    function downloadCsv(filename, rows) {
+      const lines = ["timestamp_ms,audio_dbfs,lip_aperture,face_scale,face_count"];
+      for (const row of rows) {
+        lines.push([row[0].toFixed(9), row[1].toFixed(9), row[2].toFixed(9), row[3].toFixed(9), String(row[4])].join(","));
+      }
+      const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+      const anchor = document.createElement("a");
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(anchor.href);
+    }
+
+    async function stopPreview() {
+      if (previewTimer !== null) window.clearInterval(previewTimer);
+      previewTimer = null;
+      if (stream) stream.getTracks().forEach(track => track.stop());
+      stream = null;
+      video.srcObject = null;
+      if (audioContext) await audioContext.close();
+      audioContext = null;
+      analyser = null;
+      audioBuffer = null;
+      overlayContext.clearRect(0, 0, overlay.width, overlay.height);
+      previewButton.disabled = faceLandmarker === null;
+      stopButton.disabled = true;
+      recordButton.disabled = true;
+      faceMetric.textContent = "not running";
+      inferenceMetric.textContent = "—";
+      cameraMetric.textContent = "—";
+      microphoneMetric.textContent = "—";
+      status.textContent = "Camera and microphone stopped.";
+    }
+
+    async function openBoundMedia() {
+      let provisional = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: manifest.instrument.capture_width, max: manifest.instrument.capture_width }, height: { ideal: manifest.instrument.capture_height, max: manifest.instrument.capture_height }, facingMode: "user" },
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+      });
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const cameraName = normalizedLabel(deviceBinding.camera_make_model);
+      const microphoneName = normalizedLabel(deviceBinding.audio_input_selected);
+      const camera = devices.find(item => item.kind === "videoinput" && normalizedLabel(item.label) === cameraName);
+      const microphone = devices.find(item => item.kind === "audioinput" && normalizedLabel(item.label) === microphoneName);
+      provisional.getTracks().forEach(track => track.stop());
+      if (!camera) throw new Error(`bound camera unavailable: ${cameraName}`);
+      if (!microphone) throw new Error(`bound microphone unavailable: ${microphoneName}`);
+      return navigator.mediaDevices.getUserMedia({
+        video: { deviceId: { exact: camera.deviceId }, width: { ideal: manifest.instrument.capture_width, max: manifest.instrument.capture_width }, height: { ideal: manifest.instrument.capture_height, max: manifest.instrument.capture_height } },
+        audio: { deviceId: { exact: microphone.deviceId }, echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+      });
+    }
+
+    resumeButton.addEventListener("click", () => {
+      const requested = Number(resumeIndex.value);
+      if (!Number.isInteger(requested) || requested < 1 || requested > schedule.length) return;
+      scheduleIndex = requested - 1;
+      displayTrial();
+    });
+
+    initializeButton.addEventListener("click", async () => {
+      initializeButton.disabled = true;
+      resumeIndex.disabled = true;
+      resumeButton.disabled = true;
+      status.textContent = "Loading locally installed, hashed runtime files…";
+      try {
+        const { FaceLandmarker, FilesetResolver } = await import(runtimeModuleUrl);
+        const vision = await FilesetResolver.forVisionTasks(wasmRoot);
+        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: modelUrl, delegate: manifest.instrument.delegate },
+          runningMode: "VIDEO", numFaces: 2, minFaceDetectionConfidence: 0.5,
+          minFacePresenceConfidence: 0.5, minTrackingConfidence: 0.5,
+          outputFaceBlendshapes: false, outputFacialTransformationMatrixes: false,
+        });
+        previewButton.disabled = false;
+        status.textContent = "Pinned local model ready. No camera or microphone access yet.";
+      } catch (error) {
+        initializeButton.disabled = false;
+        resumeIndex.disabled = false;
+        resumeButton.disabled = false;
+        status.textContent = `Model initialization failed: ${error.message}`;
+      }
+    });
+
+    previewButton.addEventListener("click", async () => {
+      previewButton.disabled = true;
+      try {
+        stream = await openBoundMedia();
+        const cameraTrack = stream.getVideoTracks()[0];
+        const microphoneTrack = stream.getAudioTracks()[0];
+        cameraMetric.textContent = cameraTrack.label;
+        microphoneMetric.textContent = microphoneTrack.label;
+        video.srcObject = stream;
+        await video.play();
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaStreamSource(stream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+        audioBuffer = new Float32Array(analyser.fftSize);
+        stopButton.disabled = false;
+        startPreviewLoop();
+      } catch (error) {
+        if (stream) stream.getTracks().forEach(track => track.stop());
+        stream = null;
+        previewButton.disabled = false;
+        status.textContent = `Bound media access failed: ${error.message}`;
+      }
+    });
+
+    stopButton.addEventListener("click", stopPreview);
+
+    async function runCapture() {
+      if (recording || !stream || scheduleIndex >= schedule.length) return;
+      recording = true;
+      currentAttempt += 1;
+      recordButton.disabled = true;
+      repeatButton.disabled = true;
+      nextButton.disabled = true;
+      quality.textContent = "";
+      const item = schedule[scheduleIndex];
+      const durationMs = item.duration_s * 1000;
+      const rows = [];
+      const started = performance.now();
+      let nextDeadline = started;
+      status.textContent = `Capturing numeric features for ${item.trial_id}…`;
+      await new Promise(resolve => {
+        const takeSample = () => {
+          const measured = sample();
+          const elapsed = measured[0] - started;
+          rows.push([elapsed, ...measured.slice(1)]);
+          progress.value = Math.min(item.duration_s, elapsed / 1000);
+          if (elapsed >= durationMs) resolve();
+          else {
+            nextDeadline += manifest.sample_period_ms;
+            window.setTimeout(takeSample, Math.max(0, nextDeadline - performance.now()));
+          }
+        };
+        takeSample();
+      });
+      const result = objectiveQuality(rows, item.condition_id);
+      recording = false;
+      if (result.passed) {
+        downloadCsv(`${item.trial_id}.csv`, rows);
+        acceptedCurrentTrial = true;
+        nextButton.disabled = false;
+        quality.innerHTML = `<p class="good">Objective quality gates passed.</p><p>Single face ${(100 * result.singleFraction).toFixed(1)}%; audio SD ${result.audioStd.toFixed(2)} dB; lip SD ${result.lipStd.toFixed(4)}; median face scale ${result.faceScale.toFixed(3)}.</p>`;
+        status.textContent = "Canonical numeric CSV downloaded. Stop playback before continuing.";
+      } else {
+        const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+        downloadCsv(`${item.trial_id}-attempt-${String(currentAttempt).padStart(2, "0")}-${stamp}-quality-failed.csv`, rows);
+        repeatButton.disabled = false;
+        quality.innerHTML = `<p class="bad">Objective quality gate failed: ${result.failures.join(", ")}</p><p>Retain this file. Correct only the stated issue, then repeat the same card.</p>`;
+        status.textContent = "Do not advance. Stop playback and inspect only the objective quality reason.";
+      }
+    }
+
+    recordButton.addEventListener("click", runCapture);
+    repeatButton.addEventListener("click", () => {
+      repeatButton.disabled = true;
+      previewRows = [];
+      previewInferenceMs = [];
+      quality.textContent = "Re-establishing face preflight before the repeat…";
+      updatePreviewReadiness();
+    });
+    nextButton.addEventListener("click", async () => {
+      const previousRoom = schedule[scheduleIndex].room;
+      scheduleIndex += 1;
+      if (scheduleIndex < schedule.length && schedule[scheduleIndex].room !== previousRoom) {
+        await stopPreview();
+        status.textContent = `Room block complete. Move to ${schedule[scheduleIndex].room}, reproduce its sealed marks, then enable the same bound devices.`;
+      }
+      displayTrial();
+    });
+
+    try {
+      manifest = await fetchJson(executionUrl);
+      if (manifest.schema !== "reachy-av-synchrony-confirmation-execution-v1") throw new Error("unexpected execution manifest schema");
+      schedule = manifest.randomized_schedule;
+      if (schedule.length !== 54) throw new Error("execution manifest does not contain 54 trials");
+      await verifyBindingGate();
+      fingerprint.textContent = `${manifest.protocol_fingerprint} / execution ${manifest.fingerprint}`;
+      initializeButton.disabled = false;
+      resumeButton.disabled = false;
+      displayTrial();
+      status.textContent = "Frozen execution contract and sealed private bindings verified. No sensor access has started.";
+    } catch (error) {
+      trialTitle.textContent = "Opening gate closed";
+      setupCard.textContent = "Complete and seal the private bindings before opening any preview.";
+      status.textContent = `Cannot start: ${error.message}`;
+    }
+  </script>
+</body>
+</html>

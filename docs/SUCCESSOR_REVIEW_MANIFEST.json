@@ -1,11 +1,11 @@
 {
   "external_authorization_status": "OUTSIDE_REPOSITORY_NO_CORRESPONDENCE_RETAINED",
-  "file_count": 46,
+  "file_count": 54,
   "files": [
     {
-      "bytes": 33322,
+      "bytes": 35453,
       "path": "README.md",
-      "sha256": "aa65a1b20617fdd57e6fce14e330d3ac732477ecf96bb144462ee3ecd8629583"
+      "sha256": "4fdcb6fd16158a8cad287761b22f57872df32c56f9e34a625ce98e139fd62c99"
     },
     {
       "bytes": 1893,
@@ -18,19 +18,19 @@
       "sha256": "48f8a0cccc4ffb9d1305c1d78b9326066b710b607f88d62dafa8c178ead41ec5"
     },
     {
-      "bytes": 41286,
+      "bytes": 42492,
       "path": "docs/EXTERNAL_REVIEW.md",
-      "sha256": "019d5ea4e18778e9d49310d5e9c4ec568759a037c09fa03aca3dc27bd982a52d"
+      "sha256": "2d42a9a104a5d7f7fee2f79529163f9b227429971bc7578e725c24073baf4cfb"
     },
     {
-      "bytes": 6762,
+      "bytes": 8261,
       "path": "docs/FAILURE_LEDGER.md",
-      "sha256": "aad4c169a77f0c251e79f7777042e3c81d576e8b28df4d85c0ffb039f3808d4e"
+      "sha256": "60b769f196af9ded8b860f784a86f24be345d92d75186150ef7ad90c778dcd43"
     },
     {
-      "bytes": 6296,
+      "bytes": 6707,
       "path": "docs/LIMITATIONS.md",
-      "sha256": "49f2b172589b334b3a03d34bd54166c3ffd407ba9aa732b39efb1958dca5b35e"
+      "sha256": "c67ef36ab4a5381797d7df3ed67bb5429df2cf4e3b9fd1ff6eeb02643a8e852d"
     },
     {
       "bytes": 15240,
@@ -48,9 +48,9 @@
       "sha256": "23eaa140adc021b5e53a1983c2a6791ec3edd95e447b4ca1055bb6d872a8c4e9"
     },
     {
-      "bytes": 8525,
+      "bytes": 11159,
       "path": "docs/TARGET_STATE_OBSERVABILITY.md",
-      "sha256": "1f7d71bdcb9e64fa394b590f40132ba0b7201fbe4d142a6fd23b35d61025d4b5"
+      "sha256": "5e70aec42d6f666a0f9fe0ffca997d32209f440543981cb5c58221e396e07f61"
     },
     {
       "bytes": 8630,
@@ -58,24 +58,24 @@
       "sha256": "2ed9a4a700e5b21734a87514fad82df56e68609875ad39bb73ef59ee04512445"
     },
     {
-      "bytes": 8542,
+      "bytes": 9428,
       "path": "docs/BASELINE_RELATIVE_SUCCESSOR.md",
-      "sha256": "d643fe0f0fa7e211d80b06dff864e8363ae837f4514d49f35d29ba60d3cfc251"
+      "sha256": "0cba0cf22485401e0fd1c4eabe940e100538a3d6fdbc79b39ffef81e395ec5b3"
     },
     {
-      "bytes": 3538,
+      "bytes": 6693,
       "path": "docs/RECEIVE_ONLY_SUCCESSOR_TRACE.md",
-      "sha256": "ca8b3ec9aab4c0962eed2e9163e049bddb755e6db18c538396e004518390fbb4"
+      "sha256": "0d01748de6b7c579633927fe9a69cb2c42935a2f5969dbf75236e0cf6af4657e"
     },
     {
-      "bytes": 5693,
+      "bytes": 10481,
       "path": "docs/TEMPORARY_DAEMON_LIFECYCLE.md",
-      "sha256": "3c4c3b959942daf56fb76f2299a4aaedef7b5fe34432b66b6d4ba8516c4bcb8c"
+      "sha256": "9e8de6bf3b47fd47b455f08d54beb0ac01653a1c8bae33fbc51059bcd7172c98"
     },
     {
-      "bytes": 1424,
+      "bytes": 2413,
       "path": "docs/OFFLINE_FAILURE_REHEARSAL.md",
-      "sha256": "99b367ee4ea9a66410c57d62ce7b35e6a809c6191f9b4753ba10ce459f084eda"
+      "sha256": "edfacfb6702f749e23f74c3ac915a94ed96b754279722e6d538570860f1dce9a"
     },
     {
       "bytes": 4648,
@@ -83,19 +83,19 @@
       "sha256": "6de8f61fd2fe7cf48c33b3344a2bcfed27fa8fe3516e6f4cf1933f78ecca8b7a"
     },
     {
-      "bytes": 3019,
+      "bytes": 3189,
       "path": "docs/SPLIT_TARGET_RETURN_PROTOCOL.md",
-      "sha256": "acb7da4e57d1888adda9619922d82b27c7bce9aec7bf1099d00d759e1e2750c4"
+      "sha256": "ac45d6276ee374657f91d5420bbc11defa6d71872072d13875af542f33e2534b"
     },
     {
-      "bytes": 9693,
+      "bytes": 10383,
       "path": "docs/RETURN_TO_BORROWED_CONDITION.md",
-      "sha256": "1e77cdc529ccf4fc4a55f4a1f67ff85e9a822f96a5284924e39c502b3feaec45"
+      "sha256": "e40f678b1519d5e972fd9dcd67e176805967bbc4de23ea846ef4c4577385a69d"
     },
     {
-      "bytes": 754,
+      "bytes": 1618,
       "path": "patches/reachy-mini-v1.9.0-target-state-observability.patch",
-      "sha256": "7bfb6a83b46f6f0f6018a3a350dc705abb7efd663cd9fce213de37b35349252f"
+      "sha256": "0a4f693b9b60725a47024d7df430ff3511093cb44a9e2af0937fac666bf1e756"
     },
     {
       "bytes": 6726,
@@ -103,14 +103,24 @@
       "sha256": "96276f7c9c5f7933a4799ef94e45cc5eb94a31dd8758c02ffac669887fe8f42d"
     },
     {
-      "bytes": 4149,
+      "bytes": 9037,
       "path": "reachy_stage4/daemon_lifecycle.py",
-      "sha256": "411f5b027ad471f6e05a9d1d6b0443c52426c8f6322d1ae44325353e20ad3a4d"
+      "sha256": "304bef765796bacdd04f40dc2770c1834de2eed452e40a3b2f13d94ea3502dcb"
     },
     {
-      "bytes": 2309,
+      "bytes": 7488,
+      "path": "reachy_stage4/observation_health.py",
+      "sha256": "904ecc0ebf282c5b87222c6d17d1c693c6aa75dc801755ee12cb29320f7f309f"
+    },
+    {
+      "bytes": 13624,
+      "path": "reachy_stage4/observation_executor.py",
+      "sha256": "f407c21eba0f6e17b45f677e13983dd8248b92e75cb01ee09090ac733af6cb81"
+    },
+    {
+      "bytes": 3071,
       "path": "reachy_stage4/failure_response.py",
-      "sha256": "d25c4a7c18a8a87f4c93f045d42d1222ad65dcb06404a1ea826b2ca96651b82e"
+      "sha256": "734f9b857a75fd5a564e84deb098ac50944f3c9220b39f949901b2996b1c0ff5"
     },
     {
       "bytes": 2808,
@@ -118,9 +128,9 @@
       "sha256": "b2e9473f29577adfe5e5230815b96cd5c3be5178c77d1f1a5c30db19c8366d7c"
     },
     {
-      "bytes": 8243,
+      "bytes": 8279,
       "path": "reachy_stage4/offline_fault_rehearsal.py",
-      "sha256": "f8b29268779f74e3d081601ef132f2b763048639da81dbcd17b96d2a33235e35"
+      "sha256": "aa15615b6c30dc5a854740d310c088dfa200f82edb5e78a4e3123b1dd9b42864"
     },
     {
       "bytes": 9715,
@@ -128,9 +138,9 @@
       "sha256": "3116be23e4cf340e54981acd305d655a7c6876bd4a26f36e6eb98cb249794b31"
     },
     {
-      "bytes": 7883,
+      "bytes": 11170,
       "path": "reachy_stage4/successor_trace.py",
-      "sha256": "3051367365dbcdb07524071c0e1d57e6c6c8554f84c9bd4942a0cdea61a85d53"
+      "sha256": "2139ceef77ed19a3d9ac57010ad90155d9454c388467da82ef433dd14a2932fb"
     },
     {
       "bytes": 7341,
@@ -148,9 +158,9 @@
       "sha256": "9af43ad93fcb6ed04171aff5323293ae8930d33457c48875dc85e00fb9697f65"
     },
     {
-      "bytes": 4597,
+      "bytes": 5031,
       "path": "scripts/build_successor_review_manifest.py",
-      "sha256": "6e6e06039e3250bb8e7da8e58a7b8871b1231848c76a3fcb07647318086f2f32"
+      "sha256": "f25465893463c60378b39ec07cf4c3af5e7882ebf2a9bf0231479845895ad50c"
     },
     {
       "bytes": 4987,
@@ -163,9 +173,19 @@
       "sha256": "51bce7d8b05c036a714e714b90cfb3485d0b3b6b20e710a2370f8737f0d33313"
     },
     {
-      "bytes": 1634,
+      "bytes": 2018,
       "path": "scripts/capture_successor_present_target_trace.py",
-      "sha256": "4e258affa9a928c4ed2892384719eb483ae773e73f1d064d084974649420d95a"
+      "sha256": "3929d49ff3453727c889bb042b4023baa77cbd09414cb95621142deed465482e"
+    },
+    {
+      "bytes": 13469,
+      "path": "scripts/validate_target_schema_endpoints.py",
+      "sha256": "5b95c1242fb25484b3d75a3084ab7c45f142a1608c4f66a2c830565aa5787b4c"
+    },
+    {
+      "bytes": 21056,
+      "path": "scripts/validate_target_schema_daemon.py",
+      "sha256": "5fd5b4785fac75db1db042822285329851683b9e701f3e44fc64bd2e7743c701"
     },
     {
       "bytes": 12723,
@@ -178,9 +198,9 @@
       "sha256": "5f10b4f93b41877628684229e0d4206e65f963af5e854cba74b3a5456d58edd6"
     },
     {
-      "bytes": 5490,
+      "bytes": 10632,
       "path": "tests/test_stage4a_successor_trace.py",
-      "sha256": "4edcd608ec638897db8f29382e938e8776b9f1325d1f323981fdb898939da493"
+      "sha256": "b1a3fb4abbe07602f2c7b73bdf22b8d669b007bfc4c740b943522c40c0053d36"
     },
     {
       "bytes": 2714,
@@ -203,14 +223,34 @@
       "sha256": "78187fd32a4d39697767f9964f4bddb70bbe908f3e32e87a480af0a89ff4eed9"
     },
     {
-      "bytes": 2017,
+      "bytes": 4390,
       "path": "tests/test_stage4a_daemon_lifecycle.py",
-      "sha256": "01ef8d3d7c42183263c995c1821d594d270a11e4bcfd7d68e12b84af286e17b6"
+      "sha256": "b4e2e1015aa10320fe02486f1b9a8dbd404e202f6e629ac40f568c2a5e88ebbf"
     },
     {
-      "bytes": 2083,
+      "bytes": 5132,
+      "path": "tests/test_stage4a_observation_health.py",
+      "sha256": "4f7af1e774dd5cab131f6ce3e804fe729f8c987b382e6b814231bc7366df2b9a"
+    },
+    {
+      "bytes": 7803,
+      "path": "tests/test_stage4a_observation_executor.py",
+      "sha256": "bcd07d455ee2ae60f5d81dd4e130dadcebea249ecbc679da0c3913c3efc83455"
+    },
+    {
+      "bytes": 1392,
+      "path": "tests/test_stage4a_target_schema_endpoint_validator.py",
+      "sha256": "b7e8a30ece8f39cdc0da20f6c59edc1fba10c4f01b7d522da2e6f4a9fa14af8c"
+    },
+    {
+      "bytes": 2451,
+      "path": "tests/test_stage4a_target_schema_daemon_validator.py",
+      "sha256": "0c5757821efe3b031aa7086c7c0bc88559b982a218f457410607d4be5292819e"
+    },
+    {
+      "bytes": 2634,
       "path": "tests/test_stage4a_failure_response.py",
-      "sha256": "93900fd108b57434b34d98a888059b44ae7f2d44ce222ed2d7d8e16a5f155804"
+      "sha256": "2abd361149999dc63e002c6d44e5f08dac99e220a015865aee371f66ece81861"
     },
     {
       "bytes": 1400,
@@ -223,31 +263,31 @@
       "sha256": "c92c80f768bd90a28e5147a072d16eb15b3b6734938d157abe288c8ecd75677e"
     },
     {
-      "bytes": 3929,
+      "bytes": 3965,
       "path": "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json",
-      "sha256": "fe0d7b9e04541d4120a16f44d114f04de1c10c2687cb3615846b0351b99f2cdf"
+      "sha256": "8d81eaf9a62de25d640a99b55b27ead70d2a97c575b45db9d74021b2f08d9638"
     },
     {
       "bytes": 106,
       "path": "evidence/analysis/stage4a_offline_fault_rehearsal_v1.json.sha256",
-      "sha256": "7be6064c8390b0b1c90ea1771c6e4097268929c93fee10e2e21e8e663184af3c"
+      "sha256": "429a170b0a5ba30536f50622bc4f4332aa701647f93c8c9534a9383be6b79a2d"
     }
   ],
   "known_blockers": [
-    "NO_OWNER_PHYSICAL_TARGET_OR_RETURN_SCOPE_RECORDED",
-    "NO_INDEPENDENT_HUMAN_ROBOTICS_VERDICT_RECORDED",
-    "TARGET_STATE_PATCH_NOT_INSTALLED",
-    "OBSERVATION_LIFECYCLE_PATCH_NOT_INSTALLED",
+    "OBSERVATION_PATCHES_NOT_PERSISTENTLY_INSTALLED",
     "NO_LIVE_PRESENT_TARGET_TRACE",
-    "NO_SUCCESSOR_EXECUTOR",
+    "NULL_TO_DEFINED_TARGET_TRANSITION_NOT_PHYSICALLY_OBSERVED",
+    "CONTROLLER_STARTUP_WRITES_PID_GAINS",
+    "NO_HARDWARE_LIFECYCLE_EXECUTOR",
     "NO_COLLISION_LOAD_TRACKING_OR_PHYSICAL_SAFETY_VALIDATION",
     "NO_APPROVED_RETURN_TO_BORROWED_CONDITION_PROCEDURE",
     "NO_VERIFIED_TORQUE_REMOVAL_AFTER_DAEMON_FAILURE",
-    "NO_UNIT_SPECIFIC_PHYSICAL_DEENERGIZATION_PROCEDURE"
+    "PHYSICAL_POWER_OFF_BRANCH_NOT_HARDWARE_VALIDATED",
+    "NO_MOVEMENT_SPECIFIC_ABORT_OR_CLEARANCE_VALIDATION"
   ],
   "robot_commands_authorized": 0,
   "robot_commands_sent": 0,
   "robot_connections": 0,
-  "schema": "reachy-stage4a-successor-review-manifest-v2",
+  "schema": "reachy-stage4a-successor-review-manifest-v3",
   "status": "DESIGN_ONLY_NO_COMMAND_AUTHORITY"
 }

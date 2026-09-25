@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AV-synchrony room background meter</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 760px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    .panel { border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+    button { padding: .65rem .9rem; margin: .3rem .3rem .3rem 0; font-weight: 650; }
+    button:disabled { opacity: .45; }
+    progress { width: 100%; }
+    .warning { border-left: 5px solid #d97706; padding: .7rem 1rem; background: #d9770618; }
+    .result { font-size: 1.2rem; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Room background-level binding</h1>
+  <p class="warning">Use this before sealing the confirmation bindings. Keep Reachy powered off. Place the laptop and its bound microphone at their intended marks, keep the room silent, and stop all playback. This page opens only the microphone, uploads nothing, and saves no waveform.</p>
+  <section class="panel">
+    <p id="device">Microphone not active.</p>
+    <button id="enable">Enable microphone</button>
+    <button id="measure" disabled>Measure 10 seconds</button>
+    <button id="stop" disabled>Stop microphone</button>
+    <progress id="progress" max="10" value="0"></progress>
+    <p id="status">No microphone access has started.</p>
+    <p id="result" class="result"></p>
+  </section>
+  <script>
+    "use strict";
+    const enable = document.getElementById("enable");
+    const measure = document.getElementById("measure");
+    const stop = document.getElementById("stop");
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+    const device = document.getElementById("device");
+    let stream = null;
+    let context = null;
+    let analyser = null;
+    let buffer = null;
+
+    function sampleDbfs() {
+      analyser.getFloatTimeDomainData(buffer);
+      let sum = 0;
+      for (const value of buffer) sum += value * value;
+      return 20 * Math.log10(Math.max(Math.sqrt(sum / buffer.length), 1e-6));
+    }
+
+    async function stopMedia() {
+      if (stream) stream.getTracks().forEach(track => track.stop());
+      stream = null;
+      if (context) await context.close();
+      context = null;
+      analyser = null;
+      buffer = null;
+      enable.disabled = false;
+      measure.disabled = true;
+      stop.disabled = true;
+      device.textContent = "Microphone stopped.";
+      status.textContent = "No microphone is active.";
+    }
+
+    enable.addEventListener("click", async () => {
+      enable.disabled = true;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+          video: false,
+        });
+        context = new AudioContext();
+        const source = context.createMediaStreamSource(stream);
+        analyser = context.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+        buffer = new Float32Array(analyser.fftSize);
+        device.textContent = `Active microphone: ${stream.getAudioTracks()[0].label}`;
+        status.textContent = "Ready. Keep the room silent, then measure once.";
+        measure.disabled = false;
+        stop.disabled = false;
+      } catch (error) {
+        enable.disabled = false;
+        status.textContent = `Microphone access failed: ${error.message}`;
+      }
+    });
+
+    measure.addEventListener("click", async () => {
+      measure.disabled = true;
+      result.textContent = "";
+      const values = [];
+      const started = performance.now();
+      status.textContent = "Measuring background only…";
+      await new Promise(resolve => {
+        const timer = window.setInterval(() => {
+          const elapsed = performance.now() - started;
+          values.push(sampleDbfs());
+          progress.value = Math.min(10, elapsed / 1000);
+          if (elapsed >= 10000) {
+            window.clearInterval(timer);
+            resolve();
+          }
+        }, 40);
+      });
+      const mean = values.reduce((total, value) => total + value, 0) / values.length;
+      const variance = values.reduce((total, value) => total + (value - mean) ** 2, 0) / values.length;
+      result.textContent = `Record in the room binding: mean ${mean.toFixed(2)} dBFS over 10 s (SD ${Math.sqrt(variance).toFixed(2)} dB; n=${values.length}).`;
+      status.textContent = "Measurement complete. Stop the microphone before moving rooms.";
+      measure.disabled = false;
+    });
+
+    stop.addEventListener("click", stopMedia);
+  </script>
+</body>
+</html>

@@ -4,6 +4,10 @@
 
 The 54-trial acquisition and analysis design is frozen before confirmation data collection. Machine-readable source: [`av_synchrony_confirmation_protocol_v1.json`](../evidence/manifests/av_synchrony_confirmation_protocol_v1.json), fingerprint `1e7f727d5fbf34bfd1be9464787151849b10e880eb8fcde758dce465f49b2bf8`, file SHA-256 `596dc8de7d8be4d984921a02c40640fcd257df508a84b2063acd7531a8507116`.
 
+**Collection is paused before Trial 1.** The current recorder cannot identify several frozen primary endpoints because it records no acoustic direction or Stage 3V policy inputs. Partial private Room A preparation may be retained for future use, but it is not confirmation data. Collection may open only after acoustic-direction capture is validated and the execution contract is refrozen, or after the study is explicitly narrowed and refrozen as a synchrony-only exploratory study.
+
+The separately content-addressed execution contract binds the dedicated 54-trial recorder, pinned local model/runtime, full-trial scoring path, requested acoustic-only, visual-only, and non-abstaining baselines, and the analysis implementation before any confirmation preview or capture. It leaves every V2 candidate threshold unchanged.
+
 This successor preserves the earlier falsification design while closing its execution gaps. It binds the successful V2 candidate, retains every V2 quality threshold, assigns two voice stimuli evenly, defines playback placement when the visible person is centred, and specifies what must be privately bound before collection.
 
 ## Fixed design
@@ -57,6 +61,8 @@ Confirmation requires all of:
 
 Even a pass would support only a candidate audiovisual association in this design. It would not establish speaker identity, intent, consent, authorization, general active-speaker performance, social benefit, or mechanical safety.
 
+The five-column laptop instrument does not record acoustic direction or the input fields needed to replay the frozen Stage 3V spatial policy. Consequently, the Stage 3V paired primary endpoint, independently measured target-heading error, wrong-sign outcomes, and streaming first-proposal latency are not identifiable from these captures. The execution contract freezes this limitation before collection and permits only a clearly labelled exploratory geometry proxy; it must not be reported as the frozen Stage 3V comparator or used to declare the full V1 rule passed.
+
 ## Safety boundary
 
 This is a passive-sensing protocol. It authorizes zero motion, torque, calibration, firmware, or motor-mode commands. Freezing this design does not clear the separate Reachy daemon-recovery or physical-motion blockers.
@@ -65,9 +71,10 @@ This is a passive-sensing protocol. It authorizes zero motion, torque, calibrati
 
 ```bash
 python scripts/freeze_av_synchrony_confirmation_protocol.py --check
+python scripts/freeze_av_synchrony_confirmation_execution.py --check
 python -m unittest tests.test_av_synchrony_confirmation_protocol
 python scripts/prepare_av_synchrony_confirmation_workspace.py --initialize --browser "Microsoft Edge 152.0.4191.53"
 python scripts/prepare_av_synchrony_confirmation_workspace.py --status
 ```
 
-The preparation command creates an ignored private workspace, a 54-row schedule ledger, six binding records, and an empty capture directory without opening any sensor. It never overwrites an existing binding. After the human-supplied fields are complete, `--seal` writes a content-addressed private manifest and refuses incomplete records.
+The preparation command creates an ignored private workspace, a 54-row schedule ledger, six binding records, and an empty capture directory without opening any sensor. It never overwrites an existing binding. The background-level meter and confirmation recorder are retained for protocol development, but the current collection pause takes precedence over their availability. Do not seal or open Trial 1 until the identifiability decision above is resolved and refrozen.

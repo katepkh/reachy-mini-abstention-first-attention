@@ -242,7 +242,7 @@ def run_offline_fault_rehearsal(
             "Mock exit and lease release do not prove that a real motor backend released hardware resources or disabled torque.",
             "Forced termination applies only to the mock and is not a recommendation for Reachy.",
             "No stock or temporary Reachy daemon was started or stopped.",
-            "External unit-specific recovery guidance remains required before hardware execution.",
+            "The separate terminal-state planner remains unexecuted and requires the existing owner/review gates before hardware use.",
         ],
         "robot_connections": 0,
         "robot_commands_authorized": 0,

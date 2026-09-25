@@ -2,7 +2,9 @@
 
 Kate P.
 
-Research preview · 5 September 2026
+Working evidence manuscript · 25 September 2026
+
+> **Working evidence manuscript — not submission-ready.** This document synthesizes completed component studies and preserved failures. It is not evidence that the primary live-speaker/playback-refusal behaviour works end to end. The governing completion boundary is [`PROJECT_CHARTER.md`](PROJECT_CHARTER.md).
 
 ## Abstract
 
@@ -142,7 +144,7 @@ The present architecture is conservative by design. Its cost is abstention, slow
 
 The project deliberately avoids identity recognition, transcript processing, raw-media publication, and autonomous motion claims. Consent is required for every recorded voice stimulus. A recorded voice is not counted as a participant, and synchrony does not imply identity, intent, consent, or authorization.
 
-The robot is borrowed. This repository contains no private correspondence or external authorization record and makes no claim that the 3° target, return, or temporary observational daemon has been authorized. No observational patch has been installed and the receive-only hardware trace has not run.
+The robot is borrowed. This repository contains no private correspondence or external-authorization record and makes no public evidentiary claim about those external decisions. After two contained fail-closed rehearsals exposed implementation defects, a bounded temporary-daemon observation retained 193 simultaneous present/target frames over 10 seconds. All target states were coherently `UNSET`; the trace client sent zero application messages and zero robot commands. Stock v1.9.0 was restored healthy with motors disabled, and the observational patch was not persistently installed. This validates the bounded receive-only measurement path but does not establish a defined target, target tracking, a safe return, or motion authorization.
 
 Physical failure handling is consequently conservative: do not start competing daemons, do not equate process exit with torque removal, and do not command an automatic return after an unresolved target failure. These are project boundaries, not manufacturer-certified instructions. Further hardware activity requires authorization and technical review performed outside this public evidence package, plus an exact recovery sequence and a newly frozen protocol.
 
@@ -170,7 +172,9 @@ Table 3 states the principal validity threats without converting mitigations int
 
 ## 8. Frozen next study
 
-The next study is a 54-trial confirmation across three newly bound physical rooms, three visible-person headings, two matching conditions, and four hard negatives. Two consented voice recordings are allocated equally, including two trials per voice in every room–heading block. The earlier centred-person ambiguity is resolved by counterbalancing opposite playback at −20° and +20°. Exact room identities, voice files, microphone, camera, browser, marks, and playback settings must be privately bound and hashed before the first preview or capture; they may not be chosen after outcomes are visible.
+The next-study design is a 54-trial confirmation across three newly bound physical rooms, three visible-person headings, two matching conditions, and four hard negatives. Two consented voice recordings are allocated equally, including two trials per voice in every room–heading block. The earlier centred-person ambiguity is resolved by counterbalancing opposite playback at −20° and +20°. Exact room identities, voice files, microphone, camera, browser, marks, and playback settings must be privately bound and hashed before the first preview or capture; they may not be chosen after outcomes are visible.
+
+Collection is paused before Trial 1 because the current five-column laptop recorder contains no acoustic direction or Stage 3V policy inputs. It therefore cannot identify the frozen spatial comparator, independent heading errors, wrong-sign outcomes, or streaming first-proposal latency. The design may resume only after an acoustic-direction instrument is validated and the execution contract is refrozen, or as an explicitly narrower synchrony-only exploratory study. Partial private Room A preparation is not a confirmation result.
 
 The V2 thresholds and quality gates are unchanged. Exclusions are outcome-blind, every attempt is retained, and a failed attempt may only repeat the same scheduled card after correcting the recorded objective issue. The primary endpoints are matching-positive coverage, hard-negative false-proposal rate, and paired hard-negative difference from the frozen spatial comparator. Analysis uses trial-level Wilson intervals and an exact two-sided McNemar test. The pass rule requires 0/36 hard-negative proposals, at least 15/18 matching-positive proposals, zero wrong-sign proposals, maximum target error no greater than 8°, and improvement over the spatial comparator. This is a passive study; it authorizes zero motion, torque, calibration, or motor-mode commands.
 

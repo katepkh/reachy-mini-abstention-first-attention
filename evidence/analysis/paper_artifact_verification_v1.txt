@@ -1,10 +1,11 @@
 reachy-paper-artifact-verification-v1
-python=3.12.13
+python=3.12.14
 network_connections=0
 robot_connections=0
 camera_or_microphone_capture=0
 PASS locked dependency environment (30 packages)
 PASS hardware/software reproducibility environment manifest
+PASS canonical project alignment
 PASS public frozen evidence
 PASS generated public result summary
 PASS Stage 3V trial-level robustness
@@ -18,5 +19,5 @@ PASS AV-synchrony confirmation design
 PASS generated manuscript tables and figures
 PASS temporary-daemon offline fault rehearsal
 PASS Stage 4A successor review packet
-PASS curated software tests (265 tests)
+PASS curated software tests (298 tests)
 all_checks_passed=true

@@ -1,5 +1,6 @@
 import csv
 import io
+import json
 import tempfile
 import unittest
 from contextlib import redirect_stderr
@@ -57,6 +58,59 @@ class ConfirmationWorkspaceTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "incomplete"):
                 workspace.seal()
         self.assertFalse(workspace.SEALED_MANIFEST.exists())
+
+    def test_seal_marks_complete_records_and_binds_execution(self) -> None:
+        workspace.initialize("Test Browser 1")
+        device = json.loads((workspace.RECORDS / "device.json").read_text(encoding="utf-8"))
+        device.update(
+            {
+                "camera_make_model": "Test Camera",
+                "microphone_make_model": "Test Microphone",
+                "audio_input_selected": "Test Microphone",
+                "media_device_settings": "fixed test settings",
+                "headset_rule_acknowledged": True,
+            }
+        )
+        (workspace.RECORDS / "device.json").write_text(
+            json.dumps(device), encoding="utf-8"
+        )
+        for room_id in ("room_a", "room_b", "room_c"):
+            path = workspace.RECORDS / f"{room_id}.json"
+            room = json.loads(path.read_text(encoding="utf-8"))
+            room.update(
+                {
+                    "confirmation_not_v2_pilot_room": True,
+                    "approximate_dimensions_m": {"length": 1, "width": 1, "height": 1},
+                    "dominant_surface_and_furnishing_description": "test room",
+                    "background_audio_dbfs_10s": -50,
+                    "camera_mark": "fixed",
+                    "microphone_mark": "fixed",
+                    "visible_person_marks": {"-20": "left", "0": "centre", "20": "right"},
+                    "playback_marks": {"-20": "left", "0": "centre", "20": "right"},
+                }
+            )
+            path.write_text(json.dumps(room), encoding="utf-8")
+        for voice_id in ("voice_a", "voice_b"):
+            path = workspace.RECORDS / f"{voice_id}.json"
+            voice = json.loads(path.read_text(encoding="utf-8"))
+            voice.update(
+                {
+                    "consent_basis": "test consent",
+                    "recording_sha256": "0" * 64,
+                    "clip_duration_s": 10,
+                    "spoken_language": "English",
+                    "playback_device_make_model": "Test speaker",
+                    "fixed_volume_setting": "50%",
+                }
+            )
+            path.write_text(json.dumps(voice), encoding="utf-8")
+        workspace.seal()
+        sealed = json.loads(workspace.SEALED_MANIFEST.read_text(encoding="utf-8"))
+        self.assertIn("execution_fingerprint", sealed)
+        completed = json.loads(
+            (workspace.RECORDS / "device.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(completed["status"], "COMPLETE_BEFORE_FIRST_PREVIEW_OR_CAPTURE")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
 # Publishing checklist
 
-The repository is intentionally prepared locally before any public write. Review each item once; do not upload the original laboratory folder.
+The repository is intentionally prepared locally before any public write. Publication is not the current critical-path objective. Review each item once; do not upload the original laboratory folder, and do not publish merely because a local commit passes software checks.
+
+Before this checklist, read the five canonical records linked from the README. Publication remains blocked while `M14` is `BLOCKED` in `docs/MILESTONE_MATRIX.md`.
 
 ## 1. Confirm public identity
 
@@ -18,6 +20,7 @@ Use the frozen Python 3.12 environment from [`docs/REPRODUCIBILITY.md`](docs/REP
 
 ```bash
 python scripts/verify_results.py
+python scripts/check_project_alignment.py
 python scripts/regenerate_public_results.py --check
 python scripts/run_stage3v_robustness.py --check
 python scripts/freeze_av_synchrony_protocol.py --check
@@ -35,12 +38,12 @@ python scripts/verify_paper_artifacts.py --check
 git diff --cached --name-only
 ```
 
-Expected results: 171 evidence files verified, the generated public result summary and exploratory robustness artifacts current, the frozen candidate-bound confirmation design current, nine synthetic fault cases, V1/V2 pilot manifests, and both end-to-end pilot dry runs current, four fresh mock-process failure rehearsals matching the frozen report, all manuscript artifacts current, the successor review manifest matching, 265 tests passing, and no media/audit/private-environment files in the staged list.
+Expected results: the canonical alignment check passes; evidence and generated artifacts remain internally consistent; the full curated test suite passes; and no media, correspondence, approval record, audit secret, private environment, or generated paper PDF appears in the staged list. Test counts may grow and must not be treated as robot-trial counts.
 
 ## 3. Commit locally
 
 ```bash
-git commit -m "Release abstention-first Reachy Mini research preview"
+git commit -m "Update Reachy Mini research workspace"
 ```
 
 ## 4. Create an empty public GitHub repository
@@ -61,5 +64,5 @@ Confirm that the repository was created under `katepkh` before pushing.
 - Confirm GitHub Actions passes.
 - Add repository topics such as `reachy-mini`, `human-robot-interaction`, `direction-of-arrival`, `selective-prediction`, `runtime-assurance`, and `robotics-safety`.
 - Pin the repository only after the public README renders correctly.
-- Optionally create a `v0.1.0-research-preview` release after external review.
+- Do not create a research-completion or submission release until the charter's integrated, validated, publishable, and claim gates have been reviewed explicitly.
 - Never rewrite a frozen result to improve the story; add a new version and retain the old evidence.

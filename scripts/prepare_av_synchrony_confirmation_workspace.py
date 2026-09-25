@@ -20,6 +20,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "evidence" / "manifests" / "av_synchrony_confirmation_protocol_v1.json"
+EXECUTION = ROOT / "evidence" / "manifests" / "av_synchrony_confirmation_execution_v1.json"
 PRIVATE_ROOT = ROOT / "data" / "private" / "avsync_confirmation_v1"
 RECORDS = PRIVATE_ROOT / "bindings"
 CAPTURES = PRIVATE_ROOT / "captures"
@@ -151,8 +152,8 @@ def blank_device(browser: str | None) -> dict[str, Any]:
             "Speakers (Conexant ISST Audio) [started]",
             "Headphones (AirPods Pro) [disconnected at inventory]",
         ],
-        "recorder_path": "tools/avsync_pilot_recorder_v2.html",
-        "recorder_sha256": sha256_file(ROOT / "tools" / "avsync_pilot_recorder_v2.html"),
+        "recorder_path": "tools/avsync_confirmation_recorder.html",
+        "recorder_sha256": sha256_file(ROOT / "tools" / "avsync_confirmation_recorder.html"),
         "model_sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
         "runtime_tarball_sha256": "ee318eaa3d42230aa10910d114faf2a488c577c4e4d33c7cb04126924aca505f",
         "headset_rule_acknowledged": None,
@@ -201,6 +202,8 @@ def initialize(browser: str | None) -> None:
             "4. Keep `captures/` empty until sealing. Do not reuse any V1/V2 pilot capture.\n"
             "5. Run `python scripts/prepare_av_synchrony_confirmation_workspace.py --status`, "
             "then `--seal`.\n\n"
+            "6. Serve the repository on localhost and use only "
+            "`tools/avsync_confirmation_recorder.html`.\n\n"
             "Sealing freezes setup identity; it does not authorize robot activity.\n",
             encoding="utf-8",
         )
@@ -245,6 +248,12 @@ def ledger_issues(protocol: dict[str, Any]) -> list[str]:
 def status() -> tuple[list[str], list[str]]:
     protocol = load_json(PROTOCOL)
     structural = ledger_issues(protocol)
+    if not EXECUTION.is_file():
+        structural.append("confirmation execution manifest: file missing")
+    else:
+        execution = load_json(EXECUTION)
+        if execution.get("protocol_fingerprint") != protocol.get("fingerprint"):
+            structural.append("confirmation execution manifest: protocol mismatch")
     if not CAPTURES.is_dir():
         structural.append("captures/: directory missing")
     elif any(CAPTURES.iterdir()):
@@ -255,8 +264,17 @@ def status() -> tuple[list[str], list[str]]:
     for voice_id in ("voice_a", "voice_b"):
         missing.extend(missing_required(RECORDS / f"{voice_id}.json", VOICE_FIELDS))
     device_path = RECORDS / "device.json"
-    if device_path.is_file() and load_json(device_path).get("headset_rule_acknowledged") is not True:
-        missing.append("device.json: headset_rule_acknowledged")
+    if device_path.is_file():
+        device = load_json(device_path)
+        if device.get("headset_rule_acknowledged") is not True:
+            missing.append("device.json: headset_rule_acknowledged")
+        recorder_path = device.get("recorder_path")
+        if recorder_path != "tools/avsync_confirmation_recorder.html":
+            structural.append("device.json: recorder_path is not the confirmation recorder")
+        else:
+            expected = sha256_file(ROOT / recorder_path)
+            if device.get("recorder_sha256") != expected:
+                structural.append("device.json: recorder_sha256 is stale")
     return structural, missing
 
 
@@ -266,12 +284,20 @@ def seal() -> None:
         for issue in (*structural, *missing):
             print(f"INCOMPLETE: {issue}", file=sys.stderr)
         raise RuntimeError("private bindings are incomplete; no manifest was sealed")
+    for path in sorted(RECORDS.glob("*.json")):
+        record = load_json(path)
+        record["status"] = "COMPLETE_BEFORE_FIRST_PREVIEW_OR_CAPTURE"
+        path.write_text(
+            json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
     files = [LEDGER, *(sorted(RECORDS.glob("*.json")))]
     payload = {
         "schema": "reachy-avsync-confirmation-private-binding-manifest-v1",
         "status": "SEALED_BEFORE_FIRST_PREVIEW_OR_CAPTURE",
         "protocol_fingerprint": load_json(PROTOCOL)["fingerprint"],
         "protocol_sha256": sha256_file(PROTOCOL),
+        "execution_fingerprint": load_json(EXECUTION)["fingerprint"],
+        "execution_sha256": sha256_file(EXECUTION),
         "files": [
             {"path": path.relative_to(PRIVATE_ROOT).as_posix(), "sha256": sha256_file(path)}
             for path in files
