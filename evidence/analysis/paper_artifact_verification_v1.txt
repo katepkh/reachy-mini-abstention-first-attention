@@ -20,5 +20,5 @@ PASS M5 fused-shadow software contract
 PASS generated manuscript tables and figures
 PASS temporary-daemon offline fault rehearsal
 PASS Stage 4A successor review packet
-PASS curated software tests (308 tests)
+PASS curated software tests (329 tests)
 all_checks_passed=true

@@ -29,10 +29,12 @@ This is a **hypothesis**, not a result. It becomes a result only after end-to-en
 - official-style DoA-following behaviour;
 - acoustic-only selection;
 - visual-only face selection;
+- speech activity plus mouth activity without temporal synchrony;
 - synchrony-only selection;
 - fused non-abstaining selection; and
-- the proposed fused abstaining controller.
+- the proposed fused abstaining controller;
+- the strongest feasible learned audiovisual active-speaker baseline if making comparative performance, computation, or privacy claims, with differences in enrollment, training data, inputs, and deployment assumptions disclosed.
 
-Report trial-level coverage, unavailable acquisition, latency, hard-negative activation, wrong-target/motion outcomes, response errors, uncertainty, and the privacy/latency cost of each baseline. Match live and playback conditions on face visibility, distance, duration, and signal-quality eligibility so abstention is not rewarded merely for rejecting harder-to-acquire trials.
+Report trial-level coverage, unavailable acquisition, latency, hard-negative activation, wrong-target/motion outcomes, response errors, uncertainty, and the privacy/latency cost of each baseline. Match live and playback conditions on face visibility, distance, duration, and signal-quality eligibility so abstention is not rewarded merely for rejecting harder-to-acquire trials. Privacy, computation, and performance remain separate claims; local processing alone does not establish a privacy advantage.
 
 See [`PRIOR_ART.md`](PRIOR_ART.md) for the source-backed literature boundary. Refresh that review immediately before any paper submission or novelty statement.

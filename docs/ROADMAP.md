@@ -5,13 +5,14 @@ The authoritative objective and status are maintained in [`PROJECT_CHARTER.md`](
 ## Immediate: integrated real-world behaviour
 
 - [x] implement one deterministic shadow-only orchestrator that emits `SELECT`, `ABSTAIN`, or `HOLD` with reason codes from same-clock spatial, face-track, and synchrony inputs; synthetic contract only, with zero command authority;
-- [ ] build a command-free joint numeric instrument because the saved spatial and synchrony studies do not share the required inputs or trial clock;
-- [ ] run matched live-visible-speech and silent-visible-person plus phone-playback trials through that same interface;
+- [x] implement a command-free joint numeric instrument and commissioning analysis because the saved spatial and synchrony studies do not share the required inputs or trial clock; software only, with real commissioning still pending;
+- [ ] commission that instrument with disposable real observations and repair any failed timing, freshness, availability, or endpoint-identifiability check;
+- [ ] run matched live-visible-speech, silent-visible-person plus phone-playback, and silent-mouthing plus unrelated-playback trials through that same interface;
 - [ ] freeze and run a small no-motion live-versus-phone shadow test before adding robot authority;
 - [ ] define a new baseline-relative, one-leg physical orientation protocol with numeric abort limits and no automatic return after failure;
-- [ ] define and test bounded face-directed hold metrics in replay/simulation;
-- [ ] gate a minimal audible response so playback abstention permits neither motion nor response;
-- [ ] integrate those paths into one explicit state machine; and
+- [x] define and synthetically test bounded face-directed hold metrics with freshness, loss, bounded-correction, dwell, and oscillation controls; real replay and physical validation remain pending;
+- [x] gate a deterministic acknowledgement in a no-side-effect shadow state machine so playback abstention proposes neither motion nor response; actual audio output remains absent;
+- [x] integrate selection, reported orientation, attention hold, and response proposal into one explicit no-side-effect state machine; real evidence and adapters remain pending; and
 - [ ] freeze a held-out end-to-end protocol and required baselines only after every endpoint is measurable.
 
 ## Historical supporting work: evidence and manuscript infrastructure

@@ -31,6 +31,7 @@ following are additionally true:
 
 - positive and negative decisions are evaluated at the **trial** level, not inferred from correlated telemetry rows;
 - a frozen end-to-end protocol contains live speech, silent-visible-person plus phone playback, silence, speech with no usable face, sensor-loss, and conflicting-cue conditions;
+- the evaluation contains a visible-mouth-motion plus unrelated-playback condition and a speech-activity-plus-mouth-activity baseline without synchrony, so any incremental synchrony claim is identifiable;
 - acceptance thresholds, exclusions, abort rules, and baselines are fixed before outcome collection;
 - the physical robot completes the bounded positive behaviour within the frozen motion and recovery envelope;
 - playback hard negatives produce no socially directed motion and no conversational response under the frozen rule;
@@ -46,6 +47,7 @@ Exact quantitative acceptance thresholds for the final study must be frozen only
 |---|---|
 | Visible person speaks live | Select only if live-speaker evidence and health gates pass; orient once; maintain bounded face-directed attention; respond once. |
 | Visible person is silent; phone plays speech | `ABSTAIN` or `HOLD`; no socially directed movement; no response attributed to the person. |
+| Visible person mouths silently while unrelated phone speech plays | `ABSTAIN` or `HOLD`; this isolates whether temporal association adds value beyond detecting mouth and speech activity separately. |
 | Speech but no usable visible face | `ABSTAIN` or a separately defined non-social behaviour; never invent a face target. |
 | Visible silent face | `HOLD`; presence alone is not evidence of speaking. |
 | Conflicting acoustic and visual evidence | `ABSTAIN`; do not choose the most convenient cue. |

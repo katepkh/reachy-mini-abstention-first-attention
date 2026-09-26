@@ -8,7 +8,7 @@
 
 Build a real Reachy Mini interaction in which a live visible speaker causes one bounded orientation, face-directed attention, and an audible response, while a silent visible person beside phone playback causes no socially directed movement and no conversational response.
 
-**That behaviour does not yet exist end to end.** The repository now contains one deterministic fused-shadow decision interface, but it has only a synthetic software contract and no joint real spatial/synchrony input. It also contains valuable passive perception results, a promising but unconfirmed live-speech/playback instrument, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain an integrated candidate-to-command controller, validated attention hold, gated response path, or successful end-to-end robot study.
+**That behaviour does not yet exist end to end.** The repository now contains one deterministic fused-shadow decision interface, a command-free joint recorder and commissioning analysis, and pure attention-hold/interaction shadow contracts, but no joint real spatial/synchrony capture has passed commissioning. It also contains valuable passive perception results, a promising but unconfirmed live-speech/playback instrument, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain a command-capable integrated controller, physically validated attention hold, actual gated audio output, or successful end-to-end robot study.
 
 The governing records are the [`project charter`](docs/PROJECT_CHARTER.md), [`milestone matrix`](docs/MILESTONE_MATRIX.md), [`decision log`](docs/DECISION_LOG.md), [`novelty and claims ledger`](docs/NOVELTY_CLAIMS_LEDGER.md), and [`strategy gate`](docs/STRATEGY_GATE.md). Read them before interpreting an intermediate artifact as the project objective.
 
@@ -41,6 +41,7 @@ Passive validation passed only for the frozen single-site conditions below. It d
 | Check what may and may not be claimed as novel | [`docs/NOVELTY_CLAIMS_LEDGER.md`](docs/NOVELTY_CLAIMS_LEDGER.md) |
 | Gate the next substantial task | [`docs/STRATEGY_GATE.md`](docs/STRATEGY_GATE.md) |
 | Inspect the M5 fused shadow interface and its exact claim boundary | [`docs/FUSED_SHADOW_CONTROLLER.md`](docs/FUSED_SHADOW_CONTROLLER.md) |
+| Commission the M5 joint numeric recorder | [`docs/JOINT_SHADOW_INSTRUMENT.md`](docs/JOINT_SHADOW_INSTRUMENT.md) |
 | Read the working evidence manuscript | [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md) |
 | Review the whole project critically | [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md) |
 | Reuse a rigorous review prompt | [`docs/REVIEW_PROMPTS.md`](docs/REVIEW_PROMPTS.md) |
@@ -144,7 +145,7 @@ The working repository contains 142 package modules (24,848 lines), 58 test modu
 | [`reachy_doa/`](reachy_doa) | Read-only DoA client, angle handling, confidence windows, offline policies, manifests, replay, and source-validity analysis. | The network client exposes GET-only access to an allowlisted private IPv4 endpoint. |
 | [`reachy_stage2a/`](reachy_stage2a) | Local face detection, camera lifecycle, audio/visual fusion, trial protocol, recording, and policy tournament. | Face geometry is an availability signal, not identity or active-speaker proof. |
 | [`reachy_stage3a/`](reachy_stage3a) | Passive motion-shadow controller and evaluation. | It computes counterfactual targets and has no hardware authority. |
-| [`reachy_stage3v/`](reachy_stage3v) | Fresh horizontal off-axis passive validation plus the M5 fused shadow interface. | The fused interface has a synthetic contract and zero side-effect authority; no joint real spatial/synchrony trial exists yet. |
+| [`reachy_stage3v/`](reachy_stage3v) | Fresh horizontal off-axis passive validation, the M5 fused shadow interface, and a command-free joint recorder/commissioning analysis. | The fused interface and instrument have software checks and zero side-effect authority; no joint real spatial/synchrony capture has passed commissioning yet. |
 | [`reachy_stage3p/`](reachy_stage3p) | Passive vertical targeting history plus association-gated visual-cue logic and result freezes. | The cue gate reads no transcript and has no command capability; V1–V7 are an audit trail, not a minimal reusable package. |
 | [`reachy_stage4/`](reachy_stage4) | Frozen V4 history plus a receive-only trace client, exact offline trajectory review, exact-v1.9.0 health gate, offline-only lifecycle rehearsal, and split target/return design. | The only new executor accepts mock adapters and explicitly denies hardware authority; V4's automatic return remains frozen history. |
 | [`reachy_avsync/`](reachy_avsync) | Command-free numeric audio–mouth synchrony prototypes, frozen pilot designs, offline analysis, complete-attempt audit, and candidate freeze. | V1 remains rejected. V2 nominated one content-frozen single-setup pilot candidate; confirmation remains absent. |
@@ -162,7 +163,7 @@ The working repository contains 142 package modules (24,848 lines), 58 test modu
 | [`scripts/freeze_av_synchrony_protocol.py`](scripts/freeze_av_synchrony_protocol.py) and [`scripts/run_av_synchrony_faults.py`](scripts/run_av_synchrony_faults.py) | Check the frozen future study design and deterministic synthetic fault artifact. | Neither script captures media, contacts Reachy, or validates real audiovisual association. |
 | [`tools/avsync_pilot_recorder.html`](tools/avsync_pilot_recorder.html) and [`scripts/analyze_av_synchrony_pilot.py`](scripts/analyze_av_synchrony_pilot.py) | Collect three local numeric columns in a browser and search the frozen 240-candidate development grid. | The fixed mouth box is confounded by head/lighting changes; selected pilot settings are not confirmation results. |
 | [`tools/avsync_pilot_recorder_v2.html`](tools/avsync_pilot_recorder_v2.html), [`scripts/analyze_av_synchrony_pilot_v2.py`](scripts/analyze_av_synchrony_pilot_v2.py), and [`scripts/freeze_av_synchrony_pilot_v2_candidate.py`](scripts/freeze_av_synchrony_pilot_v2_candidate.py) | Record only local numeric audio level and tracked face features, search 45 settings on development, evaluate internal validation, and bind a passing candidate to exact code/assets/input hashes. | The V2 pilot passed and is frozen locally, but does not validate speaker ownership or the 54-trial confirmation study. |
-| [`tests/`](tests) | Self-contained component and protocol tests. | 308 software tests are not 308 robot trials and do not validate hardware. |
+| [`tests/`](tests) | Self-contained component and protocol tests. | 329 software tests are not 329 robot trials and do not validate hardware. |
 | [`evidence/`](evidence) | Derived CSV/JSON evidence, analyses, compliance records, and freeze manifests. | No raw audio, camera pixels, transcripts, or identity labels are included. |
 
 ### Current reference path versus preserved history
@@ -173,6 +174,8 @@ The version suffixes document how the protocol changed; they do not mean that ev
 |---|---|---|
 | Current passive evidence | [`reachy_stage3v/revised_policy_v3.py`](reachy_stage3v/revised_policy_v3.py), [`reachy_stage3v/confirmation_analysis_v3.py`](reachy_stage3v/confirmation_analysis_v3.py), and the Stage 3V manifests under [`evidence/manifests/`](evidence/manifests) | Frozen horizontal off-axis policy and its fresh held-out evaluation. |
 | Current fused shadow interface | [`reachy_stage3v/fused_shadow.py`](reachy_stage3v/fused_shadow.py), [`scripts/run_fused_shadow_contract.py`](scripts/run_fused_shadow_contract.py), and [`docs/FUSED_SHADOW_CONTROLLER.md`](docs/FUSED_SHADOW_CONTROLLER.md) | Deterministic `SELECT`/`HOLD`/`ABSTAIN` software boundary; synthetic only, visible-speaker-only, and no motion/response authority. |
+| Joint-input commissioning | [`tools/joint_shadow_recorder.html`](tools/joint_shadow_recorder.html), [`scripts/run_joint_shadow_instrument.py`](scripts/run_joint_shadow_instrument.py), [`reachy_stage3v/joint_analysis.py`](reachy_stage3v/joint_analysis.py), and [`docs/JOINT_SHADOW_INSTRUMENT.md`](docs/JOINT_SHADOW_INSTRUMENT.md) | Joins GET-only DoA with local face/lip/audio features and explicit timing diagnostics; numeric-only, command-free, and not yet commissioned with real input. |
+| Attention/interaction shadow | [`reachy_stage3v/attention_hold.py`](reachy_stage3v/attention_hold.py) and [`reachy_stage3v/interaction_shadow.py`](reachy_stage3v/interaction_shadow.py) | Pure replay/simulation contracts for bounded hold and ordered response permission; synthetic only, with zero motion or audio commands. |
 | Current cue-boundary evidence | [`reachy_stage3p/association_gated_cue.py`](reachy_stage3p/association_gated_cue.py), [`reachy_stage3p/cue_confirmation.py`](reachy_stage3p/cue_confirmation.py), [`reachy_stage3p/cue_confirmation_protocol.py`](reachy_stage3p/cue_confirmation_protocol.py), and the Stage 3P manifests | Passive visual-instruction experiment; no transcript or robot command path. |
 | Frozen command-capable candidate | [`reachy_stage4/protocol.py`](reachy_stage4/protocol.py), [`reachy_stage4/runtime.py`](reachy_stage4/runtime.py), [`reachy_stage4/pilot.py`](reachy_stage4/pilot.py), and [`reachy_stage4/safety.py`](reachy_stage4/safety.py) | Prepared but unvalidated V4 path; blocked pending independent gate/target/maintenance review. The custom centring proposal was rejected for hardware execution. |
 | Design-only future successor | [`successor_review.py`](reachy_stage4/successor_review.py), [`successor_trace.py`](reachy_stage4/successor_trace.py), [`trajectory_review.py`](reachy_stage4/trajectory_review.py), [`split_authorization.py`](reachy_stage4/split_authorization.py), and [`docs/BASELINE_RELATIVE_SUCCESSOR.md`](docs/BASELINE_RELATIVE_SUCCESSOR.md) | Separately versioned post-V4 proposal. Offline trajectory reconstruction is complete; live target tracing and the external authorization gates remain outside the evidence package. It authorizes zero commands. |
@@ -232,7 +235,7 @@ To run V2 locally, install and verify its pinned browser assets once with `pytho
 
 CI runs the integrity, stale-artifact, protocol, and synthetic-fault checks before the software tests.
 
-Install the curated package and run 308 self-contained software tests:
+Install the curated package and run 329 self-contained software tests:
 
 ```bash
 python -m venv .venv

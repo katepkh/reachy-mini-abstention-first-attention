@@ -13,7 +13,7 @@ This note prevents observation rows, accepted trials, attempts, and software tes
 | AV synchrony V2 pilot | 12 analysed | 23 | Ten-second laptop-only trial; 6 matching positives and 6 hard negatives. | Candidate nominated and separately frozen. Eleven failures are retained: six eight-second commissioning attempts failed sample count and five ten-second attempts failed lip-motion dynamic range. |
 | 4A V3 physical pilot | 0 accepted | 1 commanded trial | Physical trial. | Mechanical gate failed and remains failed. |
 
-The 42 accepted robot-side passive trials are not independent replications of a population: they share one robot, site, room context, and primary operator. The accepted V1 and V2 laptop-only pilot trials likewise use one operator and one setup. The 308 passing tests are software tests, not empirical trials.
+The 42 accepted robot-side passive trials are not independent replications of a population: they share one robot, site, room context, and primary operator. The accepted V1 and V2 laptop-only pilot trials likewise use one operator and one setup. The 329 passing tests are software tests, not empirical trials.
 
 ## AV synchrony development-pilot flow
 

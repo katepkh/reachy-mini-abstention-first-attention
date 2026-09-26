@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Command-free joint shadow instrument</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 1120px; margin: 1.5rem auto; padding: 0 1rem; line-height: 1.4; }
+    .grid { display: grid; grid-template-columns: minmax(430px, 1.2fr) minmax(360px, .8fr); gap: 1.2rem; }
+    .camera { position: relative; aspect-ratio: 4 / 3; background: #111; overflow: hidden; border-radius: 12px; }
+    video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; transform: scaleX(-1); pointer-events: none; }
+    .panel { border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+    .warning { border-left: 5px solid #d97706; padding: .7rem 1rem; background: #d9770618; }
+    .good { color: #15803d; font-weight: 700; }
+    .bad { color: #b91c1c; font-weight: 700; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; margin: .8rem 0; }
+    label { display: block; margin: .7rem 0 .2rem; font-weight: 650; }
+    select, input, button { font: inherit; }
+    select, input { width: 100%; box-sizing: border-box; padding: .55rem; }
+    button { margin: .45rem .35rem .2rem 0; padding: .65rem .9rem; font-weight: 650; }
+    button:disabled { opacity: .45; }
+    progress { width: 100%; }
+    code { overflow-wrap: anywhere; }
+    @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Command-free joint shadow instrument</h1>
+  <p class="warning"><strong>Commissioning only—no robot commands.</strong> This page combines the GET-only Reachy DoA endpoint with transient laptop camera and microphone features. It downloads numeric data locally, uploads nothing, and cannot authorize motion or a response.</p>
+
+  <div class="grid">
+    <section>
+      <div class="camera">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="overlay" width="640" height="480"></canvas>
+      </div>
+      <div class="metrics">
+        <span>Face: <strong id="faceMetric">not running</strong></span>
+        <span>Lip aperture: <strong id="lipMetric">—</strong></span>
+        <span>Audio: <strong id="audioMetric">—</strong></span>
+        <span>DoA: <strong id="doaMetric">—</strong></span>
+        <span>DoA age: <strong id="doaAgeMetric">—</strong></span>
+        <span>Inference: <strong id="inferenceMetric">—</strong></span>
+      </div>
+      <p>Use one fixed, marked placement. Align the laptop camera axis with Reachy's declared forward axis. This first instrument records the estimated face heading and timing uncertainty; it does not establish geometric calibration.</p>
+    </section>
+
+    <section class="panel">
+      <p>Contract: <code id="fingerprint">loading…</code></p>
+      <label for="condition">Commissioning condition</label>
+      <select id="condition"></select>
+      <p id="instruction"></p>
+      <label for="fov">Laptop camera horizontal field of view (degrees; commissioning estimate)</label>
+      <input id="fov" type="number" min="20" max="140" step="0.1" value="60">
+      <label for="duration">Capture duration (seconds)</label>
+      <input id="duration" type="number" min="5" max="30" step="1" value="10">
+      <button id="initializeButton" disabled>Initialize pinned local model</button>
+      <button id="previewButton" disabled>Enable camera and microphone</button>
+      <button id="recordButton" disabled>Capture numeric trial</button>
+      <button id="stopButton" disabled>Stop sensors</button>
+      <progress id="progress" max="10" value="0"></progress>
+      <p id="status">Loading the command-free contract…</p>
+      <div id="quality"></div>
+    </section>
+  </div>
+
+  <h2>Saved fields</h2>
+  <p>Numeric audio level, face/lip geometry, estimated face heading, numeric DoA state, request-midpoint timing, age, latency, scheduler delay, dropped-frame counters and availability. No pixels, waveform, transcript, face embedding, identity, movement command or response command is saved.</p>
+
+  <script type="module">
+    "use strict";
+
+    const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
+    const wasmRoot = "../models/avsync_v2/runtime/wasm";
+    const modelUrl = "../models/avsync_v2/face_landmarker.task";
+    const video = document.getElementById("video");
+    const overlay = document.getElementById("overlay");
+    const ctx = overlay.getContext("2d");
+    const condition = document.getElementById("condition");
+    const instruction = document.getElementById("instruction");
+    const fovInput = document.getElementById("fov");
+    const durationInput = document.getElementById("duration");
+    const initializeButton = document.getElementById("initializeButton");
+    const previewButton = document.getElementById("previewButton");
+    const recordButton = document.getElementById("recordButton");
+    const stopButton = document.getElementById("stopButton");
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+    const quality = document.getElementById("quality");
+    const fingerprint = document.getElementById("fingerprint");
+    const faceMetric = document.getElementById("faceMetric");
+    const lipMetric = document.getElementById("lipMetric");
+    const audioMetric = document.getElementById("audioMetric");
+    const doaMetric = document.getElementById("doaMetric");
+    const doaAgeMetric = document.getElementById("doaAgeMetric");
+    const inferenceMetric = document.getElementById("inferenceMetric");
+
+    let contract = null;
+    let faceLandmarker = null;
+    let stream = null;
+    let audioContext = null;
+    let analyser = null;
+    let audioBuffer = null;
+    let previewTimer = null;
+    let doaTimer = null;
+    let doaInFlight = false;
+    let doaPollFailures = 0;
+    let doaPollSkips = 0;
+    let lastDoa = null;
+    let lastVideoFramePerfMs = null;
+    let videoPresentedFrames = 0;
+    let recording = false;
+
+    function finite(value) { return Number.isFinite(value) ? value : null; }
+    function distance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+    function mean(values) { return values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0; }
+    function percentile(values, fraction) {
+      if (!values.length) return 0;
+      const ordered = [...values].sort((a, b) => a - b);
+      const position = (ordered.length - 1) * fraction;
+      const lo = Math.floor(position), hi = Math.ceil(position), part = position - lo;
+      return ordered[lo] * (1 - part) + ordered[hi] * part;
+    }
+    function csvValue(value) {
+      if (value === null || value === undefined) return "";
+      const text = String(value);
+      return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+    }
+    function download(name, text, type) {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([text], { type }));
+      link.download = name;
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+    async function fetchJson(url) {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+      return response.json();
+    }
+    function selectedCondition() {
+      return contract.conditions.find(item => item.id === condition.value);
+    }
+    function showInstruction() { instruction.textContent = selectedCondition()?.instruction || ""; }
+    condition.addEventListener("change", showInstruction);
+
+    function noteVideoFrame(_now, metadata) {
+      lastVideoFramePerfMs = performance.now();
+      videoPresentedFrames = Number(metadata.presentedFrames || videoPresentedFrames + 1);
+      if (stream && "requestVideoFrameCallback" in video) video.requestVideoFrameCallback(noteVideoFrame);
+    }
+
+    function cameraHeading(centerX) {
+      const fov = Number(fovInput.value);
+      if (!Number.isFinite(centerX) || !Number.isFinite(fov)) return null;
+      const tangent = (centerX - 0.5) * 2 * Math.tan((fov * Math.PI / 180) / 2);
+      return Math.atan(tangent) * 180 / Math.PI;
+    }
+
+    function measureAudio() {
+      analyser.getFloatTimeDomainData(audioBuffer);
+      let sum = 0;
+      for (const value of audioBuffer) sum += value * value;
+      const rms = Math.sqrt(sum / audioBuffer.length);
+      return 20 * Math.log10(Math.max(rms, 1e-6));
+    }
+
+    function measureFace(timestamp) {
+      const started = performance.now();
+      const result = faceLandmarker.detectForVideo(video, timestamp);
+      const inferenceMs = performance.now() - started;
+      const faces = result.faceLandmarks || [];
+      ctx.clearRect(0, 0, overlay.width, overlay.height);
+      if (faces.length !== 1) {
+        return { count: Math.min(faces.length, 2), centerX: null, centerY: null, heading: null, scale: 0, lip: 0, inferenceMs };
+      }
+      const points = faces[0];
+      const xs = points.map(point => point.x), ys = points.map(point => point.y);
+      const centerX = (Math.min(...xs) + Math.max(...xs)) / 2;
+      const centerY = (Math.min(...ys) + Math.max(...ys)) / 2;
+      const scale = distance(points[33], points[263]);
+      const lip = scale > 0 ? distance(points[13], points[14]) / scale : 0;
+      ctx.fillStyle = "#22c55e";
+      for (const index of [13, 14, 33, 263]) {
+        ctx.beginPath();
+        ctx.arc(points[index].x * overlay.width, points[index].y * overlay.height, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return { count: 1, centerX, centerY, heading: cameraHeading(centerX), scale, lip, inferenceMs };
+    }
+
+    async function pollDoa() {
+      if (!stream) return;
+      if (doaInFlight) {
+        doaPollSkips += 1;
+      } else {
+        doaInFlight = true;
+        const started = performance.now();
+        try {
+          const payload = await fetchJson("/api/joint-shadow/doa");
+          const received = performance.now();
+          const roundtrip = received - started;
+          lastDoa = { ...payload, observedMs: (started + received) / 2, receivedMs: received, roundtripMs: roundtrip, uncertaintyMs: roundtrip / 2 };
+          if (!payload.valid) doaPollFailures += 1;
+        } catch (error) {
+          const received = performance.now();
+          doaPollFailures += 1;
+          lastDoa = { valid: false, error_code: String(error), observedMs: (started + received) / 2, receivedMs: received, roundtripMs: received - started, uncertaintyMs: (received - started) / 2 };
+        } finally {
+          doaInFlight = false;
+        }
+      }
+      if (stream) doaTimer = window.setTimeout(pollDoa, contract.doa_poll_period_ms);
+    }
+
+    function snapshot(now, previousLip, previousSampleMs, expectedMs) {
+      const audio = measureAudio();
+      const face = measureFace(now);
+      const lipMotion = face.count === 1 && previousLip !== null ? Math.abs(face.lip - previousLip) : 0;
+      const doa = lastDoa;
+      const playbackQuality = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality() : null;
+      const row = {
+        timestamp_ms: now,
+        wall_time_iso: new Date().toISOString(),
+        scheduler_lateness_ms: Math.max(0, now - expectedMs),
+        sample_gap_ms: previousSampleMs === null ? 0 : now - previousSampleMs,
+        audio_context_time_ms: audioContext.currentTime * 1000,
+        audio_dbfs: audio,
+        face_count: face.count,
+        face_center_x_norm: face.centerX,
+        face_center_y_norm: face.centerY,
+        face_heading_estimate_deg: face.heading,
+        face_scale: face.scale,
+        lip_aperture: face.lip,
+        lip_motion: lipMotion,
+        landmark_inference_ms: face.inferenceMs,
+        video_frame_age_ms: lastVideoFramePerfMs === null ? null : Math.max(0, now - lastVideoFramePerfMs),
+        video_presented_frames: videoPresentedFrames,
+        video_dropped_frames: playbackQuality ? playbackQuality.droppedVideoFrames : 0,
+        doa_valid: Boolean(doa?.valid),
+        doa_raw_angle_rad: finite(doa?.raw_angle_rad),
+        doa_axis_deg: finite(doa?.axis_deg),
+        doa_speech_detected: doa?.speech_detected ?? null,
+        doa_observed_ms: finite(doa?.observedMs),
+        doa_received_ms: finite(doa?.receivedMs),
+        doa_age_ms: doa ? Math.max(0, now - doa.observedMs) : null,
+        doa_roundtrip_ms: finite(doa?.roundtripMs),
+        doa_clock_uncertainty_ms: finite(doa?.uncertaintyMs),
+        doa_robot_http_latency_ms: finite(doa?.robot_http_latency_ms),
+        doa_http_status: doa?.http_status ?? null,
+        doa_error_code: doa?.error_code || "",
+        doa_poll_failures: doaPollFailures,
+        doa_poll_skips: doaPollSkips,
+      };
+      faceMetric.textContent = face.count === 1 ? "one face" : `${face.count} faces`;
+      lipMetric.textContent = face.count === 1 ? face.lip.toFixed(4) : "—";
+      audioMetric.textContent = `${audio.toFixed(1)} dBFS`;
+      doaMetric.textContent = doa?.valid ? `${Number(doa.axis_deg).toFixed(1)}°, speech=${doa.speech_detected}` : "unavailable";
+      doaAgeMetric.textContent = row.doa_age_ms === null ? "—" : `${row.doa_age_ms.toFixed(0)} ms`;
+      inferenceMetric.textContent = `${face.inferenceMs.toFixed(1)} ms`;
+      return { row, lip: face.count === 1 ? face.lip : null };
+    }
+
+    function previewTick() {
+      if (!stream || recording) return;
+      const now = performance.now();
+      snapshot(now, null, null, now);
+      previewTimer = window.setTimeout(previewTick, Math.max(80, contract.sample_period_ms * 2));
+    }
+
+    initializeButton.addEventListener("click", async () => {
+      initializeButton.disabled = true;
+      status.textContent = "Loading the pinned local landmark model…";
+      try {
+        const { FilesetResolver, FaceLandmarker } = await import(runtimeModuleUrl);
+        const vision = await FilesetResolver.forVisionTasks(wasmRoot);
+        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: modelUrl, delegate: "GPU" },
+          runningMode: "VIDEO",
+          numFaces: contract.maximum_faces,
+        });
+        previewButton.disabled = false;
+        status.textContent = "Pinned model ready. Sensor access has not started.";
+      } catch (error) {
+        initializeButton.disabled = false;
+        status.textContent = `Model initialization failed: ${error.message}`;
+      }
+    });
+
+    previewButton.addEventListener("click", async () => {
+      previewButton.disabled = true;
+      quality.textContent = "";
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 320 }, height: { ideal: 240 }, facingMode: "user" },
+          audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+        });
+        video.srcObject = stream;
+        await video.play();
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaStreamSource(stream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+        audioBuffer = new Float32Array(analyser.fftSize);
+        lastDoa = null;
+        doaPollFailures = 0;
+        doaPollSkips = 0;
+        if ("requestVideoFrameCallback" in video) video.requestVideoFrameCallback(noteVideoFrame);
+        pollDoa();
+        previewTick();
+        recordButton.disabled = false;
+        stopButton.disabled = false;
+        status.textContent = "Preview active. Confirm one face, changing audio, and valid DoA before commissioning capture.";
+      } catch (error) {
+        previewButton.disabled = false;
+        status.textContent = `Sensor start failed: ${error.message}`;
+      }
+    });
+
+    async function stopSensors() {
+      if (previewTimer) window.clearTimeout(previewTimer);
+      if (doaTimer) window.clearTimeout(doaTimer);
+      previewTimer = null;
+      doaTimer = null;
+      if (stream) for (const track of stream.getTracks()) track.stop();
+      stream = null;
+      video.srcObject = null;
+      if (audioContext) await audioContext.close();
+      audioContext = null;
+      analyser = null;
+      audioBuffer = null;
+      lastDoa = null;
+      recordButton.disabled = true;
+      stopButton.disabled = true;
+      previewButton.disabled = faceLandmarker === null;
+      status.textContent = "Sensors stopped.";
+    }
+    stopButton.addEventListener("click", stopSensors);
+
+    function assess(rows) {
+      const duration = rows.length ? rows.at(-1).timestamp_ms - rows[0].timestamp_ms : 0;
+      const singleFace = rows.filter(row => row.face_count === 1).length / Math.max(rows.length, 1);
+      const doaValid = rows.filter(row => row.doa_valid).length / Math.max(rows.length, 1);
+      const gaps = rows.map(row => row.sample_gap_ms).slice(1);
+      const inference = rows.map(row => row.landmark_inference_ms);
+      const doaAges = rows.filter(row => row.doa_age_ms !== null).map(row => row.doa_age_ms);
+      const roundtrips = rows.filter(row => row.doa_roundtrip_ms !== null).map(row => row.doa_roundtrip_ms);
+      const checks = contract.commissioning_checks;
+      const failures = [];
+      if (rows.length < checks.minimum_samples) failures.push("INSUFFICIENT_SAMPLES");
+      if (duration < checks.minimum_span_ms) failures.push("SPAN_TOO_SHORT");
+      if (Math.max(0, ...gaps) > checks.maximum_sample_gap_ms) failures.push("SAMPLE_GAP_EXCESSIVE");
+      if (percentile(inference, .5) > checks.maximum_median_landmark_inference_ms) failures.push("LANDMARK_INFERENCE_TOO_SLOW");
+      if (doaValid < checks.minimum_doa_valid_fraction) failures.push("DOA_AVAILABILITY_TOO_LOW");
+      if (percentile(doaAges, .95) > checks.maximum_p95_doa_age_ms) failures.push("DOA_AGE_TOO_HIGH");
+      return { passed: failures.length === 0, failures, rows: rows.length, duration, singleFace, doaValid, maxGap: Math.max(0, ...gaps), medianInference: percentile(inference, .5), p95DoaAge: percentile(doaAges, .95), p95Roundtrip: percentile(roundtrips, .95) };
+    }
+
+    recordButton.addEventListener("click", async () => {
+      if (recording || !stream || !lastDoa) return;
+      recording = true;
+      recordButton.disabled = true;
+      if (previewTimer) window.clearTimeout(previewTimer);
+      const seconds = Math.min(contract.maximum_capture_seconds, Math.max(5, Number(durationInput.value)));
+      progress.max = seconds;
+      progress.value = 0;
+      const started = performance.now();
+      let nextDeadline = started;
+      let previousSample = null;
+      let previousLip = null;
+      const rows = [];
+      status.textContent = "Capturing derived numeric features only…";
+      await new Promise(resolve => {
+        const take = () => {
+          const now = performance.now();
+          const measured = snapshot(now, previousLip, previousSample, nextDeadline);
+          measured.row.timestamp_ms = now - started;
+          if (measured.row.doa_observed_ms !== null) measured.row.doa_observed_ms -= started;
+          if (measured.row.doa_received_ms !== null) measured.row.doa_received_ms -= started;
+          rows.push(measured.row);
+          previousLip = measured.lip;
+          previousSample = now;
+          progress.value = Math.min(seconds, (now - started) / 1000);
+          if (now - started >= seconds * 1000) return resolve();
+          nextDeadline += contract.sample_period_ms;
+          window.setTimeout(take, Math.max(0, nextDeadline - performance.now()));
+        };
+        take();
+      });
+      const result = assess(rows);
+      const columns = contract.required_columns;
+      const csv = [columns.join(","), ...rows.map(row => columns.map(name => csvValue(row[name])).join(","))].join("\n") + "\n";
+      const item = selectedCondition();
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const stem = `joint-shadow-${item.id}-${stamp}`;
+      const settings = stream.getTracks().map(track => ({ kind: track.kind, label: track.label, settings: track.getSettings() }));
+      const metadata = {
+        schema: "reachy-joint-shadow-commissioning-trial-v1",
+        protocol_fingerprint: contract.fingerprint,
+        condition_id: item.id,
+        role: item.role,
+        duration_s: seconds,
+        camera_horizontal_fov_deg_estimate: Number(fovInput.value),
+        result,
+        devices: settings,
+        contains_pixels: false,
+        contains_waveform: false,
+        contains_transcript: false,
+        contains_identity_embedding: false,
+        uploads: 0,
+        actuation_commands: 0,
+        response_commands: 0,
+        claim_boundary: contract.claim_boundary,
+      };
+      download(`${stem}.csv`, csv, "text/csv");
+      download(`${stem}.metadata.json`, JSON.stringify(metadata, null, 2) + "\n", "application/json");
+      quality.innerHTML = result.passed
+        ? `<p class="good">Commissioning timing checks passed.</p>`
+        : `<p class="bad">Commissioning checks failed: ${result.failures.join(", ")}</p>`;
+      quality.innerHTML += `<p>Rows ${result.rows}; span ${(result.duration / 1000).toFixed(2)} s; one-face ${(100 * result.singleFace).toFixed(1)}%; DoA valid ${(100 * result.doaValid).toFixed(1)}%; max sample gap ${result.maxGap.toFixed(1)} ms; median inference ${result.medianInference.toFixed(1)} ms; p95 DoA age ${result.p95DoaAge.toFixed(1)} ms; p95 bridge RTT ${result.p95Roundtrip.toFixed(1)} ms.</p>`;
+      status.textContent = "Numeric commissioning CSV and metadata downloaded. These are not final-study evidence.";
+      recording = false;
+      recordButton.disabled = false;
+      previewTick();
+    });
+
+    try {
+      contract = await fetchJson("/api/joint-shadow/config");
+      if (contract.schema !== "reachy-joint-shadow-instrument-v1") throw new Error("unexpected instrument schema");
+      fingerprint.textContent = contract.fingerprint;
+      fovInput.value = contract.camera_horizontal_fov_deg_default;
+      durationInput.value = contract.default_capture_seconds;
+      for (const item of contract.conditions) {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = `${item.id} — ${item.role}`;
+        condition.appendChild(option);
+      }
+      showInstruction();
+      initializeButton.disabled = false;
+      status.textContent = "Command-free contract verified. No sensor access has started.";
+    } catch (error) {
+      status.textContent = `Opening gate closed: ${error.message}`;
+    }
+  </script>
+</body>
+</html>

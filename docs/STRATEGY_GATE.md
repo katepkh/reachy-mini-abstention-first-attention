@@ -1,7 +1,7 @@
 # Strategy gate
 
 Canonical status: **ACTIVE**
-Last reviewed: **2026-09-25**
+Last reviewed: **2026-09-26**
 
 Complete this gate before beginning a substantial experiment, feature, document, release, or multi-hour analysis. A task that fails the gate is deferred unless the user explicitly changes the project objective.
 
@@ -23,8 +23,8 @@ Proceed only if the task advances a named primary criterion or removes a named c
 ## Current approved strategic sequence
 
 1. **Integrate in shadow mode:** build one deterministic decision orchestrator over existing sensing/proposal components, with motion and response outputs stubbed. **Software contract complete; joint real input absent.**
-2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, and lip synchrony on one clock without raw-media retention or robot commands; do not pair unrelated historical trials.
-3. **Attack the central hard negative:** run a small frozen no-motion live-versus-phone shadow study with matched acquisition conditions.
+2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, lip synchrony, capture age, buffering/processing delay, dropped samples, and availability on one browser clock without raw-media retention or robot commands; do not pair unrelated historical trials. **Software implemented; real commissioning capture pending.**
+3. **Attack the central hard negative:** after commissioning, freeze a small no-motion study containing live speech, silent-face phone playback, and visible silent mouthing with unrelated playback. Include speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable.
 4. **Repair the physical action path:** define one baseline-relative outward leg with numeric abort thresholds and no automatic return after failure; review before hardware use.
 5. **Add bounded attention hold:** implement face-error, dwell, loss, update-rate, and oscillation limits before response generation.
 6. **Gate a minimal response:** a response is permitted only after a live-speaker selection; abstention produces no conversational response.
@@ -38,7 +38,9 @@ Proceed only if the task advances a named primary criterion or removes a named c
 | Start the existing 54-trial confirmation collection | **DEFER** | It cannot identify all frozen primary endpoints and is not the shortest path to an integrated controller. |
 | Further polish or export the manuscript as a paper PDF | **DEFER** | Presentation would displace M5–M10 and risk implying completion. |
 | Build the shadow-only fused decision orchestrator | **COMPLETE AS SOFTWARE PROTOTYPE** | M5 now has a deterministic synthetic contract with no motion or response authority; real joint-input evidence remains absent. |
-| Build the same-clock, command-free joint numeric instrument | **PROCEED** | The M5 software contract exists; this is the shortest route to real M5 evidence and M6. Stop if any primary input or trial endpoint is not identifiable. |
+| Build the same-clock, command-free joint numeric instrument | **IMPLEMENTED; COMMISSIONING PENDING** | The local recorder, GET-only DoA bridge, timing fields, and commissioning analysis now exist. Run disposable real observations next; stop if any primary input or timing endpoint is not identifiable. |
+| Choose a final sample size | **DEFER** | Choose from a predefined precision or power target only after commissioning and a no-motion pilot estimate availability, latency, clustering, and effect size. |
+| Prepare the next motion test offline | **PROCEED IN PARALLEL** | Protocol, target construction, simulation, abort thresholds, and review may advance; no new physical command is permitted until M7's separate opening gate passes. |
 | Send a new physical motion command | **DEFER** | M7 remains failed/blocked until a new frozen one-leg protocol and abort thresholds pass review. |
 | Publish the current local commit | **DEFER** | Content is being amended; publication requires a fresh privacy, evidence, diff, and strategy review plus an explicit decision. |
 
