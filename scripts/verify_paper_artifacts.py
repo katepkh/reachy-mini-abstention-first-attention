@@ -37,6 +37,7 @@ CHECKS = (
     ("AV-synchrony V2 synthetic dry run", ("scripts/run_av_synchrony_pilot_v2_dry_run.py", "--check")),
     ("AV-synchrony confirmation design", ("scripts/freeze_av_synchrony_confirmation_protocol.py", "--check")),
     ("M5 fused-shadow software contract", ("scripts/run_fused_shadow_contract.py", "--check")),
+    ("joint-shadow pilot execution contract", ("scripts/freeze_joint_shadow_pilot_execution.py", "--check")),
     ("generated manuscript tables and figures", ("scripts/build_paper_artifacts.py", "--check")),
     ("temporary-daemon offline fault rehearsal", ("scripts/run_offline_fault_rehearsal.py", "--check")),
     ("Stage 4A successor review packet", ("scripts/build_successor_review_manifest.py", "--check")),

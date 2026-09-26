@@ -60,6 +60,7 @@
       <input id="duration" type="number" min="5" max="30" step="1" value="10">
       <button id="initializeButton" disabled>Initialize pinned local model</button>
       <button id="previewButton" disabled>Enable camera and microphone</button>
+      <button id="deviceBindingButton" disabled>Download private device binding</button>
       <button id="recordButton" disabled>Capture numeric trial</button>
       <button id="stopButton" disabled>Stop sensors</button>
       <progress id="progress" max="10" value="0"></progress>
@@ -87,6 +88,7 @@
     const durationInput = document.getElementById("duration");
     const initializeButton = document.getElementById("initializeButton");
     const previewButton = document.getElementById("previewButton");
+    const deviceBindingButton = document.getElementById("deviceBindingButton");
     const recordButton = document.getElementById("recordButton");
     const stopButton = document.getElementById("stopButton");
     const progress = document.getElementById("progress");
@@ -343,6 +345,7 @@
         pollDoa();
         previewTick();
         recordButton.disabled = false;
+        deviceBindingButton.disabled = false;
         stopButton.disabled = false;
         status.textContent = "Preview active. Confirm one face, changing audio, and valid DoA before commissioning capture.";
       } catch (error) {
@@ -365,11 +368,37 @@
       audioBuffer = null;
       lastDoa = null;
       recordButton.disabled = true;
+      deviceBindingButton.disabled = true;
       stopButton.disabled = true;
       previewButton.disabled = faceLandmarker === null;
       status.textContent = "Sensors stopped.";
     }
     stopButton.addEventListener("click", stopSensors);
+
+    deviceBindingButton.addEventListener("click", () => {
+      if (!stream) return;
+      const payload = {
+        schema: "reachy-joint-shadow-private-device-binding-v1",
+        camera_horizontal_fov_deg_estimate: Number(fovInput.value),
+        devices: stream.getTracks().map(track => ({
+          kind: track.kind,
+          label: track.label,
+          settings: track.getSettings(),
+        })),
+        contains_pixels: false,
+        contains_waveform: false,
+        contains_transcript: false,
+        uploads: 0,
+        motion_commands: 0,
+        response_commands: 0,
+      };
+      download(
+        "joint-shadow-private-device-binding.json",
+        JSON.stringify(payload, null, 2) + "\n",
+        "application/json",
+      );
+      status.textContent = "Private numeric device binding downloaded; no media was saved.";
+    });
 
     function assess(rows) {
       const duration = rows.length ? rows.at(-1).timestamp_ms - rows[0].timestamp_ms : 0;
@@ -394,8 +423,9 @@
       if (recording || !stream || !lastDoa) return;
       const trialId = trialIdInput.value.trim();
       const pilotTrial = boundPilotTrial();
-      if (trialId && pilot?.status !== "READY_FOR_COLLECTION") {
-        status.textContent = `Opening gate closed: pilot status is ${pilot?.status || "unavailable"}.`;
+      if (trialId && pilot?.collection_gate?.status !== "READY_FOR_COLLECTION") {
+        const reasons = pilot?.collection_gate?.reasons?.join(", ") || "gate unavailable";
+        status.textContent = `Opening gate closed: ${reasons}.`;
         return;
       }
       if (trialId && (!/^joint-shadow-pilot-[0-9]{2}$/.test(trialId) || !pilotTrial)) {
@@ -448,6 +478,8 @@
         protocol_fingerprint: contract.fingerprint,
         instrument_fingerprint: contract.fingerprint,
         pilot_protocol_fingerprint: pilotTrial ? pilot.fingerprint : null,
+        execution_fingerprint: pilotTrial ? pilot.collection_gate.execution_fingerprint : null,
+        binding_manifest_sha256: pilotTrial ? pilot.collection_gate.binding_manifest_sha256 : null,
         schedule_index: pilotTrial?.schedule_index ?? null,
         repetition: pilotTrial?.repetition ?? null,
         split: pilotTrial?.split ?? null,

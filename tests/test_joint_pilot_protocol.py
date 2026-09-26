@@ -41,7 +41,7 @@ class JointPilotProtocolTests(unittest.TestCase):
         self.assertFalse(constraints["raw_media_uploaded"])
         self.assertEqual(
             payload["opening_gate"]["analysis_code"],
-            "REQUIRED_NOT_YET_IMPLEMENTED",
+            "IMPLEMENTED_AND_CONTENT_ADDRESSED",
         )
         selection = " ".join(payload["development_selection_rule"])
         self.assertIn("zero proposals", selection)

@@ -9,7 +9,8 @@ The authoritative objective and status are maintained in [`PROJECT_CHARTER.md`](
 - [x] commission that instrument with a disposable real 200-row observation; all timing, freshness, availability, and endpoint-identifiability checks passed with zero commands, while the transferred synchrony setting correctly remained non-authoritative and abstained;
 - [ ] run matched live-visible-speech, silent-visible-person plus phone-playback, and silent-mouthing plus unrelated-playback trials through that same interface;
 - [x] freeze a 21-trial, three-block no-motion pilot with development/internal-validation separation, fixed hard negatives, declared baselines, and no threshold relaxation;
-- [ ] implement and test the exact offline joint-pilot analysis and complete private stimulus/setup bindings;
+- [x] implement, synthetically test, and content-address the exact offline joint-pilot analysis;
+- [ ] complete and seal the ignored private stimulus/setup bindings;
 - [ ] run that frozen no-motion pilot before adding robot authority;
 - [ ] define a new baseline-relative, one-leg physical orientation protocol with numeric abort limits and no automatic return after failure;
 - [x] define and synthetically test bounded face-directed hold metrics with freshness, loss, bounded-correction, dwell, and oscillation controls; real replay and physical validation remain pending;

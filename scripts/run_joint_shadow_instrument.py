@@ -25,6 +25,7 @@ from reachy_stage3v.joint_instrument import (  # noqa: E402
     joint_static_path_allowed,
 )
 from reachy_stage3v.joint_pilot_protocol import joint_pilot_protocol_payload  # noqa: E402
+from reachy_stage3v.joint_pilot_private import sealed_gate_status  # noqa: E402
 
 
 class JointInstrumentHandler(SimpleHTTPRequestHandler):
@@ -48,7 +49,12 @@ class JointInstrumentHandler(SimpleHTTPRequestHandler):
             self._json(JOINT_INSTRUMENT_SPEC_V1.payload())
             return
         if path == "/api/joint-shadow/pilot":
-            self._json(joint_pilot_protocol_payload())
+            self._json(
+                {
+                    **joint_pilot_protocol_payload(),
+                    "collection_gate": sealed_gate_status(),
+                }
+            )
             return
         if path == "/api/joint-shadow/doa":
             started = time.perf_counter()

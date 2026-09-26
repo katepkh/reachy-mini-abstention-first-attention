@@ -1,6 +1,6 @@
 # Frozen joint-shadow no-motion pilot
 
-Status: **STRUCTURE FROZEN — COLLECTION GATE CLOSED**
+Status: **STRUCTURE AND ANALYSIS FROZEN — PRIVATE BINDING GATE CLOSED**
 
 The joint instrument passed one real commissioning capture on 26 September
 2026. That capture established simultaneous observability of one face, laptop
@@ -30,7 +30,8 @@ Print the frozen order from the repository root:
 ```
 
 The full machine-readable protocol is available with `--json`. Its fingerprint
-must remain unchanged throughout collection.
+and the content-addressed execution manifest must remain unchanged throughout
+collection.
 
 ## Conditions
 
@@ -52,8 +53,37 @@ recording in playback conditions.
 Before trial 1, bind the playback file SHA-256, phone make/model and volume,
 colocated and conflict phone marks, room/setup identifier, laptop and Reachy
 marks, camera field-of-view estimate, and operator mark. The values can remain
-private, but they must be checked across all 21 captures. Collection does not
-open until the offline pilot-analysis code is also frozen and tested.
+private, but they must be checked across all 21 captures. The offline analyzer
+is frozen and tested; the recorder still refuses pilot capture until the
+ignored private binding manifest is sealed.
+
+Initialize and inspect the ignored workspace:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --initialize --room-source data\private\avsync_confirmation_v1\bindings\room_a.json
+.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --status
+```
+
+Bind the exact consented playback file without copying it into the repository:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --bind-stimulus "C:\path\to\recording" --phone-make-model "exact model" --volume-percent 40
+```
+
+Complete the remaining marks/device settings in the ignored `setup.json`, run
+`--status`, and use `--seal` only when no item is missing. The seal contains
+hashes and opaque setup identifiers, not identity, correspondence, approvals,
+raw audio, or images.
+
+For exact browser device settings, enable preview, click **Download private
+device binding**, stop the sensors, and import the downloaded JSON:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --import-device-binding "C:\path\to\joint-shadow-private-device-binding.json"
+```
+
+This export contains device labels/settings and the field-of-view estimate
+only; it contains no pixels, waveform, transcript, or identity.
 
 ## Capture rule
 
@@ -81,6 +111,14 @@ positives and abstain on all five negative/control trials. Failure requires a
 new protocol version; it cannot be repaired by retuning on repetition 3.
 
 The pilot compares the fused candidate with acoustic-only, visual-activity-only,
-spatial-only, and non-abstaining baselines. Final sample size, held-out rooms,
+speech-plus-mouth-activity, spatial-only, synchrony-only, and non-abstaining
+visible-face baselines. After all 21 bound files exist, run the content-addressed
+offline analyzer:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\analyze_joint_shadow_pilot.py --input data\private\joint_shadow_pilot_v1\captures --output data\private\joint_shadow_pilot_v1\pilot_result.json
+```
+
+Final sample size, held-out rooms,
 physical motion, attention hold, audio response, and end-to-end claims remain
 downstream.

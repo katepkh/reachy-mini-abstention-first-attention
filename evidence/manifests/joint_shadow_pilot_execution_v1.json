@@ -1,0 +1,115 @@
+{
+  "authority": {
+    "motion_commands": 0,
+    "response_commands": 0,
+    "robot_connections_during_analysis": 0
+  },
+  "files": [
+    {
+      "bytes": 11227,
+      "path": "reachy_stage3v/joint_pilot_protocol.py",
+      "sha256": "66163b2cc101e3e939b335290792b1a8505200d6c84a8d3b094387bbfd5af11b"
+    },
+    {
+      "bytes": 24167,
+      "path": "reachy_stage3v/joint_pilot_analysis.py",
+      "sha256": "634dee4297b67ae6d392d59eb0e040fcae4bb3e7ece94c46136d62333ad7888b"
+    },
+    {
+      "bytes": 7019,
+      "path": "reachy_stage3v/joint_pilot_synthetic.py",
+      "sha256": "006f2a91263428a1c16f91540018e5865c52eabdaefaf26b4803bd1c614b23c8"
+    },
+    {
+      "bytes": 3101,
+      "path": "reachy_stage3v/joint_pilot_execution.py",
+      "sha256": "7381dcf73b4e2876193e451c7f0b53ab446c5b0d86031c76cbab2b05d4c119ab"
+    },
+    {
+      "bytes": 14329,
+      "path": "reachy_stage3v/joint_pilot_private.py",
+      "sha256": "6b3268ecccc5642b35a171fc5799c9182c7d0ed0063b9f2f0de61d1bae384a48"
+    },
+    {
+      "bytes": 1495,
+      "path": "scripts/analyze_joint_shadow_pilot.py",
+      "sha256": "16b15e39d60ee9106a329f366bb83553878a749049758d002f244634e50c7f43"
+    },
+    {
+      "bytes": 1408,
+      "path": "scripts/freeze_joint_shadow_pilot_execution.py",
+      "sha256": "c18db8cc98e26ce173629371ba91079c0a6e8debc784d830985aec080f95b658"
+    },
+    {
+      "bytes": 3683,
+      "path": "scripts/prepare_joint_shadow_pilot_workspace.py",
+      "sha256": "1ddf1993c05ab3447bf51ce2023162753fe88c4aec4a38c2f4637076259b573e"
+    },
+    {
+      "bytes": 4168,
+      "path": "scripts/run_joint_shadow_instrument.py",
+      "sha256": "5c662c1e4b95603d2d62002258fe003ddb71c5886f810aa729cdf9a0df4cd6b4"
+    },
+    {
+      "bytes": 26872,
+      "path": "tools/joint_shadow_recorder.html",
+      "sha256": "69b3cc2e0dc05fb91e5e83da6fe3f8f918c43647187ae386829ee28b38e84d8f"
+    },
+    {
+      "bytes": 3758596,
+      "path": "models/avsync_v2/face_landmarker.task",
+      "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
+    }
+  ],
+  "fingerprint": "8446b4418153965771e1558ab87326c15c36a6129953e61388d9abad149ca3ca",
+  "instrument_fingerprint": "f9f1b5370642e4f7e2ada7d2bddc36e44c107647d20f0c1efbabc4bb19a93860",
+  "privacy": {
+    "private_bindings_committed": false,
+    "raw_media_saved": false,
+    "raw_media_uploaded": false
+  },
+  "protocol_fingerprint": "eb6b9568dedcda98103e7bc2f3b493692e5fe2eb49b9cc3a63b84f459449a370",
+  "runtime_bundle": {
+    "bundle_sha256": "40a143e49e9cc8b3135e6de1ab3f4952dd2ed42d205f763807d94f3d00cd61be",
+    "file_count": 7,
+    "files": [
+      {
+        "bytes": 155439,
+        "path": "models/avsync_v2/runtime/vision_bundle.mjs",
+        "sha256": "d885630c297c0b20b1fe86096cb06291c4c8080876f27852e724f24ac603713f"
+      },
+      {
+        "bytes": 323377,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_internal.js",
+        "sha256": "e170ee67dd4e16c1a6fcd8840a206687e5a59b22c20e4a902bc445b095454d73"
+      },
+      {
+        "bytes": 11756954,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_internal.wasm",
+        "sha256": "8da277a733926eacd0474b8704b36742d6ec3231c57a860c5b889dff8f1df886"
+      },
+      {
+        "bytes": 323415,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_module_internal.js",
+        "sha256": "da8934057f147b622e82cfb4c0dbd85461c598e268588b5a8ba9ca963a8ff82d"
+      },
+      {
+        "bytes": 11756972,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_module_internal.wasm",
+        "sha256": "2dabd8e23c60984628beb7bb338764c81a08e6837145273f59578684b5d53c1b"
+      },
+      {
+        "bytes": 323180,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_nosimd_internal.js",
+        "sha256": "e81d715a3d42cc3373602eb2f7aff795d164934db680e32496b65dab537f9658"
+      },
+      {
+        "bytes": 10960242,
+        "path": "models/avsync_v2/runtime/wasm/vision_wasm_nosimd_internal.wasm",
+        "sha256": "a28483cd42e74e855bf5ebdb6b40d9b66a5b49e35e95020bc97669e6822a3192"
+      }
+    ]
+  },
+  "schema": "reachy-joint-shadow-pilot-execution-v1",
+  "status": "ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED"
+}

@@ -93,7 +93,7 @@ def randomized_joint_pilot_trials() -> list[dict[str, Any]]:
 def joint_pilot_protocol_payload() -> dict[str, Any]:
     core: dict[str, Any] = {
         "schema": "reachy-joint-shadow-no-motion-pilot-v1",
-        "status": "STRUCTURE_FROZEN_COLLECTION_GATE_CLOSED",
+        "status": "STRUCTURE_AND_ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED",
         "purpose": (
             "Determine whether spatial agreement plus audio-mouth synchrony can retain "
             "visible live speech while rejecting phone playback and conflicting cues."
@@ -128,6 +128,7 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
             "minimum_span_ms": 7000.0,
             "maximum_sample_gap_ms": 160.0,
             "minimum_single_face_fraction_when_required": 0.95,
+            "multiple_face_rows_allowed": 0,
             "minimum_doa_valid_fraction": 0.80,
             "maximum_p95_doa_age_ms": 650.0,
             "minimum_median_face_scale_when_required": 0.16,
@@ -174,8 +175,13 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
         "baselines": {
             "acoustic_only": "proposal from DoA speech activity without face synchrony",
             "visual_activity_only": "proposal from lip activity without audio synchrony",
+            "speech_plus_mouth_activity": (
+                "proposal from simultaneous speech and mouth activity without temporal synchrony"
+            ),
             "spatial_only": "proposal from face-DoA agreement without synchrony",
-            "non_abstaining": "proposal whenever speech activity is present",
+            "synchrony_only": "proposal from audio-mouth synchrony without spatial agreement",
+            "non_abstaining_visible_face": "proposal whenever one usable face is visible",
+            "fused_abstaining": "proposal only when speech, spatial and synchrony gates pass",
         },
         "capture_constraints": {
             "fixed_laptop_and_reachy_marks": True,
@@ -188,11 +194,12 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
             "raw_media_uploaded": False,
         },
         "opening_gate": {
-            "analysis_code": "REQUIRED_NOT_YET_IMPLEMENTED",
+            "analysis_code": "IMPLEMENTED_AND_CONTENT_ADDRESSED",
             "playback_stimulus_sha256": "REQUIRED_NOT_YET_BOUND",
             "phone_make_model_volume_and_two_marks": "REQUIRED_NOT_YET_BOUND",
             "room_laptop_reachy_camera_and_operator_marks": "REQUIRED_NOT_YET_BOUND",
             "pilot_fingerprint_in_every_trial": "ENFORCED_BY_RECORDER",
+            "private_binding_manifest": "REQUIRED_NOT_YET_SEALED",
             "note": (
                 "These bindings are required before trial 1. Their values may remain "
                 "private, but they must be fixed and checked across all 21 captures."

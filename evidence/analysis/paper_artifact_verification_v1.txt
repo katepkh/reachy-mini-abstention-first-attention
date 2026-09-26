@@ -17,8 +17,9 @@ PASS AV-synchrony V2 pilot design
 PASS AV-synchrony V2 synthetic dry run
 PASS AV-synchrony confirmation design
 PASS M5 fused-shadow software contract
+PASS joint-shadow pilot execution contract
 PASS generated manuscript tables and figures
 PASS temporary-daemon offline fault rehearsal
 PASS Stage 4A successor review packet
-PASS curated software tests (333 tests)
+PASS curated software tests (344 tests)
 all_checks_passed=true
