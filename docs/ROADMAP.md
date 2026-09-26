@@ -5,10 +5,12 @@ The authoritative objective and status are maintained in [`PROJECT_CHARTER.md`](
 ## Immediate: integrated real-world behaviour
 
 - [x] implement one deterministic shadow-only orchestrator that emits `SELECT`, `ABSTAIN`, or `HOLD` with reason codes from same-clock spatial, face-track, and synchrony inputs; synthetic contract only, with zero command authority;
-- [x] implement a command-free joint numeric instrument and commissioning analysis because the saved spatial and synchrony studies do not share the required inputs or trial clock; software only, with real commissioning still pending;
-- [ ] commission that instrument with disposable real observations and repair any failed timing, freshness, availability, or endpoint-identifiability check;
+- [x] implement a command-free joint numeric instrument and commissioning analysis because the saved spatial and synchrony studies do not share the required inputs or trial clock;
+- [x] commission that instrument with a disposable real 200-row observation; all timing, freshness, availability, and endpoint-identifiability checks passed with zero commands, while the transferred synchrony setting correctly remained non-authoritative and abstained;
 - [ ] run matched live-visible-speech, silent-visible-person plus phone-playback, and silent-mouthing plus unrelated-playback trials through that same interface;
-- [ ] freeze and run a small no-motion live-versus-phone shadow test before adding robot authority;
+- [x] freeze a 21-trial, three-block no-motion pilot with development/internal-validation separation, fixed hard negatives, declared baselines, and no threshold relaxation;
+- [ ] implement and test the exact offline joint-pilot analysis and complete private stimulus/setup bindings;
+- [ ] run that frozen no-motion pilot before adding robot authority;
 - [ ] define a new baseline-relative, one-leg physical orientation protocol with numeric abort limits and no automatic return after failure;
 - [x] define and synthetically test bounded face-directed hold metrics with freshness, loss, bounded-correction, dwell, and oscillation controls; real replay and physical validation remain pending;
 - [x] gate a deterministic acknowledgement in a no-side-effect shadow state machine so playback abstention proposes neither motion nor response; actual audio output remains absent;

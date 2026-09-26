@@ -22,9 +22,9 @@ Proceed only if the task advances a named primary criterion or removes a named c
 
 ## Current approved strategic sequence
 
-1. **Integrate in shadow mode:** build one deterministic decision orchestrator over existing sensing/proposal components, with motion and response outputs stubbed. **Software contract complete; joint real input absent.**
-2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, lip synchrony, capture age, buffering/processing delay, dropped samples, and availability on one browser clock without raw-media retention or robot commands; do not pair unrelated historical trials. **Software implemented; real commissioning capture pending.**
-3. **Attack the central hard negative:** after commissioning, freeze a small no-motion study containing live speech, silent-face phone playback, and visible silent mouthing with unrelated playback. Include speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable.
+1. **Integrate in shadow mode:** build one deterministic decision orchestrator over existing sensing/proposal components, with motion and response outputs stubbed. **Software contract complete; joint decision unvalidated.**
+2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, lip synchrony, capture age, buffering/processing delay, dropped samples, and availability on one browser clock without raw-media retention or robot commands; do not pair unrelated historical trials. **Real observability commissioning passed.**
+3. **Attack the central hard negative:** run the frozen 21-trial no-motion pilot containing live speech, silent-face phone playback, visible silent mouthing with unrelated playback, missing-face and spatial-conflict controls. Compare speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable. **Protocol frozen; zero pilot trials collected.**
 4. **Repair the physical action path:** define one baseline-relative outward leg with numeric abort thresholds and no automatic return after failure; review before hardware use.
 5. **Add bounded attention hold:** implement face-error, dwell, loss, update-rate, and oscillation limits before response generation.
 6. **Gate a minimal response:** a response is permitted only after a live-speaker selection; abstention produces no conversational response.
@@ -37,8 +37,9 @@ Proceed only if the task advances a named primary criterion or removes a named c
 |---|---|---|
 | Start the existing 54-trial confirmation collection | **DEFER** | It cannot identify all frozen primary endpoints and is not the shortest path to an integrated controller. |
 | Further polish or export the manuscript as a paper PDF | **DEFER** | Presentation would displace M5–M10 and risk implying completion. |
-| Build the shadow-only fused decision orchestrator | **COMPLETE AS SOFTWARE PROTOTYPE** | M5 now has a deterministic synthetic contract with no motion or response authority; real joint-input evidence remains absent. |
-| Build the same-clock, command-free joint numeric instrument | **IMPLEMENTED; COMMISSIONING PENDING** | The local recorder, GET-only DoA bridge, timing fields, and commissioning analysis now exist. Run disposable real observations next; stop if any primary input or timing endpoint is not identifiable. |
+| Build the shadow-only fused decision orchestrator | **COMPLETE AS SOFTWARE PROTOTYPE** | M5 has a deterministic synthetic contract with no motion or response authority; one real capture commissioned its inputs but did not validate its decisions. |
+| Build the same-clock, command-free joint numeric instrument | **COMMISSIONED FOR PILOT USE** | One real 200-row capture passed the frozen timing and availability checks with 100% joint spatial rows and zero commands. The transferred synchrony threshold abstained, so commissioning cannot be relabelled as selection accuracy. |
+| Run the frozen joint no-motion pilot | **PREPARE; COLLECTION GATE CLOSED** | The 21-trial structure, three-block schedule, and fail-closed selection rule are frozen. Implement and test the exact offline analysis and complete the private stimulus/setup bindings before trial 1. Do not retune on repetition 3 or proceed to motion from a pilot-only result. |
 | Choose a final sample size | **DEFER** | Choose from a predefined precision or power target only after commissioning and a no-motion pilot estimate availability, latency, clustering, and effect size. |
 | Prepare the next motion test offline | **PROCEED IN PARALLEL** | Protocol, target construction, simulation, abort thresholds, and review may advance; no new physical command is permitted until M7's separate opening gate passes. |
 | Send a new physical motion command | **DEFER** | M7 remains failed/blocked until a new frozen one-leg protocol and abort thresholds pass review. |

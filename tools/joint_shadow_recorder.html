@@ -28,7 +28,7 @@
 </head>
 <body>
   <h1>Command-free joint shadow instrument</h1>
-  <p class="warning"><strong>Commissioning only—no robot commands.</strong> This page combines the GET-only Reachy DoA endpoint with transient laptop camera and microphone features. It downloads numeric data locally, uploads nothing, and cannot authorize motion or a response.</p>
+  <p class="warning"><strong>Commissioning and frozen no-motion pilot only—no robot commands.</strong> This page combines the GET-only Reachy DoA endpoint with transient laptop camera and microphone features. It downloads numeric data locally, uploads nothing, and cannot authorize motion or a response.</p>
 
   <div class="grid">
     <section>
@@ -49,9 +49,11 @@
 
     <section class="panel">
       <p>Contract: <code id="fingerprint">loading…</code></p>
-      <label for="condition">Commissioning condition</label>
+      <label for="condition">Capture condition</label>
       <select id="condition"></select>
       <p id="instruction"></p>
+      <label for="trialId">Frozen pilot trial ID (leave blank for commissioning)</label>
+      <input id="trialId" type="text" placeholder="joint-shadow-pilot-04" pattern="joint-shadow-pilot-[0-9]{2}" autocomplete="off">
       <label for="fov">Laptop camera horizontal field of view (degrees; commissioning estimate)</label>
       <input id="fov" type="number" min="20" max="140" step="0.1" value="60">
       <label for="duration">Capture duration (seconds)</label>
@@ -80,6 +82,7 @@
     const ctx = overlay.getContext("2d");
     const condition = document.getElementById("condition");
     const instruction = document.getElementById("instruction");
+    const trialIdInput = document.getElementById("trialId");
     const fovInput = document.getElementById("fov");
     const durationInput = document.getElementById("duration");
     const initializeButton = document.getElementById("initializeButton");
@@ -98,6 +101,7 @@
     const inferenceMetric = document.getElementById("inferenceMetric");
 
     let contract = null;
+    let pilot = null;
     let faceLandmarker = null;
     let stream = null;
     let audioContext = null;
@@ -143,8 +147,35 @@
     function selectedCondition() {
       return contract.conditions.find(item => item.id === condition.value);
     }
-    function showInstruction() { instruction.textContent = selectedCondition()?.instruction || ""; }
+    function showInstruction() {
+      instruction.textContent = boundPilotTrial()?.instruction || selectedCondition()?.instruction || "";
+    }
     condition.addEventListener("change", showInstruction);
+    function boundPilotTrial() {
+      const trialId = trialIdInput.value.trim();
+      if (!trialId) return null;
+      return pilot?.randomized_schedule.find(item => item.trial_id === trialId) || null;
+    }
+    function bindPilotTrial() {
+      const trialId = trialIdInput.value.trim();
+      if (!trialId) {
+        condition.disabled = false;
+        durationInput.disabled = false;
+        return;
+      }
+      const trial = boundPilotTrial();
+      condition.disabled = true;
+      durationInput.disabled = true;
+      durationInput.value = pilot?.canonical_trials?.[0]?.duration_s || 10;
+      if (!trial) {
+        status.textContent = "Opening gate closed: trial ID is not in the frozen pilot schedule.";
+        return;
+      }
+      condition.value = trial.condition_id;
+      showInstruction();
+      status.textContent = `Frozen binding verified: schedule ${String(trial.schedule_index).padStart(2, "0")}, ${trial.condition_id}.`;
+    }
+    trialIdInput.addEventListener("input", bindPilotTrial);
 
     function noteVideoFrame(_now, metadata) {
       lastVideoFramePerfMs = performance.now();
@@ -361,6 +392,20 @@
 
     recordButton.addEventListener("click", async () => {
       if (recording || !stream || !lastDoa) return;
+      const trialId = trialIdInput.value.trim();
+      const pilotTrial = boundPilotTrial();
+      if (trialId && pilot?.status !== "READY_FOR_COLLECTION") {
+        status.textContent = `Opening gate closed: pilot status is ${pilot?.status || "unavailable"}.`;
+        return;
+      }
+      if (trialId && (!/^joint-shadow-pilot-[0-9]{2}$/.test(trialId) || !pilotTrial)) {
+        status.textContent = "Opening gate closed: enter an exact trial ID from the frozen pilot schedule or leave it blank for commissioning.";
+        return;
+      }
+      if (pilotTrial && condition.value !== pilotTrial.condition_id) {
+        status.textContent = "Opening gate closed: pilot trial ID and condition do not match the frozen schedule.";
+        return;
+      }
       recording = true;
       recordButton.disabled = true;
       if (previewTimer) window.clearTimeout(previewTimer);
@@ -395,11 +440,17 @@
       const csv = [columns.join(","), ...rows.map(row => columns.map(name => csvValue(row[name])).join(","))].join("\n") + "\n";
       const item = selectedCondition();
       const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-      const stem = `joint-shadow-${item.id}-${stamp}`;
+      const stem = trialId || `joint-shadow-${item.id}-${stamp}`;
       const settings = stream.getTracks().map(track => ({ kind: track.kind, label: track.label, settings: track.getSettings() }));
       const metadata = {
-        schema: "reachy-joint-shadow-commissioning-trial-v1",
+        schema: trialId ? "reachy-joint-shadow-pilot-trial-v1" : "reachy-joint-shadow-commissioning-trial-v1",
+        trial_id: trialId || null,
         protocol_fingerprint: contract.fingerprint,
+        instrument_fingerprint: contract.fingerprint,
+        pilot_protocol_fingerprint: pilotTrial ? pilot.fingerprint : null,
+        schedule_index: pilotTrial?.schedule_index ?? null,
+        repetition: pilotTrial?.repetition ?? null,
+        split: pilotTrial?.split ?? null,
         condition_id: item.id,
         role: item.role,
         duration_s: seconds,
@@ -418,19 +469,24 @@
       download(`${stem}.csv`, csv, "text/csv");
       download(`${stem}.metadata.json`, JSON.stringify(metadata, null, 2) + "\n", "application/json");
       quality.innerHTML = result.passed
-        ? `<p class="good">Commissioning timing checks passed.</p>`
-        : `<p class="bad">Commissioning checks failed: ${result.failures.join(", ")}</p>`;
+        ? `<p class="good">Capture quality checks passed.</p>`
+        : `<p class="bad">Capture quality checks failed: ${result.failures.join(", ")}</p>`;
       quality.innerHTML += `<p>Rows ${result.rows}; span ${(result.duration / 1000).toFixed(2)} s; one-face ${(100 * result.singleFace).toFixed(1)}%; DoA valid ${(100 * result.doaValid).toFixed(1)}%; max sample gap ${result.maxGap.toFixed(1)} ms; median inference ${result.medianInference.toFixed(1)} ms; p95 DoA age ${result.p95DoaAge.toFixed(1)} ms; p95 bridge RTT ${result.p95Roundtrip.toFixed(1)} ms.</p>`;
-      status.textContent = "Numeric commissioning CSV and metadata downloaded. These are not final-study evidence.";
+      status.textContent = "Numeric CSV and metadata downloaded. These are not final-study evidence.";
       recording = false;
       recordButton.disabled = false;
       previewTick();
     });
 
     try {
-      contract = await fetchJson("/api/joint-shadow/config");
+      [contract, pilot] = await Promise.all([
+        fetchJson("/api/joint-shadow/config"),
+        fetchJson("/api/joint-shadow/pilot"),
+      ]);
       if (contract.schema !== "reachy-joint-shadow-instrument-v1") throw new Error("unexpected instrument schema");
-      fingerprint.textContent = contract.fingerprint;
+      if (pilot.schema !== "reachy-joint-shadow-no-motion-pilot-v1") throw new Error("unexpected pilot schema");
+      if (pilot.instrument_fingerprint !== contract.fingerprint) throw new Error("pilot/instrument fingerprint mismatch");
+      fingerprint.textContent = `instrument ${contract.fingerprint}; pilot ${pilot.fingerprint}`;
       fovInput.value = contract.camera_horizontal_fov_deg_default;
       durationInput.value = contract.default_capture_seconds;
       for (const item of contract.conditions) {

@@ -109,6 +109,12 @@ class JointInstrumentContractTests(unittest.TestCase):
     def test_browser_recorder_uses_local_assets_and_numeric_downloads(self) -> None:
         source = (ROOT / "tools" / "joint_shadow_recorder.html").read_text(encoding="utf-8")
         self.assertIn("/api/joint-shadow/doa", source)
+        self.assertIn("/api/joint-shadow/pilot", source)
+        self.assertIn("joint-shadow-pilot-[0-9]{2}", source)
+        self.assertIn("reachy-joint-shadow-pilot-trial-v1", source)
+        self.assertIn("pilot_protocol_fingerprint", source)
+        self.assertIn("pilot trial ID and condition do not match", source)
+        self.assertIn('pilot?.status !== "READY_FOR_COLLECTION"', source)
         self.assertIn("navigator.mediaDevices.getUserMedia", source)
         self.assertIn("Numeric audio level", source)
         self.assertNotIn("fetch(\"http", source)

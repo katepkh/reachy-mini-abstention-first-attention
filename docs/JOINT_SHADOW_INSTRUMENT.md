@@ -1,6 +1,6 @@
 # Command-free joint shadow instrument
 
-Status: **SOFTWARE IMPLEMENTED — REAL COMMISSIONING PENDING**
+Status: **REAL OBSERVABILITY COMMISSIONING PASSED — PILOT UNCOLLECTED**
 
 This is the next M5 critical-path instrument. It combines, during one real
 event, Reachy's numeric GET-only direction-of-arrival state with locally
@@ -27,9 +27,10 @@ Then open:
 
 `http://127.0.0.1:8766/tools/joint_shadow_recorder.html`
 
-The server exposes only two instrument APIs:
+The server exposes only three read-only instrument APIs:
 
 - `GET /api/joint-shadow/config`
+- `GET /api/joint-shadow/pilot`
 - `GET /api/joint-shadow/doa`
 
 All POST requests are rejected. Static model/runtime assets are served from the
@@ -64,7 +65,9 @@ provide its sensor-capture timestamp; this limitation is retained explicitly.
 
 ## After commissioning
 
-Only after primary inputs and endpoints are identifiable may a small no-motion
-pilot be frozen. It must include live visible speech, silent-face phone
-playback, and silent mouthing with unrelated playback, plus an activity-only
-baseline without synchrony. The current 54-trial confirmation remains paused.
+The primary inputs and endpoints passed one real commissioning capture on
+26 September 2026. The next step is the frozen
+[`joint-shadow no-motion pilot`](JOINT_SHADOW_PILOT.md). It includes live visible
+speech, silent-face phone playback, silent mouthing with unrelated playback,
+missing-face and spatial-conflict controls, and activity-only baselines without
+synchrony. The current 54-trial confirmation remains paused.

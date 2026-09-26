@@ -24,6 +24,7 @@ from reachy_stage3v.joint_instrument import (  # noqa: E402
     doa_bridge_payload,
     joint_static_path_allowed,
 )
+from reachy_stage3v.joint_pilot_protocol import joint_pilot_protocol_payload  # noqa: E402
 
 
 class JointInstrumentHandler(SimpleHTTPRequestHandler):
@@ -45,6 +46,9 @@ class JointInstrumentHandler(SimpleHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == "/api/joint-shadow/config":
             self._json(JOINT_INSTRUMENT_SPEC_V1.payload())
+            return
+        if path == "/api/joint-shadow/pilot":
+            self._json(joint_pilot_protocol_payload())
             return
         if path == "/api/joint-shadow/doa":
             started = time.perf_counter()
