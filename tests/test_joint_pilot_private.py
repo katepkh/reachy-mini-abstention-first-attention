@@ -155,6 +155,30 @@ class JointPilotPrivateWorkspaceTests(unittest.TestCase):
         self.assertEqual(setup["microphone"]["device_label"], "microphone")
         self.assertEqual(setup["marks"]["reachy"], "robot mark")
 
+    def test_initialize_v2_from_v1_setup_copies_bindings_but_not_seal(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "private-v2"
+            source = base / "setup-v1.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        **private._blank_setup(),
+                        "schema": "reachy-joint-shadow-pilot-private-setup-v1",
+                        "status": "SEALED_BEFORE_TRIAL_1",
+                        "opaque_setup_id": "room_a_joint_v1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.workspace_patch(root):
+                private.initialize(setup_source=source)
+                setup = json.loads((root / "setup.json").read_text(encoding="utf-8"))
+        self.assertEqual(setup["schema"], "reachy-joint-shadow-pilot-private-setup-v2")
+        self.assertEqual(setup["status"], "INCOMPLETE_DO_NOT_COLLECT")
+        self.assertEqual(setup["opaque_setup_id"], "room_a_joint_v2")
+        self.assertIn("No v1 capture", setup["revision_note"])
+
 
 if __name__ == "__main__":
     unittest.main()

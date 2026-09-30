@@ -1,4 +1,4 @@
-"""Frozen offline analysis for the command-free joint shadow pilot.
+"""Frozen offline analysis for the command-free v2 joint shadow pilot.
 
 The module reads derived numeric CSV/metadata pairs only. It opens no media,
 network, robot, or output device and has no motion or response authority.
@@ -126,7 +126,7 @@ def _binding_context(input_dir: Path) -> dict[str, str]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     execution = build_execution_payload()
     expected = {
-        "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v1",
+        "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v2",
         "status": "SEALED_BEFORE_TRIAL_1",
         "protocol_fingerprint": joint_pilot_protocol_payload()["fingerprint"],
         "execution_fingerprint": execution["fingerprint"],
@@ -163,7 +163,7 @@ def load_joint_pilot_trial(input_dir: Path, trial: dict[str, Any]) -> JointPilot
     protocol = joint_pilot_protocol_payload()
     binding = _binding_context(root)
     expected = {
-        "schema": "reachy-joint-shadow-pilot-trial-v1",
+        "schema": "reachy-joint-shadow-pilot-trial-v2",
         "trial_id": trial_id,
         "instrument_fingerprint": JOINT_INSTRUMENT_SPEC_V1.payload()["fingerprint"],
         "pilot_protocol_fingerprint": protocol["fingerprint"],
@@ -561,7 +561,7 @@ def analyze_joint_pilot(input_dir: Path) -> dict[str, Any]:
         status = "PILOT_PASSED_INTERNAL_VALIDATION_NOT_CONFIRMATION"
     bundle = "\n".join(f"{item['file']}:{item['sha256']}" for item in sources).encode("utf-8")
     return {
-        "schema": "reachy-joint-shadow-no-motion-pilot-result-v1",
+        "schema": "reachy-joint-shadow-no-motion-pilot-result-v2",
         "status": status,
         "protocol_fingerprint": joint_pilot_protocol_payload()["fingerprint"],
         "execution_fingerprint": binding["execution_fingerprint"],

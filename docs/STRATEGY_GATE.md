@@ -1,7 +1,7 @@
 # Strategy gate
 
 Canonical status: **ACTIVE**
-Last reviewed: **2026-09-26**
+Last reviewed: **2026-09-30**
 
 Complete this gate before beginning a substantial experiment, feature, document, release, or multi-hour analysis. A task that fails the gate is deferred unless the user explicitly changes the project objective.
 
@@ -24,7 +24,7 @@ Proceed only if the task advances a named primary criterion or removes a named c
 
 1. **Integrate in shadow mode:** build one deterministic decision orchestrator over existing sensing/proposal components, with motion and response outputs stubbed. **Software contract complete; joint decision unvalidated.**
 2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, lip synchrony, capture age, buffering/processing delay, dropped samples, and availability on one browser clock without raw-media retention or robot commands; do not pair unrelated historical trials. **Real observability commissioning passed.**
-3. **Attack the central hard negative:** run the frozen 21-trial no-motion pilot containing live speech, silent-face phone playback, visible silent mouthing with unrelated playback, missing-face and spatial-conflict controls. Compare speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable. **Protocol and analysis frozen; private bindings incomplete; zero pilot trials collected.**
+3. **Attack the central hard negative:** run the corrected, separately fingerprinted v2 21-trial no-motion pilot containing live speech, silent-face phone playback, visible silent mouthing with unrelated playback, missing-face and spatial-conflict controls. Compare speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable. **V1 is invalid and excluded; v2 protocol/analysis are frozen; zero valid pilot trials have been collected.**
 4. **Repair the physical action path:** define one baseline-relative outward leg with numeric abort thresholds and no automatic return after failure; review before hardware use.
 5. **Add bounded attention hold:** implement face-error, dwell, loss, update-rate, and oscillation limits before response generation.
 6. **Gate a minimal response:** a response is permitted only after a live-speaker selection; abstention produces no conversational response.
@@ -39,7 +39,7 @@ Proceed only if the task advances a named primary criterion or removes a named c
 | Further polish or export the manuscript as a paper PDF | **DEFER** | Presentation would displace M5–M10 and risk implying completion. |
 | Build the shadow-only fused decision orchestrator | **COMPLETE AS SOFTWARE PROTOTYPE** | M5 has a deterministic synthetic contract with no motion or response authority; one real capture commissioned its inputs but did not validate its decisions. |
 | Build the same-clock, command-free joint numeric instrument | **COMMISSIONED FOR PILOT USE** | One real 200-row capture passed the frozen timing and availability checks with 100% joint spatial rows and zero commands. The transferred synchrony threshold abstained, so commissioning cannot be relabelled as selection accuracy. |
-| Run the frozen joint no-motion pilot | **COMPLETE PRIVATE BINDINGS; COLLECTION GATE CLOSED** | The 21-trial structure, exact 300-setting offline analysis, baselines, three-block schedule, and fail-closed selection rule are frozen and synthetically tested. Seal the ignored stimulus/setup bindings before trial 1. Do not retune on repetition 3 or proceed to motion from a pilot-only result. |
+| Run the frozen joint no-motion pilot | **PROCEED WITH V2 TRIAL 1; DO NOT USE V1** | V1's impossible-at-geometry face-scale gate invalidated its attempts. V2 retains the 21-trial structure, exact 300-setting offline analysis, baselines, and fail-closed validation rule, but has new IDs/order and a geometry/pre-pilot-justified face-scale gate. Its execution manifest and fresh ignored private binding are sealed with zero v2 captures. Do not retune on repetition 3 or proceed to motion from a pilot-only result. |
 | Choose a final sample size | **DEFER** | Choose from a predefined precision or power target only after commissioning and a no-motion pilot estimate availability, latency, clustering, and effect size. |
 | Prepare the next motion test offline | **PROCEED IN PARALLEL** | Protocol, target construction, simulation, abort thresholds, and review may advance; no new physical command is permitted until M7's separate opening gate passes. |
 | Send a new physical motion command | **DEFER** | M7 remains failed/blocked until a new frozen one-leg protocol and abort thresholds pass review. |

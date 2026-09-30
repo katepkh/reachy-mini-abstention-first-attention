@@ -99,6 +99,7 @@ class JointInstrumentContractTests(unittest.TestCase):
 
     def test_static_server_exposes_only_instrument_assets(self) -> None:
         self.assertTrue(joint_static_path_allowed("/tools/joint_shadow_recorder.html"))
+        self.assertTrue(joint_static_path_allowed("/tools/joint_pilot_quality.mjs"))
         self.assertTrue(
             joint_static_path_allowed("/models/avsync_v2/runtime/vision_bundle.mjs")
         )
@@ -110,8 +111,16 @@ class JointInstrumentContractTests(unittest.TestCase):
         source = (ROOT / "tools" / "joint_shadow_recorder.html").read_text(encoding="utf-8")
         self.assertIn("/api/joint-shadow/doa", source)
         self.assertIn("/api/joint-shadow/pilot", source)
-        self.assertIn("joint-shadow-pilot-[0-9]{2}", source)
-        self.assertIn("reachy-joint-shadow-pilot-trial-v1", source)
+        self.assertIn("joint-shadow-pilot-v2-[0-9]{2}", source)
+        self.assertIn("reachy-joint-shadow-pilot-trial-v2", source)
+        self.assertIn("reachy-joint-shadow-no-motion-pilot-v2", source)
+        self.assertIn('import { assessPilotQuality } from "./joint_pilot_quality.mjs"', source)
+        self.assertIn("assessPilotQuality(pilotTrial, rows, pilot.quality_gates)", source)
+        quality_source = (ROOT / "tools" / "joint_pilot_quality.mjs").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("minimum_median_face_scale_when_required", quality_source)
+        self.assertIn("SINGLE_FACE_FRACTION_TOO_LOW", quality_source)
         self.assertIn("pilot_protocol_fingerprint", source)
         self.assertIn("binding_manifest_sha256", source)
         self.assertIn("execution_fingerprint", source)

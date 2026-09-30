@@ -1,4 +1,4 @@
-"""Content-addressed execution contract for the joint no-motion pilot."""
+"""Content-addressed execution contract for the v2 joint no-motion pilot."""
 
 from __future__ import annotations
 
@@ -12,8 +12,14 @@ from .joint_pilot_protocol import joint_pilot_protocol_payload
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXECUTION_MANIFEST = ROOT / "evidence" / "manifests" / "joint_shadow_pilot_execution_v1.json"
+EXECUTION_MANIFEST = ROOT / "evidence" / "manifests" / "joint_shadow_pilot_execution_v2.json"
 EXECUTION_FILES = (
+    "reachy_avsync/synchrony.py",
+    "reachy_doa/angles.py",
+    "reachy_doa/client.py",
+    "reachy_doa/models.py",
+    "reachy_stage2a/calibration.py",
+    "reachy_stage3v/joint_instrument.py",
     "reachy_stage3v/joint_pilot_protocol.py",
     "reachy_stage3v/joint_pilot_analysis.py",
     "reachy_stage3v/joint_pilot_synthetic.py",
@@ -23,6 +29,7 @@ EXECUTION_FILES = (
     "scripts/freeze_joint_shadow_pilot_execution.py",
     "scripts/prepare_joint_shadow_pilot_workspace.py",
     "scripts/run_joint_shadow_instrument.py",
+    "tools/joint_pilot_quality.mjs",
     "tools/joint_shadow_recorder.html",
     "models/avsync_v2/face_landmarker.task",
 )
@@ -69,8 +76,8 @@ def build_execution_payload(root: Path = ROOT) -> dict[str, Any]:
             }
         )
     core: dict[str, Any] = {
-        "schema": "reachy-joint-shadow-pilot-execution-v1",
-        "status": "ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED",
+        "schema": "reachy-joint-shadow-pilot-execution-v2",
+        "status": "V2_ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED",
         "protocol_fingerprint": joint_pilot_protocol_payload()["fingerprint"],
         "instrument_fingerprint": JOINT_INSTRUMENT_SPEC_V1.payload()["fingerprint"],
         "files": files,

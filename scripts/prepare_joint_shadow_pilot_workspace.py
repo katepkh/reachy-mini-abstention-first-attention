@@ -36,6 +36,11 @@ def main() -> int:
     group.add_argument("--seal", action="store_true")
     parser.add_argument("--room-source", type=Path)
     parser.add_argument("--commissioning-metadata", type=Path)
+    parser.add_argument(
+        "--setup-source",
+        type=Path,
+        help="initialize v2 from a completed v1 setup without copying captures",
+    )
     parser.add_argument("--phone-make-model")
     parser.add_argument("--volume-percent", type=int)
     parser.add_argument("--reachy-mark")
@@ -48,6 +53,7 @@ def main() -> int:
             initialize(
                 room_source=args.room_source,
                 commissioning_metadata=args.commissioning_metadata,
+                setup_source=args.setup_source,
             )
         elif args.bind_stimulus is not None:
             if args.phone_make_model is None or args.volume_percent is None:

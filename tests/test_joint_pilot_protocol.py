@@ -34,6 +34,13 @@ class JointPilotProtocolTests(unittest.TestCase):
 
     def test_protocol_is_command_free_and_fail_closed(self) -> None:
         payload = joint_pilot_protocol_payload()
+        self.assertEqual(payload["schema"], "reachy-joint-shadow-no-motion-pilot-v2")
+        self.assertTrue(
+            all(
+                trial["trial_id"].startswith("joint-shadow-pilot-v2-")
+                for trial in payload["canonical_trials"]
+            )
+        )
         constraints = payload["capture_constraints"]
         self.assertEqual(constraints["motion_commands"], 0)
         self.assertEqual(constraints["response_commands"], 0)
@@ -46,6 +53,18 @@ class JointPilotProtocolTests(unittest.TestCase):
         selection = " ".join(payload["development_selection_rule"])
         self.assertIn("zero proposals", selection)
         self.assertIn("without relaxing", selection)
+
+    def test_v2_face_scale_gate_has_pre_pilot_basis_and_excludes_v1(self) -> None:
+        payload = joint_pilot_protocol_payload()
+        self.assertEqual(
+            payload["quality_gates"]["minimum_median_face_scale_when_required"],
+            0.06,
+        )
+        revision = payload["revision_from_v1"]
+        self.assertFalse(revision["v1_trial_ids_reusable"])
+        self.assertFalse(revision["v1_attempts_reusable"])
+        self.assertIn("pre-pilot commissioning", revision["independent_threshold_basis"])
+        self.assertNotEqual(payload["randomization"]["seed"], 20260926)
 
     def test_fingerprint_is_deterministic(self) -> None:
         first = joint_pilot_protocol_payload()

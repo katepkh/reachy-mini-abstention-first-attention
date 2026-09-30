@@ -1,4 +1,4 @@
-"""Frozen no-motion pilot for the commissioned joint shadow instrument.
+"""Frozen v2 no-motion pilot for the commissioned joint shadow instrument.
 
 This module defines trial order and analysis selection boundaries only.  It
 opens no sensors or network connections, writes no files, and grants no motion
@@ -15,7 +15,7 @@ from typing import Any
 from .joint_instrument import JOINT_CONDITIONS, JOINT_INSTRUMENT_SPEC_V1
 
 
-JOINT_PILOT_RANDOMIZATION_SEED = 20260926
+JOINT_PILOT_RANDOMIZATION_SEED = 20260930
 JOINT_PILOT_DURATION_S = 10
 JOINT_PILOT_REPETITIONS = 3
 JOINT_PILOT_CONDITION_IDS = (
@@ -62,7 +62,7 @@ def canonical_joint_pilot_trials() -> list[dict[str, Any]]:
             condition = conditions[condition_id]
             trials.append(
                 {
-                    "trial_id": f"joint-shadow-pilot-{len(trials) + 1:02d}",
+                    "trial_id": f"joint-shadow-pilot-v2-{len(trials) + 1:02d}",
                     "condition_id": condition_id,
                     "role": condition["role"],
                     "repetition": repetition,
@@ -92,8 +92,8 @@ def randomized_joint_pilot_trials() -> list[dict[str, Any]]:
 
 def joint_pilot_protocol_payload() -> dict[str, Any]:
     core: dict[str, Any] = {
-        "schema": "reachy-joint-shadow-no-motion-pilot-v1",
-        "status": "STRUCTURE_AND_ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED",
+        "schema": "reachy-joint-shadow-no-motion-pilot-v2",
+        "status": "V2_STRUCTURE_AND_ANALYSIS_FROZEN_PRIVATE_BINDINGS_REQUIRED",
         "purpose": (
             "Determine whether spatial agreement plus audio-mouth synchrony can retain "
             "visible live speech while rejecting phone playback and conflicting cues."
@@ -104,6 +104,28 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
             "The passing commissioning capture establishes observability only and is "
             "excluded from pilot fitting and internal validation."
         ),
+        "revision_from_v1": {
+            "v1_status": "INVALID_PROTOCOL_GEOMETRY_EXCLUDED_FROM_ANALYSIS",
+            "v1_trial_ids_reusable": False,
+            "v1_attempts_reusable": False,
+            "unchanged_design": (
+                "seven conditions, three balanced blocks, development repetitions 1-2, "
+                "one-shot internal validation repetition 3, candidate grid, baselines, and "
+                "zero-motion/zero-response boundary"
+            ),
+            "changed_design": (
+                "new trial IDs and randomization seed; face-scale acquisition threshold "
+                "corrected from 0.16 to 0.06; recorder reports the same condition-specific "
+                "quality gate as the offline analyzer"
+            ),
+            "independent_threshold_basis": (
+                "At the fixed one-metre geometry and approximately 60-degree horizontal "
+                "camera field of view, a roughly 63 mm inter-eye distance projects to about "
+                "0.06 of image width. Two pre-pilot commissioning captures had median "
+                "normalized inter-eye scales 0.1344 and 0.0687. Pilot-v1 outcomes were not "
+                "used to select the v2 threshold."
+            ),
+        },
         "conditions": [
             _conditions_by_id()[condition_id]
             for condition_id in JOINT_PILOT_CONDITION_IDS
@@ -131,7 +153,7 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
             "multiple_face_rows_allowed": 0,
             "minimum_doa_valid_fraction": 0.80,
             "maximum_p95_doa_age_ms": 650.0,
-            "minimum_median_face_scale_when_required": 0.16,
+            "minimum_median_face_scale_when_required": 0.06,
             "minimum_audio_dbfs_std_when_speech_required": 0.5,
             "minimum_lip_aperture_std_when_motion_required": 0.002,
             "minimum_doa_speech_fraction_when_speech_required": 0.25,
@@ -195,11 +217,11 @@ def joint_pilot_protocol_payload() -> dict[str, Any]:
         },
         "opening_gate": {
             "analysis_code": "IMPLEMENTED_AND_CONTENT_ADDRESSED",
-            "playback_stimulus_sha256": "REQUIRED_NOT_YET_BOUND",
-            "phone_make_model_volume_and_two_marks": "REQUIRED_NOT_YET_BOUND",
-            "room_laptop_reachy_camera_and_operator_marks": "REQUIRED_NOT_YET_BOUND",
+            "playback_stimulus_sha256": "REQUIRED_VIA_PRIVATE_BINDING",
+            "phone_make_model_volume_and_two_marks": "REQUIRED_VIA_PRIVATE_BINDING",
+            "room_laptop_reachy_camera_and_operator_marks": "REQUIRED_VIA_PRIVATE_BINDING",
             "pilot_fingerprint_in_every_trial": "ENFORCED_BY_RECORDER",
-            "private_binding_manifest": "REQUIRED_NOT_YET_SEALED",
+            "private_binding_manifest": "REQUIRED_AND_VERIFIED_BY_COLLECTION_GATE",
             "note": (
                 "These bindings are required before trial 1. Their values may remain "
                 "private, but they must be fixed and checked across all 21 captures."

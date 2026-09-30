@@ -99,6 +99,7 @@ JOINT_REQUIRED_COLUMNS: tuple[str, ...] = (
 JOINT_STATIC_EXACT_PATHS = frozenset(
     {
         "/tools/joint_shadow_recorder.html",
+        "/tools/joint_pilot_quality.mjs",
         "/models/avsync_v2/face_landmarker.task",
     }
 )

@@ -25,7 +25,7 @@ def write_synthetic_joint_pilot(directory: Path) -> None:
     setup_path.write_text(
         json.dumps(
             {
-                "schema": "reachy-joint-shadow-pilot-synthetic-setup-v1",
+                "schema": "reachy-joint-shadow-pilot-synthetic-setup-v2",
                 "status": "SEALED_BEFORE_TRIAL_1",
                 "synthetic_fixture": True,
             },
@@ -39,7 +39,7 @@ def write_synthetic_joint_pilot(directory: Path) -> None:
     manifest_path.write_text(
         json.dumps(
             {
-                "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v1",
+                "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v2",
                 "status": "SEALED_BEFORE_TRIAL_1",
                 "protocol_fingerprint": protocol["fingerprint"],
                 "execution_fingerprint": execution["fingerprint"],
@@ -130,7 +130,7 @@ def write_synthetic_joint_pilot(directory: Path) -> None:
                 writer.writerow(row)
                 previous_lip = current_lip
         metadata = {
-            "schema": "reachy-joint-shadow-pilot-trial-v1",
+            "schema": "reachy-joint-shadow-pilot-trial-v2",
             "trial_id": trial["trial_id"],
             "protocol_fingerprint": JOINT_INSTRUMENT_SPEC_V1.payload()["fingerprint"],
             "instrument_fingerprint": JOINT_INSTRUMENT_SPEC_V1.payload()["fingerprint"],

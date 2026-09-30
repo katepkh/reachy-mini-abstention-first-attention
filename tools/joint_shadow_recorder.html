@@ -53,7 +53,7 @@
       <select id="condition"></select>
       <p id="instruction"></p>
       <label for="trialId">Frozen pilot trial ID (leave blank for commissioning)</label>
-      <input id="trialId" type="text" placeholder="joint-shadow-pilot-04" pattern="joint-shadow-pilot-[0-9]{2}" autocomplete="off">
+      <input id="trialId" type="text" placeholder="joint-shadow-pilot-v2-01" pattern="joint-shadow-pilot-v2-[0-9]{2}" autocomplete="off">
       <label for="fov">Laptop camera horizontal field of view (degrees; commissioning estimate)</label>
       <input id="fov" type="number" min="20" max="140" step="0.1" value="60">
       <label for="duration">Capture duration (seconds)</label>
@@ -74,6 +74,8 @@
 
   <script type="module">
     "use strict";
+
+    import { assessPilotQuality } from "./joint_pilot_quality.mjs";
 
     const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
     const wasmRoot = "../models/avsync_v2/runtime/wasm";
@@ -419,6 +421,7 @@
       return { passed: failures.length === 0, failures, rows: rows.length, duration, singleFace, doaValid, maxGap: Math.max(0, ...gaps), medianInference: percentile(inference, .5), p95DoaAge: percentile(doaAges, .95), p95Roundtrip: percentile(roundtrips, .95) };
     }
 
+
     recordButton.addEventListener("click", async () => {
       if (recording || !stream || !lastDoa) return;
       const trialId = trialIdInput.value.trim();
@@ -428,7 +431,7 @@
         status.textContent = `Opening gate closed: ${reasons}.`;
         return;
       }
-      if (trialId && (!/^joint-shadow-pilot-[0-9]{2}$/.test(trialId) || !pilotTrial)) {
+      if (trialId && (!/^joint-shadow-pilot-v2-[0-9]{2}$/.test(trialId) || !pilotTrial)) {
         status.textContent = "Opening gate closed: enter an exact trial ID from the frozen pilot schedule or leave it blank for commissioning.";
         return;
       }
@@ -465,7 +468,9 @@
         };
         take();
       });
-      const result = assess(rows);
+      const result = pilotTrial
+        ? assessPilotQuality(pilotTrial, rows, pilot.quality_gates)
+        : assess(rows);
       const columns = contract.required_columns;
       const csv = [columns.join(","), ...rows.map(row => columns.map(name => csvValue(row[name])).join(","))].join("\n") + "\n";
       const item = selectedCondition();
@@ -473,7 +478,7 @@
       const stem = trialId || `joint-shadow-${item.id}-${stamp}`;
       const settings = stream.getTracks().map(track => ({ kind: track.kind, label: track.label, settings: track.getSettings() }));
       const metadata = {
-        schema: trialId ? "reachy-joint-shadow-pilot-trial-v1" : "reachy-joint-shadow-commissioning-trial-v1",
+        schema: trialId ? "reachy-joint-shadow-pilot-trial-v2" : "reachy-joint-shadow-commissioning-trial-v1",
         trial_id: trialId || null,
         protocol_fingerprint: contract.fingerprint,
         instrument_fingerprint: contract.fingerprint,
@@ -503,7 +508,11 @@
       quality.innerHTML = result.passed
         ? `<p class="good">Capture quality checks passed.</p>`
         : `<p class="bad">Capture quality checks failed: ${result.failures.join(", ")}</p>`;
-      quality.innerHTML += `<p>Rows ${result.rows}; span ${(result.duration / 1000).toFixed(2)} s; one-face ${(100 * result.singleFace).toFixed(1)}%; DoA valid ${(100 * result.doaValid).toFixed(1)}%; max sample gap ${result.maxGap.toFixed(1)} ms; median inference ${result.medianInference.toFixed(1)} ms; p95 DoA age ${result.p95DoaAge.toFixed(1)} ms; p95 bridge RTT ${result.p95Roundtrip.toFixed(1)} ms.</p>`;
+      if (pilotTrial) {
+        quality.innerHTML += `<p>Rows ${result.sample_count}; span ${(result.span_ms / 1000).toFixed(2)} s; one-face ${(100 * result.single_face_fraction).toFixed(1)}%; median face scale ${result.median_face_scale === null ? "n/a" : result.median_face_scale.toFixed(4)}; DoA valid ${(100 * result.doa_valid_fraction).toFixed(1)}%; speech ${(100 * result.doa_speech_fraction).toFixed(1)}%; max sample gap ${result.maximum_sample_gap_ms.toFixed(1)} ms; p95 DoA age ${result.p95_doa_age_ms === null ? "n/a" : result.p95_doa_age_ms.toFixed(1)} ms.</p>`;
+      } else {
+        quality.innerHTML += `<p>Rows ${result.rows}; span ${(result.duration / 1000).toFixed(2)} s; one-face ${(100 * result.singleFace).toFixed(1)}%; DoA valid ${(100 * result.doaValid).toFixed(1)}%; max sample gap ${result.maxGap.toFixed(1)} ms; median inference ${result.medianInference.toFixed(1)} ms; p95 DoA age ${result.p95DoaAge.toFixed(1)} ms; p95 bridge RTT ${result.p95Roundtrip.toFixed(1)} ms.</p>`;
+      }
       status.textContent = "Numeric CSV and metadata downloaded. These are not final-study evidence.";
       recording = false;
       recordButton.disabled = false;
@@ -516,7 +525,7 @@
         fetchJson("/api/joint-shadow/pilot"),
       ]);
       if (contract.schema !== "reachy-joint-shadow-instrument-v1") throw new Error("unexpected instrument schema");
-      if (pilot.schema !== "reachy-joint-shadow-no-motion-pilot-v1") throw new Error("unexpected pilot schema");
+      if (pilot.schema !== "reachy-joint-shadow-no-motion-pilot-v2") throw new Error("unexpected pilot schema");
       if (pilot.instrument_fingerprint !== contract.fingerprint) throw new Error("pilot/instrument fingerprint mismatch");
       fingerprint.textContent = `instrument ${contract.fingerprint}; pilot ${pilot.fingerprint}`;
       fovInput.value = contract.camera_horizontal_fov_deg_default;

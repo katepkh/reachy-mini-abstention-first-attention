@@ -1,4 +1,4 @@
-"""Ignored private bindings and seal for the command-free joint pilot."""
+"""Ignored private bindings and seal for the command-free v2 joint pilot."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from .joint_pilot_execution import EXECUTION_MANIFEST, ROOT, build_execution_pay
 from .joint_pilot_protocol import joint_pilot_protocol_payload, randomized_joint_pilot_trials
 
 
-PRIVATE_ROOT = ROOT / "data" / "private" / "joint_shadow_pilot_v1"
+PRIVATE_ROOT = ROOT / "data" / "private" / "joint_shadow_pilot_v2"
 SETUP = PRIVATE_ROOT / "setup.json"
 CAPTURES = PRIVATE_ROOT / "captures"
 LEDGER = PRIVATE_ROOT / "attempt_ledger.csv"
@@ -80,9 +80,9 @@ def _nested(payload: dict[str, Any], dotted: str) -> Any:
 
 def _blank_setup() -> dict[str, Any]:
     return {
-        "schema": "reachy-joint-shadow-pilot-private-setup-v1",
+        "schema": "reachy-joint-shadow-pilot-private-setup-v2",
         "status": "INCOMPLETE_DO_NOT_COLLECT",
-        "opaque_setup_id": "room_a_joint_v1",
+        "opaque_setup_id": "room_a_joint_v2",
         "room": {
             "opaque_room_id": "room_a",
             "approximate_dimensions_m": {"length": None, "width": None, "height": None},
@@ -132,13 +132,33 @@ def _render_ledger() -> str:
     return stream.getvalue()
 
 
-def initialize(*, room_source: Path | None = None, commissioning_metadata: Path | None = None) -> None:
+def initialize(
+    *,
+    room_source: Path | None = None,
+    commissioning_metadata: Path | None = None,
+    setup_source: Path | None = None,
+) -> None:
     """Create ignored records without overwriting existing human bindings."""
 
     PRIVATE_ROOT.mkdir(parents=True, exist_ok=True)
     CAPTURES.mkdir(parents=True, exist_ok=True)
     if not SETUP.exists():
-        setup = _blank_setup()
+        if setup_source is not None:
+            setup = _load(setup_source.resolve())
+            if setup.get("schema") != "reachy-joint-shadow-pilot-private-setup-v1":
+                raise ValueError("Setup source must be a v1 private setup.")
+            setup["schema"] = "reachy-joint-shadow-pilot-private-setup-v2"
+            setup["status"] = "INCOMPLETE_DO_NOT_COLLECT"
+            opaque_id = str(setup.get("opaque_setup_id") or "room_a_joint_v1")
+            setup["opaque_setup_id"] = (
+                f"{opaque_id[:-3]}_v2" if opaque_id.endswith("_v1") else f"{opaque_id}_v2"
+            )
+            setup["revision_note"] = (
+                "Physical bindings copied from the sealed v1 setup before v2 Trial 1. "
+                "No v1 capture or outcome was copied or accepted."
+            )
+        else:
+            setup = _blank_setup()
         if room_source is not None:
             room = _load(room_source.resolve())
             setup["room"]["opaque_room_id"] = room.get("opaque_room_id", "room_a")
@@ -166,7 +186,7 @@ def initialize(*, room_source: Path | None = None, commissioning_metadata: Path 
         LEDGER.write_text(_render_ledger(), encoding="utf-8", newline="")
     if not GUIDE.exists():
         GUIDE.write_text(
-            "# Private joint-shadow pilot workspace\n\n"
+            "# Private joint-shadow pilot v2 workspace\n\n"
             "Keep this directory private and ignored. Complete setup.json, then run "
             "`python scripts/prepare_joint_shadow_pilot_workspace.py --status`. "
             "Seal only before Trial 1. Sealing authorizes numeric collection only; "
@@ -285,7 +305,7 @@ def seal() -> None:
     SETUP.write_text(json.dumps(setup, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     execution = _load(EXECUTION_MANIFEST)
     payload = {
-        "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v1",
+        "schema": "reachy-joint-shadow-pilot-private-binding-manifest-v2",
         "status": "SEALED_BEFORE_TRIAL_1",
         "opaque_setup_id": setup["opaque_setup_id"],
         "protocol_fingerprint": joint_pilot_protocol_payload()["fingerprint"],

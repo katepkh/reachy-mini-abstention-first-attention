@@ -1,6 +1,20 @@
-# Frozen joint-shadow no-motion pilot
+# Frozen joint-shadow no-motion pilot v2
 
-Status: **STRUCTURE AND ANALYSIS FROZEN — PRIVATE BINDING GATE CLOSED**
+Status: **V2 FROZEN — PRIVATE BINDING GATE READY — ZERO V2 TRIALS COLLECTED**
+
+Pilot v1 is invalid for analysis because its `0.16` minimum normalized
+inter-eye scale was incompatible with the fixed one-metre camera geometry.
+All v1 attempts are retained privately as excluded protocol-failure records;
+none may be renamed, accepted, or reused in v2.
+
+V2 preserves the seven conditions, three-block development/internal-validation
+design, candidate grid, baselines, and zero-command boundary. It uses new trial
+IDs, a new randomized order, and a `0.06` minimum median face scale. That value
+was fixed from geometry and two pre-pilot commissioning captures (medians
+`0.1344` and `0.0687`), not from v1 pilot outcomes. At one metre with an
+approximately 60° horizontal camera field of view, a typical roughly 63 mm
+inter-eye distance occupies about 0.06 of image width. The unchanged ≥95%
+single-face gate still rejects unreliable face observation.
 
 The joint instrument passed one real commissioning capture on 26 September
 2026. That capture established simultaneous observability of one face, laptop
@@ -54,13 +68,15 @@ Before trial 1, bind the playback file SHA-256, phone make/model and volume,
 colocated and conflict phone marks, room/setup identifier, laptop and Reachy
 marks, camera field-of-view estimate, and operator mark. The values can remain
 private, but they must be checked across all 21 captures. The offline analyzer
-is frozen and tested; the recorder still refuses pilot capture until the
-ignored private binding manifest is sealed.
+and browser recorder apply the same condition-specific acquisition gates. The
+recorder refuses pilot capture unless the ignored v2 private binding manifest
+remains sealed and current. The local v2 gate was sealed on 30 September 2026
+with an empty capture directory and without copying any v1 attempt.
 
 Initialize and inspect the ignored workspace:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --initialize --room-source data\private\avsync_confirmation_v1\bindings\room_a.json
+.\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --initialize --setup-source data\private\joint_shadow_pilot_v1\setup.json
 .\.venv\Scripts\python.exe scripts\prepare_joint_shadow_pilot_workspace.py --status
 ```
 
@@ -94,6 +110,10 @@ capture. The recorder uses the trial ID as the CSV/metadata filename and embeds
 the instrument and pilot fingerprints plus the frozen schedule fields in
 metadata. Keep both files private.
 
+For a frozen pilot trial, the browser reports the same condition-specific gate
+and failure codes as the offline analyzer. Commissioning captures continue to
+use the instrument's generic observability checks.
+
 If an objective quality check fails, retain that attempt privately, correct
 only the stated problem, and repeat the same scheduled trial. Do not advance or
 substitute a condition.
@@ -116,7 +136,7 @@ visible-face baselines. After all 21 bound files exist, run the content-addresse
 offline analyzer:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\analyze_joint_shadow_pilot.py --input data\private\joint_shadow_pilot_v1\captures --output data\private\joint_shadow_pilot_v1\pilot_result.json
+.\.venv\Scripts\python.exe scripts\analyze_joint_shadow_pilot.py --input data\private\joint_shadow_pilot_v2\captures --output data\private\joint_shadow_pilot_v2\pilot_result.json
 ```
 
 Final sample size, held-out rooms,
