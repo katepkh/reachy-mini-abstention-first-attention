@@ -7,11 +7,14 @@ The authoritative objective and status are maintained in [`PROJECT_CHARTER.md`](
 - [x] implement one deterministic shadow-only orchestrator that emits `SELECT`, `ABSTAIN`, or `HOLD` with reason codes from same-clock spatial, face-track, and synchrony inputs; synthetic contract only, with zero command authority;
 - [x] implement a command-free joint numeric instrument and commissioning analysis because the saved spatial and synchrony studies do not share the required inputs or trial clock;
 - [x] commission that instrument with a disposable real 200-row observation; all timing, freshness, availability, and endpoint-identifiability checks passed with zero commands, while the transferred synchrony setting correctly remained non-authoritative and abstained;
-- [ ] run matched live-visible-speech, silent-visible-person plus phone-playback, and silent-mouthing plus unrelated-playback trials through that same interface;
+- [x] identify before accepting a joint-pilot trial that the browser instrument uses the laptop rather than Reachy camera, and pause laptop-camera v2 with its two rejected attempts preserved;
+- [x] implement a receive-only Reachy-camera commissioning path with transient RAM frames, pinned local landmarks, explicit transport/freshness/geometry fields, GET-only DoA, and zero motion/response authority;
+- [ ] pass one short real Reachy-camera landmark commissioning capture before freezing any successor pilot;
+- [ ] if commissioning passes, freeze a new robot-camera pilot and run matched live-visible-speech, silent-visible-person plus phone-playback, and silent-mouthing plus unrelated-playback trials through that same interface;
 - [x] freeze a 21-trial, three-block no-motion pilot with development/internal-validation separation, fixed hard negatives, declared baselines, and no threshold relaxation;
 - [x] implement, synthetically test, and content-address the exact offline joint-pilot analysis;
-- [ ] complete and seal the ignored private stimulus/setup bindings;
-- [ ] run that frozen no-motion pilot before adding robot authority;
+- [x] complete and seal the ignored laptop-v2 stimulus/setup bindings, while retaining them only as paused development infrastructure;
+- [ ] create new private bindings and run a separately fingerprinted robot-camera no-motion pilot before adding robot authority;
 - [ ] define a new baseline-relative, one-leg physical orientation protocol with numeric abort limits and no automatic return after failure;
 - [x] define and synthetically test bounded face-directed hold metrics with freshness, loss, bounded-correction, dwell, and oscillation controls; real replay and physical validation remain pending;
 - [x] gate a deterministic acknowledgement in a no-side-effect shadow state machine so playback abstention proposes neither motion nor response; actual audio output remains absent;

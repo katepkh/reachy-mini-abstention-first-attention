@@ -48,6 +48,10 @@ class FakeWebSocket:
 
 
 class TransportTests(unittest.TestCase):
+    def test_robot_camera_commissioning_can_request_25_hz_without_changing_legacy_callers(self):
+        self.assertAlmostEqual(LocalVideoSession(detection_hz=25).detection_period, 0.04)
+        self.assertAlmostEqual(LocalVideoSession(detection_hz=1000).detection_period, 1 / 60)
+
     def test_windows_socket_denial_is_not_mislabeled_as_proxy_unavailable(self):
         denied = SimpleNamespace(
             os_error=SimpleNamespace(winerror=10013, errno=None)

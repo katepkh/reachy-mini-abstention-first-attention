@@ -1,6 +1,12 @@
 # Frozen joint-shadow no-motion pilot v2
 
-Status: **V2 FROZEN — PRIVATE BINDING GATE READY — ZERO VALID V2 TRIALS**
+Status: **V2 PAUSED — LAPTOP-CAMERA DEVELOPMENT ONLY — ZERO VALID V2 TRIALS**
+
+Decision D022 pauses this laptop-camera protocol before any accepted trial.
+The primary robot objective requires separately commissioned Reachy-camera
+face/lip evidence. Do not collect or repeat v2. Its code, sealed binding, and
+two rejected Trial-1 attempts remain preserved; none may be renamed or reused
+in a successor robot-camera protocol.
 
 Pilot v1 is invalid for analysis because its `0.16` minimum normalized
 inter-eye scale was incompatible with the fixed one-metre camera geometry.

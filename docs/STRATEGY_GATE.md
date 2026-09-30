@@ -24,12 +24,13 @@ Proceed only if the task advances a named primary criterion or removes a named c
 
 1. **Integrate in shadow mode:** build one deterministic decision orchestrator over existing sensing/proposal components, with motion and response outputs stubbed. **Software contract complete; joint decision unvalidated.**
 2. **Instrument the joint decision:** capture DoA/spatial geometry, face track, lip synchrony, capture age, buffering/processing delay, dropped samples, and availability on one browser clock without raw-media retention or robot commands; do not pair unrelated historical trials. **Real observability commissioning passed.**
-3. **Attack the central hard negative:** run the corrected, separately fingerprinted v2 21-trial no-motion pilot containing live speech, silent-face phone playback, visible silent mouthing with unrelated playback, missing-face and spatial-conflict controls. Compare speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable. **V1 is invalid and excluded; v2 protocol/analysis are frozen; zero valid pilot trials have been collected.**
-4. **Repair the physical action path:** define one baseline-relative outward leg with numeric abort thresholds and no automatic return after failure; review before hardware use.
-5. **Add bounded attention hold:** implement face-error, dwell, loss, update-rate, and oscillation limits before response generation.
-6. **Gate a minimal response:** a response is permitted only after a live-speaker selection; abstention produces no conversational response.
-7. **Integrate and validate:** freeze an end-to-end trial protocol only after every endpoint is measurable; compare with the required baselines.
-8. **Then synthesize the paper:** update claims, figures, and manuscript after the evidence exists.
+3. **Close the real sensor boundary:** commission the receive-only Reachy camera with transient face/lip features, Reachy DoA, explicit timing/geometry diagnostics, and zero command authority. **Real camera transport works; landmark commissioning remains required. Laptop-camera v2 is paused with zero accepted trials.**
+4. **Attack the central hard negative:** only after that commissioning passes, freeze a separately fingerprinted robot-camera no-motion pilot containing live speech, silent-face phone playback, visible silent mouthing with unrelated playback, missing-face and spatial-conflict controls. Compare speech-plus-mouth activity without synchrony so synchrony's incremental value is identifiable.
+5. **Repair the physical action path:** define one baseline-relative outward leg with numeric abort thresholds and no automatic return after failure; review before hardware use.
+6. **Add bounded attention hold:** implement face-error, dwell, loss, update-rate, and oscillation limits before response generation.
+7. **Gate a minimal response:** a response is permitted only after a live-speaker selection; abstention produces no conversational response.
+8. **Integrate and validate:** freeze an end-to-end trial protocol only after every endpoint is measurable; compare with the required baselines.
+9. **Then synthesize the paper:** update claims, figures, and manuscript after the evidence exists.
 
 ## Current gate assessments
 
@@ -39,7 +40,8 @@ Proceed only if the task advances a named primary criterion or removes a named c
 | Further polish or export the manuscript as a paper PDF | **DEFER** | Presentation would displace M5–M10 and risk implying completion. |
 | Build the shadow-only fused decision orchestrator | **COMPLETE AS SOFTWARE PROTOTYPE** | M5 has a deterministic synthetic contract with no motion or response authority; one real capture commissioned its inputs but did not validate its decisions. |
 | Build the same-clock, command-free joint numeric instrument | **COMMISSIONED FOR PILOT USE** | One real 200-row capture passed the frozen timing and availability checks with 100% joint spatial rows and zero commands. The transferred synchrony threshold abstained, so commissioning cannot be relabelled as selection accuracy. |
-| Run the frozen joint no-motion pilot | **REPEAT V2 TRIAL 1; DO NOT ADVANCE** | V1 is excluded. V2 Trial-1 attempt 1 failed the frozen face gates. Attempt 2 passed them but failed DoA availability/freshness and speech activity after capture began during a transient DoA outage. Both are preserved privately and excluded. The recorder now enforces condition-aware face state, five consecutive fresh valid DoA polls, and the expected speech flag before starting; no frozen gate changed. Repeat Trial 1; do not retune or proceed to motion from a pilot-only result. |
+| Run the laptop-camera v2 no-motion pilot | **PAUSE; DO NOT COLLECT** | Zero v2 trials are accepted. Its laptop webcam leaves the primary Reachy-camera transfer untested, so finishing the schedule would not establish the intended robot sensor path. Existing attempts remain preserved and excluded. |
+| Commission the command-free Reachy-camera instrument | **PROCEED** | This is the shortest M5 critical-path check. It uses receive-only local video and GET-only DoA, rejects mutations, retains numeric output only, and has predeclared stop rules. A pass establishes observability only; a failure triggers sensor-path repair rather than threshold relaxation. |
 | Choose a final sample size | **DEFER** | Choose from a predefined precision or power target only after commissioning and a no-motion pilot estimate availability, latency, clustering, and effect size. |
 | Prepare the next motion test offline | **PROCEED IN PARALLEL** | Protocol, target construction, simulation, abort thresholds, and review may advance; no new physical command is permitted until M7's separate opening gate passes. |
 | Send a new physical motion command | **DEFER** | M7 remains failed/blocked until a new frozen one-leg protocol and abort thresholds pass review. |

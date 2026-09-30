@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reachy camera commissioning</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #171717; }
+    body { max-width: 1240px; margin: 24px auto; padding: 0 20px 48px; }
+    h1 { margin-bottom: 8px; }
+    .warning { border-left: 6px solid #d97706; background: #fff7ed; padding: 14px 18px; line-height: 1.45; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65fr); gap: 22px; margin-top: 20px; }
+    .card { border: 1px solid #d4d4d4; border-radius: 14px; padding: 18px; }
+    canvas { display: block; width: 100%; aspect-ratio: 4 / 3; background: #111; border-radius: 12px; object-fit: contain; }
+    .metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; margin-top: 14px; }
+    .controls { display: grid; gap: 12px; }
+    button { padding: 11px 14px; font-weight: 700; font-size: 1rem; }
+    progress { width: 100%; }
+    code { overflow-wrap: anywhere; }
+    .good { color: #087f23; font-weight: 750; }
+    .bad { color: #b42318; font-weight: 750; }
+    .muted { color: #666; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Reachy-camera commissioning</h1>
+  <p class="warning"><strong>Commissioning only—no robot commands.</strong> The image below comes from Reachy Mini’s receive-only local camera stream. The laptop camera is disabled by browser policy. Reachy DoA is read with GET requests only. The laptop microphone is used transiently to determine whether fine audio–lip timing remains measurable; no pixels, waveform, transcript, motion command, or response command is saved or uploaded.</p>
+
+  <div class="grid">
+    <section class="card">
+      <canvas id="robotFrame" width="640" height="480"></canvas>
+      <div class="metrics">
+        <span>Camera: <strong id="cameraMetric">connecting…</strong></span>
+        <span>Transport: <strong id="transportMetric">—</strong></span>
+        <span>Robot frame age: <strong id="frameAgeMetric">—</strong></span>
+        <span>Unique frame: <strong id="sequenceMetric">—</strong></span>
+        <span>Face: <strong id="faceMetric">—</strong></span>
+        <span>Face scale: <strong id="faceScaleMetric">—</strong></span>
+        <span>Lip aperture: <strong id="lipMetric">—</strong></span>
+        <span>Robot heading: <strong id="headingMetric">—</strong></span>
+        <span>Laptop audio: <strong id="audioMetric">—</strong></span>
+        <span>Reachy DoA: <strong id="doaMetric">—</strong></span>
+        <span>DoA age: <strong id="doaAgeMetric">—</strong></span>
+        <span>Landmark inference: <strong id="inferenceMetric">—</strong></span>
+      </div>
+      <p id="preflight" class="bad">Preflight not ready.</p>
+    </section>
+
+    <section class="card controls">
+      <p>Contract: <code id="contract">loading…</code></p>
+      <p><strong>One short check:</strong> stand at the fixed one-metre front mark, face Reachy, and speak naturally throughout the ten-second capture. Do not play phone audio.</p>
+      <button id="initialize">Initialize pinned landmark model</button>
+      <button id="microphone" disabled>Enable laptop microphone only</button>
+      <button id="record" disabled>Record 10-second commissioning check</button>
+      <button id="stop" disabled>Stop microphone</button>
+      <progress id="progress" value="0" max="10"></progress>
+      <p id="status">Waiting for the receive-only Reachy camera stream.</p>
+      <p class="muted">The output is a derived-numeric CSV plus metadata JSON. Passing establishes observability only. It cannot authorize movement, attention hold, or a response.</p>
+    </section>
+  </div>
+
+  <script type="module">
+    const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
+    const wasmRoot = "../models/avsync_v2/runtime/wasm";
+    const modelUrl = "../models/avsync_v2/face_landmarker.task";
+    const canvas = document.getElementById("robotFrame");
+    const context = canvas.getContext("2d", { alpha: false });
+    const contractEl = document.getElementById("contract");
+    const initializeButton = document.getElementById("initialize");
+    const microphoneButton = document.getElementById("microphone");
+    const recordButton = document.getElementById("record");
+    const stopButton = document.getElementById("stop");
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+    const preflight = document.getElementById("preflight");
+    const cameraMetric = document.getElementById("cameraMetric");
+    const transportMetric = document.getElementById("transportMetric");
+    const frameAgeMetric = document.getElementById("frameAgeMetric");
+    const sequenceMetric = document.getElementById("sequenceMetric");
+    const faceMetric = document.getElementById("faceMetric");
+    const faceScaleMetric = document.getElementById("faceScaleMetric");
+    const lipMetric = document.getElementById("lipMetric");
+    const headingMetric = document.getElementById("headingMetric");
+    const audioMetric = document.getElementById("audioMetric");
+    const doaMetric = document.getElementById("doaMetric");
+    const doaAgeMetric = document.getElementById("doaAgeMetric");
+    const inferenceMetric = document.getElementById("inferenceMetric");
+
+    let contract = null;
+    let faceLandmarker = null;
+    let audioStream = null;
+    let audioContext = null;
+    let analyser = null;
+    let audioBuffer = null;
+    let latestFrame = null;
+    let latestFace = null;
+    let previousUniqueLip = null;
+    let lastDoa = null;
+    let doaValidStreak = 0;
+    let frameFetchFailures = 0;
+    let frameLoopActive = true;
+    let doaLoopActive = true;
+    let recording = false;
+    let preflightReady = false;
+
+    function finite(value) { return Number.isFinite(value) ? value : null; }
+    function distance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+    function csvValue(value) {
+      if (value === null || value === undefined) return "";
+      const rendered = String(value);
+      return /[",\n]/.test(rendered) ? `"${rendered.replaceAll('"', '""')}"` : rendered;
+    }
+    function download(name, text, type) {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([text], { type }));
+      link.download = name;
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+    async function fetchJson(url) {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+      return response.json();
+    }
+    function measureAudio() {
+      if (!analyser || !audioBuffer) return -120;
+      analyser.getFloatTimeDomainData(audioBuffer);
+      let energy = 0;
+      for (const sample of audioBuffer) energy += sample * sample;
+      return 20 * Math.log10(Math.max(Math.sqrt(energy / audioBuffer.length), 1e-6));
+    }
+    function faceProjection(centerX) {
+      const fxNorm = 2001.8076426486707 / 3840.0;
+      const cxNorm = 1905.876059826701 / 3840.0;
+      const cameraRight = 180 * Math.atan((centerX - cxNorm) / fxNorm) / Math.PI;
+      return { cameraRight, robotHeading: -cameraRight };
+    }
+    function measureFace(timestamp, frameObservedMs) {
+      if (!faceLandmarker || canvas.width === 0 || canvas.height === 0) return null;
+      const started = performance.now();
+      const result = faceLandmarker.detectForVideo(canvas, timestamp);
+      const inferenceMs = performance.now() - started;
+      const faces = result.faceLandmarks || [];
+      if (faces.length !== 1) {
+        previousUniqueLip = null;
+        return {
+          count: Math.min(faces.length, 2), centerX: null, centerY: null,
+          cameraRight: null, robotHeading: null, scale: 0, lip: 0,
+          lipMotion: 0, inferenceMs, observedMs: frameObservedMs,
+        };
+      }
+      const points = faces[0];
+      const centerX = (points[33].x + points[263].x) / 2;
+      const centerY = (points[33].y + points[263].y) / 2;
+      const scale = distance(points[33], points[263]);
+      const lip = scale > 0 ? distance(points[13], points[14]) / scale : 0;
+      const lipMotion = previousUniqueLip === null ? 0 : Math.abs(lip - previousUniqueLip);
+      previousUniqueLip = lip;
+      const projection = faceProjection(centerX);
+      return {
+        count: 1, centerX, centerY,
+        cameraRight: projection.cameraRight,
+        robotHeading: projection.robotHeading,
+        scale, lip, lipMotion, inferenceMs, observedMs: frameObservedMs,
+      };
+    }
+
+    async function fetchRobotFrame() {
+      if (!frameLoopActive) return;
+      const started = performance.now();
+      try {
+        const response = await fetch(`/api/reachy-camera/frame.jpg?t=${Date.now()}`, { cache: "no-store" });
+        const received = performance.now();
+        if (!response.ok) throw new Error(`frame returned ${response.status}`);
+        const sequence = Number(response.headers.get("X-Reachy-Frame-Sequence"));
+        const transportFrames = Number(response.headers.get("X-Reachy-Transport-Frames"));
+        const analysisFrames = Number(response.headers.get("X-Reachy-Analysis-Frames"));
+        const serverAgeMs = Number(response.headers.get("X-Reachy-Frame-Age-Ms"));
+        const width = Number(response.headers.get("X-Reachy-Frame-Width"));
+        const height = Number(response.headers.get("X-Reachy-Frame-Height"));
+        const encodeMs = Number(response.headers.get("X-Reachy-Frame-Encode-Ms"));
+        const blob = await response.blob();
+        const bitmap = await createImageBitmap(blob);
+        const isNew = latestFrame === null || sequence !== latestFrame.sequence;
+        if (canvas.width !== bitmap.width || canvas.height !== bitmap.height) {
+          canvas.width = bitmap.width;
+          canvas.height = bitmap.height;
+        }
+        context.drawImage(bitmap, 0, 0);
+        bitmap.close();
+        const roundtripMs = received - started;
+        latestFrame = {
+          sequence, transportFrames, analysisFrames, serverAgeMs,
+          roundtripMs, receivedMs: received, width, height, encodeMs,
+          isNew, fetchFailures: frameFetchFailures,
+        };
+        if (isNew && faceLandmarker) latestFace = measureFace(received, received);
+        frameFetchFailures = 0;
+      } catch (error) {
+        frameFetchFailures += 1;
+        if (frameFetchFailures >= 3) cameraMetric.textContent = `unavailable (${error.message})`;
+      } finally {
+        window.setTimeout(fetchRobotFrame, contract?.robot_frame_poll_period_ms || 50);
+      }
+    }
+
+    async function pollDoa() {
+      if (!doaLoopActive) return;
+      const started = performance.now();
+      try {
+        const payload = await fetchJson("/api/reachy-camera/doa");
+        const received = performance.now();
+        const roundtripMs = received - started;
+        lastDoa = {
+          ...payload,
+          observedMs: (started + received) / 2,
+          receivedMs: received,
+          roundtripMs,
+        };
+        doaValidStreak = payload.valid ? doaValidStreak + 1 : 0;
+      } catch (error) {
+        doaValidStreak = 0;
+        lastDoa = {
+          valid: false, error_code: String(error), observedMs: performance.now(),
+          receivedMs: performance.now(), roundtripMs: performance.now() - started,
+        };
+      } finally {
+        window.setTimeout(pollDoa, contract?.doa_poll_period_ms || 200);
+      }
+    }
+
+    function frameAge(now) {
+      if (!latestFrame) return null;
+      return Math.max(0, latestFrame.serverAgeMs + latestFrame.roundtripMs / 2 + (now - latestFrame.receivedMs));
+    }
+    function doaAge(now) {
+      return lastDoa ? Math.max(0, now - lastDoa.observedMs) : null;
+    }
+    function updatePreview() {
+      const now = performance.now();
+      const audio = measureAudio();
+      const age = frameAge(now);
+      const currentDoaAge = doaAge(now);
+      const checks = contract?.commissioning_checks || {};
+      const failures = [];
+      const cameraFresh = latestFrame && age !== null && age <= Number(checks.maximum_p95_robot_frame_age_ms);
+      if (!cameraFresh || frameFetchFailures > 0) failures.push("wait for a fresh Reachy camera frame");
+      if (!latestFace || latestFace.count !== 1) failures.push("show exactly one face to Reachy");
+      if (!latestFace || latestFace.scale < Number(checks.minimum_median_face_scale)) failures.push("move until Reachy sees a usable face scale");
+      if (!audioContext) failures.push("enable the laptop microphone timing reference");
+      const doaFresh = Boolean(lastDoa?.valid) && currentDoaAge !== null && currentDoaAge <= Number(checks.maximum_p95_doa_age_ms);
+      if (!doaFresh) failures.push("wait for a fresh valid Reachy DoA reading");
+      if (doaValidStreak < 5) failures.push(`stabilize DoA (${doaValidStreak}/5 valid polls)`);
+      if (doaFresh && !lastDoa.speech_detected) failures.push("speak until Reachy reports speech=true");
+      preflightReady = failures.length === 0;
+      preflight.className = preflightReady ? "good" : "bad";
+      preflight.textContent = preflightReady
+        ? "Commissioning preflight ready. Keep facing Reachy and speaking throughout the capture."
+        : `Preflight not ready: ${failures.join("; ")}.`;
+      recordButton.disabled = !preflightReady || recording;
+      cameraMetric.textContent = cameraFresh ? "Reachy stream fresh" : "Reachy stream not ready";
+      cameraMetric.className = cameraFresh ? "good" : "bad";
+      transportMetric.textContent = latestFrame ? `${latestFrame.transportFrames} received / ${latestFrame.analysisFrames} analyzed` : "—";
+      frameAgeMetric.textContent = age === null ? "—" : `${age.toFixed(0)} ms`;
+      sequenceMetric.textContent = latestFrame ? String(latestFrame.sequence) : "—";
+      faceMetric.textContent = latestFace ? `${latestFace.count} face(s)` : "—";
+      faceScaleMetric.textContent = latestFace?.count === 1 ? latestFace.scale.toFixed(4) : "—";
+      lipMetric.textContent = latestFace?.count === 1 ? latestFace.lip.toFixed(4) : "—";
+      headingMetric.textContent = latestFace?.count === 1 ? `${latestFace.robotHeading.toFixed(1)}°` : "—";
+      audioMetric.textContent = audioContext ? `${audio.toFixed(1)} dBFS` : "—";
+      doaMetric.textContent = lastDoa?.valid ? `${Number(lastDoa.axis_deg).toFixed(1)}°, speech=${lastDoa.speech_detected}` : "unavailable";
+      doaAgeMetric.textContent = currentDoaAge === null ? "—" : `${currentDoaAge.toFixed(0)} ms`;
+      inferenceMetric.textContent = latestFace ? `${latestFace.inferenceMs.toFixed(1)} ms` : "—";
+      if (!recording) window.setTimeout(updatePreview, 100);
+    }
+
+    function rowSnapshot(now, previousSample, previousSequence, nextDeadline) {
+      const frame = latestFrame;
+      const face = latestFace;
+      const doa = lastDoa;
+      const sequence = frame?.sequence ?? 0;
+      return {
+        timestamp_ms: now,
+        wall_time_iso: new Date().toISOString(),
+        scheduler_lateness_ms: Math.max(0, now - nextDeadline),
+        sample_gap_ms: previousSample === null ? 0 : now - previousSample,
+        audio_context_time_ms: audioContext.currentTime * 1000,
+        audio_dbfs: measureAudio(),
+        robot_camera_status: frameFetchFailures === 0 && frame ? "RECEIVING" : "UNAVAILABLE",
+        robot_frame_sequence: sequence,
+        robot_transport_frames: frame?.transportFrames ?? 0,
+        robot_analysis_frames: frame?.analysisFrames ?? 0,
+        robot_frame_age_ms: frameAge(now),
+        robot_frame_fetch_ms: finite(frame?.roundtripMs),
+        robot_frame_width_px: frame?.width ?? null,
+        robot_frame_height_px: frame?.height ?? null,
+        robot_frame_encode_ms: finite(frame?.encodeMs),
+        robot_frame_duplicate: previousSequence !== null && sequence === previousSequence,
+        robot_frames_skipped_since_previous: previousSequence === null ? 0 : Math.max(0, sequence - previousSequence - 1),
+        face_count: face?.count ?? 0,
+        face_center_x_norm: finite(face?.centerX),
+        face_center_y_norm: finite(face?.centerY),
+        face_camera_right_deg: finite(face?.cameraRight),
+        face_heading_robot_deg: finite(face?.robotHeading),
+        face_scale: finite(face?.scale) ?? 0,
+        lip_aperture: finite(face?.lip) ?? 0,
+        lip_motion: finite(face?.lipMotion) ?? 0,
+        landmark_inference_ms: finite(face?.inferenceMs),
+        face_observation_age_ms: face ? Math.max(0, now - face.observedMs) : null,
+        doa_valid: Boolean(doa?.valid),
+        doa_raw_angle_rad: finite(doa?.raw_angle_rad),
+        doa_axis_deg: finite(doa?.axis_deg),
+        doa_speech_detected: doa?.speech_detected ?? null,
+        doa_age_ms: doaAge(now),
+        doa_roundtrip_ms: finite(doa?.roundtripMs),
+        doa_robot_http_latency_ms: finite(doa?.robot_http_latency_ms),
+        doa_http_status: doa?.http_status ?? null,
+        doa_error_code: doa?.error_code || "",
+      };
+    }
+
+    initializeButton.addEventListener("click", async () => {
+      initializeButton.disabled = true;
+      status.textContent = "Loading pinned local face-landmark model…";
+      try {
+        const { FilesetResolver, FaceLandmarker } = await import(runtimeModuleUrl);
+        const vision = await FilesetResolver.forVisionTasks(wasmRoot);
+        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: modelUrl },
+          runningMode: "VIDEO",
+          numFaces: 2,
+        });
+        microphoneButton.disabled = false;
+        status.textContent = "Landmark model ready. Enable the microphone timing reference.";
+      } catch (error) {
+        initializeButton.disabled = false;
+        status.textContent = `Model initialization failed: ${error.message}`;
+      }
+    });
+
+    microphoneButton.addEventListener("click", async () => {
+      microphoneButton.disabled = true;
+      try {
+        audioStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: {
+          echoCancellation: false, noiseSuppression: false, autoGainControl: false,
+        }});
+        audioContext = new AudioContext();
+        const source = audioContext.createMediaStreamSource(audioStream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+        audioBuffer = new Float32Array(analyser.fftSize);
+        stopButton.disabled = false;
+        status.textContent = "Microphone timing reference active. Face Reachy and speak until preflight is green.";
+      } catch (error) {
+        microphoneButton.disabled = false;
+        status.textContent = `Microphone start failed: ${error.message}`;
+      }
+    });
+
+    stopButton.addEventListener("click", async () => {
+      if (audioStream) for (const track of audioStream.getTracks()) track.stop();
+      if (audioContext) await audioContext.close();
+      audioStream = null; audioContext = null; analyser = null; audioBuffer = null;
+      microphoneButton.disabled = faceLandmarker === null;
+      stopButton.disabled = true;
+      recordButton.disabled = true;
+      status.textContent = "Laptop microphone stopped. Reachy camera remains receive-only on the local server.";
+    });
+
+    recordButton.addEventListener("click", async () => {
+      if (recording || !preflightReady || !audioContext) {
+        status.textContent = "Opening gate closed: commissioning preflight is not ready.";
+        return;
+      }
+      recording = true;
+      recordButton.disabled = true;
+      const rows = [];
+      const started = performance.now();
+      let nextDeadline = started;
+      let previousSample = null;
+      let previousSequence = null;
+      progress.max = contract.capture_seconds;
+      progress.value = 0;
+      status.textContent = "Capturing derived numeric commissioning data only…";
+      await new Promise(resolve => {
+        const take = () => {
+          const now = performance.now();
+          const row = rowSnapshot(now, previousSample, previousSequence, nextDeadline);
+          row.timestamp_ms = now - started;
+          rows.push(row);
+          previousSample = now;
+          previousSequence = row.robot_frame_sequence;
+          progress.value = Math.min(contract.capture_seconds, (now - started) / 1000);
+          if (now - started >= contract.capture_seconds * 1000) return resolve();
+          nextDeadline += contract.sample_period_ms;
+          window.setTimeout(take, Math.max(0, nextDeadline - performance.now()));
+        };
+        take();
+      });
+      const columns = contract.required_columns;
+      const csv = [columns.join(","), ...rows.map(row => columns.map(key => csvValue(row[key])).join(","))].join("\n") + "\n";
+      const stamp = new Date().toISOString().replaceAll(":", "-").replace(".", "-");
+      const base = `reachy-camera-commissioning-${stamp}`;
+      const metadata = {
+        schema: "reachy-robot-camera-commissioning-capture-v1",
+        captured_at: new Date().toISOString(),
+        instrument_fingerprint: contract.fingerprint,
+        camera_source: "Reachy Mini receive-only local WebRTC stream",
+        microphone_source: "laptop microphone timing reference; transient samples only",
+        coordinate_contract: contract.coordinate_contract,
+        timing_contract: contract.timing_contract,
+        sample_count: rows.length,
+        contains_pixels: false,
+        contains_waveform: false,
+        contains_transcript: false,
+        contains_identity_embedding: false,
+        uploads: 0,
+        motion_commands: 0,
+        response_commands: 0,
+        claim_boundary: contract.claim_boundary,
+      };
+      download(`${base}.csv`, csv, "text/csv");
+      download(`${base}.metadata.json`, JSON.stringify(metadata, null, 2) + "\n", "application/json");
+      recording = false;
+      progress.value = contract.capture_seconds;
+      status.textContent = "Commissioning capture complete. Send both downloaded files for the frozen offline checks; do not begin a pilot.";
+      updatePreview();
+    });
+
+    async function start() {
+      try {
+        contract = await fetchJson("/api/reachy-camera/config");
+        contractEl.textContent = `${contract.schema}; ${contract.fingerprint}`;
+        fetchRobotFrame();
+        pollDoa();
+        updatePreview();
+      } catch (error) {
+        status.textContent = `Contract load failed: ${error.message}`;
+      }
+    }
+    window.addEventListener("beforeunload", () => {
+      frameLoopActive = false;
+      doaLoopActive = false;
+      if (audioStream) for (const track of audioStream.getTracks()) track.stop();
+    });
+    start();
+  </script>
+</body>
+</html>

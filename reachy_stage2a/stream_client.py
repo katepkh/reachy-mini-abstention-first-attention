@@ -110,7 +110,13 @@ class LocalVideoSession:
         signalling_host: str = CAMERA_PROXY_HOST,
     ) -> None:
         self.signalling_url = local_signalling_url(signalling_host)
-        self.detection_period = 1.0 / min(10.0, max(1.0, float(detection_hz)))
+        # The original face-position workers request 5--7 Hz.  The
+        # command-free robot-camera commissioning bridge may request up to
+        # 60 Hz so a nominal 30 Hz stream is not accidentally decimated when
+        # frame-arrival jitter lands just below a 30 Hz scheduling boundary.
+        # The one-analysis-task limit still bounds CPU and drops analysis
+        # samples rather than blocking transport when encoding is slow.
+        self.detection_period = 1.0 / min(60.0, max(1.0, float(detection_hz)))
         self.max_runtime_seconds = min(
             MAX_CAMERA_RUNTIME_SECONDS,
             max(10.0, float(max_runtime_seconds)),
