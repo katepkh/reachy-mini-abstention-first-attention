@@ -116,6 +116,9 @@ class JointInstrumentContractTests(unittest.TestCase):
         self.assertIn("reachy-joint-shadow-no-motion-pilot-v2", source)
         self.assertIn('import { assessPilotQuality } from "./joint_pilot_quality.mjs"', source)
         self.assertIn("assessPilotQuality(pilotTrial, rows, pilot.quality_gates)", source)
+        self.assertIn('id="faceScaleMetric"', source)
+        self.assertIn("minimum ${pilotScaleMinimum.toFixed(4)}", source)
+        self.assertIn("Keep it stable throughout the capture", source)
         quality_source = (ROOT / "tools" / "joint_pilot_quality.mjs").read_text(
             encoding="utf-8"
         )

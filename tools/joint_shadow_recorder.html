@@ -38,6 +38,7 @@
       </div>
       <div class="metrics">
         <span>Face: <strong id="faceMetric">not running</strong></span>
+        <span>Face scale: <strong id="faceScaleMetric">—</strong></span>
         <span>Lip aperture: <strong id="lipMetric">—</strong></span>
         <span>Audio: <strong id="audioMetric">—</strong></span>
         <span>DoA: <strong id="doaMetric">—</strong></span>
@@ -65,6 +66,7 @@
       <button id="stopButton" disabled>Stop sensors</button>
       <progress id="progress" max="10" value="0"></progress>
       <p id="status">Loading the command-free contract…</p>
+      <p id="pilotReadiness"></p>
       <div id="quality"></div>
     </section>
   </div>
@@ -98,11 +100,13 @@
     const quality = document.getElementById("quality");
     const fingerprint = document.getElementById("fingerprint");
     const faceMetric = document.getElementById("faceMetric");
+    const faceScaleMetric = document.getElementById("faceScaleMetric");
     const lipMetric = document.getElementById("lipMetric");
     const audioMetric = document.getElementById("audioMetric");
     const doaMetric = document.getElementById("doaMetric");
     const doaAgeMetric = document.getElementById("doaAgeMetric");
     const inferenceMetric = document.getElementById("inferenceMetric");
+    const pilotReadiness = document.getElementById("pilotReadiness");
 
     let contract = null;
     let pilot = null;
@@ -290,11 +294,27 @@
         doa_poll_skips: doaPollSkips,
       };
       faceMetric.textContent = face.count === 1 ? "one face" : `${face.count} faces`;
+      const pilotScaleMinimum = Number(
+        pilot?.quality_gates?.minimum_median_face_scale_when_required,
+      );
+      const scaleReady = face.count === 1 && Number.isFinite(pilotScaleMinimum)
+        && face.scale >= pilotScaleMinimum;
+      faceScaleMetric.textContent = face.count === 1
+        ? `${face.scale.toFixed(4)} (minimum ${pilotScaleMinimum.toFixed(4)})`
+        : "—";
+      faceScaleMetric.className = face.count === 1
+        ? (scaleReady ? "good" : "bad")
+        : "bad";
       lipMetric.textContent = face.count === 1 ? face.lip.toFixed(4) : "—";
       audioMetric.textContent = `${audio.toFixed(1)} dBFS`;
       doaMetric.textContent = doa?.valid ? `${Number(doa.axis_deg).toFixed(1)}°, speech=${doa.speech_detected}` : "unavailable";
       doaAgeMetric.textContent = row.doa_age_ms === null ? "—" : `${row.doa_age_ms.toFixed(0)} ms`;
       inferenceMetric.textContent = `${face.inferenceMs.toFixed(1)} ms`;
+      const previewReady = face.count === 1 && scaleReady && Boolean(doa?.valid);
+      pilotReadiness.className = previewReady ? "good" : "bad";
+      pilotReadiness.textContent = previewReady
+        ? "Momentary pilot preview passes face-count, face-scale, and DoA readiness. Keep it stable throughout the capture."
+        : "Not ready: require exactly one stable face, face scale at or above the displayed minimum, and valid DoA before capture.";
       return { row, lip: face.count === 1 ? face.lip : null };
     }
 

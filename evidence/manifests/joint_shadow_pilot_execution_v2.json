@@ -86,9 +86,9 @@
       "sha256": "d98c89bc7ba9a2cfed7e7fefe3710776180380395e5f179dc045c3e7458bf4f7"
     },
     {
-      "bytes": 27639,
+      "bytes": 28843,
       "path": "tools/joint_shadow_recorder.html",
-      "sha256": "27ae17a9c95093d8c943fe31da48e8d32c5102ae1a43efb77ef375f3a77de92b"
+      "sha256": "af60afd7d33caf0845daf9f4de632c52b470cbcc59ded50aad4ca5143aaf05ae"
     },
     {
       "bytes": 3758596,
@@ -96,7 +96,7 @@
       "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff"
     }
   ],
-  "fingerprint": "72011895ba9e14b238319d097c5c087017bbdca5a0c47909aa47876c49b1ff53",
+  "fingerprint": "7b34d1ca92511746bce1a36547f2c075f2dfcbee0148e7e88e4b5dd774733ba8",
   "instrument_fingerprint": "f9f1b5370642e4f7e2ada7d2bddc36e44c107647d20f0c1efbabc4bb19a93860",
   "privacy": {
     "private_bindings_committed": false,

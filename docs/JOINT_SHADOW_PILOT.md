@@ -1,6 +1,6 @@
 # Frozen joint-shadow no-motion pilot v2
 
-Status: **V2 FROZEN — PRIVATE BINDING GATE READY — ZERO V2 TRIALS COLLECTED**
+Status: **V2 FROZEN — PRIVATE BINDING GATE READY — ZERO VALID V2 TRIALS**
 
 Pilot v1 is invalid for analysis because its `0.16` minimum normalized
 inter-eye scale was incompatible with the fixed one-metre camera geometry.
@@ -15,6 +15,12 @@ was fixed from geometry and two pre-pilot commissioning captures (medians
 approximately 60° horizontal camera field of view, a typical roughly 63 mm
 inter-eye distance occupies about 0.06 of image width. The unchanged ≥95%
 single-face gate still rejects unreliable face observation.
+
+V2 Trial-1 attempt 1 was objectively rejected and retained privately: one
+usable face was present in 23.9% of samples and median face scale was `0.0569`.
+The speech, DoA, timing, spatial, privacy, and command checks passed. No gate was
+changed. The recorder now displays live face scale and momentary face/DoA
+readiness; Trial 1 remains next.
 
 The joint instrument passed one real commissioning capture on 26 September
 2026. That capture established simultaneous observability of one face, laptop
