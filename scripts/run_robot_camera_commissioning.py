@@ -9,7 +9,7 @@ import sys
 import time
 from functools import partial
 from http import HTTPStatus
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -143,6 +143,25 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
     do_DELETE = _reject_mutation
     do_PATCH = _reject_mutation
 
+    def log_message(self, format: str, *args: object) -> None:
+        """Keep the high-rate receive-only endpoints out of the console log.
+
+        The browser deliberately polls the latest transient frame many times per
+        second.  Logging every successful poll can produce hundreds of thousands
+        of terminal lines during one commissioning session and provides no useful
+        evidence.  Errors and ordinary page/static requests remain visible.
+        """
+
+        path = urlsplit(self.path).path
+        status = str(args[1]) if len(args) > 1 else ""
+        if status == "200" and path in {
+            "/api/reachy-camera/frame.jpg",
+            "/api/reachy-camera/doa",
+            "/api/reachy-camera/status",
+        }:
+            return
+        super().log_message(format, *args)
+
     def end_headers(self) -> None:
         self.send_header("Permissions-Policy", "camera=(), geolocation=(), payment=(), usb=()")
         super().end_headers()
@@ -165,7 +184,10 @@ def main() -> int:
     RobotCameraCommissioningHandler.doa_client = client
     RobotCameraCommissioningHandler.camera_bridge = bridge
     handler = partial(RobotCameraCommissioningHandler, directory=str(ROOT))
-    server = ThreadingHTTPServer((args.bind, args.port), handler)
+    # The recorder issues one awaited frame request at a time.  A single-threaded
+    # loopback server is therefore sufficient and, unlike ThreadingHTTPServer,
+    # cannot exhaust Windows worker threads during a long-open preview.
+    server = HTTPServer((args.bind, args.port), handler)
     url = f"http://127.0.0.1:{args.port}/tools/robot_camera_commissioning.html"
     print(f"Reachy-camera commissioning: {url}")
     print("Receive-only camera + GET-only DoA; no motion or response authority.")

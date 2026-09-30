@@ -52,6 +52,12 @@ class RobotCameraCommissioningTests(unittest.TestCase):
         self.assertIn("do_POST = _reject_mutation", server)
         self.assertIn("camera=()", server)
 
+    def test_loopback_server_cannot_spawn_one_thread_per_frame_request(self) -> None:
+        server = (ROOT / "scripts" / "run_robot_camera_commissioning.py").read_text(encoding="utf-8")
+        self.assertIn("from http.server import HTTPServer, SimpleHTTPRequestHandler", server)
+        self.assertIn("server = HTTPServer((args.bind, args.port), handler)", server)
+        self.assertNotIn("server = ThreadingHTTPServer", server)
+
     def test_bridge_keeps_only_encoded_latest_frame(self) -> None:
         bridge = RobotCameraFrameBridge(maximum_width_px=320)
         pixels = np.zeros((480, 640, 3), dtype=np.uint8)
