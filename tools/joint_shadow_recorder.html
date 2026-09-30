@@ -120,10 +120,21 @@
     let doaInFlight = false;
     let doaPollFailures = 0;
     let doaPollSkips = 0;
+    let doaValidStreak = 0;
     let lastDoa = null;
     let lastVideoFramePerfMs = null;
     let videoPresentedFrames = 0;
     let recording = false;
+    let pilotPreviewReady = false;
+    const REQUIRED_DOA_STREAK = 5;
+    const SPEECH_REQUIRED_CONDITIONS = new Set([
+      "live_visible_continuous",
+      "live_visible_interrupted",
+      "silent_face_phone_playback",
+      "silent_mouthing_unrelated_playback",
+      "speech_without_usable_face",
+      "spatial_conflict",
+    ]);
 
     function finite(value) { return Number.isFinite(value) ? value : null; }
     function distance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
@@ -158,13 +169,17 @@
     function showInstruction() {
       instruction.textContent = boundPilotTrial()?.instruction || selectedCondition()?.instruction || "";
     }
-    condition.addEventListener("change", showInstruction);
+    condition.addEventListener("change", () => {
+      pilotPreviewReady = false;
+      showInstruction();
+    });
     function boundPilotTrial() {
       const trialId = trialIdInput.value.trim();
       if (!trialId) return null;
       return pilot?.randomized_schedule.find(item => item.trial_id === trialId) || null;
     }
     function bindPilotTrial() {
+      pilotPreviewReady = false;
       const trialId = trialIdInput.value.trim();
       if (!trialId) {
         condition.disabled = false;
@@ -242,9 +257,15 @@
           const received = performance.now();
           const roundtrip = received - started;
           lastDoa = { ...payload, observedMs: (started + received) / 2, receivedMs: received, roundtripMs: roundtrip, uncertaintyMs: roundtrip / 2 };
-          if (!payload.valid) doaPollFailures += 1;
+          if (payload.valid) {
+            doaValidStreak += 1;
+          } else {
+            doaValidStreak = 0;
+            doaPollFailures += 1;
+          }
         } catch (error) {
           const received = performance.now();
+          doaValidStreak = 0;
           doaPollFailures += 1;
           lastDoa = { valid: false, error_code: String(error), observedMs: (started + received) / 2, receivedMs: received, roundtripMs: received - started, uncertaintyMs: (received - started) / 2 };
         } finally {
@@ -310,11 +331,32 @@
       doaMetric.textContent = doa?.valid ? `${Number(doa.axis_deg).toFixed(1)}°, speech=${doa.speech_detected}` : "unavailable";
       doaAgeMetric.textContent = row.doa_age_ms === null ? "—" : `${row.doa_age_ms.toFixed(0)} ms`;
       inferenceMetric.textContent = `${face.inferenceMs.toFixed(1)} ms`;
-      const previewReady = face.count === 1 && scaleReady && Boolean(doa?.valid);
-      pilotReadiness.className = previewReady ? "good" : "bad";
-      pilotReadiness.textContent = previewReady
-        ? "Momentary pilot preview passes face-count, face-scale, and DoA readiness. Keep it stable throughout the capture."
-        : "Not ready: require exactly one stable face, face scale at or above the displayed minimum, and valid DoA before capture.";
+      const pilotTrial = boundPilotTrial();
+      const doaFresh = Boolean(doa?.valid)
+        && row.doa_age_ms !== null
+        && row.doa_age_ms <= Number(pilot?.quality_gates?.maximum_p95_doa_age_ms);
+      const preflightFailures = [];
+      if (pilotTrial?.condition_id === "speech_without_usable_face") {
+        if (face.count !== 0) preflightFailures.push("remove every usable face from frame");
+      } else {
+        if (face.count !== 1) preflightFailures.push("show exactly one face");
+        if (!scaleReady) preflightFailures.push("raise face scale to the displayed minimum");
+      }
+      if (!doaFresh) preflightFailures.push("wait for a fresh valid DoA reading");
+      if (doaValidStreak < REQUIRED_DOA_STREAK) {
+        preflightFailures.push(`stabilize DoA (${doaValidStreak}/${REQUIRED_DOA_STREAK} consecutive valid polls)`);
+      }
+      if (pilotTrial && doaFresh) {
+        const expectedSpeech = SPEECH_REQUIRED_CONDITIONS.has(pilotTrial.condition_id);
+        if (Boolean(doa.speech_detected) !== expectedSpeech) {
+          preflightFailures.push(`make DoA speech=${expectedSpeech}`);
+        }
+      }
+      pilotPreviewReady = preflightFailures.length === 0;
+      pilotReadiness.className = pilotPreviewReady ? "good" : "bad";
+      pilotReadiness.textContent = pilotPreviewReady
+        ? `Pilot preflight ready: face state, face scale, fresh DoA, and ${REQUIRED_DOA_STREAK}/${REQUIRED_DOA_STREAK} stable polls match this condition. Keep them stable throughout the capture.`
+        : `Pilot preflight not ready: ${preflightFailures.join("; ")}.`;
       return { row, lip: face.count === 1 ? face.lip : null };
     }
 
@@ -363,6 +405,8 @@
         lastDoa = null;
         doaPollFailures = 0;
         doaPollSkips = 0;
+        doaValidStreak = 0;
+        pilotPreviewReady = false;
         if ("requestVideoFrameCallback" in video) video.requestVideoFrameCallback(noteVideoFrame);
         pollDoa();
         previewTick();
@@ -389,6 +433,8 @@
       analyser = null;
       audioBuffer = null;
       lastDoa = null;
+      doaValidStreak = 0;
+      pilotPreviewReady = false;
       recordButton.disabled = true;
       deviceBindingButton.disabled = true;
       stopButton.disabled = true;
@@ -457,6 +503,10 @@
       }
       if (pilotTrial && condition.value !== pilotTrial.condition_id) {
         status.textContent = "Opening gate closed: pilot trial ID and condition do not match the frozen schedule.";
+        return;
+      }
+      if (pilotTrial && !pilotPreviewReady) {
+        status.textContent = "Opening gate closed: pilot preflight is not stable. Follow the red readiness message and keep DoA valid for five consecutive polls before capture.";
         return;
       }
       recording = true;

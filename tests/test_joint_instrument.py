@@ -118,7 +118,10 @@ class JointInstrumentContractTests(unittest.TestCase):
         self.assertIn("assessPilotQuality(pilotTrial, rows, pilot.quality_gates)", source)
         self.assertIn('id="faceScaleMetric"', source)
         self.assertIn("minimum ${pilotScaleMinimum.toFixed(4)}", source)
-        self.assertIn("Keep it stable throughout the capture", source)
+        self.assertIn("REQUIRED_DOA_STREAK = 5", source)
+        self.assertIn("SPEECH_REQUIRED_CONDITIONS", source)
+        self.assertIn("pilot preflight is not stable", source)
+        self.assertIn("Keep them stable throughout the capture", source)
         quality_source = (ROOT / "tools" / "joint_pilot_quality.mjs").read_text(
             encoding="utf-8"
         )

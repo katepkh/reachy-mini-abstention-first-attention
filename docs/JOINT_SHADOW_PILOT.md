@@ -19,8 +19,13 @@ single-face gate still rejects unreliable face observation.
 V2 Trial-1 attempt 1 was objectively rejected and retained privately: one
 usable face was present in 23.9% of samples and median face scale was `0.0569`.
 The speech, DoA, timing, spatial, privacy, and command checks passed. No gate was
-changed. The recorder now displays live face scale and momentary face/DoA
-readiness; Trial 1 remains next.
+changed. V2 Trial-1 attempt 2 fixed the visual problem (95.7% single-face
+coverage; median face scale `0.0638`) but was also rejected and retained
+privately: DoA was valid in 47.8% of rows, p95 DoA age was 1782 ms, and speech
+was detected in 6.5%. The DoA stream recovered after capture. The recorder now
+blocks a frozen-pilot capture until its condition-aware face state is present,
+DoA has been fresh and valid for five consecutive polls, and the current speech
+flag matches the condition. Trial 1 remains next and zero v2 trials are valid.
 
 The joint instrument passed one real commissioning capture on 26 September
 2026. That capture established simultaneous observability of one face, laptop
