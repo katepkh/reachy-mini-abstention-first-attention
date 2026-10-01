@@ -52,6 +52,16 @@ class RobotCameraCommissioningTests(unittest.TestCase):
         self.assertIn("do_POST = _reject_mutation", server)
         self.assertIn("camera=()", server)
 
+    def test_windows_launcher_is_receive_only_and_keeps_terminal_open(self) -> None:
+        launcher = (ROOT / "start_robot_camera_commissioning.cmd").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("run_robot_camera_commissioning.py", launcher)
+        self.assertIn("--robot-ip 192.168.1.251", launcher)
+        self.assertIn("pause", launcher.lower())
+        self.assertNotIn("/api/move", launcher)
+        self.assertNotIn("/api/motors", launcher)
+
     def test_loopback_server_cannot_spawn_one_thread_per_frame_request(self) -> None:
         server = (ROOT / "scripts" / "run_robot_camera_commissioning.py").read_text(encoding="utf-8")
         self.assertIn("from http.server import HTTPServer, SimpleHTTPRequestHandler", server)

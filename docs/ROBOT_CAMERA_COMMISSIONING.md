@@ -46,7 +46,11 @@ commissioning bound while the speaker is at the fixed front mark.
 ## Run
 
 Keep Reachy Mini Control connected and Ready, with every robot application
-stopped. From the repository root:
+stopped. On Windows, double-click `start_robot_camera_commissioning.cmd` in the
+repository root and keep its terminal window open until both output files are
+downloaded. This user-owned launcher remains alive across Codex replies.
+
+Alternatively, run this from the repository root:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\run_robot_camera_commissioning.py --robot-ip 192.168.1.251
