@@ -58,6 +58,41 @@ class RobotCameraCommissioningTests(unittest.TestCase):
         self.assertIn("server = HTTPServer((args.bind, args.port), handler)", server)
         self.assertNotIn("server = ThreadingHTTPServer", server)
 
+    def test_page_config_load_restarts_only_the_bounded_camera_bridge(self) -> None:
+        server = (ROOT / "scripts" / "run_robot_camera_commissioning.py").read_text(encoding="utf-8")
+        config_branch = server.split('if path == "/api/reachy-camera/config":', 1)[1].split(
+            'if path == "/api/reachy-camera/status":', 1
+        )[0]
+        statements = [
+            line.strip()
+            for line in config_branch.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        self.assertEqual(
+            statements,
+            [
+                "self.camera_bridge.start()",
+                "self._json(ROBOT_CAMERA_COMMISSIONING_SPEC_V1.payload())",
+                "return",
+            ],
+        )
+
+    def test_bridge_preserves_bounded_runtime_stop_reason(self) -> None:
+        bridge = RobotCameraFrameBridge(maximum_width_px=320)
+        bridge._set_status("AUTO_STOPPING", "MAX_RUNTIME_REACHED")
+        bridge._set_status("STOPPED", "")
+        snapshot = bridge.snapshot()
+        self.assertEqual(snapshot.status, "STOPPED")
+        self.assertEqual(snapshot.error_code, "MAX_RUNTIME_REACHED")
+
+    def test_bridge_preserves_transport_failure_stop_reason(self) -> None:
+        bridge = RobotCameraFrameBridge(maximum_width_px=320)
+        bridge._set_status("ERROR", "VIDEO_FRAME_TIMEOUT")
+        bridge._set_status("STOPPED", "")
+        snapshot = bridge.snapshot()
+        self.assertEqual(snapshot.status, "STOPPED")
+        self.assertEqual(snapshot.error_code, "VIDEO_FRAME_TIMEOUT")
+
     def test_bridge_keeps_only_encoded_latest_frame(self) -> None:
         bridge = RobotCameraFrameBridge(maximum_width_px=320)
         pixels = np.zeros((480, 640, 3), dtype=np.uint8)

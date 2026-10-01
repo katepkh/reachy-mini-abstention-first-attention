@@ -102,6 +102,11 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802
         path = urlsplit(self.path).path
         if path == "/api/reachy-camera/config":
+            # Loading/reloading the commissioning page is the user's explicit
+            # request for a new bounded receive-only camera session. This lets
+            # the page recover after the 15-minute privacy/safety limit without
+            # adding motion, response, or an unbounded auto-reconnect path.
+            self.camera_bridge.start()
             self._json(ROBOT_CAMERA_COMMISSIONING_SPEC_V1.payload())
             return
         if path == "/api/reachy-camera/status":

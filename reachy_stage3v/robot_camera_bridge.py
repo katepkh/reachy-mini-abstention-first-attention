@@ -86,6 +86,17 @@ class RobotCameraFrameBridge:
 
     def _set_status(self, status: str, error_code: str) -> None:
         with self._lock:
+            if (
+                status == "STOPPED"
+                and not error_code
+                and self._status in {"AUTO_STOPPING", "ERROR"}
+                and self._error_code
+            ):
+                # LocalVideoSession reports its bounded-runtime reason before
+                # final cleanup, and may report a transport error before the
+                # same final STOPPED transition. Preserve either reason so the
+                # UI can distinguish expiry from an actual camera failure.
+                error_code = self._error_code
             self._status = status
             self._error_code = error_code
             if status in {"ERROR", "STOPPED", "STOPPING", "AUTO_STOPPING"}:

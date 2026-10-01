@@ -56,6 +56,10 @@ Open:
 
 `http://127.0.0.1:8767/tools/robot_camera_commissioning.html`
 
+The receive-only camera session remains bounded to 15 minutes. If it expires
+before the short check is recorded, reload this page to start one new bounded
+camera session; reloading does not authorize movement or a response.
+
 The page cannot request the laptop camera. Initialize the pinned model, enable
 the laptop microphone timing reference, stand at the fixed one-metre front
 mark, face Reachy, and speak naturally. Record only after the live preflight is
