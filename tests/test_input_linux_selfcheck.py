@@ -216,7 +216,25 @@ class LinuxIntegrationTests(unittest.TestCase):
         bundle = launcher.source_bundle()
         report = harness.run_check(bundle["definitions"])
         self.assertEqual(report["status"], "PASS", report)
-        self.assertEqual(launcher.validated_result(encoded(report), bundle, 0), report)
+        try:
+            validated = launcher.validated_result(encoded(report), bundle, 0)
+        except ValueError as error:
+            known = {node.value for source in (bundle["definitions"], bundle["harness"])
+                     for node in ast.walk(ast.parse(source))
+                     if isinstance(node, ast.Constant) and isinstance(node.value, str)}
+
+            def strings(value):
+                if isinstance(value, str):
+                    return {value}
+                if isinstance(value, list):
+                    return set().union(*(strings(item) for item in value))
+                if isinstance(value, dict):
+                    return set().union(*(strings(key) | strings(item)
+                                         for key, item in value.items()))
+                return set()
+
+            self.fail(f"{error}; unexpected generated tokens: {sorted(strings(report) - known)[:20]}")
+        self.assertEqual(validated, report)
 
 
 if __name__ == "__main__":
