@@ -90,9 +90,11 @@ def verify_environment_manifest(dependency_count: int) -> None:
 
 
 def run_checks() -> tuple[list[str], int]:
+    # Runner patch releases vary; the locked dependencies and checks establish
+    # whether this CPython minor release reproduces the public artifact suite.
     lines = [
         "reachy-paper-artifact-verification-v1",
-        f"python={sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+        f"python={sys.version_info.major}.{sys.version_info.minor}",
         "network_connections=0",
         "robot_connections=0",
         "camera_or_microphone_capture=0",

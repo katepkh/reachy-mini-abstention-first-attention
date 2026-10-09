@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -17,12 +18,28 @@ from reachy_avsync.pilot_v2_protocol import (
     randomized_pilot_v2_trials,
 )
 from reachy_avsync.pilot_v2_synthetic import write_synthetic_pilot_v2
+from scripts.run_av_synchrony_pilot_v2_dry_run import matches_frozen_analysis
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class AudioMouthSynchronyPilotV2Tests(unittest.TestCase):
+    def test_frozen_dry_run_allows_roundoff_but_rejects_source_or_gate_changes(self) -> None:
+        stored = (
+            PROJECT_ROOT / "evidence" / "analysis" / "av_synchrony_pilot_v2_synthetic_dry_run.json"
+        ).read_bytes()
+        report = json.loads(stored)
+        report["trial_quality"][0]["audio_dbfs_std"] += 5e-13
+        self.assertTrue(matches_frozen_analysis(stored, json.dumps(report).encode("utf-8")))
+
+        report["selected_candidate"]["spec"]["min_correlation"] += 1e-13
+        self.assertFalse(matches_frozen_analysis(stored, json.dumps(report).encode("utf-8")))
+
+        report = json.loads(stored)
+        report["source_bundle_sha256"] = "0" * 64
+        self.assertFalse(matches_frozen_analysis(stored, json.dumps(report).encode("utf-8")))
+
     def test_protocol_has_frozen_development_validation_split(self) -> None:
         canonical = canonical_pilot_v2_trials()
         randomized = randomized_pilot_v2_trials()

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -12,12 +13,30 @@ from reachy_avsync.pilot_protocol import (
     randomized_pilot_trials,
 )
 from reachy_avsync.pilot_synthetic import write_synthetic_pilot
+from scripts.run_av_synchrony_pilot_dry_run import matches_frozen_analysis
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class AudioMouthSynchronyPilotTests(unittest.TestCase):
+    def test_frozen_dry_run_allows_roundoff_but_rejects_changed_results(self) -> None:
+        stored = (
+            PROJECT_ROOT / "evidence" / "analysis" / "av_synchrony_pilot_synthetic_dry_run_v1.json"
+        ).read_bytes()
+        report = json.loads(stored)
+        first = report["selected_candidate"]["trials"][0]
+        first["correlation"] += 5e-13
+        rounded = json.dumps(report).encode("utf-8")
+        self.assertTrue(matches_frozen_analysis(stored, rounded))
+
+        first["correlation"] += 1e-5
+        self.assertFalse(matches_frozen_analysis(stored, json.dumps(report).encode("utf-8")))
+
+        first["correlation"] -= 1e-5
+        first["candidate"] = not first["candidate"]
+        self.assertFalse(matches_frozen_analysis(stored, json.dumps(report).encode("utf-8")))
+
     def test_protocol_has_twelve_balanced_randomized_trials(self) -> None:
         canonical = canonical_pilot_trials()
         randomized = randomized_pilot_trials()

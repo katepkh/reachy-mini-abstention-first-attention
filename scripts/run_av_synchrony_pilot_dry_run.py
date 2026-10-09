@@ -11,6 +11,7 @@ import tempfile
 
 from reachy_avsync.pilot import analyze_pilot
 from reachy_avsync.pilot_synthetic import write_synthetic_pilot
+from reachy_avsync.synthetic_artifact_check import matches_frozen_report
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +38,14 @@ def render() -> bytes:
     return json.dumps(report, indent=2, sort_keys=True).encode("utf-8") + b"\n"
 
 
+def matches_frozen_analysis(stored: bytes, regenerated: bytes) -> bool:
+    """Accept only floating point roundoff in selected-trial correlations."""
+
+    return matches_frozen_report(
+        stored, regenerated, roundoff_fields=frozenset({"correlation"})
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
@@ -51,10 +60,12 @@ def main() -> int:
         SIDECAR.write_bytes(sidecar)
         print(f"Wrote {OUTPUT.relative_to(PROJECT_ROOT)} and SHA-256 sidecar.")
         return 0
-    if not OUTPUT.is_file() or OUTPUT.read_bytes() != content:
+    if not OUTPUT.is_file() or not matches_frozen_analysis(OUTPUT.read_bytes(), content):
         print("FAIL: synchrony pilot dry-run artifact is missing or stale.")
         return 1
-    if not SIDECAR.is_file() or SIDECAR.read_bytes() != sidecar:
+    stored = OUTPUT.read_bytes()
+    stored_sidecar = f"{hashlib.sha256(stored).hexdigest()}  {OUTPUT.name}\n".encode("ascii")
+    if not SIDECAR.is_file() or SIDECAR.read_bytes() != stored_sidecar:
         print("FAIL: synchrony pilot dry-run sidecar is missing or stale.")
         return 1
     print("PASS: synchrony pilot synthetic dry-run artifact is current.")
