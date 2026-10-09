@@ -35,6 +35,9 @@ RUN_ID = "observed-linux-20261008-01"
 LOCAL_ROOT = ROOT / "data/private/mic_input_linux_check"
 PYTHON = "/venvs/mini_daemon/bin/python"
 PREFIX = "LINUX_SYNTHETIC_RESULT "
+# These two fixed report keys are emitted by observation_report() as keyword
+# arguments to dict.update(), so they are not AST string constants.
+KEYWORD_RESULT_KEYS = frozenset({"stop_requested", "terminal"})
 
 
 def sha(data):
@@ -103,7 +106,7 @@ def validated_result(output, bundle, returncode):
              for node in ast.walk(ast.parse(source))
              if isinstance(node, ast.Constant) and isinstance(node.value, str)}
 
-    def validate(value, depth=0):
+    def validate(value, depth=0, *, is_key=False):
         if depth > 12:
             raise ValueError("result_too_deep")
         if value is None or type(value) is bool:
@@ -112,14 +115,14 @@ def validated_result(output, bundle, returncode):
             if not math.isfinite(value) or abs(value) > 1e12:
                 raise ValueError("invalid_result_number")
         elif isinstance(value, str):
-            if value not in known or len(value) > 100:
+            if (value not in known and not (is_key and value in KEYWORD_RESULT_KEYS)) or len(value) > 100:
                 raise ValueError("unexpected_result_text")
         elif isinstance(value, list) and len(value) <= 40:
             for item in value:
                 validate(item, depth + 1)
         elif isinstance(value, dict) and len(value) <= 50:
             for key, item in value.items():
-                validate(key, depth + 1)
+                validate(key, depth + 1, is_key=True)
                 validate(item, depth + 1)
         else:
             raise ValueError("unexpected_result_type")

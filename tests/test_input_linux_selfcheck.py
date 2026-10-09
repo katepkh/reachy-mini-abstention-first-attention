@@ -153,6 +153,14 @@ class ResultTests(unittest.TestCase):
                 launcher.validated_result(output, self.bundle, 0)
         with self.assertRaises(ValueError):
             launcher.validated_result(encoded(result_fixture()), self.bundle, 255)
+        result = result_fixture()
+        observation = result["cases"][0]["result"]["operator_input"]["reader_observability"]["at_start"]
+        observation["stop_requested"] = False
+        observation["terminal"] = {"status": "available"}
+        self.assertEqual(launcher.validated_result(encoded(result), self.bundle, 0), result)
+        observation["terminal"]["status"] = "stop_requested"
+        with self.assertRaisesRegex(ValueError, "unexpected_result_text"):
+            launcher.validated_result(encoded(result), self.bundle, 0)
 
     def test_unsupported_platform_is_no_action_fail(self):
         with patch.object(harness.sys, "platform", "win32"), patch.object(harness, "run_case") as case:
@@ -233,7 +241,8 @@ class LinuxIntegrationTests(unittest.TestCase):
                                          for key, item in value.items()))
                 return set()
 
-            self.fail(f"{error}; unexpected generated tokens: {sorted(strings(report) - known)[:20]}")
+            unexpected = strings(report) - known - launcher.KEYWORD_RESULT_KEYS
+            self.fail(f"{error}; unexpected generated tokens: {sorted(unexpected)[:20]}")
         self.assertEqual(validated, report)
 
 
