@@ -3,9 +3,9 @@
   "file_count": 54,
   "files": [
     {
-      "bytes": 38828,
+      "bytes": 40232,
       "path": "README.md",
-      "sha256": "4d973a04d6746c5e8c550918d2f4fd1a7b94a2f2d52bdea8205fdcb9190f5027"
+      "sha256": "faeae0d278560c6f6777ea8e1aa18262bc4aebe9b4972d54b0f7092b27000fc3"
     },
     {
       "bytes": 1893,
@@ -158,9 +158,9 @@
       "sha256": "9af43ad93fcb6ed04171aff5323293ae8930d33457c48875dc85e00fb9697f65"
     },
     {
-      "bytes": 5031,
+      "bytes": 5056,
       "path": "scripts/build_successor_review_manifest.py",
-      "sha256": "f25465893463c60378b39ec07cf4c3af5e7882ebf2a9bf0231479845895ad50c"
+      "sha256": "99e3a288ef1639e2b1ce553f2895f00f32b358bf2880b0767cc4a4a514a02871"
     },
     {
       "bytes": 4987,
@@ -275,7 +275,7 @@
   ],
   "known_blockers": [
     "OBSERVATION_PATCHES_NOT_PERSISTENTLY_INSTALLED",
-    "NO_LIVE_PRESENT_TARGET_TRACE",
+    "LIVE_TRACE_TARGETS_UNSET_NO_DEFINED_TARGET_VALIDATION",
     "NULL_TO_DEFINED_TARGET_TRANSITION_NOT_PHYSICALLY_OBSERVED",
     "CONTROLLER_STARTUP_WRITES_PID_GAINS",
     "NO_HARDWARE_LIFECYCLE_EXECUTOR",

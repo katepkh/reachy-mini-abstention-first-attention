@@ -33,7 +33,7 @@
       <div class="metrics">
         <span>Camera: <strong id="cameraMetric">connecting…</strong></span>
         <span>Transport: <strong id="transportMetric">—</strong></span>
-        <span>Robot frame age: <strong id="frameAgeMetric">—</strong></span>
+        <span>Frame age since local receipt: <strong id="frameAgeMetric">—</strong></span>
         <span>Unique frame: <strong id="sequenceMetric">—</strong></span>
         <span>Face: <strong id="faceMetric">—</strong></span>
         <span>Face scale: <strong id="faceScaleMetric">—</strong></span>
@@ -43,6 +43,16 @@
         <span>Reachy DoA: <strong id="doaMetric">—</strong></span>
         <span>DoA age: <strong id="doaAgeMetric">—</strong></span>
         <span>Landmark inference: <strong id="inferenceMetric">—</strong></span>
+        <span>Processing backend: <strong id="backendMetric">not initialized</strong></span>
+        <span>Analyzed rate (5 s): <strong id="rateMetric">—</strong></span>
+        <span>One-face coverage (5 s): <strong id="coverageMetric">—</strong></span>
+        <span>Frame fetch / decode: <strong id="fetchDecodeMetric">—</strong></span>
+        <span>Worker round trip: <strong id="workerTimingMetric">—</strong></span>
+        <span>Server queue / handler: <strong id="serverTimingMetric">—</strong></span>
+        <span>Completed-frame interval: <strong id="intervalMetric">—</strong></span>
+        <span>Pixel conversion / wait: <strong id="conversionMetric">—</strong></span>
+        <span>Bridge total / interval: <strong id="bridgeTimingMetric">—</strong></span>
+        <span>Source frame size: <strong id="sourceSizeMetric">—</strong></span>
       </div>
       <p id="preflight" class="bad">Preflight not ready.</p>
     </section>
@@ -61,9 +71,8 @@
   </div>
 
   <script type="module">
-    const runtimeModuleUrl = "../models/avsync_v2/runtime/vision_bundle.mjs";
-    const wasmRoot = "../models/avsync_v2/runtime/wasm";
-    const modelUrl = "../models/avsync_v2/face_landmarker.task";
+    import { LandmarkWorkerClient, ProcessingWindow, remainingFrameDelay,
+      numericTimingHeader, framePipelineTiming } from "./robot_camera_pipeline.mjs";
     const canvas = document.getElementById("robotFrame");
     const context = canvas.getContext("2d", { alpha: false });
     const contractEl = document.getElementById("contract");
@@ -86,16 +95,30 @@
     const doaMetric = document.getElementById("doaMetric");
     const doaAgeMetric = document.getElementById("doaAgeMetric");
     const inferenceMetric = document.getElementById("inferenceMetric");
+    const backendMetric = document.getElementById("backendMetric");
+    const rateMetric = document.getElementById("rateMetric");
+    const coverageMetric = document.getElementById("coverageMetric");
+    const fetchDecodeMetric = document.getElementById("fetchDecodeMetric");
+    const workerTimingMetric = document.getElementById("workerTimingMetric");
+    const serverTimingMetric = document.getElementById("serverTimingMetric");
+    const intervalMetric = document.getElementById("intervalMetric");
+    const conversionMetric = document.getElementById("conversionMetric");
+    const bridgeTimingMetric = document.getElementById("bridgeTimingMetric");
+    const sourceSizeMetric = document.getElementById("sourceSizeMetric");
 
     let contract = null;
     let faceLandmarker = null;
+    let initializing = false;
+    let backend = null;
+    let processingError = "";
+    let processingErrors = 0;
+    const processingWindow = new ProcessingWindow();
     let audioStream = null;
     let audioContext = null;
     let analyser = null;
     let audioBuffer = null;
     let latestFrame = null;
     let latestFace = null;
-    let previousUniqueLip = null;
     let lastDoa = null;
     let doaValidStreak = 0;
     let frameFetchFailures = 0;
@@ -103,9 +126,10 @@
     let doaLoopActive = true;
     let recording = false;
     let preflightReady = false;
+    let lastFrameLoopFinished = null;
+    let lastFramePublished = null;
 
     function finite(value) { return Number.isFinite(value) ? value : null; }
-    function distance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
     function csvValue(value) {
       if (value === null || value === undefined) return "";
       const rendered = String(value);
@@ -130,47 +154,14 @@
       for (const sample of audioBuffer) energy += sample * sample;
       return 20 * Math.log10(Math.max(Math.sqrt(energy / audioBuffer.length), 1e-6));
     }
-    function faceProjection(centerX) {
-      const fxNorm = 2001.8076426486707 / 3840.0;
-      const cxNorm = 1905.876059826701 / 3840.0;
-      const cameraRight = 180 * Math.atan((centerX - cxNorm) / fxNorm) / Math.PI;
-      return { cameraRight, robotHeading: -cameraRight };
-    }
-    function measureFace(timestamp, frameObservedMs) {
-      if (!faceLandmarker || canvas.width === 0 || canvas.height === 0) return null;
-      const started = performance.now();
-      const result = faceLandmarker.detectForVideo(canvas, timestamp);
-      const inferenceMs = performance.now() - started;
-      const faces = result.faceLandmarks || [];
-      if (faces.length !== 1) {
-        previousUniqueLip = null;
-        return {
-          count: Math.min(faces.length, 2), centerX: null, centerY: null,
-          cameraRight: null, robotHeading: null, scale: 0, lip: 0,
-          lipMotion: 0, inferenceMs, observedMs: frameObservedMs,
-        };
-      }
-      const points = faces[0];
-      const centerX = (points[33].x + points[263].x) / 2;
-      const centerY = (points[33].y + points[263].y) / 2;
-      const scale = distance(points[33], points[263]);
-      const lip = scale > 0 ? distance(points[13], points[14]) / scale : 0;
-      const lipMotion = previousUniqueLip === null ? 0 : Math.abs(lip - previousUniqueLip);
-      previousUniqueLip = lip;
-      const projection = faceProjection(centerX);
-      return {
-        count: 1, centerX, centerY,
-        cameraRight: projection.cameraRight,
-        robotHeading: projection.robotHeading,
-        scale, lip, lipMotion, inferenceMs, observedMs: frameObservedMs,
-      };
-    }
-
     async function fetchRobotFrame() {
       if (!frameLoopActive) return;
       const started = performance.now();
+      let bitmap = null;
       try {
-        const response = await fetch(`/api/reachy-camera/frame.jpg?t=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`/api/reachy-camera/frame.jpg?t=${Date.now()}`, {
+          cache: "no-store", signal: AbortSignal.timeout(2000),
+        });
         const received = performance.now();
         if (!response.ok) throw new Error(`frame returned ${response.status}`);
         const sequence = Number(response.headers.get("X-Reachy-Frame-Sequence"));
@@ -180,28 +171,82 @@
         const width = Number(response.headers.get("X-Reachy-Frame-Width"));
         const height = Number(response.headers.get("X-Reachy-Frame-Height"));
         const encodeMs = Number(response.headers.get("X-Reachy-Frame-Encode-Ms"));
+        const serverQueueMs = numericTimingHeader(response.headers, "X-Reachy-Server-Queue-Ms");
+        const serverHandlerMs = numericTimingHeader(response.headers, "X-Reachy-Server-Handler-Ms");
+        const preparation = {
+          conversionQueueMs: numericTimingHeader(response.headers, "X-Reachy-Conversion-Queue-Ms"),
+          conversionMs: numericTimingHeader(response.headers, "X-Reachy-Conversion-Ms"),
+          receiveIntervalMs: numericTimingHeader(response.headers, "X-Reachy-Receive-Interval-Ms"),
+          bridgeTotalMs: numericTimingHeader(response.headers, "X-Reachy-Bridge-Total-Ms"),
+          bridgePublishIntervalMs: numericTimingHeader(response.headers, "X-Reachy-Bridge-Publish-Interval-Ms"),
+          sourceWidth: numericTimingHeader(response.headers, "X-Reachy-Source-Width"),
+          sourceHeight: numericTimingHeader(response.headers, "X-Reachy-Source-Height"),
+        };
         const blob = await response.blob();
-        const bitmap = await createImageBitmap(blob);
+        bitmap = await createImageBitmap(blob);
+        const decoded = performance.now();
         const isNew = latestFrame === null || sequence !== latestFrame.sequence;
         if (canvas.width !== bitmap.width || canvas.height !== bitmap.height) {
           canvas.width = bitmap.width;
           canvas.height = bitmap.height;
         }
         context.drawImage(bitmap, 0, 0);
-        bitmap.close();
+        const drawn = performance.now();
         const roundtripMs = received - started;
-        latestFrame = {
+        const frame = {
           sequence, transportFrames, analysisFrames, serverAgeMs,
           roundtripMs, receivedMs: received, width, height, encodeMs,
-          isNew, fetchFailures: frameFetchFailures,
+          isNew, fetchFailures: frameFetchFailures, decodeMs: decoded - received,
+          serverQueueMs, serverHandlerMs, ...preparation,
         };
-        if (isNew && faceLandmarker) latestFace = measureFace(received, received);
+        // Publish frame identity and its features together only AFTER inference.
+        // The 40-ms sampler may run while the worker is busy: never join new
+        // frame metadata with the preceding frame's face/lip measurements.
+        if (isNew && faceLandmarker && !initializing && !processingError) {
+          try {
+            const workerStarted = performance.now();
+            const reply = await faceLandmarker.request({ type: "analyze", bitmap, observedMs: received }, [bitmap]);
+            bitmap = null; // ownership transferred; worker closes it
+            const completed = performance.now();
+            Object.assign(frame, framePipelineTiming({ started, received, decoded, drawn,
+              workerStarted, completed, inferenceMs: reply.face.inferenceMs,
+              previousLoopFinished: lastFrameLoopFinished, previousPublished: lastFramePublished }));
+            lastFramePublished = completed;
+            latestFace = reply.face;
+            latestFrame = frame;
+            for (const point of latestFace.dots) {
+              context.beginPath();
+              context.arc(point.x * canvas.width, point.y * canvas.height, 3, 0, 2 * Math.PI);
+              context.fillStyle = "#2bdf74";
+              context.fill();
+            }
+          } catch (error) {
+            processingError = error.message;
+            processingErrors += 1;
+            latestFace = null;
+            latestFrame = null;
+            preflightReady = false;
+            recordButton.disabled = true;
+            faceMetric.textContent = "—";
+            processingWindow.clear();
+            faceLandmarker?.close();
+            faceLandmarker = null;
+            initializeButton.disabled = recording;
+            status.textContent = `${processingError}. Recording is blocked; reinitialize the model after this capture ends.`;
+          }
+        } else if (!faceLandmarker && !processingError) {
+          latestFrame = frame;
+          latestFace = null;
+        }
         frameFetchFailures = 0;
       } catch (error) {
         frameFetchFailures += 1;
         if (frameFetchFailures >= 3) cameraMetric.textContent = `unavailable (${error.message})`;
       } finally {
-        window.setTimeout(fetchRobotFrame, contract?.robot_frame_poll_period_ms || 50);
+        bitmap?.close();
+        const period = frameFetchFailures ? 250 : (contract?.robot_frame_poll_period_ms || 50);
+        lastFrameLoopFinished = performance.now();
+        window.setTimeout(fetchRobotFrame, remainingFrameDelay(started, performance.now(), period));
       }
     }
 
@@ -244,6 +289,11 @@
       const currentDoaAge = doaAge(now);
       const checks = contract?.commissioning_checks || {};
       const failures = [];
+      processingWindow.add(now, latestFrame, latestFace);
+      const performanceCheck = processingWindow.assess(now, checks);
+      failures.push(...performanceCheck.failures);
+      if (processingError) failures.push(processingError);
+      if (initializing || !faceLandmarker) failures.push("initialize the pinned landmark model");
       const cameraFresh = latestFrame && age !== null && age <= Number(checks.maximum_p95_robot_frame_age_ms);
       if (!cameraFresh || frameFetchFailures > 0) failures.push("wait for a fresh Reachy camera frame");
       if (!latestFace || latestFace.count !== 1) failures.push("show exactly one face to Reachy");
@@ -261,7 +311,7 @@
       recordButton.disabled = !preflightReady || recording;
       cameraMetric.textContent = cameraFresh ? "Reachy stream fresh" : "Reachy stream not ready";
       cameraMetric.className = cameraFresh ? "good" : "bad";
-      transportMetric.textContent = latestFrame ? `${latestFrame.transportFrames} received / ${latestFrame.analysisFrames} analyzed` : "—";
+      transportMetric.textContent = latestFrame ? `${latestFrame.transportFrames} received / ${latestFrame.analysisFrames} bridge-encoded` : "—";
       frameAgeMetric.textContent = age === null ? "—" : `${age.toFixed(0)} ms`;
       sequenceMetric.textContent = latestFrame ? String(latestFrame.sequence) : "—";
       faceMetric.textContent = latestFace ? `${latestFace.count} face(s)` : "—";
@@ -272,7 +322,18 @@
       doaMetric.textContent = lastDoa?.valid ? `${Number(lastDoa.axis_deg).toFixed(1)}°, speech=${lastDoa.speech_detected}` : "unavailable";
       doaAgeMetric.textContent = currentDoaAge === null ? "—" : `${currentDoaAge.toFixed(0)} ms`;
       inferenceMetric.textContent = latestFace ? `${latestFace.inferenceMs.toFixed(1)} ms` : "—";
-      if (!recording) window.setTimeout(updatePreview, 100);
+      rateMetric.textContent = `${performanceCheck.fps.toFixed(1)} fps (need 15)`;
+      coverageMetric.textContent = `${(100 * performanceCheck.singleFraction).toFixed(0)}% (need 80%)`;
+      const ms = value => Number.isFinite(value) ? `${value.toFixed(1)} ms` : "—";
+      fetchDecodeMetric.textContent = `${ms(latestFrame?.roundtripMs)} / ${ms(latestFrame?.decodeMs)}`;
+      workerTimingMetric.textContent = ms(latestFrame?.workerRoundtripMs);
+      serverTimingMetric.textContent = `${ms(latestFrame?.serverQueueMs)} / ${ms(latestFrame?.serverHandlerMs)}`;
+      intervalMetric.textContent = ms(latestFrame?.publishIntervalMs);
+      conversionMetric.textContent = `${ms(latestFrame?.conversionMs)} / ${ms(latestFrame?.conversionQueueMs)}`;
+      bridgeTimingMetric.textContent = `${ms(latestFrame?.bridgeTotalMs)} / ${ms(latestFrame?.bridgePublishIntervalMs)}`;
+      sourceSizeMetric.textContent = latestFrame?.sourceWidth && latestFrame?.sourceHeight
+        ? `${latestFrame.sourceWidth} × ${latestFrame.sourceHeight}` : "—";
+      window.setTimeout(updatePreview, contract?.sample_period_ms || 40);
     }
 
     function rowSnapshot(now, previousSample, previousSequence, nextDeadline) {
@@ -317,29 +378,66 @@
         doa_robot_http_latency_ms: finite(doa?.robot_http_latency_ms),
         doa_http_status: doa?.http_status ?? null,
         doa_error_code: doa?.error_code || "",
+        frame_decode_ms: finite(frame?.decodeMs),
+        frame_server_queue_ms: finite(frame?.serverQueueMs),
+        frame_server_handler_ms: finite(frame?.serverHandlerMs),
+        frame_draw_ms: finite(frame?.drawMs),
+        landmark_worker_roundtrip_ms: finite(frame?.workerRoundtripMs),
+        landmark_worker_overhead_ms: finite(frame?.workerOverheadMs),
+        frame_pipeline_ms: finite(frame?.pipelineMs),
+        frame_loop_gap_ms: finite(frame?.loopGapMs),
+        frame_publish_interval_ms: finite(frame?.publishIntervalMs),
+        robot_frame_conversion_queue_ms: finite(frame?.conversionQueueMs),
+        robot_frame_conversion_ms: finite(frame?.conversionMs),
+        robot_frame_receive_interval_ms: finite(frame?.receiveIntervalMs),
+        robot_frame_bridge_total_ms: finite(frame?.bridgeTotalMs),
+        robot_frame_bridge_publish_interval_ms: finite(frame?.bridgePublishIntervalMs),
+        robot_frame_source_width_px: finite(frame?.sourceWidth),
+        robot_frame_source_height_px: finite(frame?.sourceHeight),
+        landmark_backend: backend?.delegate || "",
+        landmark_error_code: processingError,
+        landmark_error_count: processingErrors,
+        face_bbox_left_norm: finite(face?.bounds?.left),
+        face_bbox_right_norm: finite(face?.bounds?.right),
+        face_bbox_top_norm: finite(face?.bounds?.top),
+        face_bbox_bottom_norm: finite(face?.bounds?.bottom),
       };
     }
 
     initializeButton.addEventListener("click", async () => {
       initializeButton.disabled = true;
-      status.textContent = "Loading pinned local face-landmark model…";
+      preflightReady = false;
+      recordButton.disabled = true;
+      initializing = true;
+      processingError = "";
+      processingWindow.clear();
+      latestFace = null;
+      latestFrame = null;
+      lastFramePublished = null;
+      status.textContent = "Loading pinned local face-landmark model in a worker…";
       try {
-        const { FilesetResolver, FaceLandmarker } = await import(runtimeModuleUrl);
-        const vision = await FilesetResolver.forVisionTasks(wasmRoot);
-        faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
-          baseOptions: { modelAssetPath: modelUrl },
-          runningMode: "VIDEO",
-          numFaces: 2,
-        });
-        microphoneButton.disabled = false;
-        status.textContent = "Landmark model ready. Enable the microphone timing reference.";
+        faceLandmarker?.close();
+        faceLandmarker = new LandmarkWorkerClient(new Worker("./robot_camera_landmarks_worker.js"));
+        backend = await faceLandmarker.request({ type: "initialize" }, [], 30000);
+        backendMetric.textContent = `${backend.delegate} worker${backend.fallback ? " (GPU unavailable)" : ""}`;
+        latestFrame = null; // analyze next frame even if the preview sequence repeats
+        microphoneButton.disabled = Boolean(audioContext);
+        status.textContent = audioContext
+          ? "Landmark model ready. Microphone remains active; wait for processing preflight."
+          : "Landmark model ready. Enable the microphone timing reference.";
       } catch (error) {
+        faceLandmarker?.close();
+        faceLandmarker = null;
+        processingError = error.message;
         initializeButton.disabled = false;
         status.textContent = `Model initialization failed: ${error.message}`;
+      } finally {
+        initializing = false;
       }
     });
 
     microphoneButton.addEventListener("click", async () => {
+      if (audioContext) return;
       microphoneButton.disabled = true;
       try {
         audioStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: {
@@ -360,6 +458,8 @@
     });
 
     stopButton.addEventListener("click", async () => {
+      preflightReady = false;
+      recordButton.disabled = true;
       if (audioStream) for (const track of audioStream.getTracks()) track.stop();
       if (audioContext) await audioContext.close();
       audioStream = null; audioContext = null; analyser = null; audioBuffer = null;
@@ -376,6 +476,8 @@
       }
       recording = true;
       recordButton.disabled = true;
+      stopButton.disabled = true;
+      initializeButton.disabled = true;
       const rows = [];
       const started = performance.now();
       let nextDeadline = started;
@@ -399,7 +501,7 @@
         };
         take();
       });
-      const columns = contract.required_columns;
+      const columns = [...contract.required_columns, ...contract.diagnostic_columns];
       const csv = [columns.join(","), ...rows.map(row => columns.map(key => csvValue(row[key])).join(","))].join("\n") + "\n";
       const stamp = new Date().toISOString().replaceAll(":", "-").replace(".", "-");
       const base = `reachy-camera-commissioning-${stamp}`;
@@ -407,6 +509,11 @@
         schema: "reachy-robot-camera-commissioning-capture-v1",
         captured_at: new Date().toISOString(),
         instrument_fingerprint: contract.fingerprint,
+        execution_build: contract.execution_build,
+        pipeline_diagnostics: contract.pipeline_diagnostics,
+        landmark_execution: { delegate: backend?.delegate, worker: true,
+          gpu_fallback: backend?.fallback, num_faces: 2,
+          min_detection_confidence: 0.5, min_presence_confidence: 0.5, min_tracking_confidence: 0.5 },
         camera_source: "Reachy Mini receive-only local WebRTC stream",
         microphone_source: "laptop microphone timing reference; transient samples only",
         coordinate_contract: contract.coordinate_contract,
@@ -424,15 +531,20 @@
       download(`${base}.csv`, csv, "text/csv");
       download(`${base}.metadata.json`, JSON.stringify(metadata, null, 2) + "\n", "application/json");
       recording = false;
+      stopButton.disabled = !audioContext;
+      initializeButton.disabled = Boolean(faceLandmarker);
       progress.value = contract.capture_seconds;
       status.textContent = "Commissioning capture complete. Send both downloaded files for the frozen offline checks; do not begin a pilot.";
-      updatePreview();
     });
 
     async function start() {
       try {
         contract = await fetchJson("/api/reachy-camera/config");
-        contractEl.textContent = `${contract.schema}; ${contract.fingerprint}`;
+        if (!contract.execution_build || !contract.diagnostic_columns ||
+            contract.pipeline_diagnostics?.schema !== "reachy-camera-pipeline-timing-v2") {
+          throw new Error("Restart the commissioning launcher to load the bridge-timing build, then reload this page.");
+        }
+        contractEl.textContent = `${contract.schema}; ${contract.fingerprint}; build ${contract.execution_build.fingerprint}`;
         fetchRobotFrame();
         pollDoa();
         updatePreview();
@@ -444,6 +556,7 @@
       frameLoopActive = false;
       doaLoopActive = false;
       if (audioStream) for (const track of audioStream.getTracks()) track.stop();
+      faceLandmarker?.close();
     });
     start();
   </script>

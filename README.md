@@ -8,7 +8,9 @@
 
 Build a real Reachy Mini interaction in which a live visible speaker causes one bounded orientation, face-directed attention, and an audible response, while a silent visible person beside phone playback causes no socially directed movement and no conversational response.
 
-**That behaviour does not yet exist end to end.** The repository now contains one deterministic fused-shadow decision interface, a command-free joint recorder and commissioning analysis, a content-addressed 21-trial pilot analyzer/private opening gate, and pure attention-hold/interaction shadow contracts. One real joint capture passed observability commissioning, but the transferred laptop-only synchrony setting abstained and the joint pilot has not been collected because its private bindings remain incomplete. The repository also contains valuable passive perception results, extensive fail-closed motion work, and one preserved failed physical trial. It does not contain a validated joint speaker selector, command-capable integrated controller, physically validated attention hold, actual gated audio output, or successful end-to-end robot study.
+**That behaviour does not yet exist end to end.** As of 2026-10-09, the repository contains a fused-shadow decision interface, command-free recording and analysis tools, and replay-only attention-hold/interaction contracts. Reachy's camera passed scoped observability commissioning on the sixth capture; five preceding failures remain preserved. The separately frozen 21-trial robot-camera pilot retains an external laptop microphone and has **zero accepted trials**. Its private setup was sealed, but unresolved speech/direction readiness and diagnostic input handling block collection. Microphone inputs 0/1 have limited descriptive playback evidence; inputs 2/3 still lack a completed playback comparison. A no-audio Linux software check returned SSH exit zero but its local report was rejected, so the detailed result remains unverified. These are development findings, not a microphone-health or live-versus-playback discrimination pass. The repository also preserves valuable passive perception results and one failed physical trial. It does not contain a validated joint speaker selector, command-capable integrated controller, physically validated attention hold, actual gated audio output, or successful end-to-end robot study.
+
+This is an incomplete **development checkpoint**, not a submission-ready release or permission to execute a historical hardware launcher. Private setup, approvals, diagnostic run records, raw media and credentials are not included. See the [publication boundary](PUBLISHING.md) and [microphone diagnostic status](docs/MICROPHONE_HEALTH_DIAGNOSTIC.md).
 
 The governing records are the [`project charter`](docs/PROJECT_CHARTER.md), [`milestone matrix`](docs/MILESTONE_MATRIX.md), [`decision log`](docs/DECISION_LOG.md), [`novelty and claims ledger`](docs/NOVELTY_CLAIMS_LEDGER.md), and [`strategy gate`](docs/STRATEGY_GATE.md). Read them before interpreting an intermediate artifact as the project objective.
 
@@ -42,7 +44,8 @@ Passive validation passed only for the frozen single-site conditions below. It d
 | Gate the next substantial task | [`docs/STRATEGY_GATE.md`](docs/STRATEGY_GATE.md) |
 | Inspect the M5 fused shadow interface and its exact claim boundary | [`docs/FUSED_SHADOW_CONTROLLER.md`](docs/FUSED_SHADOW_CONTROLLER.md) |
 | Commission the M5 joint numeric recorder | [`docs/JOINT_SHADOW_INSTRUMENT.md`](docs/JOINT_SHADOW_INSTRUMENT.md) |
-| Run the frozen command-free joint pilot | [`docs/JOINT_SHADOW_PILOT.md`](docs/JOINT_SHADOW_PILOT.md) |
+| Review the current robot-camera pilot and its closed collection boundary | [`docs/ROBOT_CAMERA_PILOT.md`](docs/ROBOT_CAMERA_PILOT.md) |
+| Inspect the preserved, paused laptop-camera pilot | [`docs/JOINT_SHADOW_PILOT.md`](docs/JOINT_SHADOW_PILOT.md) |
 | Read the working evidence manuscript | [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md) |
 | Review the whole project critically | [`docs/EXTERNAL_REVIEW.md`](docs/EXTERNAL_REVIEW.md) |
 | Reuse a rigorous review prompt | [`docs/REVIEW_PROMPTS.md`](docs/REVIEW_PROMPTS.md) |

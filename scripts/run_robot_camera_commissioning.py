@@ -6,10 +6,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import threading
 import time
 from functools import partial
 from http import HTTPStatus
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -20,9 +21,10 @@ if str(ROOT) not in sys.path:
 
 from reachy_doa.client import ReadOnlyDoAClient  # noqa: E402
 from reachy_stage3v.joint_instrument import doa_bridge_payload  # noqa: E402
+from reachy_stage3v.bounded_http import BoundedHTTPServer  # noqa: E402
 from reachy_stage3v.robot_camera_bridge import RobotCameraFrameBridge  # noqa: E402
 from reachy_stage3v.robot_camera_commissioning import (  # noqa: E402
-    ROBOT_CAMERA_COMMISSIONING_SPEC_V1,
+    robot_camera_execution_payload,
     robot_camera_static_path_allowed,
 )
 
@@ -32,6 +34,11 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
 
     doa_client: ReadOnlyDoAClient
     camera_bridge: RobotCameraFrameBridge
+    doa_read_lock = threading.Lock()
+
+    def setup(self) -> None:
+        self._handler_started = time.perf_counter()
+        super().setup()
 
     def _json(self, payload: object, status: HTTPStatus = HTTPStatus.OK) -> None:
         body = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -60,20 +67,37 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
             ),
             "latest_frame_age_ms": (
                 None
-                if snapshot.latest_encoded_monotonic is None
-                else max(0.0, 1000.0 * (now - snapshot.latest_encoded_monotonic))
+                if snapshot.latest_received_monotonic is None
+                else max(0.0, 1000.0 * (now - snapshot.latest_received_monotonic))
             ),
             "width_px": snapshot.width_px,
             "height_px": snapshot.height_px,
             "encode_ms": snapshot.encode_ms,
+            "frame_age_origin": "local decoded-frame receipt before pixel conversion",
+            "preparation_timing": self._preparation_headers(snapshot),
             "motion_authorized": False,
             "response_authorized": False,
             "robot_mutating_requests": 0,
         }
 
+    @staticmethod
+    def _preparation_headers(snapshot) -> dict[str, float | int | None]:
+        timing = snapshot.preparation
+        return {
+            "X-Reachy-Conversion-Queue-Ms": None if timing is None else
+                1000 * (timing.conversion_started_monotonic - timing.received_monotonic),
+            "X-Reachy-Conversion-Ms": None if timing is None else
+                1000 * (timing.conversion_completed_monotonic - timing.conversion_started_monotonic),
+            "X-Reachy-Receive-Interval-Ms": None if timing is None else timing.receive_interval_ms,
+            "X-Reachy-Bridge-Total-Ms": snapshot.bridge_total_ms,
+            "X-Reachy-Bridge-Publish-Interval-Ms": snapshot.publish_interval_ms,
+            "X-Reachy-Source-Width": snapshot.source_width_px,
+            "X-Reachy-Source-Height": snapshot.source_height_px,
+        }
+
     def _frame(self) -> None:
         snapshot = self.camera_bridge.snapshot()
-        if snapshot.latest_jpeg is None or snapshot.latest_encoded_monotonic is None:
+        if snapshot.latest_jpeg is None or snapshot.latest_received_monotonic is None:
             self._json(
                 {
                     "error": snapshot.error_code or "ROBOT_FRAME_NOT_READY",
@@ -83,7 +107,7 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
             )
             return
         body = snapshot.latest_jpeg
-        age_ms = max(0.0, 1000.0 * (time.perf_counter() - snapshot.latest_encoded_monotonic))
+        age_ms = max(0.0, 1000.0 * (time.perf_counter() - snapshot.latest_received_monotonic))
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "image/jpeg")
         self.send_header("Content-Length", str(len(body)))
@@ -96,6 +120,9 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
         self.send_header("X-Reachy-Frame-Width", str(snapshot.width_px or 0))
         self.send_header("X-Reachy-Frame-Height", str(snapshot.height_px or 0))
         self.send_header("X-Reachy-Frame-Encode-Ms", f"{float(snapshot.encode_ms or 0.0):.6f}")
+        for name, value in self._preparation_headers(snapshot).items():
+            if value is not None:
+                self.send_header(name, f"{value:.6f}")
         self.end_headers()
         self.wfile.write(body)
 
@@ -107,7 +134,7 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
             # the page recover after the 15-minute privacy/safety limit without
             # adding motion, response, or an unbounded auto-reconnect path.
             self.camera_bridge.start()
-            self._json(ROBOT_CAMERA_COMMISSIONING_SPEC_V1.payload())
+            self._json(robot_camera_execution_payload(ROOT))
             return
         if path == "/api/reachy-camera/status":
             self._json(self._camera_status())
@@ -116,9 +143,19 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
             self._frame()
             return
         if path == "/api/reachy-camera/doa":
-            started = time.perf_counter()
-            reading = self.doa_client.read()
-            ready = time.perf_counter()
+            # Do not let a second tab occupy the frame worker waiting for the
+            # same requests.Session. Busy reads fail closed; nothing is cached
+            # or timestamped as a fresh observation after a queued robot read.
+            if not self.doa_read_lock.acquire(blocking=False):
+                self._json({"valid": False, "error_code": "DOA_READ_IN_PROGRESS"},
+                           HTTPStatus.SERVICE_UNAVAILABLE)
+                return
+            try:
+                started = time.perf_counter()
+                reading = self.doa_client.read()
+                ready = time.perf_counter()
+            finally:
+                self.doa_read_lock.release()
             self._json(
                 doa_bridge_payload(
                     reading,
@@ -168,7 +205,13 @@ class RobotCameraCommissioningHandler(SimpleHTTPRequestHandler):
         super().log_message(format, *args)
 
     def end_headers(self) -> None:
+        self.send_header("X-Reachy-Server-Queue-Ms",
+                         f"{getattr(self.server, 'request_queue_wait_ms', 0.0):.6f}")
+        self.send_header("X-Reachy-Server-Handler-Ms",
+                         f"{1000.0 * (time.perf_counter() - self._handler_started):.6f}")
         self.send_header("Permissions-Policy", "camera=(), geolocation=(), payment=(), usb=()")
+        # Do not mix a cached pre-repair page/worker with a new build manifest.
+        self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
 
@@ -185,18 +228,22 @@ def main() -> int:
     args = parse_args()
     client = ReadOnlyDoAClient(args.robot_ip)
     bridge = RobotCameraFrameBridge(analysis_hz=args.camera_analysis_hz)
-    bridge.start()
     RobotCameraCommissioningHandler.doa_client = client
     RobotCameraCommissioningHandler.camera_bridge = bridge
     handler = partial(RobotCameraCommissioningHandler, directory=str(ROOT))
-    # The recorder issues one awaited frame request at a time.  A single-threaded
-    # loopback server is therefore sufficient and, unlike ThreadingHTTPServer,
-    # cannot exhaust Windows worker threads during a long-open preview.
-    server = HTTPServer((args.bind, args.port), handler)
+    # Both the frame and DoA requests can be in flight. Reuse two workers and
+    # cap admitted sockets; never restore one new thread per camera request.
+    try:
+        server = BoundedHTTPServer((args.bind, args.port), handler)
+    except Exception:
+        client.close()
+        raise
     url = f"http://127.0.0.1:{args.port}/tools/robot_camera_commissioning.html"
     print(f"Reachy-camera commissioning: {url}")
     print("Receive-only camera + GET-only DoA; no motion or response authority.")
+    print("Bounded HTTP pool: 2 workers, 4 pending requests; bridge timing v2 (conversion off receiver).")
     try:
+        bridge.start()
         server.serve_forever()
     except KeyboardInterrupt:
         pass

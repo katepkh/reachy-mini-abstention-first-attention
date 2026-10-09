@@ -24,3 +24,15 @@ Never infer one status from another. Software tests do not validate robot behavi
 Before substantial work, complete the strategy gate in `docs/STRATEGY_GATE.md`. Prefer the highest-value task on the current critical path. Do not start confirmation collection while its instrumentation is known to miss frozen primary endpoints. Do not create or publish a submission-ready manuscript or paper PDF before the research-completion gate in `docs/PROJECT_CHARTER.md` is satisfied.
 
 Keep external correspondence, replies, identities, approval records, raw audio, and raw camera media outside the repository. GitHub publication is a separate explicit gate after privacy, content, evidence, and strategy review. Never push merely because a local commit exists.
+
+For every microphone signal-path diagnostic, follow D029 and the mandatory
+per-run close-out in `docs/MICROPHONE_HEALTH_DIAGNOSTIC.md`. Before acquisition,
+create a private run record and agree the exact metadata-only inventory scope.
+After success, failure, interruption or disconnect, record the after-check,
+review any unexpected diagnostic-created media, obtain exact-path cleanup
+approval and verify absence. Keep unresolved close-out visible before another
+diagnostic and recheck before returning the robot; never infer completion from
+a missing record. Preserve numeric failure/recovery evidence and unrelated
+files. This is application-level housekeeping, not forensic erasure or a
+universal no-swap gate for later research. A scheduled reminder is a backup,
+not proof that cleanup ran or permission to record, delete or change settings.

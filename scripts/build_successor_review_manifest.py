@@ -89,7 +89,7 @@ def build_payload() -> dict:
         "files": files,
         "known_blockers": [
             "OBSERVATION_PATCHES_NOT_PERSISTENTLY_INSTALLED",
-            "NO_LIVE_PRESENT_TARGET_TRACE",
+            "LIVE_TRACE_TARGETS_UNSET_NO_DEFINED_TARGET_VALIDATION",
             "NULL_TO_DEFINED_TARGET_TRANSITION_NOT_PHYSICALLY_OBSERVED",
             "CONTROLLER_STARTUP_WRITES_PID_GAINS",
             "NO_HARDWARE_LIFECYCLE_EXECUTOR",

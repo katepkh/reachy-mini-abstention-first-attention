@@ -4,6 +4,34 @@ The repository is intentionally prepared locally before any public write. Public
 
 Before this checklist, read the five canonical records linked from the README. Publication remains blocked while `M14` is `BLOCKED` in `docs/MILESTONE_MATRIX.md`.
 
+## Current development checkpoint
+
+The 2026-10-09 update is a development backup and status correction, not a
+submission, research-completion release, or new hardware authorization. It
+must descend from sanitized public commit `2c6f50b` without restoring discarded
+history. Review every outgoing commit, not only the final tree. Keep local
+private records intact and ignored; this public repository is not their backup.
+
+Include reviewed source, tests, protocols and appropriately labelled derived
+evidence. Exclude raw recordings, screenshots, private setup/approval/close-out
+records, correspondence, credentials and personal filesystem paths. Generic
+vendor-account paths and the existing example private-LAN endpoint in code are
+configuration defaults, not a published password or current connection authority.
+Historical one-shot launchers are provenance, not commands for readers to rerun.
+Do not rewrite their pinned sources or frozen experimental artifacts to make a
+release check pass. Unresolved input/reporting defects must remain explicit.
+
+The pre-upload audit found the last confirmed GitHub save at sanitized commit
+`2c6f50b` on 2026-09-06 (17:38 BST), with 12 later local commits through
+`1514beb` on 2026-10-01 (02:22 BST), plus the newer uncommitted work. A later
+publication review was deferred; no later successful upload was verified.
+This checkpoint preserves that backlog without rewriting the public ancestor.
+The public source tests passed on Windows: 1,977 Python tests ran, with 13
+platform-dependent skips; all 24 JavaScript unit tests passed. These counts are
+software checks, not new trials. Fresh headless browser and Linux hardware
+checks are not claimed. CI and the uploaded branch head must be checked after
+the push; private material still requires a separate non-public backup.
+
 ## 1. Confirm public identity
 
 - Confirmed public citation and copyright name: `Kate P.`
@@ -46,18 +74,22 @@ Expected results: the canonical alignment check passes; evidence and generated a
 git commit -m "Update Reachy Mini research workspace"
 ```
 
-## 4. Create an empty public GitHub repository
+## 4. Update the existing GitHub repository
 
-Suggested name: `reachy-mini-abstention-first-attention`.
-
-Create it without an auto-generated README, licence, or `.gitignore`, because those files already exist locally. Then connect and push:
+Verify `origin` is the existing repository below, refresh its head, and inspect
+the outgoing history and staged files again. Never force-push, overwrite remote
+work or create a duplicate repository as part of a backup:
 
 ```bash
-git remote add origin https://github.com/katepkh/reachy-mini-abstention-first-attention.git
-git push -u origin main
+git remote get-url origin
+git fetch origin main
+git log --oneline origin/main..HEAD
+git push origin main
 ```
 
-Confirm that the repository was created under `katepkh` before pushing.
+Expected remote: `https://github.com/katepkh/reachy-mini-abstention-first-attention.git`.
+After the push, independently verify that GitHub's branch head matches the
+reviewed local commit. A local commit or a successful test is not an upload.
 
 ## 5. GitHub release polish
 

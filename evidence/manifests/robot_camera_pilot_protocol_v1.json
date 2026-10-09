@@ -1,0 +1,363 @@
+{
+  "attempt_rule": "Store every attempted pair immutably; accept first quality-passing attempt in schedule order. No outcome-based retries. At most two attempts per trial, then stop for repair/new version.",
+  "authority": {
+    "motion_commands": 0,
+    "response_commands": 0,
+    "robot_mutating_requests": 0
+  },
+  "baselines": {
+    "acoustic_only": "proposal from DoA speech activity without face synchrony",
+    "fused_abstaining": "proposal only when speech, spatial and synchrony gates pass",
+    "non_abstaining_visible_face": "proposal whenever one usable face is visible",
+    "spatial_only": "proposal from face-DoA agreement without synchrony",
+    "speech_plus_mouth_activity": "proposal from simultaneous speech and mouth activity without temporal synchrony",
+    "synchrony_only": "proposal from audio-mouth synchrony without spatial agreement",
+    "visual_activity_only": "proposal from lip activity without audio synchrony"
+  },
+  "candidate_grid": {
+    "maximum_absolute_lag_ms": [
+      120.0,
+      240.0,
+      360.0,
+      480.0,
+      600.0
+    ],
+    "maximum_median_spatial_error_deg": [
+      10.0,
+      15.0,
+      20.0,
+      30.0
+    ],
+    "minimum_synchrony_correlation": [
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35
+    ],
+    "moving_average_samples": [
+      1,
+      3,
+      5
+    ],
+    "note": "The wider lag grid is an instrument-transfer diagnostic. A wider lag is not accepted unless every development hard negative still abstains."
+  },
+  "claim_boundary": "Single-setup engineering pilot. No confirmation, liveness, safe motion, attention hold, response or end-to-end validation. Laptop audio remains external.",
+  "conditions": [
+    {
+      "id": "live_visible_continuous",
+      "instruction": "Face Reachy's camera at the fixed front mark and speak naturally for all ten seconds. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "matching_positive"
+    },
+    {
+      "id": "live_visible_interrupted",
+      "instruction": "Face Reachy. Speak naturally for seconds 0\u20133, stay silent for 3\u20135, then speak for 5\u201310. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "matching_positive"
+    },
+    {
+      "id": "silent_face_phone_playback",
+      "instruction": "Remain silent with one face visible while the fixed phone recording plays from the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "primary_hard_negative"
+    },
+    {
+      "id": "silent_mouthing_unrelated_playback",
+      "instruction": "Mouth silently and deliberately out of time with the fixed phone recording; keep the phone on the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "synchrony_hard_negative"
+    },
+    {
+      "id": "visible_silence",
+      "instruction": "Keep one face visible to Reachy. Stay silent; no phone playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "negative_control"
+    },
+    {
+      "id": "speech_without_usable_face",
+      "instruction": "Speak live while keeping every face outside the camera view; do not use playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "unavailable_face_control"
+    },
+    {
+      "id": "spatial_conflict",
+      "instruction": "Stay silent with your face visible at the front mark. Play the fixed recording on the single iPhone at the 60-degree mark to Reachy's right. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "role": "conflicting_cue_control"
+    }
+  ],
+  "development_selection_rule": [
+    "use only repetitions 1 and 2",
+    "require every development capture to pass its objective quality gates",
+    "require zero proposals for every development hard-negative/control trial",
+    "require at least three proposals across the four development positives",
+    "maximize positive coverage",
+    "then prefer higher correlation threshold",
+    "then prefer tighter spatial threshold",
+    "then prefer narrower lag window",
+    "then prefer less smoothing",
+    "if no setting qualifies, conclude pilot failure without relaxing a gate"
+  ],
+  "excluded": "all commissioning captures and every laptop v1/v2 attempt; never import as pilot trials",
+  "experimental_unit": "one ten-second trial, not telemetry rows or camera frames",
+  "fingerprint": "5f7fbd2960f27ce314f733c61b5d1c921d2f697deb9cf5abf69cf8fa1afef76e",
+  "instrument_fingerprint": "dbded406d1d271f69eb3652bc0b036cfe0deea734c4db2bf4f7a6979b2d3a95b",
+  "internal_validation_rule": [
+    "freeze the development-selected setting before opening repetition 3",
+    "evaluate repetition 3 exactly once",
+    "require both matching-positive trials to propose",
+    "require every hard-negative/control trial to abstain",
+    "otherwise stop and revise the method in a new protocol version"
+  ],
+  "opening_gate": "matching execution manifest, private setup seal, verified microphone settings and next scheduled card; first trial remains closed until all pass",
+  "privacy": {
+    "raw_media_saved": false,
+    "raw_media_uploaded": false
+  },
+  "quality_gates": {
+    "failed_capture_rule": "retain the failed attempt privately, correct only the objective issue, and repeat the same scheduled trial before advancing",
+    "maximum_doa_speech_fraction_for_visible_silence": 0.1,
+    "maximum_duplicate_row_fraction": 0.5,
+    "maximum_median_landmark_inference_ms": 60.0,
+    "maximum_p95_doa_age_ms": 650.0,
+    "maximum_p95_robot_frame_age_ms": 350.0,
+    "maximum_sample_gap_ms": 160.0,
+    "maximum_usable_face_fraction_for_unavailable_face_control": 0.05,
+    "minimum_audio_dbfs_std_when_speech_required": 0.5,
+    "minimum_doa_speech_fraction_when_speech_required": 0.25,
+    "minimum_doa_valid_fraction": 0.8,
+    "minimum_lip_aperture_std_when_motion_required": 0.002,
+    "minimum_median_face_scale_when_required": 0.06,
+    "minimum_robot_transport_fps": 15.0,
+    "minimum_samples": 160,
+    "minimum_single_face_fraction_when_required": 0.95,
+    "minimum_span_ms": 7000.0,
+    "minimum_spatial_conflict_deg": 40.0,
+    "minimum_unique_analyzed_fps": 15.0,
+    "multiple_face_rows_allowed": 0
+  },
+  "randomization_seed": 20261001,
+  "schedule": [
+    {
+      "condition_id": "spatial_conflict",
+      "duration_s": 10,
+      "instruction": "Stay silent with your face visible at the front mark. Play the fixed recording on the single iPhone at the 60-degree mark to Reachy's right. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "conflicting_cue_control",
+      "schedule_index": 1,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-01"
+    },
+    {
+      "condition_id": "visible_silence",
+      "duration_s": 10,
+      "instruction": "Keep one face visible to Reachy. Stay silent; no phone playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "negative_control",
+      "schedule_index": 2,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-02"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "instruction": "Face Reachy's camera at the fixed front mark and speak naturally for all ten seconds. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "schedule_index": 3,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-03"
+    },
+    {
+      "condition_id": "silent_mouthing_unrelated_playback",
+      "duration_s": 10,
+      "instruction": "Mouth silently and deliberately out of time with the fixed phone recording; keep the phone on the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "synchrony_hard_negative",
+      "schedule_index": 4,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-04"
+    },
+    {
+      "condition_id": "speech_without_usable_face",
+      "duration_s": 10,
+      "instruction": "Speak live while keeping every face outside the camera view; do not use playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "unavailable_face_control",
+      "schedule_index": 5,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-05"
+    },
+    {
+      "condition_id": "silent_face_phone_playback",
+      "duration_s": 10,
+      "instruction": "Remain silent with one face visible while the fixed phone recording plays from the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "primary_hard_negative",
+      "schedule_index": 6,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-06"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "instruction": "Face Reachy. Speak naturally for seconds 0\u20133, stay silent for 3\u20135, then speak for 5\u201310. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 1,
+      "role": "matching_positive",
+      "schedule_index": 7,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-07"
+    },
+    {
+      "condition_id": "silent_mouthing_unrelated_playback",
+      "duration_s": 10,
+      "instruction": "Mouth silently and deliberately out of time with the fixed phone recording; keep the phone on the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "synchrony_hard_negative",
+      "schedule_index": 8,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-08"
+    },
+    {
+      "condition_id": "silent_face_phone_playback",
+      "duration_s": 10,
+      "instruction": "Remain silent with one face visible while the fixed phone recording plays from the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "primary_hard_negative",
+      "schedule_index": 9,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-09"
+    },
+    {
+      "condition_id": "visible_silence",
+      "duration_s": 10,
+      "instruction": "Keep one face visible to Reachy. Stay silent; no phone playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "negative_control",
+      "schedule_index": 10,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-10"
+    },
+    {
+      "condition_id": "spatial_conflict",
+      "duration_s": 10,
+      "instruction": "Stay silent with your face visible at the front mark. Play the fixed recording on the single iPhone at the 60-degree mark to Reachy's right. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "conflicting_cue_control",
+      "schedule_index": 11,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-11"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "instruction": "Face Reachy's camera at the fixed front mark and speak naturally for all ten seconds. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "schedule_index": 12,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-12"
+    },
+    {
+      "condition_id": "speech_without_usable_face",
+      "duration_s": 10,
+      "instruction": "Speak live while keeping every face outside the camera view; do not use playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "unavailable_face_control",
+      "schedule_index": 13,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-13"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "instruction": "Face Reachy. Speak naturally for seconds 0\u20133, stay silent for 3\u20135, then speak for 5\u201310. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 2,
+      "role": "matching_positive",
+      "schedule_index": 14,
+      "split": "development",
+      "trial_id": "reachy-camera-pilot-v1-14"
+    },
+    {
+      "condition_id": "speech_without_usable_face",
+      "duration_s": 10,
+      "instruction": "Speak live while keeping every face outside the camera view; do not use playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "unavailable_face_control",
+      "schedule_index": 15,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-15"
+    },
+    {
+      "condition_id": "visible_silence",
+      "duration_s": 10,
+      "instruction": "Keep one face visible to Reachy. Stay silent; no phone playback. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "negative_control",
+      "schedule_index": 16,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-16"
+    },
+    {
+      "condition_id": "live_visible_continuous",
+      "duration_s": 10,
+      "instruction": "Face Reachy's camera at the fixed front mark and speak naturally for all ten seconds. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "schedule_index": 17,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-17"
+    },
+    {
+      "condition_id": "silent_face_phone_playback",
+      "duration_s": 10,
+      "instruction": "Remain silent with one face visible while the fixed phone recording plays from the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "primary_hard_negative",
+      "schedule_index": 18,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-18"
+    },
+    {
+      "condition_id": "live_visible_interrupted",
+      "duration_s": 10,
+      "instruction": "Face Reachy. Speak naturally for seconds 0\u20133, stay silent for 3\u20135, then speak for 5\u201310. Keep the phone silent. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "matching_positive",
+      "schedule_index": 19,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-19"
+    },
+    {
+      "condition_id": "spatial_conflict",
+      "duration_s": 10,
+      "instruction": "Stay silent with your face visible at the front mark. Play the fixed recording on the single iPhone at the 60-degree mark to Reachy's right. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "conflicting_cue_control",
+      "schedule_index": 20,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-20"
+    },
+    {
+      "condition_id": "silent_mouthing_unrelated_playback",
+      "duration_s": 10,
+      "instruction": "Mouth silently and deliberately out of time with the fixed phone recording; keep the phone on the colocated mark within 10 degrees of the face heading. Playback conditions: restart the same recording immediately before Record, at the sealed volume, and let it play throughout.",
+      "repetition": 3,
+      "role": "synchrony_hard_negative",
+      "schedule_index": 21,
+      "split": "internal_validation",
+      "trial_id": "reachy-camera-pilot-v1-21"
+    }
+  ],
+  "schema": "reachy-camera-no-motion-pilot-v1",
+  "sensors": {
+    "audio": "external laptop microphone; not fully robot-native audiovisual sensing",
+    "camera": "Reachy Mini Wireless receive-only WebRTC",
+    "direction": "Reachy GET-only DoA"
+  },
+  "status": "DESIGN_FROZEN_EXECUTION_AND_PRIVATE_SEAL_REQUIRED",
+  "threshold_basis": "Retain v2 acquisition gates plus the original robot-camera transport/timing gates; no thresholds selected from pilot outcomes.",
+  "timing_analysis": {
+    "audio": "every 40-ms telemetry sample; timestamp = row time minus half the 2048-sample RMS window",
+    "boundary_lag": "report boundary hits; a selected boundary-lag result requires a new timing investigation, not a wider post-hoc grid",
+    "mouth": "one observation per distinct frame, timestamp = row time minus corrected local frame age",
+    "resampling": "common support only, 40-ms grid, linear interpolation; reject gaps over 160 ms before interpolation",
+    "scope": "lag includes unmeasured exposure/robot/network/decode delays; not sensor-exposure synchrony or liveness",
+    "smoothing": "apply candidate smoothing on the common 40-ms grid, not on duplicated camera rows"
+  },
+  "validation_lock": "Do not open block 3 until all 14 development trials are accepted and their selected setting and source hashes are frozen. Evaluate block 3 once without reselection."
+}

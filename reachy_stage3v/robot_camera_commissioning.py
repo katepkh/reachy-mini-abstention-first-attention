@@ -63,10 +63,22 @@ ROBOT_CAMERA_REQUIRED_COLUMNS: tuple[str, ...] = (
 ROBOT_CAMERA_STATIC_EXACT_PATHS = frozenset(
     {
         "/tools/robot_camera_commissioning.html",
+        "/tools/robot_camera_pipeline.mjs",
+        "/tools/robot_camera_landmarks_worker.js",
         "/models/avsync_v2/face_landmarker.task",
     }
 )
 ROBOT_CAMERA_STATIC_PREFIXES = ("/models/avsync_v2/runtime/",)
+
+PIPELINE_TIMING_COLUMNS = (
+    "robot_frame_fetch_ms", "frame_decode_ms", "frame_server_queue_ms",
+    "frame_server_handler_ms", "frame_draw_ms", "landmark_inference_ms",
+    "landmark_worker_roundtrip_ms", "landmark_worker_overhead_ms",
+    "frame_pipeline_ms", "frame_loop_gap_ms", "frame_publish_interval_ms",
+    "robot_frame_conversion_queue_ms", "robot_frame_conversion_ms",
+    "robot_frame_receive_interval_ms", "robot_frame_bridge_total_ms",
+    "robot_frame_bridge_publish_interval_ms",
+)
 
 
 def robot_camera_static_path_allowed(path: str) -> bool:
@@ -168,6 +180,59 @@ class RobotCameraCommissioningSpec:
 
 
 ROBOT_CAMERA_COMMISSIONING_SPEC_V1 = RobotCameraCommissioningSpec()
+
+
+def robot_camera_execution_payload(root: Path) -> dict[str, Any]:
+    """Identify the implementation separately; never rewrite the frozen v1 spec."""
+    paths = [
+        "tools/robot_camera_commissioning.html",
+        "tools/robot_camera_pipeline.mjs",
+        "tools/robot_camera_landmarks_worker.js",
+        "scripts/run_robot_camera_commissioning.py",
+        "reachy_stage3v/robot_camera_commissioning.py",
+        "reachy_stage3v/robot_camera_bridge.py",
+        "reachy_stage3v/bounded_http.py",
+        "reachy_stage2a/stream_client.py",
+        "models/avsync_v2/face_landmarker.task",
+        "models/avsync_v2/runtime/vision_bundle.mjs",
+    ]
+    paths.extend(sorted(p.relative_to(root).as_posix() for p in
+                        (root / "models/avsync_v2/runtime/wasm").iterdir() if p.is_file()))
+    hashes = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in paths}
+    fingerprint = hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()
+    return {
+        **ROBOT_CAMERA_COMMISSIONING_SPEC_V1.payload(),
+        "execution_build": {"schema": "reachy-camera-bridge-timing-build-v3",
+                            "fingerprint": fingerprint, "files_sha256": hashes},
+        "pipeline_diagnostics": {
+            "schema": "reachy-camera-pipeline-timing-v2",
+            "frame_age_origin": "local decoded-frame receipt before worker dispatch and pixel conversion",
+            "frame_age_excludes": "sensor exposure, robot buffering, network transit and WebRTC decode/queue",
+            "conversion_queue_scope": "local decoded-frame receipt to conversion start in single-flight worker",
+            "conversion_scope": "VideoFrame.to_ndarray bgr24 only; excludes resize and JPEG encode",
+            "bridge_total_scope": "local decoded-frame receipt to completed JPEG bytes, before publication lock",
+            "receive_interval_scope": "interval from preceding drained frame to the selected frame, not packet arrival",
+            "bridge_publish_interval_scope": "interval between completed JPEGs; unobserved intermediate frames may exist",
+            "conversion_jobs_in_flight": 1,
+            "http_workers": 2, "http_pending_capacity": 4,
+            "doa_reads": "single-flight, no cached replacement; concurrent read rejected",
+            "queue_scope": "accepted socket to HTTP worker, excludes OS/browser queue",
+            "handler_scope": "HTTP handler setup to response headers, excludes body transfer",
+            "decode_scope": "response headers to decoded bitmap, includes body transfer",
+            "worker_scope": "browser post to reply, includes inference, feature reduction and messaging",
+            "pipeline_scope": "frame fetch start to completed features, excludes next loop gap",
+            "loop_gap_scope": "previous loop finish to next fetch start, includes intentional pacing",
+            "publish_interval_scope": "time between analyzed-frame completions; includes skipped polls/stalls",
+            "aggregation": "one observation per distinct frame; diagnostics do not change frozen gates",
+        },
+        "diagnostic_columns": [
+            "frame_decode_ms", "landmark_backend", "landmark_error_code", "landmark_error_count",
+            "face_bbox_left_norm", "face_bbox_right_norm", "face_bbox_top_norm", "face_bbox_bottom_norm",
+            "robot_frame_source_width_px", "robot_frame_source_height_px",
+            *[name for name in PIPELINE_TIMING_COLUMNS
+              if name not in ROBOT_CAMERA_REQUIRED_COLUMNS and name != "frame_decode_ms"],
+        ],
+    }
 
 
 def _number(value: object) -> float | None:
@@ -333,6 +398,29 @@ def assess_robot_camera_commissioning(path: Path) -> dict[str, Any]:
         failures.append("JOINT_SPATIAL_FRACTION_TOO_LOW")
     if median_geometry is None or median_geometry > float(checks["maximum_median_geometry_error_deg"]):
         failures.append("CAMERA_DOA_GEOMETRY_MISMATCH")
+    # New execution diagnostics fail closed; all original numeric v1 gates above
+    # and their fingerprint remain unchanged. Old captures have no error column.
+    if any(row.get("landmark_error_code", "") for row in rows):
+        failures.append("LANDMARK_PROCESSING_ERROR")
+
+    unique_rows = []
+    for row in rows:
+        if not unique_rows or row["robot_frame_sequence"] != unique_rows[-1]["robot_frame_sequence"]:
+            unique_rows.append(row)
+
+    # Distinct-frame timing summaries are diagnostics, not replacement gates.
+    # Missing fields in historical captures stay unavailable, never zero-filled.
+    pipeline_timing = {}
+    for name in PIPELINE_TIMING_COLUMNS:
+        values = [v for row in unique_rows
+                  if (v := _number(row.get(name))) is not None and v >= 0]
+        pipeline_timing[name] = {
+            "observations": len(values),
+            "mean_ms": sum(values) / len(values) if values else None,
+            "median_ms": median(values) if values else None,
+            "p95_ms": _percentile(values, 0.95),
+            "maximum_ms": max(values) if values else None,
+        }
 
     return {
         "schema": "reachy-robot-camera-commissioning-analysis-v1",
@@ -360,6 +448,19 @@ def assess_robot_camera_commissioning(path: Path) -> dict[str, Any]:
             "doa_speech_fraction": speech_fraction,
             "joint_spatial_fraction": joint_fraction,
             "median_camera_doa_geometry_error_deg": median_geometry,
+        },
+        "diagnostics": {
+            "distinct_observed_frames": len(unique_sequences),
+            "face_count_row_counts": {str(count): sum(_integer(r["face_count"]) == count for r in rows)
+                                      for count in (0, 1, 2)},
+            "face_count_distinct_frame_counts": {
+                str(count): sum(_integer(r["face_count"]) == count for r in unique_rows)
+                for count in (0, 1, 2)
+            },
+            "processing_error_rows": sum(bool(r.get("landmark_error_code", "")) for r in rows),
+            "pipeline_timing_distinct_frames": pipeline_timing,
+            "landmark_backends": sorted({r["landmark_backend"] for r in rows if r.get("landmark_backend")}),
+            "interpretation": "Missing face measurements are not imputed. Numeric-only captures cannot determine pose, lighting, occlusion, or detector causation.",
         },
         "motion_authorized": False,
         "response_authorized": False,

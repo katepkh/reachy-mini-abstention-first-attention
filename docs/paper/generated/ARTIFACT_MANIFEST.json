@@ -53,7 +53,7 @@
     },
     {
       "path": "docs/REPRODUCIBILITY.md",
-      "sha256": "bcb34cd8e019b3c451fe520926a74e048d36bb0dc07921b3fa668af88c75c406"
+      "sha256": "6c2113dafc3d96e59a30706ea8c9bdfe8ee86f7075e86a970198518f59e4257b"
     },
     {
       "path": "requirements-test.lock",

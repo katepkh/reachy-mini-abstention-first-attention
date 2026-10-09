@@ -1,0 +1,504 @@
+{
+  "schema": "reachy-offline-capture-input-synthetic-v1",
+  "scope": "local Windows socket substitutes; generated integer samples only",
+  "source_sha256": "dbdddf79e2e7103a1fa3a78d03e65eb8415a73f43b454b0f516e12406ebc8368",
+  "definitions": [
+    "Stop",
+    "Stats",
+    "TerminalInputReader",
+    "capture_command",
+    "capture_pair"
+  ],
+  "sample_rate": 16000,
+  "unaccelerated_result": {
+    "scenario": "unaccelerated_normal_lf",
+    "outcome": "COMPLETE",
+    "counts": {
+      "reads": 1,
+      "bytes": 1,
+      "lf": 1,
+      "cr": 0
+    },
+    "result": {
+      "pair": 0,
+      "microphones": [
+        2,
+        3
+      ],
+      "blocks": [
+        {
+          "phase": "quiet",
+          "second": 1,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "quiet",
+          "second": 2,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "quiet",
+          "second": 3,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 1,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 2,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 3,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 4,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 5,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 6,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 7,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 8,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 9,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 10,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        }
+      ],
+      "summaries": {
+        "quiet": {
+          "frames": 48000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 48000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 48000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        "playback": {
+          "frames": 160000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 160000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 160000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        }
+      },
+      "complete": true,
+      "capture_exit_verified": true,
+      "operator_input": {
+        "events": [
+          {
+            "kind": "enter",
+            "phase_at_processing": "wait",
+            "observed_ms": 7703,
+            "processed_ms": 7719,
+            "accepted": true
+          }
+        ],
+        "physical_keypress_time_known": false,
+        "confirmation_limit_s": 10,
+        "reader_exit_verified": true,
+        "prompt_started_ms": 5000,
+        "prompt_write_finished_ms": 5000
+      },
+      "elapsed_s": 19.70299999997951
+    },
+    "status_checks": 9,
+    "synthetic_input_sent": true,
+    "capture_stub_stopped": true,
+    "reader_exited": true,
+    "wall_seconds": 19.75,
+    "clock_speedup": 1,
+    "audio_device_opened": false,
+    "robot_connected": false,
+    "actual_capture_process_tested": false,
+    "linux_terminal_tested": false
+  },
+  "limits": {
+    "live_helper_changed": false,
+    "robot_connection": false,
+    "microphone_opened": false,
+    "actual_capture_process_tested": false,
+    "linux_terminal_tested": false,
+    "historical_cause_established": false,
+    "new_acquisition_authorized": false
+  },
+  "development_note": "The first unaccelerated harness invocation failed its own too-short prompt wait before synthetic input could be sent. Only the harness wait was made speed-aware; the corrected invocation is reported here. No robot run occurred."
+}

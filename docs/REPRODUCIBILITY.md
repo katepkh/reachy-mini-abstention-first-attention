@@ -2,7 +2,7 @@
 
 ## One-command verification
 
-Create a Python 3.12 environment, install `requirements-test.lock`, install this repository without dependency resolution, then run with that environment's interpreter:
+Create a Python 3.12 environment, install `requirements-test.lock`, install this repository without dependency resolution, and install the hash-pinned public model/runtime assets as shown below. Then run with that environment's interpreter:
 
 ```bash
 .venv/Scripts/python scripts/verify_paper_artifacts.py --check
@@ -27,10 +27,20 @@ It is offline and opens no robot, camera, microphone, or external network connec
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements-test.lock
 .venv/Scripts/python -m pip install --no-deps -e .
+.venv/Scripts/python scripts/fetch_av_synchrony_v2_assets.py --install
 .venv/Scripts/python scripts/verify_paper_artifacts.py --check
 ```
 
 On POSIX systems, use `.venv/bin/python` instead. `requirements-test.lock` records the exact tested Python 3.12 resolution; `pyproject.toml` declares broader supported dependency ranges.
+
+Asset installation downloads the public MediaPipe package and face-landmarker
+model, checks the pinned archive/model/member hashes, and writes only the ignored
+`models/avsync_v2/` runtime/model paths. It does not access sensors or private run
+records. The joint-pilot execution-manifest check needs these exact bytes even
+though it performs no model inference. CI performs this setup before offline
+verification; do not publish the model downloads or replace a hash to accept a
+different release. Use `--check` instead of `--install` to verify existing assets
+without a download.
 
 ## Generated-paper contract
 

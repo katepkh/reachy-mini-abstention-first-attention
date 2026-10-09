@@ -1,0 +1,764 @@
+{
+  "schema": "reachy-input-observation-synthetic-v1",
+  "mode": "LOCAL_OFFLINE_SYNTHETIC",
+  "created_utc": "2026-10-08T21:03:37.1244573Z",
+  "sources": {
+    "tools/reachy_input_observation.py": "4adb8487e10cef6bed6d850fe7b0ab60a68d42a96adabaa62572e32357ae2f5c",
+    "tools/reachy_mic_health_observed_candidate.py": "0194421ce766de35cbf936901896b69187c8c9bfe506adecc3b3bef4cf8d4823",
+    "tests/test_mic_input_observation.py": "fa199d60902647910cb5a51b06e3aafd870638854808bc226a4d80eff6b699ad",
+    "tools/reachy_mic_health_input_next.py": "dbdddf79e2e7103a1fa3a78d03e65eb8415a73f43b454b0f516e12406ebc8368",
+    "scripts/run_reachy_mic_input_connect_replacement.py": "c68e52532f43454f749712ee61571d4d80f9418c47ff14ef5a8c406f8f40b787"
+  },
+  "tests": {
+    "total": 145,
+    "passed": 143,
+    "skipped": 2,
+    "skip_reason": "POSIX PTY unavailable on Windows"
+  },
+  "unaccelerated_result": {
+    "scenario": "observed_unaccelerated_normal_lf",
+    "outcome": "COMPLETE",
+    "counts": {
+      "reads": 1,
+      "bytes": 1,
+      "lf": 1,
+      "cr": 0
+    },
+    "result": {
+      "pair": 0,
+      "microphones": [
+        2,
+        3
+      ],
+      "blocks": [
+        {
+          "phase": "quiet",
+          "second": 1,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "quiet",
+          "second": 2,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "quiet",
+          "second": 3,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 1,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 2,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 3,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 4,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 5,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 6,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 7,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 8,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 9,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        {
+          "phase": "playback",
+          "second": 10,
+          "frames": 16000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 16000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        }
+      ],
+      "summaries": {
+        "quiet": {
+          "frames": 48000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 48000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 48000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        },
+        "playback": {
+          "frames": 160000,
+          "channels": [
+            {
+              "dc": -0.0030517578125,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.0030517578125,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 160000
+            },
+            {
+              "dc": 0.002288818359375,
+              "rms": 0,
+              "rms_dbfs": null,
+              "zero_variance": true,
+              "peak": 0.002288818359375,
+              "zero_fraction": 0,
+              "clip_fraction": 0,
+              "longest_unchanged_samples": 160000
+            }
+          ],
+          "correlation": null,
+          "equal_fraction": 0
+        }
+      },
+      "complete": true,
+      "capture_exit_verified": true,
+      "operator_input": {
+        "events": [
+          {
+            "kind": "enter",
+            "phase_at_processing": "wait",
+            "observed_ms": 7703,
+            "processed_ms": 7703,
+            "accepted": true
+          }
+        ],
+        "physical_keypress_time_known": false,
+        "confirmation_limit_s": 10,
+        "reader_exit_verified": true,
+        "reader_observability": {
+          "at_start": {
+            "schema": "reachy-input-observation-v1",
+            "counts": {
+              "thread_starts": 1,
+              "thread_exits": 0,
+              "register_calls": 1,
+              "register_returns": 1,
+              "select_calls": 1,
+              "select_returns": 0,
+              "select_ready": 0,
+              "select_empty": 0,
+              "read_calls": 0,
+              "read_returns": 0,
+              "read_errors": 0,
+              "bytes": 0,
+              "lf": 0,
+              "cr": 0,
+              "other_whitespace": 0,
+              "other": 0,
+              "eof_reads": 0,
+              "emit_attempts": 0,
+              "emit_ok": 0,
+              "emit_rejected": 0,
+              "enter_events": 0,
+              "text_events": 0,
+              "eof_events": 0,
+              "register_errors": 0,
+              "select_errors": 0,
+              "selector_close_calls": 0,
+              "selector_close_returns": 0,
+              "selector_close_errors": 0
+            },
+            "relative_ms": {
+              "thread_start": 0,
+              "thread_exit": null,
+              "register_start": 0,
+              "register_return": 0,
+              "select_start": 0,
+              "select_return": null,
+              "read_start": null,
+              "read_return": null,
+              "first_read": null,
+              "last_emit": null,
+              "selector_close_start": null,
+              "selector_close_return": null
+            },
+            "counter_limit": 1000000,
+            "counter_saturated": false,
+            "last_error_stage": null,
+            "last_errno": null,
+            "clock_origin": "capture_start",
+            "concurrent_snapshot": true,
+            "physical_keypress_time_known": false,
+            "typed_contents_retained": false,
+            "thread_alive": true,
+            "stop_requested": false,
+            "reader_fault": null,
+            "terminal": {
+              "status": "synthetic_socket",
+              "tty": false,
+              "foreground_matches": null
+            }
+          },
+          "at_play": {
+            "schema": "reachy-input-observation-v1",
+            "counts": {
+              "thread_starts": 1,
+              "thread_exits": 0,
+              "register_calls": 1,
+              "register_returns": 1,
+              "select_calls": 80,
+              "select_returns": 79,
+              "select_ready": 0,
+              "select_empty": 79,
+              "read_calls": 0,
+              "read_returns": 0,
+              "read_errors": 0,
+              "bytes": 0,
+              "lf": 0,
+              "cr": 0,
+              "other_whitespace": 0,
+              "other": 0,
+              "eof_reads": 0,
+              "emit_attempts": 0,
+              "emit_ok": 0,
+              "emit_rejected": 0,
+              "enter_events": 0,
+              "text_events": 0,
+              "eof_events": 0,
+              "register_errors": 0,
+              "select_errors": 0,
+              "selector_close_calls": 0,
+              "selector_close_returns": 0,
+              "selector_close_errors": 0
+            },
+            "relative_ms": {
+              "thread_start": 0,
+              "thread_exit": null,
+              "register_start": 0,
+              "register_return": 0,
+              "select_start": 4968,
+              "select_return": 4968,
+              "read_start": null,
+              "read_return": null,
+              "first_read": null,
+              "last_emit": null,
+              "selector_close_start": null,
+              "selector_close_return": null
+            },
+            "counter_limit": 1000000,
+            "counter_saturated": false,
+            "last_error_stage": null,
+            "last_errno": null,
+            "clock_origin": "capture_start",
+            "concurrent_snapshot": true,
+            "physical_keypress_time_known": false,
+            "typed_contents_retained": false,
+            "thread_alive": true,
+            "stop_requested": false,
+            "reader_fault": null,
+            "terminal": {
+              "status": "synthetic_socket",
+              "tty": false,
+              "foreground_matches": null
+            }
+          },
+          "before_close": {
+            "schema": "reachy-input-observation-v1",
+            "counts": {
+              "thread_starts": 1,
+              "thread_exits": 0,
+              "register_calls": 1,
+              "register_returns": 1,
+              "select_calls": 314,
+              "select_returns": 313,
+              "select_ready": 1,
+              "select_empty": 312,
+              "read_calls": 1,
+              "read_returns": 1,
+              "read_errors": 0,
+              "bytes": 1,
+              "lf": 1,
+              "cr": 0,
+              "other_whitespace": 0,
+              "other": 0,
+              "eof_reads": 0,
+              "emit_attempts": 1,
+              "emit_ok": 1,
+              "emit_rejected": 0,
+              "enter_events": 1,
+              "text_events": 0,
+              "eof_events": 0,
+              "register_errors": 0,
+              "select_errors": 0,
+              "selector_close_calls": 0,
+              "selector_close_returns": 0,
+              "selector_close_errors": 0
+            },
+            "relative_ms": {
+              "thread_start": 0,
+              "thread_exit": null,
+              "register_start": 0,
+              "register_return": 0,
+              "select_start": 19656,
+              "select_return": 19656,
+              "read_start": 7703,
+              "read_return": 7703,
+              "first_read": 7703,
+              "last_emit": 7703,
+              "selector_close_start": null,
+              "selector_close_return": null
+            },
+            "counter_limit": 1000000,
+            "counter_saturated": false,
+            "last_error_stage": null,
+            "last_errno": null,
+            "clock_origin": "capture_start",
+            "concurrent_snapshot": true,
+            "physical_keypress_time_known": false,
+            "typed_contents_retained": false,
+            "thread_alive": true,
+            "stop_requested": false,
+            "reader_fault": null,
+            "terminal": {
+              "status": "synthetic_socket",
+              "tty": false,
+              "foreground_matches": null
+            }
+          },
+          "after_close": {
+            "schema": "reachy-input-observation-v1",
+            "counts": {
+              "thread_starts": 1,
+              "thread_exits": 1,
+              "register_calls": 1,
+              "register_returns": 1,
+              "select_calls": 314,
+              "select_returns": 314,
+              "select_ready": 1,
+              "select_empty": 313,
+              "read_calls": 1,
+              "read_returns": 1,
+              "read_errors": 0,
+              "bytes": 1,
+              "lf": 1,
+              "cr": 0,
+              "other_whitespace": 0,
+              "other": 0,
+              "eof_reads": 0,
+              "emit_attempts": 1,
+              "emit_ok": 1,
+              "emit_rejected": 0,
+              "enter_events": 1,
+              "text_events": 0,
+              "eof_events": 0,
+              "register_errors": 0,
+              "select_errors": 0,
+              "selector_close_calls": 1,
+              "selector_close_returns": 1,
+              "selector_close_errors": 0
+            },
+            "relative_ms": {
+              "thread_start": 0,
+              "thread_exit": 19734,
+              "register_start": 0,
+              "register_return": 0,
+              "select_start": 19656,
+              "select_return": 19734,
+              "read_start": 7703,
+              "read_return": 7703,
+              "first_read": 7703,
+              "last_emit": 7703,
+              "selector_close_start": 19734,
+              "selector_close_return": 19734
+            },
+            "counter_limit": 1000000,
+            "counter_saturated": false,
+            "last_error_stage": null,
+            "last_errno": null,
+            "clock_origin": "capture_start",
+            "concurrent_snapshot": true,
+            "physical_keypress_time_known": false,
+            "typed_contents_retained": false,
+            "thread_alive": false,
+            "stop_requested": true,
+            "reader_fault": null,
+            "terminal": {
+              "status": "synthetic_socket",
+              "tty": false,
+              "foreground_matches": null
+            }
+          }
+        },
+        "prompt_started_ms": 5000,
+        "prompt_write_finished_ms": 5000
+      },
+      "elapsed_s": 19.71799999999348
+    },
+    "status_checks": 9,
+    "synthetic_input_sent": true,
+    "capture_stub_stopped": true,
+    "reader_exited": true,
+    "wall_seconds": 19.766,
+    "clock_speedup": 1,
+    "audio_device_opened": false,
+    "robot_connected": false,
+    "actual_capture_process_tested": false,
+    "linux_terminal_tested": false
+  },
+  "boundaries": {
+    "generated_samples_only": true,
+    "robot_connected": false,
+    "audio_device_opened": false,
+    "settings_changed": false,
+    "live_helper_modified": false,
+    "actual_capture_process_tested": false,
+    "linux_terminal_tested": false,
+    "new_acquisition_authorized": false,
+    "historical_cause_established": false
+  }
+}

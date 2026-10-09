@@ -13,8 +13,10 @@ import contextlib
 import errno
 import ipaddress
 import json
+import threading
 import time
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import Any
 
 from .config import (
@@ -36,6 +38,19 @@ class LocalStreamRejected(ValueError):
 
 class LocalStreamUnavailable(RuntimeError):
     """Raised when Reachy's local video producer cannot be acquired."""
+
+
+@dataclass(frozen=True, slots=True)
+class FramePreparationTiming:
+    """Local decoded-frame receipt, not sensor exposure or network arrival."""
+
+    received_monotonic: float
+    conversion_started_monotonic: float
+    conversion_completed_monotonic: float
+    receive_interval_ms: float | None
+
+
+PreparedFrameCallback = Callable[[Any, FramePreparationTiming], None]
 
 
 def camera_connector_error_code(exc: BaseException) -> str:
@@ -130,6 +145,7 @@ class LocalVideoSession:
         on_frame: Callable[[Any], None],
         on_status: Callable[[str, str], None],
         on_transport_frame: Callable[[float], None] | None = None,
+        on_prepared_frame: PreparedFrameCallback | None = None,
     ) -> None:
         import aiohttp
 
@@ -137,7 +153,7 @@ class LocalVideoSession:
         on_status("CONNECTING", "")
         async with aiohttp.ClientSession(trust_env=False) as session:
             task = asyncio.create_task(
-                self._run_session(session, on_frame, on_status, on_transport_frame)
+                self._run_session(session, on_frame, on_status, on_transport_frame, on_prepared_frame)
             )
             try:
                 while not task.done():
@@ -160,6 +176,7 @@ class LocalVideoSession:
         on_frame: Callable[[Any], None],
         on_status: Callable[[str, str], None],
         on_transport_frame: Callable[[float], None] | None,
+        on_prepared_frame: PreparedFrameCallback | None = None,
     ) -> None:
         import aiohttp
         from aiortc import RTCSessionDescription
@@ -173,7 +190,7 @@ class LocalVideoSession:
                 connection.on(
                     "track",
                     lambda track: self._on_track(
-                        track, on_frame, on_status, on_transport_frame
+                        track, on_frame, on_status, on_transport_frame, on_prepared_frame
                     ),
                 )
                 async for raw in ws:
@@ -276,11 +293,12 @@ class LocalVideoSession:
         on_frame: Callable[[Any], None],
         on_status: Callable[[str, str], None],
         on_transport_frame: Callable[[float], None] | None,
+        on_prepared_frame: PreparedFrameCallback | None = None,
     ) -> None:
         if track.kind == "video" and self._video_task is None:
             on_status("RECEIVING", "")
             self._video_task = asyncio.get_running_loop().create_task(
-                self._consume_video(track, on_frame, on_status, on_transport_frame)
+                self._consume_video(track, on_frame, on_status, on_transport_frame, on_prepared_frame)
             )
 
     async def _consume_video(
@@ -289,6 +307,7 @@ class LocalVideoSession:
         on_frame: Callable[[Any], None],
         on_status: Callable[[str, str], None],
         on_transport_frame: Callable[[float], None] | None = None,
+        on_prepared_frame: PreparedFrameCallback | None = None,
     ) -> None:
         from aiortc.mediastreams import MediaStreamError
 
@@ -296,15 +315,32 @@ class LocalVideoSession:
         detection_task: asyncio.Task[None] | None = None
         loop = asyncio.get_running_loop()
         track_started = loop.time()
+        previous_received: float | None = None
+        accept_results = threading.Event()
+        accept_results.set()
 
-        async def detect_owned(pixels: Any) -> None:
-            """Run one detector call without blocking WebRTC frame draining."""
+        def convert_and_detect(frame: Any, received: float, interval: float | None) -> None:
+            """One owned frame; conversion and callback share the same worker."""
+            pixels = None
             try:
-                await asyncio.to_thread(on_frame, pixels)
+                if not accept_results.is_set():
+                    return
+                started = time.perf_counter()
+                pixels = frame.to_ndarray(format="bgr24")
+                completed = time.perf_counter()
+                if not accept_results.is_set():
+                    return
+                if on_prepared_frame is not None:
+                    on_prepared_frame(pixels, FramePreparationTiming(
+                        received, started, completed, interval,
+                    ))
+                else:
+                    on_frame(pixels)  # legacy consumers keep their one-argument API
             finally:
-                # Pixel arrays are intentionally short-lived and never leave
-                # this receive-only transport boundary.
-                del pixels
+                del pixels, frame
+
+        async def detect_owned(frame: Any, received: float, interval: float | None) -> None:
+            await asyncio.to_thread(convert_and_detect, frame, received, interval)
 
         try:
             while True:
@@ -318,8 +354,11 @@ class LocalVideoSession:
                     track.recv(), timeout=frame_timeout
                 )
                 now = loop.time()
+                received = time.perf_counter()
+                interval = None if previous_received is None else 1000 * (received - previous_received)
+                previous_received = received
                 if on_transport_frame is not None:
-                    on_transport_frame(time.perf_counter())
+                    on_transport_frame(received)
                 if now < next_detection:
                     continue
                 # Face analysis can occasionally take longer than its nominal
@@ -332,8 +371,7 @@ class LocalVideoSession:
                         continue
                     await detection_task
                 next_detection = now + self.detection_period
-                pixels = frame.to_ndarray(format="bgr24")
-                detection_task = asyncio.create_task(detect_owned(pixels))
+                detection_task = asyncio.create_task(detect_owned(frame, received, interval))
         except TimeoutError:
             # A negotiated track can remain open after its source stops
             # producing frames.  Report that transport failure explicitly so
@@ -357,6 +395,7 @@ class LocalVideoSession:
             on_status("ERROR", f"VIDEO_TRACK_{type(exc).__name__.upper()}"[:64])
             return
         finally:
+            accept_results.clear()
             if detection_task is not None:
                 with contextlib.suppress(asyncio.CancelledError, Exception):
                     await detection_task
